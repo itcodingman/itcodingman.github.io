@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring 控制反转和依赖注入简介 - 我的全新 Hugo 网站</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Spring 控制反转和依赖注入简介" />
+<meta property="og:description" content="Spring 控制反转和依赖注入简介 一、概述 在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。 进一步阅" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-31T12:37:50+08:00" />
+<meta property="article:modified_time" content="2022-05-31T12:37:50+08:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring 控制反转和依赖注入简介"/>
+<meta name="twitter:description" content="Spring 控制反转和依赖注入简介 一、概述 在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。 进一步阅"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" /><link rel="prev" href="http://codingman.github.io/posts/constructor-injection-in-spring/" /><link rel="next" href="http://codingman.github.io/posts/readme/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring 控制反转和依赖注入简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/codingman.github.io\/posts\/inversion-control-and-dependency-injection-in-spring\/"
+        },"genre": "posts","keywords": "Spring Core Basics, Spring DI","wordcount":  2890 ,
+        "url": "http:\/\/codingman.github.io\/posts\/inversion-control-and-dependency-injection-in-spring\/","datePublished": "2022-05-31T12:37:50+08:00","dateModified": "2022-05-31T12:37:50+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="我的全新 Hugo 网站">My cool site</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="我的全新 Hugo 网站">My cool site</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring 控制反转和依赖注入简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-31">2022-05-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2890 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述"><strong>一、概述</strong></a></li>
+    <li><a href="#进一步阅读">进一步阅读：</a></li>
+    <li><a href="#spring-中的接线autowiredresource-和-injectspring-annotations-resource-inject-autowire"><a href="/spring-annotations-resource-inject-autowire">Spring 中的接线：@Autowired、@Resource 和 @Inject</a></a></li>
+    <li><a href="#spring-中的-component-与-repository-和-servicespring-component-repository-service"><a href="/spring-component-repository-service">Spring 中的 @Component 与 @Repository 和 @Service</a></a></li>
+    <li><a href="#2-什么是控制反转"><strong>2. 什么是控制反转？</strong></a></li>
+    <li><a href="#3-什么是依赖注入"><strong>3. 什么是依赖注入？</strong></a></li>
+    <li><a href="#4-spring-ioc-容器"><strong>4. Spring IoC 容器</strong></a></li>
+    <li><a href="#5-基于构造函数的依赖注入"><strong>5. 基于构造函数的依赖注入</strong></a></li>
+    <li><a href="#6-基于-setter-的依赖注入"><strong>6. 基于 Setter 的依赖注入</strong></a></li>
+    <li><a href="#7-基于字段的依赖注入"><strong>7. 基于字段的****依赖注入</strong></a></li>
+    <li><a href="#8-自动装配依赖"><strong>8. 自动装配依赖</strong></a></li>
+    <li><a href="#9-惰性初始化-bean"><strong>9. 惰性初始化 Bean</strong></a></li>
+    <li><a href="#10-结论"><strong>10. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-控制反转和依赖注入简介">Spring 控制反转和依赖注入简介</h1>
+<h2 id="一概述"><strong>一、概述</strong></h2>
+<p>在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。</p>
+<h2 id="进一步阅读">进一步阅读：</h2>
+<h2 id="spring-中的接线autowiredresource-和-injectspring-annotations-resource-inject-autowire"><a href="/spring-annotations-resource-inject-autowire" rel="">Spring 中的接线：@Autowired、@Resource 和 @Inject</a></h2>
+<p>本文将对比和对比依赖注入相关注解的使用，即@Resource、@Inject、@Autowired注解。</p>
+<p><a href="/spring-annotations-resource-inject-autowire" rel="">阅读更多</a>→</p>
+<h2 id="spring-中的-component-与-repository-和-servicespring-component-repository-service"><a href="/spring-component-repository-service" rel="">Spring 中的 @Component 与 @Repository 和 @Service</a></h2>
+<p>了解@Component、@Repository 和@Service 注释之间的区别以及何时使用它们。</p>
+<p><a href="/spring-component-repository-service" rel="">阅读更多</a>→</p>
+<h2 id="2-什么是控制反转"><strong>2. 什么是控制反转？</strong></h2>
+<p>控制反转是软件工程中的一项原则，它将对象或程序部分的控制转移到容器或框架中。我们最常在面向对象编程的上下文中使用它。</p>
+<p>与我们的自定义代码调用库的传统编程相比，IoC 使框架能够控制程序的流程并调用我们的自定义代码。为了实现这一点，框架使用内置附加行为的抽象。<strong>如果我们想添加自己的行为，我们需要扩展框架的类或插入我们自己的类。</strong></p>
+<p>这种架构的优点是：</p>
+<ul>
+<li>将任务的执行与其实现分离</li>
+<li>更容易在不同的实现之间切换</li>
+<li>程序的更大模块化</li>
+<li>通过隔离组件或模拟其依赖关系并允许组件通过合约进行通信，从而更轻松地测试程序</li>
+</ul>
+<p>我们可以通过各种机制来实现控制反转，例如：策略设计模式、服务定位器模式、工厂模式和依赖注入（DI）。</p>
+<p>接下来我们将研究 DI。</p>
+<h2 id="3-什么是依赖注入"><strong>3. 什么是依赖注入？</strong></h2>
+<p>依赖注入是我们可以用来实现 IoC 的一种模式，其中被反转的控制是设置对象的依赖关系。</p>
+<p>将对象与其他对象连接起来，或将对象“注入”到其他对象中，是由汇编程序完成的，而不是由对象本身完成的。</p>
+<p>以下是我们如何在传统编程中创建对象依赖项：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Store</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Item item<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Store</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        item <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ItemImpl1<span style="color:#f92672">();</span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>在上面的示例中，我们需要在<em>Store</em>类本身中实例化<em>Item</em>接口的实现。</p>
+<p>通过使用 DI，我们可以重写示例，而无需指定我们想要的<em>Item的实现：</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Store</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Item item<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Store</span><span style="color:#f92672">(</span>Item item<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> item<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>在接下来的部分中，我们将了解如何通过元数据提供<em>Item的实现。</em></p>
+<p>IoC 和 DI 都是简单的概念，但它们对我们构建系统的方式有着深远的影响，因此它们非常值得充分理解。</p>
+<h2 id="4-spring-ioc-容器"><strong>4. Spring IoC 容器</strong></h2>
+<p>IoC 容器是实现 IoC 的框架的共同特征。</p>
+<p>在 Spring 框架中，接口 <em>ApplicationContext</em>代表 IoC 容器。Spring 容器负责实例化、配置和组装称为<em>bean</em>的对象，以及管理它们的生命周期。</p>
+<p>Spring 框架提供了<em>ApplicationContext</em>接口的几种实现：<em>ClassPathXmlApplicationContext</em>和<em>FileSystemXmlApplicationContext</em>用于独立应用程序，<em>WebApplicationContext</em>用于 Web 应用程序。</p>
+<p>为了组装 bean，容器使用配置元数据，它可以是 XML 配置或注解的形式。</p>
+<p>这是手动实例化容器的一种方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ApplicationContext context
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ClassPathXmlApplicationContext<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;applicationContext.xml&#34;</span><span style="color:#f92672">);</span>
+</span></span></code></pre></div><p>要在上面的示例中设置<em>项目</em>属性，我们可以使用元数据。然后容器将读取此元数据并在运行时使用它来组装 bean。</p>
+<p><strong>Spring 中的依赖注入可以通过构造函数、setter 或字段来完成。</strong></p>
+<h2 id="5-基于构造函数的依赖注入"><strong>5. 基于构造函数的依赖注入</strong></h2>
+<p>在<a href="/constructor-injection-in-spring" rel="">基于构造函数的依赖注入</a>的情况下，容器将调用带有参数的构造函数，每个参数代表我们要设置的依赖项。</p>
+<p>Spring 主要按类型解析每个参数，然后是属性名称，以及用于消歧的索引。让我们使用注解查看 bean 的配置及其依赖项：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AppConfig</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Item <span style="color:#a6e22e">item1</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ItemImpl1<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Store <span style="color:#a6e22e">store</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Store<span style="color:#f92672">(</span>item1<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p><em>@Configuration</em>注解表明该类是 bean 定义的来源。我们还可以将它添加到多个配置类中。</p>
+<p>我们在方法上使用*@Bean*注解来定义一个 bean。如果我们不指定自定义名称，那么 bean 名称将默认为方法名称。</p>
+<p>对于具有默认<em>单例</em>范围的 bean，Spring 首先检查 bean 的缓存实例是否已经存在，如果不存在则只创建一个新实例。如果我们使用<em>原型</em>作用域，容器会为每个方法调用返回一个新的 bean 实例。</p>
+<p>创建 bean 配置的另一种方法是通过 XML 配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;item1&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.codingman.store.ItemImpl1&#34;</span> <span style="color:#f92672">/&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;store&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.codingman.store.Store&#34;</span><span style="color:#f92672">&gt;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;constructor-arg</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#34;ItemImpl1&#34;</span> <span style="color:#a6e22e">index=</span><span style="color:#e6db74">&#34;0&#34;</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;item&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;item1&#34;</span> <span style="color:#f92672">/&gt;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/bean&gt;</span>
+</span></span></code></pre></div><h2 id="6-基于-setter-的依赖注入"><strong>6. 基于 Setter 的依赖注入</strong></h2>
+<p>对于基于 setter 的 DI，容器会在调用无参数构造函数或无参数静态工厂方法实例化 bean 后调用我们类的 setter 方法。让我们使用注解创建这个配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Store <span style="color:#a6e22e">store</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    Store store <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Store<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    store<span style="color:#f92672">.</span><span style="color:#a6e22e">setItem</span><span style="color:#f92672">(</span>item1<span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> store<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>我们还可以将 XML 用于相同的 bean 配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;store&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.codingman.store.Store&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;item&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;item1&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/bean&gt;</span>
+</span></span></code></pre></div><p>我们可以为同一个 bean 组合基于构造函数和基于 setter 的注入类型。Spring 文档建议对强制依赖项使用基于构造函数的注入，对可选依赖项使用基于 setter 的注入。</p>
+<h2 id="7-基于字段的依赖注入"><strong>7. 基于字段的****依赖注入</strong></h2>
+<p>对于基于字段的 DI，我们可以通过使用*@Autowired*注释标记依赖项来注入依赖项：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Store</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Item item<span style="color:#f92672">;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>在构造<em>Store</em>对象时，如果没有构造函数或 setter 方法来注入<em>Item</em> bean，容器将使用反射将<em>Item</em>注入<em>Store</em>。</p>
+<p>我们也可以使用<a href="/spring-xml-injection" rel="">XML 配置</a>来实现这一点。</p>
+<p>这种方法可能看起来更简单、更干净，但我们不建议使用它，因为它有一些缺点，例如：</p>
+<ul>
+<li>该方法使用反射来注入依赖项，这比基于构造函数或基于 setter 的注入成本更高。</li>
+<li>使用这种方法继续添加多个依赖项真的很容易。如果我们使用构造函数注入，具有多个参数会让我们认为该类做了不止一件事，这可能违反单一职责原则。</li>
+</ul>
+<p>更多关于*@Autowired*注解的信息可以在<a href="/spring-annotations-resource-inject-autowire" rel="">Wiring In Spring</a>文章中找到。</p>
+<h2 id="8-自动装配依赖"><strong>8. 自动装配依赖</strong></h2>
+<p><a href="/spring-annotations-resource-inject-autowire" rel="">Wiring</a>允许 Spring 容器通过检查已定义的 bean 来自动解决协作 bean 之间的依赖关系。</p>
+<p>使用 XML 配置自动装配 bean 有四种模式：</p>
+<ul>
+<li>***no*：**默认值——这意味着 bean 不使用自动装配，我们必须显式命名依赖项。</li>
+<li>***byName*：**自动装配是基于属性的名称完成的，因此 Spring 将查找与需要设置的属性名称相同的 bean。</li>
+<li>*<em><em>byType*：**类似于</em>byName</em>自动装配，仅基于属性的类型。这意味着 Spring 将寻找具有相同类型属性的 bean 来设置。如果该类型的 bean 不止一个，框架会抛出异常。</li>
+<li>***constructor*：**自动装配是基于构造函数参数完成的，这意味着 Spring 将寻找与构造函数参数具有相同类型的 bean。</li>
+</ul>
+<p>例如，让我们将上面定义的<em>item1</em> bean 按类型自动装配到<em>store</em> bean 中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>autowire <span style="color:#f92672">=</span> Autowire<span style="color:#f92672">.</span><span style="color:#a6e22e">BY_TYPE</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Store</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Item item<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">setItem</span><span style="color:#f92672">(</span>Item item<span style="color:#f92672">){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> item<span style="color:#f92672">;</span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>我们还可以使用*@Autowired*注解注入 bean，以便按类型自动装配：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Store</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Item item<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>如果有多个相同类型的 bean，我们可以使用*@Qualifier*注解按名称引用一个 bean：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Store</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Qualifier</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;item1&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Item item<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>现在让我们通过 XML 配置按类型自动装配 bean：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;store&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.codingman.store.Store&#34;</span> <span style="color:#a6e22e">autowire=</span><span style="color:#e6db74">&#34;byType&#34;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;/bean&gt;</span>
+</span></span></code></pre></div><p>接下来，让我们通过 XML将一个名为<em>item</em>的 bean 按名称注入到<em>store bean 的**item</em>属性中：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;item&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.codingman.store.ItemImpl1&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;store&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.codingman.store.Store&#34;</span> <span style="color:#a6e22e">autowire=</span><span style="color:#e6db74">&#34;byName&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/bean&gt;</span>
+</span></span></code></pre></div><p>我们还可以通过构造函数参数或设置器显式定义依赖项来覆盖自动装配。</p>
+<h2 id="9-惰性初始化-bean"><strong>9. 惰性初始化 Bean</strong></h2>
+<p>默认情况下，容器在初始化期间创建和配置所有单例 bean。为了避免这种情况，我们可以在 bean 配置中使用值为<em>true的**惰性初始化属性：</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;item1&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.codingman.store.ItemImpl1&#34;</span> <span style="color:#a6e22e">lazy-init=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#f92672">/&gt;</span>
+</span></span></code></pre></div><p>因此，<em>item1</em> bean 只会在第一次被请求时被初始化，而不是在启动时被初始化。这样做的好处是更快的初始化时间，但代价是在请求 bean 之前我们不会发现任何配置错误，这可能是应用程序已经运行后的几个小时甚至几天。</p>
+<h2 id="10-结论"><strong>10. 结论</strong></h2>
+<p>在本文中，我们介绍了控制反转和依赖注入的概念，并在 Spring 框架中对其进行了举例说明。</p>
+<p>我们可以在 Martin Fowler 的文章中了解更多关于这些概念的信息：</p>
+<ul>
+<li><a href="http://martinfowler.com/articles/injection.html" target="_blank" rel="noopener noreffer">控制容器的反转和依赖注入模式</a>。</li>
+<li><a href="http://martinfowler.com/bliki/InversionOfControl.html" target="_blank" rel="noopener noreffer">控制反转</a></li>
+</ul>
+<p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-dependencies" target="_blank" rel="noopener noreffer">此外，我们可以在Spring Framework 参考文档</a>中了解 IoC 和 DI 的 Spring 实现。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-05-31</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" data-title="Spring 控制反转和依赖注入简介" data-hashtags="Spring Core Basics,Spring DI"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" data-hashtag="Spring Core Basics"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" data-title="Spring 控制反转和依赖注入简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" data-title="Spring 控制反转和依赖注入简介"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@6.20.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" data-title="Spring 控制反转和依赖注入简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/spring-core-basics/">Spring Core Basics</a>,&nbsp;<a href="/tags/spring-di/">Spring DI</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/constructor-injection-in-spring/" class="prev" rel="prev" title="Spring中的构造函数依赖注入"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Spring中的构造函数依赖注入</a>
+            <a href="/posts/readme/" class="next" rel="next" title="Readme">Readme<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.1/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
