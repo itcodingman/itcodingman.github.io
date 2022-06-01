@@ -1,0 +1,39 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>REST - Category - 我的全新 Hugo 网站</title>
+        <link>http://codingman.github.io/categories/rest/</link>
+        <description>REST - Category - 我的全新 Hugo 网站</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 30 May 2022 12:37:50 &#43;0800</lastBuildDate><atom:link href="http://codingman.github.io/categories/rest/" rel="self" type="application/rss+xml" /><item>
+    <title>使用 Spring 的 REST 错误处理</title>
+    <link>http://codingman.github.io/posts/exception-handling-for-rest-with-spring/</link>
+    <pubDate>Mon, 30 May 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/posts/exception-handling-for-rest-with-spring/</guid>
+    <description><![CDATA[使用 Spring 的 REST 错误处理 1. 概述 本教程将说明**如何使用 Spring 为 REST API 实现异常处理。**我们还将获得一些历史概览，并查看不同版本引入了哪些新选项。 *在 Spring 3.2]]></description>
+</item>
+<item>
+    <title>使用 Spring Security 的 REST 服务的基本和摘要式身份验证</title>
+    <link>http://codingman.github.io/posts/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</link>
+    <pubDate>Fri, 27 May 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/posts/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</guid>
+    <description><![CDATA[使用 Spring Security 的 REST 服务的基本和摘要式身份验证 1. 概述 本文讨论如何在REST API 的相同 URI 结构上设置基本身份验证和摘要式身份验证。在之前的文章中，我们讨论]]></description>
+</item>
+<item>
+    <title>Spring中的REST分页</title>
+    <link>http://codingman.github.io/posts/rest-api-pagination-in-spring/</link>
+    <pubDate>Thu, 26 May 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/posts/rest-api-pagination-in-spring/</guid>
+    <description><![CDATA[Spring中的REST分页 1. 概述 本教程将重点介绍使用 Spring MVC 和 Spring Data 在 REST API 中实现分页。 2. 页面作为资源与页面作为表示 在 RESTful 架构的上下文中设计分页时的]]></description>
+</item>
+<item>
+    <title>使用 Spring 5 创建 Web 应用程序</title>
+    <link>http://codingman.github.io/posts/bootstraping-a-web-application-with-spring-and-java-based-configuration/</link>
+    <pubDate>Wed, 25 May 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/posts/bootstraping-a-web-application-with-spring-and-java-based-configuration/</guid>
+    <description><![CDATA[使用 Spring 5 创建 Web 应用程序 1. 概述 本教程说明了如何使用 Spring 创建 Web 应用程序。 我们将研究用于构建应用程序的 Spring Boot 解决方案，并查看非 Spring Boot 方法。 我们将主要使用]]></description>
+</item>
+</channel>
+</rss>

@@ -4,11 +4,24 @@
     ><url>
             <loc>http://codingman.github.io/categories/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
             <loc>http://codingman.github.io/posts/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
-            <loc>http://codingman.github.io/posts/readme/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
             <loc>http://codingman.github.io/categories/spring/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
-            <loc>http://codingman.github.io/tags/spring-core-basics/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
-            <loc>http://codingman.github.io/tags/spring-di/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
-            <loc>http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
-            <loc>http://codingman.github.io/posts/constructor-injection-in-spring/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/tags/spring-batch/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/introduction-to-spring-batch/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
             <loc>http://codingman.github.io/tags/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
-            <loc>http://codingman.github.io/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url></urlset>
+            <loc>http://codingman.github.io/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/categories/rest/</loc><lastmod>2022-05-30T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/exception-handling-for-rest-with-spring/</loc><lastmod>2022-05-30T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/tags/spring-core-basics/</loc><lastmod>2022-05-29T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/tags/spring-di/</loc><lastmod>2022-05-29T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/constructor-injection-in-spring/</loc><lastmod>2022-05-29T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</loc><lastmod>2022-05-28T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/tags/authentication/</loc><lastmod>2022-05-27T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/categories/spring-security/</loc><lastmod>2022-05-27T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</loc><lastmod>2022-05-27T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/tags/pagination/</loc><lastmod>2022-05-26T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/rest-api-pagination-in-spring/</loc><lastmod>2022-05-26T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/tags/spring-5/</loc><lastmod>2022-05-25T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/bootstraping-a-web-application-with-spring-and-java-based-configuration/</loc><lastmod>2022-05-25T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/tags/hibernate/</loc><lastmod>2022-05-24T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/categories/spring-persistence/</loc><lastmod>2022-05-24T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/hibernate-5-spring/</loc><lastmod>2022-05-24T12:37:50&#43;08:00</lastmod></url></urlset>

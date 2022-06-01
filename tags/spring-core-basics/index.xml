@@ -3,21 +3,21 @@
         <title>Spring Core Basics - Tag - 我的全新 Hugo 网站</title>
         <link>http://codingman.github.io/tags/spring-core-basics/</link>
         <description>Spring Core Basics - Tag - 我的全新 Hugo 网站</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 31 May 2022 12:37:50 &#43;0800</lastBuildDate><atom:link href="http://codingman.github.io/tags/spring-core-basics/" rel="self" type="application/rss+xml" /><item>
-    <title>Spring 控制反转和依赖注入简介</title>
-    <link>http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</link>
-    <pubDate>Tue, 31 May 2022 12:37:50 &#43;0800</pubDate>
-    <author>codingman</author>
-    <guid>http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</guid>
-    <description><![CDATA[Spring 控制反转和依赖注入简介 一、概述 在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。 进一步阅]]></description>
-</item>
-<item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 29 May 2022 12:37:50 &#43;0800</lastBuildDate><atom:link href="http://codingman.github.io/tags/spring-core-basics/" rel="self" type="application/rss+xml" /><item>
     <title>Spring中的构造函数依赖注入</title>
     <link>http://codingman.github.io/posts/constructor-injection-in-spring/</link>
-    <pubDate>Tue, 31 May 2022 12:37:50 &#43;0800</pubDate>
+    <pubDate>Sun, 29 May 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
     <guid>http://codingman.github.io/posts/constructor-injection-in-spring/</guid>
-    <description><![CDATA[Spring中的构造函数依赖注入 一、简介 可以说，现代软件设计最重要的开发原则之一是*依赖注入 (DI)，*它很自然地源于另一个至关重要的原则：]]></description>
+    <description><![CDATA[Spring中的构造函数依赖注入 1. 简介 可以说，现代软件设计最重要的开发原则之一是*依赖注入 (DI)，*它很自然地源于另一个至关重要的原则：模]]></description>
+</item>
+<item>
+    <title>Spring 控制反转和依赖注入简介</title>
+    <link>http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</link>
+    <pubDate>Sat, 28 May 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</guid>
+    <description><![CDATA[Spring 控制反转和依赖注入简介 1. 概述 在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。 2. 什么是控]]></description>
 </item>
 </channel>
 </rss>

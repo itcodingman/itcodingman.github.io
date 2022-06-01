@@ -5,19 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
         <title>Spring 控制反转和依赖注入简介 - 我的全新 Hugo 网站</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Spring 控制反转和依赖注入简介" />
-<meta property="og:description" content="Spring 控制反转和依赖注入简介 一、概述 在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。 进一步阅" />
+<meta property="og:description" content="Spring 控制反转和依赖注入简介 1. 概述 在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。 2. 什么是控" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-05-31T12:37:50+08:00" />
-<meta property="article:modified_time" content="2022-05-31T12:37:50+08:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:published_time" content="2022-05-28T12:37:50+08:00" />
+<meta property="article:modified_time" content="2022-05-28T12:37:50+08:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Spring 控制反转和依赖注入简介"/>
-<meta name="twitter:description" content="Spring 控制反转和依赖注入简介 一、概述 在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。 进一步阅"/>
+<meta name="twitter:description" content="Spring 控制反转和依赖注入简介 1. 概述 在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。 2. 什么是控"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" /><link rel="prev" href="http://codingman.github.io/posts/constructor-injection-in-spring/" /><link rel="next" href="http://codingman.github.io/posts/readme/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/" /><link rel="prev" href="http://codingman.github.io/posts/basic-and-digest-authentication-for-a-rest-api-with-spring-security/" /><link rel="next" href="http://codingman.github.io/posts/constructor-injection-in-spring/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
     {
@@ -28,8 +28,8 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/codingman.github.io\/posts\/inversion-control-and-dependency-injection-in-spring\/"
-        },"genre": "posts","keywords": "Spring Core Basics, Spring DI","wordcount":  2890 ,
-        "url": "http:\/\/codingman.github.io\/posts\/inversion-control-and-dependency-injection-in-spring\/","datePublished": "2022-05-31T12:37:50+08:00","dateModified": "2022-05-31T12:37:50+08:00","publisher": {
+        },"genre": "posts","keywords": "Spring Core Basics, Spring DI","wordcount":  2608 ,
+        "url": "http:\/\/codingman.github.io\/posts\/inversion-control-and-dependency-injection-in-spring\/","datePublished": "2022-05-28T12:37:50+08:00","dateModified": "2022-05-28T12:37:50+08:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
@@ -71,7 +71,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring 控制反转和依赖注入简介</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-31">2022-05-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2890 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-28">2022-05-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2608 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -80,31 +80,20 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#一概述"><strong>一、概述</strong></a></li>
-    <li><a href="#进一步阅读">进一步阅读：</a></li>
-    <li><a href="#spring-中的接线autowiredresource-和-injectspring-annotations-resource-inject-autowire"><a href="/spring-annotations-resource-inject-autowire">Spring 中的接线：@Autowired、@Resource 和 @Inject</a></a></li>
-    <li><a href="#spring-中的-component-与-repository-和-servicespring-component-repository-service"><a href="/spring-component-repository-service">Spring 中的 @Component 与 @Repository 和 @Service</a></a></li>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
     <li><a href="#2-什么是控制反转"><strong>2. 什么是控制反转？</strong></a></li>
     <li><a href="#3-什么是依赖注入"><strong>3. 什么是依赖注入？</strong></a></li>
     <li><a href="#4-spring-ioc-容器"><strong>4. Spring IoC 容器</strong></a></li>
     <li><a href="#5-基于构造函数的依赖注入"><strong>5. 基于构造函数的依赖注入</strong></a></li>
     <li><a href="#6-基于-setter-的依赖注入"><strong>6. 基于 Setter 的依赖注入</strong></a></li>
-    <li><a href="#7-基于字段的依赖注入"><strong>7. 基于字段的****依赖注入</strong></a></li>
+    <li><a href="#7-基于字段的依赖注入"><strong>7. 基于字段的依赖注入</strong></a></li>
     <li><a href="#8-自动装配依赖"><strong>8. 自动装配依赖</strong></a></li>
-    <li><a href="#9-惰性初始化-bean"><strong>9. 惰性初始化 Bean</strong></a></li>
-    <li><a href="#10-结论"><strong>10. 结论</strong></a></li>
+    <li><a href="#9-延迟初始化-bean"><strong>9. 延迟初始化 Bean</strong></a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h1 id="spring-控制反转和依赖注入简介">Spring 控制反转和依赖注入简介</h1>
-<h2 id="一概述"><strong>一、概述</strong></h2>
+<h2 id="1-概述"><strong>1. 概述</strong></h2>
 <p>在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。</p>
-<h2 id="进一步阅读">进一步阅读：</h2>
-<h2 id="spring-中的接线autowiredresource-和-injectspring-annotations-resource-inject-autowire"><a href="/spring-annotations-resource-inject-autowire" rel="">Spring 中的接线：@Autowired、@Resource 和 @Inject</a></h2>
-<p>本文将对比和对比依赖注入相关注解的使用，即@Resource、@Inject、@Autowired注解。</p>
-<p><a href="/spring-annotations-resource-inject-autowire" rel="">阅读更多</a>→</p>
-<h2 id="spring-中的-component-与-repository-和-servicespring-component-repository-service"><a href="/spring-component-repository-service" rel="">Spring 中的 @Component 与 @Repository 和 @Service</a></h2>
-<p>了解@Component、@Repository 和@Service 注释之间的区别以及何时使用它们。</p>
-<p><a href="/spring-component-repository-service" rel="">阅读更多</a>→</p>
 <h2 id="2-什么是控制反转"><strong>2. 什么是控制反转？</strong></h2>
 <p>控制反转是软件工程中的一项原则，它将对象或程序部分的控制转移到容器或框架中。我们最常在面向对象编程的上下文中使用它。</p>
 <p>与我们的自定义代码调用库的传统编程相比，IoC 使框架能够控制程序的流程并调用我们的自定义代码。为了实现这一点，框架使用内置附加行为的抽象。<strong>如果我们想添加自己的行为，我们需要扩展框架的类或插入我们自己的类。</strong></p>
@@ -185,7 +174,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;property</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;item&#34;</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;item1&#34;</span> <span style="color:#f92672">/&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/bean&gt;</span>
 </span></span></code></pre></div><p>我们可以为同一个 bean 组合基于构造函数和基于 setter 的注入类型。Spring 文档建议对强制依赖项使用基于构造函数的注入，对可选依赖项使用基于 setter 的注入。</p>
-<h2 id="7-基于字段的依赖注入"><strong>7. 基于字段的****依赖注入</strong></h2>
+<h2 id="7-基于字段的依赖注入"><strong>7. 基于字段的依赖注入</strong></h2>
 <p>对于基于字段的 DI，我们可以通过使用*@Autowired*注释标记依赖项来注入依赖项：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Store</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
@@ -203,10 +192,10 @@
 <p><a href="/spring-annotations-resource-inject-autowire" rel="">Wiring</a>允许 Spring 容器通过检查已定义的 bean 来自动解决协作 bean 之间的依赖关系。</p>
 <p>使用 XML 配置自动装配 bean 有四种模式：</p>
 <ul>
-<li>***no*：**默认值——这意味着 bean 不使用自动装配，我们必须显式命名依赖项。</li>
-<li>***byName*：**自动装配是基于属性的名称完成的，因此 Spring 将查找与需要设置的属性名称相同的 bean。</li>
-<li>*<em><em>byType*：**类似于</em>byName</em>自动装配，仅基于属性的类型。这意味着 Spring 将寻找具有相同类型属性的 bean 来设置。如果该类型的 bean 不止一个，框架会抛出异常。</li>
-<li>***constructor*：**自动装配是基于构造函数参数完成的，这意味着 Spring 将寻找与构造函数参数具有相同类型的 bean。</li>
+<li>**no：**默认值——这意味着 bean 不使用自动装配，我们必须显式命名依赖项。</li>
+<li>**byName：**自动装配是基于属性的名称完成的，因此 Spring 将查找与需要设置的属性名称相同的 bean。</li>
+<li>**byType：**类似于<em>byName</em>自动装配，仅基于属性的类型。这意味着 Spring 将寻找具有相同类型属性的 bean 来设置。如果该类型的 bean 不止一个，框架会抛出异常。</li>
+<li>**constructor：**自动装配是基于构造函数参数完成的，这意味着 Spring 将寻找与构造函数参数具有相同类型的 bean。</li>
 </ul>
 <p>例如，让我们将上面定义的<em>item1</em> bean 按类型自动装配到<em>store</em> bean 中：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span>autowire <span style="color:#f92672">=</span> Autowire<span style="color:#f92672">.</span><span style="color:#a6e22e">BY_TYPE</span><span style="color:#f92672">)</span>
@@ -239,23 +228,15 @@
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;store&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.codingman.store.Store&#34;</span> <span style="color:#a6e22e">autowire=</span><span style="color:#e6db74">&#34;byName&#34;</span><span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/bean&gt;</span>
 </span></span></code></pre></div><p>我们还可以通过构造函数参数或设置器显式定义依赖项来覆盖自动装配。</p>
-<h2 id="9-惰性初始化-bean"><strong>9. 惰性初始化 Bean</strong></h2>
-<p>默认情况下，容器在初始化期间创建和配置所有单例 bean。为了避免这种情况，我们可以在 bean 配置中使用值为<em>true的**惰性初始化属性：</em></p>
+<h2 id="9-延迟初始化-bean"><strong>9. 延迟初始化 Bean</strong></h2>
+<p>默认情况下，容器在初始化期间创建和配置所有单例 bean。为了避免这种情况，我们可以在 bean 配置中使用值为<em>true</em>的延迟初始化属性：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;bean</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;item1&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;com.codingman.store.ItemImpl1&#34;</span> <span style="color:#a6e22e">lazy-init=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#f92672">/&gt;</span>
 </span></span></code></pre></div><p>因此，<em>item1</em> bean 只会在第一次被请求时被初始化，而不是在启动时被初始化。这样做的好处是更快的初始化时间，但代价是在请求 bean 之前我们不会发现任何配置错误，这可能是应用程序已经运行后的几个小时甚至几天。</p>
-<h2 id="10-结论"><strong>10. 结论</strong></h2>
-<p>在本文中，我们介绍了控制反转和依赖注入的概念，并在 Spring 框架中对其进行了举例说明。</p>
-<p>我们可以在 Martin Fowler 的文章中了解更多关于这些概念的信息：</p>
-<ul>
-<li><a href="http://martinfowler.com/articles/injection.html" target="_blank" rel="noopener noreffer">控制容器的反转和依赖注入模式</a>。</li>
-<li><a href="http://martinfowler.com/bliki/InversionOfControl.html" target="_blank" rel="noopener noreffer">控制反转</a></li>
-</ul>
-<p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-dependencies" target="_blank" rel="noopener noreffer">此外，我们可以在Spring Framework 参考文档</a>中了解 IoC 和 DI 的 Spring 实现。</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-05-31</span>
+                <span>Updated on 2022-05-28</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
@@ -272,8 +253,8 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/constructor-injection-in-spring/" class="prev" rel="prev" title="Spring中的构造函数依赖注入"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Spring中的构造函数依赖注入</a>
-            <a href="/posts/readme/" class="next" rel="next" title="Readme">Readme<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/posts/basic-and-digest-authentication-for-a-rest-api-with-spring-security/" class="prev" rel="prev" title="使用 Spring Security 的 REST 服务的基本和摘要式身份验证"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Spring Security 的 REST 服务的基本和摘要式身份验证</a>
+            <a href="/posts/constructor-injection-in-spring/" class="next" rel="next" title="Spring中的构造函数依赖注入">Spring中的构造函数依赖注入<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

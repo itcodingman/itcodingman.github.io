@@ -11,5 +11,29 @@
     <guid>http://codingman.github.io/categories/spring/</guid>
     <description><![CDATA[]]></description>
 </item>
+<item>
+    <title>REST</title>
+    <link>http://codingman.github.io/categories/rest/</link>
+    <pubDate>Mon, 30 May 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/categories/rest/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Spring Security</title>
+    <link>http://codingman.github.io/categories/spring-security/</link>
+    <pubDate>Fri, 27 May 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/categories/spring-security/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Spring Persistence</title>
+    <link>http://codingman.github.io/categories/spring-persistence/</link>
+    <pubDate>Tue, 24 May 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/categories/spring-persistence/</guid>
+    <description><![CDATA[]]></description>
+</item>
 </channel>
 </rss>
