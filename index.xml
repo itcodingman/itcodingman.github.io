@@ -3,9 +3,17 @@
         <title>我的全新 Hugo 网站</title>
         <link>http://codingman.github.io/</link>
         <description>This is my cool site</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 31 May 2022 12:37:50 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 01 Jun 2022 12:37:50 &#43;0800</lastBuildDate>
             <atom:link href="http://codingman.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>Grails 3 和 GORM 简介</title>
+    <link>http://codingman.github.io/posts/grails-gorm-tutorial/</link>
+    <pubDate>Wed, 01 Jun 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/posts/grails-gorm-tutorial/</guid>
+    <description><![CDATA[Grails 3 和 GORM 简介 1. 概述 这是对 Grails 3 和 GORM 的快速介绍。 我们当然会使用 Groovy，并且——隐含地——该框架还使用 Hibernate 来实现 ORM，Spring 框架用于依]]></description>
+</item>
+<item>
     <title>Spring Batch 简介</title>
     <link>http://codingman.github.io/posts/introduction-to-spring-batch/</link>
     <pubDate>Tue, 31 May 2022 12:37:50 &#43;0800</pubDate>

@@ -2,13 +2,15 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://codingman.github.io/categories/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
-            <loc>http://codingman.github.io/posts/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
-            <loc>http://codingman.github.io/categories/spring/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/categories/</loc><lastmod>2022-06-01T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/grails-gorm-tutorial/</loc><lastmod>2022-06-01T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/categories/persistence/</loc><lastmod>2022-06-01T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/posts/</loc><lastmod>2022-06-01T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/categories/spring/</loc><lastmod>2022-06-01T12:37:50&#43;08:00</lastmod></url><url>
+            <loc>http://codingman.github.io/</loc><lastmod>2022-06-01T12:37:50&#43;08:00</lastmod></url><url>
             <loc>http://codingman.github.io/tags/spring-batch/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
             <loc>http://codingman.github.io/posts/introduction-to-spring-batch/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
             <loc>http://codingman.github.io/tags/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
-            <loc>http://codingman.github.io/</loc><lastmod>2022-05-31T12:37:50&#43;08:00</lastmod></url><url>
             <loc>http://codingman.github.io/categories/rest/</loc><lastmod>2022-05-30T12:37:50&#43;08:00</lastmod></url><url>
             <loc>http://codingman.github.io/posts/exception-handling-for-rest-with-spring/</loc><lastmod>2022-05-30T12:37:50&#43;08:00</lastmod></url><url>
             <loc>http://codingman.github.io/tags/spring-core-basics/</loc><lastmod>2022-05-29T12:37:50&#43;08:00</lastmod></url><url>

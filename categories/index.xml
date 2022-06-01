@@ -3,10 +3,18 @@
         <title>Categories - Category - 我的全新 Hugo 网站</title>
         <link>http://codingman.github.io/categories/</link>
         <description>Categories - Category - 我的全新 Hugo 网站</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 31 May 2022 12:37:50 &#43;0800</lastBuildDate><atom:link href="http://codingman.github.io/categories/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 01 Jun 2022 12:37:50 &#43;0800</lastBuildDate><atom:link href="http://codingman.github.io/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>Persistence</title>
+    <link>http://codingman.github.io/categories/persistence/</link>
+    <pubDate>Wed, 01 Jun 2022 12:37:50 &#43;0800</pubDate>
+    <author>codingman</author>
+    <guid>http://codingman.github.io/categories/persistence/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>Spring</title>
     <link>http://codingman.github.io/categories/spring/</link>
-    <pubDate>Tue, 31 May 2022 12:37:50 &#43;0800</pubDate>
+    <pubDate>Wed, 01 Jun 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
     <guid>http://codingman.github.io/categories/spring/</guid>
     <description><![CDATA[]]></description>
