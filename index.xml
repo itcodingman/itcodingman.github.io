@@ -1,80 +1,80 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>我的全新 Hugo 网站</title>
-        <link>http://codingman.github.io/</link>
+        <link>http://itcodingman.github.io/</link>
         <description>This is my cool site</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 01 Jun 2022 12:37:50 &#43;0800</lastBuildDate>
-            <atom:link href="http://codingman.github.io/index.xml" rel="self" type="application/rss+xml" />
+            <atom:link href="http://itcodingman.github.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
     <title>Grails 3 和 GORM 简介</title>
-    <link>http://codingman.github.io/posts/grails-gorm-tutorial/</link>
+    <link>http://itcodingman.github.io/posts/grails-gorm-tutorial/</link>
     <pubDate>Wed, 01 Jun 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://codingman.github.io/posts/grails-gorm-tutorial/</guid>
+    <guid>http://itcodingman.github.io/posts/grails-gorm-tutorial/</guid>
     <description><![CDATA[Grails 3 和 GORM 简介 1. 概述 这是对 Grails 3 和 GORM 的快速介绍。 我们当然会使用 Groovy，并且——隐含地——该框架还使用 Hibernate 来实现 ORM，Spring 框架用于依]]></description>
 </item>
 <item>
     <title>Spring Batch 简介</title>
-    <link>http://codingman.github.io/posts/introduction-to-spring-batch/</link>
+    <link>http://itcodingman.github.io/posts/introduction-to-spring-batch/</link>
     <pubDate>Tue, 31 May 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://codingman.github.io/posts/introduction-to-spring-batch/</guid>
+    <guid>http://itcodingman.github.io/posts/introduction-to-spring-batch/</guid>
     <description><![CDATA[Spring Batch 简介 1. 概述 在本教程中，我们将看一个实用的、以代码为中心的 Spring Batch 介绍。Spring Batch 是一个处理框架，专为作业的稳健执行而设计。 它的当前版本 4.3]]></description>
 </item>
 <item>
     <title>使用 Spring 的 REST 错误处理</title>
-    <link>http://codingman.github.io/posts/exception-handling-for-rest-with-spring/</link>
+    <link>http://itcodingman.github.io/posts/exception-handling-for-rest-with-spring/</link>
     <pubDate>Mon, 30 May 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://codingman.github.io/posts/exception-handling-for-rest-with-spring/</guid>
+    <guid>http://itcodingman.github.io/posts/exception-handling-for-rest-with-spring/</guid>
     <description><![CDATA[使用 Spring 的 REST 错误处理 1. 概述 本教程将说明**如何使用 Spring 为 REST API 实现异常处理。**我们还将获得一些历史概览，并查看不同版本引入了哪些新选项。 *在 Spring 3.2]]></description>
 </item>
 <item>
     <title>Spring中的构造函数依赖注入</title>
-    <link>http://codingman.github.io/posts/constructor-injection-in-spring/</link>
+    <link>http://itcodingman.github.io/posts/constructor-injection-in-spring/</link>
     <pubDate>Sun, 29 May 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://codingman.github.io/posts/constructor-injection-in-spring/</guid>
+    <guid>http://itcodingman.github.io/posts/constructor-injection-in-spring/</guid>
     <description><![CDATA[Spring中的构造函数依赖注入 1. 简介 可以说，现代软件设计最重要的开发原则之一是*依赖注入 (DI)，*它很自然地源于另一个至关重要的原则：模]]></description>
 </item>
 <item>
     <title>Spring 控制反转和依赖注入简介</title>
-    <link>http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</link>
+    <link>http://itcodingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</link>
     <pubDate>Sat, 28 May 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://codingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</guid>
+    <guid>http://itcodingman.github.io/posts/inversion-control-and-dependency-injection-in-spring/</guid>
     <description><![CDATA[Spring 控制反转和依赖注入简介 1. 概述 在本教程中，我们将介绍 IoC（控制反转）和 DI（依赖注入）的概念，并了解它们在 Spring 框架中是如何实现的。 2. 什么是控]]></description>
 </item>
 <item>
     <title>使用 Spring Security 的 REST 服务的基本和摘要式身份验证</title>
-    <link>http://codingman.github.io/posts/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</link>
+    <link>http://itcodingman.github.io/posts/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</link>
     <pubDate>Fri, 27 May 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://codingman.github.io/posts/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</guid>
+    <guid>http://itcodingman.github.io/posts/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</guid>
     <description><![CDATA[使用 Spring Security 的 REST 服务的基本和摘要式身份验证 1. 概述 本文讨论如何在REST API 的相同 URI 结构上设置基本身份验证和摘要式身份验证。在之前的文章中，我们讨论]]></description>
 </item>
 <item>
     <title>Spring中的REST分页</title>
-    <link>http://codingman.github.io/posts/rest-api-pagination-in-spring/</link>
+    <link>http://itcodingman.github.io/posts/rest-api-pagination-in-spring/</link>
     <pubDate>Thu, 26 May 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://codingman.github.io/posts/rest-api-pagination-in-spring/</guid>
+    <guid>http://itcodingman.github.io/posts/rest-api-pagination-in-spring/</guid>
     <description><![CDATA[Spring中的REST分页 1. 概述 本教程将重点介绍使用 Spring MVC 和 Spring Data 在 REST API 中实现分页。 2. 页面作为资源与页面作为表示 在 RESTful 架构的上下文中设计分页时的]]></description>
 </item>
 <item>
     <title>使用 Spring 5 创建 Web 应用程序</title>
-    <link>http://codingman.github.io/posts/bootstraping-a-web-application-with-spring-and-java-based-configuration/</link>
+    <link>http://itcodingman.github.io/posts/bootstraping-a-web-application-with-spring-and-java-based-configuration/</link>
     <pubDate>Wed, 25 May 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://codingman.github.io/posts/bootstraping-a-web-application-with-spring-and-java-based-configuration/</guid>
+    <guid>http://itcodingman.github.io/posts/bootstraping-a-web-application-with-spring-and-java-based-configuration/</guid>
     <description><![CDATA[使用 Spring 5 创建 Web 应用程序 1. 概述 本教程说明了如何使用 Spring 创建 Web 应用程序。 我们将研究用于构建应用程序的 Spring Boot 解决方案，并查看非 Spring Boot 方法。 我们将主要使用]]></description>
 </item>
 <item>
     <title>使用 Spring 引导 Hibernate 5</title>
-    <link>http://codingman.github.io/posts/hibernate-5-spring/</link>
+    <link>http://itcodingman.github.io/posts/hibernate-5-spring/</link>
     <pubDate>Tue, 24 May 2022 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://codingman.github.io/posts/hibernate-5-spring/</guid>
+    <guid>http://itcodingman.github.io/posts/hibernate-5-spring/</guid>
     <description><![CDATA[使用 Spring 引导 Hibernate 5 1. 概述 在本文中，我们将讨论如何使用 Spring 引导 Hibernate 5，同时使用 Java 和 XML 配置。 文章 Spring Boot with Hibernate 描述了如何在 Spring Boot 中使用 Hibernate。 2. Sp]]></description>
 </item>
 </channel>
