@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Tags - Tag - 我的全新 Hugo 网站</title>
+        <title>Tags - Tag - Coding Man</title>
         <link>http://itcodingman.github.io/tags/</link>
-        <description>Tags - Tag - 我的全新 Hugo 网站</description>
+        <description>Tags - Tag - Coding Man</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 31 May 2022 12:37:50 &#43;0800</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>Spring Batch</title>
     <link>http://itcodingman.github.io/tags/spring-batch/</link>

@@ -1,8 +1,8 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title>Categories - Category - 我的全新 Hugo 网站</title>
+        <title>Categories - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/</link>
-        <description>Categories - Category - 我的全新 Hugo 网站</description>
+        <description>Categories - Category - Coding Man</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 01 Jun 2022 12:37:50 &#43;0800</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/" rel="self" type="application/rss+xml" /><item>
     <title>Persistence</title>
     <link>http://itcodingman.github.io/categories/persistence/</link>

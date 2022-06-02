@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Spring 引导 Hibernate 5 - Coding Man</title><meta name="Description" content="在教程中，**我们使用 Hibernate 5 配置了 Spring——**同时使用了 Java 和 XML 配置。"><meta property="og:title" content="使用 Spring 引导 Hibernate 5" />
+<meta property="og:description" content="在教程中，**我们使用 Hibernate 5 配置了 Spring——**同时使用了 Java 和 XML 配置。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/hibernate-5-spring/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-24T12:37:50+08:00" />
+<meta property="article:modified_time" content="2022-05-24T12:37:50+08:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Spring 引导 Hibernate 5"/>
+<meta name="twitter:description" content="在教程中，**我们使用 Hibernate 5 配置了 Spring——**同时使用了 Java 和 XML 配置。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/hibernate-5-spring/" /><link rel="next" href="http://itcodingman.github.io/bootstraping-a-web-application-with-spring-and-java-based-configuration/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Spring 引导 Hibernate 5",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/hibernate-5-spring\/"
+        },"genre": "posts","keywords": "Hibernate","wordcount":  1103 ,
+        "url": "http:\/\/itcodingman.github.io\/hibernate-5-spring\/","datePublished": "2022-05-24T12:37:50+08:00","dateModified": "2022-05-24T12:37:50+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在教程中，**我们使用 Hibernate 5 配置了 Spring——**同时使用了 Java 和 XML 配置。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/search/" title=""><i class='fas fa-fw fa-search'></i>搜索</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Spring 引导 Hibernate 5</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring-persistence/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring Persistence</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-24">2022-05-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1103 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-spring集成"><strong>2. Spring集成</strong></a></li>
+    <li><a href="#3-maven依赖"><strong>3. Maven依赖</strong></a></li>
+    <li><a href="#4配置"><strong>4.配置</strong></a>
+      <ul>
+        <li><a href="#41使用-java-配置"><strong>4.1。使用 Java 配置</strong></a></li>
+        <li><a href="#42-使用-xml-配置"><strong>4.2. 使用 XML 配置</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-用法"><strong>5. 用法</strong></a></li>
+    <li><a href="#6-支持的数据库"><strong>6. 支持的数据库</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="使用-spring-引导-hibernate-5">使用 Spring 引导 Hibernate 5</h1>
+<h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将讨论如何<strong>使用 Spring 引导 Hibernate 5</strong>，同时使用 Java 和 XML 配置。</p>
+<p>文章 <a href="/spring-boot-hibernate" rel="">Spring Boot with Hibernate</a> 描述了如何在 Spring Boot 中使用 Hibernate。</p>
+<h2 id="2-spring集成"><strong>2. Spring集成</strong></h2>
+<p>使用本机 Hibernate API引导<em>SessionFactory</em>有点复杂，需要我们编写好几行代码（请查看<a href="http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#bootstrap-native" target="_blank" rel="noopener noreffer">官方文档</a>）。</p>
+<p>幸运的是，<em>Spring</em>支持引导<em>SessionFactory</em>因此我们只需要几行 Java 代码或 XML 配置。</p>
+<h2 id="3-maven依赖"><strong>3. Maven依赖</strong></h2>
+<p>让我们首先将必要的依赖项添加到我们的<em>pom.xml</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.hibernate<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>hibernate-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>5.4.2.Final<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><a href="https://search.maven.org/artifact/org.springframework/spring-orm" target="_blank" rel="noopener noreffer">spring-orm</a> 模块提供了 Spring 与 Hibernate 的集成：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-orm<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>5.1.6.RELEASE<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>为简单起见，我们将使用<a href="https://search.maven.org/artifact/com.h2database/h2" target="_blank" rel="noopener noreffer">H2</a>作为我们的数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.h2database<span class="nt">&lt;/groupId&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>h2<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.4.197<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>最后，我们将使用<a href="https://search.maven.org/search?q=g:org.apache.tomcat" target="_blank" rel="noopener noreffer">Tomcat JDBC 连接池</a>，它比Spring 提供的<em>DriverManagerDataSource</em>更适合生产目的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.tomcat<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>tomcat-dbcp<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>9.0.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h2 id="4配置"><strong>4.配置</strong></h2>
+<p>如前所述，Spring 支持我们引导 Hibernate <em>SessionFactory</em>。</p>
+<p>我们所要做的就是<strong>定义一些 bean 以及一些参数</strong>。</p>
+<p>使用 Spring，我们<strong>为这些配置提供了两种选择</strong>，一种基于 Java 的方式，一种基于 XML 的方式。</p>
+<h3 id="41使用-java-配置"><strong>4.1。使用 Java 配置</strong></h3>
+<p>对于将 Hibernate 5 与 Spring 一起使用，自Hibernate 4以来几乎没有变化：我们必须使用包<em>org.springframework.orm.hibernate5</em>中的<em>LocalSessionFactoryBean</em>而不是<em>org.springframework.orm.hibernate4</em>。</p>
+<p>与之前的 Hibernate 4 一样，我们必须为<em>LocalSessionFactoryBean</em>、<em>DataSource</em>和<em>PlatformTransactionManager</em>定义 bean ，以及一些 Hibernate 特定的属性。</p>
+<p>让我们创建<em>HibernateConfig</em>类来<strong>使用 Spring 配置 Hibernate 5</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableTransactionManagement</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HibernateConf</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">LocalSessionFactoryBean</span> <span class="nf">sessionFactory</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LocalSessionFactoryBean</span> <span class="n">sessionFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LocalSessionFactoryBean</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sessionFactory</span><span class="o">.</span><span class="na">setDataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sessionFactory</span><span class="o">.</span><span class="na">setPackagesToScan</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="o">{</span><span class="s">&#34;com.codingman.hibernate.bootstrap.model&#34;</span> <span class="o">});</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sessionFactory</span><span class="o">.</span><span class="na">setHibernateProperties</span><span class="o">(</span><span class="n">hibernateProperties</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">sessionFactory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">dataSource</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">BasicDataSource</span> <span class="n">dataSource</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicDataSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setDriverClassName</span><span class="o">(</span><span class="s">&#34;org.h2.Driver&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setUrl</span><span class="o">(</span><span class="s">&#34;jdbc:h2:mem:db;DB_CLOSE_DELAY=-1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="s">&#34;sa&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="s">&#34;sa&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">dataSource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">PlatformTransactionManager</span> <span class="nf">hibernateTransactionManager</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HibernateTransactionManager</span> <span class="n">transactionManager</span>
+</span></span><span class="line"><span class="cl">          <span class="o">=</span> <span class="k">new</span> <span class="n">HibernateTransactionManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">transactionManager</span><span class="o">.</span><span class="na">setSessionFactory</span><span class="o">(</span><span class="n">sessionFactory</span><span class="o">().</span><span class="na">getObject</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">transactionManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Properties</span> <span class="nf">hibernateProperties</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Properties</span> <span class="n">hibernateProperties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hibernateProperties</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="s">&#34;hibernate.hbm2ddl.auto&#34;</span><span class="o">,</span> <span class="s">&#34;create-drop&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hibernateProperties</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="s">&#34;hibernate.dialect&#34;</span><span class="o">,</span> <span class="s">&#34;org.hibernate.dialect.H2Dialect&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">hibernateProperties</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="42-使用-xml-配置"><strong>4.2. 使用 XML 配置</strong></h3>
+<p>作为次要选项，我们还可以<strong>使用基于 XML 的配置来配置 Hibernate 5</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">&#34;...&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;sessionFactory&#34;</span> 
+</span></span><span class="line"><span class="cl">      <span class="na">class=</span><span class="s">&#34;org.springframework.orm.hibernate5.LocalSessionFactoryBean&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;dataSource&#34;</span> 
+</span></span><span class="line"><span class="cl">          <span class="na">ref=</span><span class="s">&#34;dataSource&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;packagesToScan&#34;</span> 
+</span></span><span class="line"><span class="cl">          <span class="na">value=</span><span class="s">&#34;com.codingman.hibernate.bootstrap.model&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;hibernateProperties&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;props&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">&#34;hibernate.hbm2ddl.auto&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">                    create-drop
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/prop&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;prop</span> <span class="na">key=</span><span class="s">&#34;hibernate.dialect&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">                    org.hibernate.dialect.H2Dialect
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/prop&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/props&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/property&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/bean&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;dataSource&#34;</span> 
+</span></span><span class="line"><span class="cl">      <span class="na">class=</span><span class="s">&#34;org.apache.tomcat.dbcp.dbcp2.BasicDataSource&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;driverClassName&#34;</span> <span class="na">value=</span><span class="s">&#34;org.h2.Driver&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;url&#34;</span> <span class="na">value=</span><span class="s">&#34;jdbc:h2:mem:db;DB_CLOSE_DELAY=-1&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;username&#34;</span> <span class="na">value=</span><span class="s">&#34;sa&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;password&#34;</span> <span class="na">value=</span><span class="s">&#34;sa&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/bean&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;txManager&#34;</span> 
+</span></span><span class="line"><span class="cl">      <span class="na">class=</span><span class="s">&#34;org.springframework.orm.hibernate5.HibernateTransactionManager&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;sessionFactory&#34;</span> <span class="na">ref=</span><span class="s">&#34;sessionFactory&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/bean&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/beans&gt;</span>
+</span></span></code></pre></div><p>正如我们很容易看到的那样，我们定义的 bean 和参数与前面基于 Java 的配置完全相同。</p>
+<p><strong>要将 XML 引导到 Spring 上下文中</strong>，如果应用程序配置了 Java 配置，我们可以使用一个简单的 Java 配置文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableTransactionManagement</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ImportResource</span><span class="o">({</span><span class="s">&#34;classpath:hibernate5Configuration.xml&#34;</span><span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HibernateXMLConf</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>或者，如果整体配置是纯 XML，我们可以简单地将 XML 文件提供给 Spring 上下文。</p>
+<h2 id="5-用法"><strong>5. 用法</strong></h2>
+<p>至此，Hibernate 5 完全配置了 Spring，我们可以在需要时直接<strong>注入原始的 Hibernate <em>SessionFactory</em> ：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">BarHibernateDAO</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">SessionFactory</span> <span class="n">sessionFactory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-支持的数据库"><strong>6. 支持的数据库</strong></h2>
+<p>不幸的是，Hibernate 项目并没有完全提供支持数据库的官方列表。</p>
+<p>话虽如此，<strong>很容易看出是否支持特定的数据库类型</strong>，我们可以查看<a href="http://docs.jboss.org/hibernate/orm/5.2/userguide/html_single/Hibernate_User_Guide.html#database-dialect" target="_blank" rel="noopener noreffer">支持的方言列表</a>。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-05-24</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/hibernate-5-spring/" data-title="使用 Spring 引导 Hibernate 5" data-hashtags="Hibernate"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/hibernate-5-spring/" data-hashtag="Hibernate"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/hibernate-5-spring/" data-title="使用 Spring 引导 Hibernate 5"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/hibernate-5-spring/" data-title="使用 Spring 引导 Hibernate 5"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/hibernate-5-spring/" data-title="使用 Spring 引导 Hibernate 5"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/hibernate/">Hibernate</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/bootstraping-a-web-application-with-spring-and-java-based-configuration/" class="next" rel="next" title="使用 Spring 5 创建 Web 应用程序">使用 Spring 5 创建 Web 应用程序<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring中的REST分页 - Coding Man</title><meta name="Description" content="本文说明了如何使用 Spring 在 REST API 中实现分页，并讨论了如何设置和测试可发现性。"><meta property="og:title" content="Spring中的REST分页" />
+<meta property="og:description" content="本文说明了如何使用 Spring 在 REST API 中实现分页，并讨论了如何设置和测试可发现性。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/rest-api-pagination-in-spring/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-26T12:37:50+08:00" />
+<meta property="article:modified_time" content="2022-05-26T12:37:50+08:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring中的REST分页"/>
+<meta name="twitter:description" content="本文说明了如何使用 Spring 在 REST API 中实现分页，并讨论了如何设置和测试可发现性。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/rest-api-pagination-in-spring/" /><link rel="prev" href="http://itcodingman.github.io/bootstraping-a-web-application-with-spring-and-java-based-configuration/" /><link rel="next" href="http://itcodingman.github.io/basic-and-digest-authentication-for-a-rest-api-with-spring-security/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring中的REST分页",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/rest-api-pagination-in-spring\/"
+        },"genre": "posts","keywords": "Pagination","wordcount":  2993 ,
+        "url": "http:\/\/itcodingman.github.io\/rest-api-pagination-in-spring\/","datePublished": "2022-05-26T12:37:50+08:00","dateModified": "2022-05-26T12:37:50+08:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本文说明了如何使用 Spring 在 REST API 中实现分页，并讨论了如何设置和测试可发现性。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/search/" title=""><i class='fas fa-fw fa-search'></i>搜索</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring中的REST分页</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a>&nbsp;<a href="/categories/rest/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>REST</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-26">2022-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2993 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-页面作为资源与页面作为表示"><strong>2. 页面作为资源与页面作为表示</strong></a></li>
+    <li><a href="#3-控制器"><strong>3. 控制器</strong></a></li>
+    <li><a href="#4-rest-分页的可发现性"><strong>4. REST 分页的可发现性</strong></a></li>
+    <li><a href="#5-分页"><strong>5. 分页</strong></a></li>
+    <li><a href="#6-分页可发现性"><strong>6. 分页可发现性</strong></a></li>
+    <li><a href="#7-获取所有资源"><strong>7. 获取所有资源</strong></a></li>
+    <li><a href="#8-带有range-http-标头的-rest-分页"><strong>8. 带有<em>Range</em> HTTP 标头的 REST 分页</strong></a></li>
+    <li><a href="#9-spring-data-rest-分页">9. Spring Data REST 分页</a></li>
+    <li><a href="#10-将list转换为page">10. 将<em>List</em>转换为<em>Page</em></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring中的rest分页">Spring中的REST分页</h1>
+<h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>本教程将重点介绍<strong>使用 Spring MVC 和 Spring Data 在 REST API 中实现分页。</strong></p>
+<h2 id="2-页面作为资源与页面作为表示"><strong>2. 页面作为资源与页面作为表示</strong></h2>
+<p>在 RESTful 架构的上下文中设计分页时的第一个问题是，是否将<strong>页面视为实际资源或只是资源的表示</strong>。</p>
+<p>将页面本身视为资源会带来许多问题，例如不再能够在调用之间唯一标识资源。这一点，再加上在持久层中，页面不是一个适当的实体，而是一个在必要时构建的持有者，这使得选择变得简单；<strong>页面是表示的一部分</strong>。</p>
+<p>REST 上下文中分页设计的下一个问题是<strong>在哪里包含分页信息</strong>：</p>
+<ul>
+<li>在 URI 路径中：<em>/foo/page/1</em></li>
+<li>URI 查询：<em>/foo?page=1</em></li>
+</ul>
+<p>请记住，<strong>页面不是 Resource</strong>，因此无法在 URI 中对页面信息进行编码。</p>
+<p>我们将使用标准方法通过<strong>在 URI 查询中编码分页信息来解决这个问题。</strong></p>
+<h2 id="3-控制器"><strong>3. 控制器</strong></h2>
+<p>现在进行实施<strong>用于分页的 Spring MVC 控制器很简单</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">params</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&#34;page&#34;</span><span class="o">,</span> <span class="s">&#34;size&#34;</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="nf">findPaginated</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&#34;page&#34;</span><span class="o">)</span> <span class="kt">int</span> <span class="n">page</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&#34;size&#34;</span><span class="o">)</span> <span class="kt">int</span> <span class="n">size</span><span class="o">,</span> <span class="n">UriComponentsBuilder</span> <span class="n">uriBuilder</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Page</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="n">resultPage</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="na">findPaginated</span><span class="o">(</span><span class="n">page</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">page</span> <span class="o">&gt;</span> <span class="n">resultPage</span><span class="o">.</span><span class="na">getTotalPages</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="n">MyResourceNotFoundException</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">eventPublisher</span><span class="o">.</span><span class="na">publishEvent</span><span class="o">(</span><span class="k">new</span> <span class="n">PaginatedResultsRetrievedEvent</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Foo</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">uriBuilder</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">page</span><span class="o">,</span> <span class="n">resultPage</span><span class="o">.</span><span class="na">getTotalPages</span><span class="o">(),</span> <span class="n">size</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">resultPage</span><span class="o">.</span><span class="na">getContent</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在此示例中，我们 通过@RequestParam在 Controller 方法中注入两个查询参数<em>size</em>和<em>page</em>。</p>
+<p>或者，我们可以使用<em>Pageable</em>对象，它自动映射<em>page</em>、 <em>size</em>和<em>sort</em>参数。此外，<em>PagingAndSortingRepository</em>实体提供了开箱即用的方法，支持使用<em>Pageable</em>作为参数。</p>
+<p>我们还注入了 Http Response 和<em>UriComponentsBuilder</em>来帮助实现可发现性，我们通过自定义事件将其解耦。如果这不是 API 的目标，我们可以简单地删除自定义事件。</p>
+<p>最后，注意本文的重点只是REST和web层；要深入了解分页的数据访问部分，我们可以<a href="/spring-data-jpa-tutorial-part-seven-pagination" rel="">查看这篇</a>关于使用 Spring Data 进行分页的文章。</p>
+<h2 id="4-rest-分页的可发现性"><strong>4. REST 分页的可发现性</strong></h2>
+<p>在分页范围内，满足<strong>REST 的 HATEOAS 约束</strong>意味着 API 的客户端能够根据导航中的当前页面发现<em>下一页</em>和<em>上一页</em>。为此，<strong>我们将使用<em>Link</em> HTTP 标头，以及“<em>下一个</em>”、 “<em>上一个</em>”、“<em>第一个</em>”和“<em>最后一个</em>”链接关系类型</strong>。</p>
+<p>在 REST 中，<strong>可发现性是一个横切关注点</strong>，不仅适用于特定操作，还适用于操作类型。例如，每次创建资源时，客户端应该可以发现该资源的 URI。由于此要求与 ANY Resource 的创建相关，因此我们将单独处理它。</p>
+<p>正如我们在上一篇文章中讨论的那样，我们将使用事件来解耦这些关注点，<a href="/rest-api-discoverability-with-spring" rel="">重点</a>是 REST 服务的可发现性。在分页的情况下，事件<em>PaginatedResultsRetrievedEvent</em>在控制器层中触发。然后，我们将使用此事件的自定义侦听器实现可发现性。</p>
+<p>简而言之，监听器将检查导航是否允许<em>下一页</em>、 <em>上一页</em>、 <em>第一页</em> 和 <em>最后一页</em>。如果是这样，它会将<strong>相关的 URI 作为“链接”HTTP Header 添加到响应中</strong>。</p>
+<p>现在让我们一步一步来。从控制器传递的<em>UriComponentsBuilder</em>仅包含基本 URL（主机、端口和上下文路径）。因此，我们必须添加其余部分：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">addLinkHeaderOnPagedResourceRetrieval</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl"> <span class="n">UriComponentsBuilder</span> <span class="n">uriBuilder</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl"> <span class="n">Class</span> <span class="n">clazz</span><span class="o">,</span> <span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">totalPages</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span> <span class="o">){</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">String</span> <span class="n">resourceName</span> <span class="o">=</span> <span class="n">clazz</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">().</span><span class="na">toString</span><span class="o">().</span><span class="na">toLowerCase</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">   <span class="n">uriBuilder</span><span class="o">.</span><span class="na">path</span><span class="o">(</span> <span class="s">&#34;/admin/&#34;</span> <span class="o">+</span> <span class="n">resourceName</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们将使用<em>StringJoiner</em> 连接每个链接。我们将使用<em>uriBuilder</em>来生成 URI。让我们看看我们如何处理到<em>下一页</em>的链接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">StringJoiner</span> <span class="n">linkHeader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringJoiner</span><span class="o">(</span><span class="s">&#34;, &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">hasNextPage</span><span class="o">(</span><span class="n">page</span><span class="o">,</span> <span class="n">totalPages</span><span class="o">)){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">uriForNextPage</span> <span class="o">=</span> <span class="n">constructNextPageUri</span><span class="o">(</span><span class="n">uriBuilder</span><span class="o">,</span> <span class="n">page</span><span class="o">,</span> <span class="n">size</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">linkHeader</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">createLinkHeader</span><span class="o">(</span><span class="n">uriForNextPage</span><span class="o">,</span> <span class="s">&#34;next&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们看一下 <em>constructNextPageUri</em>方法的逻辑：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="nf">constructNextPageUri</span><span class="o">(</span><span class="n">UriComponentsBuilder</span> <span class="n">uriBuilder</span><span class="o">,</span> <span class="kt">int</span> <span class="n">page</span><span class="o">,</span> <span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">uriBuilder</span><span class="o">.</span><span class="na">replaceQueryParam</span><span class="o">(</span><span class="n">PAGE</span><span class="o">,</span> <span class="n">page</span> <span class="o">+</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">replaceQueryParam</span><span class="o">(</span><span class="s">&#34;size&#34;</span><span class="o">,</span> <span class="n">size</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">build</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">encode</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">toUriString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们将对我们想要包含的其余 URI 进行类似的处理。</p>
+<p>最后，我们将输出添加为响应标头：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">response</span><span class="o">.</span><span class="na">addHeader</span><span class="o">(</span><span class="s">&#34;Link&#34;</span><span class="o">,</span> <span class="n">linkHeader</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span></code></pre></div><p>请注意，为简洁起见，仅包含部分代码示例。</p>
+<h2 id="5-分页"><strong>5. 分页</strong></h2>
+<p>分页和可发现性的主要逻辑都包含在小型、集中的集成测试中。与<a href="/restful-web-service-discoverability" rel="">上一篇文章</a>一样，我们将使用 <a href="https://github.com/rest-assured/rest-assured" target="_blank" rel="noopener noreffer">REST-assured 库</a>来使用 REST 服务并验证结果。</p>
+<p>这些是分页集成测试的一些示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenResourcesAreRetrievedPaged_then200IsReceived</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">RestAssured</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">paths</span><span class="o">.</span><span class="na">getFooURL</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34;?page=0&amp;size=2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getStatusCode</span><span class="o">(),</span> <span class="n">is</span><span class="o">(</span><span class="n">200</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenPageOfResourcesAreRetrievedOutOfBounds_then404IsReceived</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="n">getFooURL</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34;?page=&#34;</span> <span class="o">+</span> <span class="n">randomNumeric</span><span class="o">(</span><span class="n">5</span><span class="o">)</span> <span class="o">+</span> <span class="s">&#34;&amp;size=2&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">RestAssured</span><span class="o">.</span><span class="na">get</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getStatusCode</span><span class="o">(),</span> <span class="n">is</span><span class="o">(</span><span class="n">404</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenResourcesExist_whenFirstPageIsRetrieved_thenPageContainsResources</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">   <span class="n">createResource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">   <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">RestAssured</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">paths</span><span class="o">.</span><span class="na">getFooURL</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34;?page=0&amp;size=2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">assertFalse</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">body</span><span class="o">().</span><span class="na">as</span><span class="o">(</span><span class="n">List</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">isEmpty</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-分页可发现性"><strong>6. 分页可发现性</strong></h2>
+<p>测试分页是否可以被客户发现是相对简单的，尽管有很多内容需要覆盖。</p>
+<p>测试将关注当前页面在导航中的位置，以及应该从每个位置发现的不同 URI：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenFirstPageOfResourcesAreRetrieved_thenSecondPageIsNext</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">   <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">RestAssured</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getFooURL</span><span class="o">()+</span><span class="s">&#34;?page=0&amp;size=2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">String</span> <span class="n">uriToNextPage</span> <span class="o">=</span> <span class="n">extractURIByRel</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">&#34;Link&#34;</span><span class="o">),</span> <span class="s">&#34;next&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assertEquals</span><span class="o">(</span><span class="n">getFooURL</span><span class="o">()+</span><span class="s">&#34;?page=1&amp;size=2&#34;</span><span class="o">,</span> <span class="n">uriToNextPage</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenFirstPageOfResourcesAreRetrieved_thenNoPreviousPage</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">   <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">RestAssured</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getFooURL</span><span class="o">()+</span><span class="s">&#34;?page=0&amp;size=2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">String</span> <span class="n">uriToPrevPage</span> <span class="o">=</span> <span class="n">extractURIByRel</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">&#34;Link&#34;</span><span class="o">),</span> <span class="s">&#34;prev&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assertNull</span><span class="o">(</span><span class="n">uriToPrevPage</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenSecondPageOfResourcesAreRetrieved_thenFirstPageIsPrevious</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">   <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">RestAssured</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getFooURL</span><span class="o">()+</span><span class="s">&#34;?page=1&amp;size=2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">String</span> <span class="n">uriToPrevPage</span> <span class="o">=</span> <span class="n">extractURIByRel</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">&#34;Link&#34;</span><span class="o">),</span> <span class="s">&#34;prev&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assertEquals</span><span class="o">(</span><span class="n">getFooURL</span><span class="o">()+</span><span class="s">&#34;?page=0&amp;size=2&#34;</span><span class="o">,</span> <span class="n">uriToPrevPage</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenLastPageOfResourcesIsRetrieved_thenNoNextPageIsDiscoverable</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">   <span class="n">Response</span> <span class="n">first</span> <span class="o">=</span> <span class="n">RestAssured</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getFooURL</span><span class="o">()+</span><span class="s">&#34;?page=0&amp;size=2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="n">String</span> <span class="n">uriToLastPage</span> <span class="o">=</span> <span class="n">extractURIByRel</span><span class="o">(</span><span class="n">first</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">&#34;Link&#34;</span><span class="o">),</span> <span class="s">&#34;last&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">RestAssured</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">uriToLastPage</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="n">String</span> <span class="n">uriToNextPage</span> <span class="o">=</span> <span class="n">extractURIByRel</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getHeader</span><span class="o">(</span><span class="s">&#34;Link&#34;</span><span class="o">),</span> <span class="s">&#34;next&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assertNull</span><span class="o">(</span><span class="n">uriToNextPage</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="7-获取所有资源"><strong>7. 获取所有资源</strong></h2>
+<p>在分页和可发现性的同一主题上，<strong>必须做出选择，是允许客户端一次检索系统中的所有资源，还是客户端必须分页请求它们</strong>。</p>
+<p>如果确定客户端无法通过单个请求检索所有资源，并且需要分页，那么有几个选项可用于响应以获取请求。一种选择是返回 404 ( <em>Not Found</em> ) 并使用<em>Link</em>标头使第一页可发现：</p>
+<blockquote>
+<p><em>链接=<a href="http://localhost:8080/rest/api/admin/foo?page=0&amp;size=2" target="_blank" rel="noopener noreffer">http://localhost:8080/rest/api/admin/foo?page=0&size=2</a>; rel=”first”, <a href="http://localhost:8080/rest/api/admin/foo?page=103&amp;size=2" target="_blank" rel="noopener noreffer">http://localhost:8080/rest/api/admin/foo?page=103&size=2</a>; 相对=“最后”</em></p>
+</blockquote>
+<p>另一种选择是将重定向 303 <em>（请参阅其他</em>）返回到第一页。更保守的方法是简单地为 GET 请求返回 405（<em>不允许的方法）给客户端。</em></p>
+<h2 id="8-带有range-http-标头的-rest-分页"><strong>8. 带有<em>Range</em> HTTP 标头的 REST 分页</strong></h2>
+<p>实现分页的一种相对不同的方式是使用<strong>HTTP <em>Range</em>标头、</strong> <em>Range</em>、<em>Content-Range</em>、<em>If-Range</em>、<em>Accept-Ranges</em>和<strong>HTTP 状态代码、</strong> 206（<em>部分内容</em>）、413（<em>请求实体太大</em>）和416（<em>请求的范围不可满足</em>）。</p>
+<p>这种方法的一种观点是，HTTP Range 扩展不用于分页，它们应该由服务器管理，而不是由应用程序管理。基于 HTTP Range 标头扩展实现分页在技术上是可行的，尽管不像本文中讨论的实现那样普遍。</p>
+<h2 id="9-spring-data-rest-分页">9. Spring Data REST 分页</h2>
+<p>在 Spring Data 中，如果我们需要从完整的数据集中返回一些结果，我们可以使用任何<em>Pageable</em>存储库方法，因为它总是返回一个<em>Page</em>。将根据页码、页面大小和排序方向返回结果。</p>
+<p><strong><a href="/spring-data-rest-intro" rel="">Spring Data REST</a>自动识别<em>page, size, sort</em>等URL 参数。</strong></p>
+<p>要使用任何存储库的分页方法，我们需要扩展<em>PagingAndSortingRepository：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SubjectRepository</span> <span class="kd">extends</span> <span class="n">PagingAndSortingRepository</span><span class="o">&lt;</span><span class="n">Subject</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;{}</span>
+</span></span></code></pre></div><p>如果我们调用 <em>http://localhost:8080/subjects</em>， Spring 会自动通过 API添加<em>page, size, sort</em>参数建议：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="s">&#34;_links&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;self&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;href&#34;</span> <span class="o">:</span> <span class="s">&#34;http://localhost:8080/subjects{?page,size,sort}&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;templated&#34;</span> <span class="o">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>默认情况下，页面大小为 20，但我们可以通过调用类似<em>http://localhost:8080/subjects?page=10 的方法来更改它。</em></p>
+<p>如果我们想在我们自己的自定义存储库 API 中实现分页，我们需要传递一个额外的<em>Pageable</em>参数并确保 API 返回一个<em>Page：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestResource</span><span class="o">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">&#34;nameContains&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Page</span><span class="o">&lt;</span><span class="n">Subject</span><span class="o">&gt;</span> <span class="nf">findByNameContaining</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">Pageable</span> <span class="n">p</span><span class="o">);</span>
+</span></span></code></pre></div><p>每当我们添加自定义 API 时，都会将/search端点添加到生成的链接中。因此，如果我们调用 http://localhost:8080/subjects/search，我们将看到一个支持分页的端点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="s">&#34;findByNameContaining&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;href&#34;</span> <span class="o">:</span> <span class="s">&#34;http://localhost:8080/subjects/search/nameContains{?name,page,size,sort}&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;templated&#34;</span> <span class="o">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>所有实现 <em>PagingAndSortingRepository</em>的 API都会返回一个<em>Page。<em>如果我们需要从</em>Page返回结果列表，</em> <em>Page</em>的<em>getContent()</em> API提供了作为 Spring Data REST API 结果获取的记录列表。</p>
+<h2 id="10-将list转换为page">10. 将<em>List</em>转换为<em>Page</em></h2>
+<p>假设我们有一个<em>Pageable</em>对象作为输入，但是我们需要检索的信息包含在一个列表而不是<em>PagingAndSortingRepository</em>中。在这些情况下，我们可能需要<strong>将List转换为Page</strong>。</p>
+<p>例如，假设我们有一个<a href="/spring-boot-soap-web-service" rel="">SOAP</a>服务的结果列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">getListOfFooFromSoapService</span><span class="o">();</span>
+</span></span></code></pre></div><p>我们需要访问发送给我们的<em>Pageable</em>对象指定的特定位置的列表。所以让我们定义开始索引：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">pageable</span><span class="o">.</span><span class="na">getOffset</span><span class="o">();</span>
+</span></span></code></pre></div><p>和结束索引：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">((</span><span class="n">start</span> <span class="o">+</span> <span class="n">pageable</span><span class="o">.</span><span class="na">getPageSize</span><span class="o">())</span> <span class="o">&gt;</span> <span class="n">fooList</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">?</span> <span class="n">fooList</span><span class="o">.</span><span class="na">size</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">:</span> <span class="o">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">pageable</span><span class="o">.</span><span class="na">getPageSize</span><span class="o">()));</span>
+</span></span></code></pre></div><p>有了这两个，我们可以创建一个<em>Page</em>来获取它们之间的元素列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Page</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="n">page</span> 
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="k">new</span> <span class="n">PageImpl</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;(</span><span class="n">fooList</span><span class="o">.</span><span class="na">subList</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">end</span><span class="o">),</span> <span class="n">pageable</span><span class="o">,</span> <span class="n">fooList</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span></span></code></pre></div><p>而已！我们现在可以将<em>page</em>作为有效结果返回。</p>
+<p>请注意，如果我们还想支持<a href="/java-8-sort-lambda" rel="">排序</a>，我们需要<strong>在子列表之前对列表进行排序</strong>。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-05-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/rest-api-pagination-in-spring/" data-title="Spring中的REST分页" data-hashtags="Pagination"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/rest-api-pagination-in-spring/" data-hashtag="Pagination"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/rest-api-pagination-in-spring/" data-title="Spring中的REST分页"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/rest-api-pagination-in-spring/" data-title="Spring中的REST分页"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/rest-api-pagination-in-spring/" data-title="Spring中的REST分页"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/pagination/">Pagination</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/bootstraping-a-web-application-with-spring-and-java-based-configuration/" class="prev" rel="prev" title="使用 Spring 5 创建 Web 应用程序"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Spring 5 创建 Web 应用程序</a>
+            <a href="/basic-and-digest-authentication-for-a-rest-api-with-spring-security/" class="next" rel="next" title="使用 Spring Security 的 REST 服务的基本和摘要式身份验证">使用 Spring Security 的 REST 服务的基本和摘要式身份验证<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>
