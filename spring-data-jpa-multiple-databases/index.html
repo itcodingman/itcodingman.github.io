@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="Spring JPA – 多个数据库 一、概述 在本教程中，我们将为具有多个数据库的 Spring Data JPA 系统实现一个简单的 Spring 配置。 进一步阅读： Spring Data JPA – 派生删除方法 了解如何定义 Spring Data" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring-data-jpa-multiple-databases/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Spring JPA – 多个数据库 一、概述 在本教程中，我们将为具有多个数据库的 Spring Data JPA 系统实现一个简单的 Spring 配置。 进一步阅读： Spring Data JPA – 派生删除方法 了解如何定义 Spring Data"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring-data-jpa-multiple-databases/" /><link rel="prev" href="http://itcodingman.github.io/spring-data-mongodb-guide/" /><link rel="next" href="http://itcodingman.github.io/spring-data-cassandratemplate-cqltemplate/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring-data-jpa-multiple-databases\/"
+        },"genre": "posts","wordcount":  1813 ,
+        "url": "http:\/\/itcodingman.github.io\/spring-data-jpa-multiple-databases\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1813 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述"><strong>一、概述</strong></a></li>
+    <li><a href="#进一步阅读">进一步阅读：</a></li>
+    <li><a href="#spring-data-jpa--派生删除方法spring-data-jpa-deleteby"><a href="/spring-data-jpa-deleteby">Spring Data JPA – 派生删除方法</a></a></li>
+    <li><a href="#在-spring-boot-中以编程方式配置数据源spring-boot-configure-data-source-programmatic"><a href="/spring-boot-configure-data-source-programmatic">在 Spring Boot 中以编程方式配置数据源</a></a></li>
+    <li><a href="#2-实体"><strong>2. 实体</strong></a></li>
+    <li><a href="#3-jpa-存储库"><strong>3. JPA 存储库</strong></a></li>
+    <li><a href="#4用java配置jpa"><strong>4.用Java配置JPA</strong></a></li>
+    <li><a href="#5-简单测试"><strong>5. 简单测试</strong></a></li>
+    <li><a href="#6-spring-boot-中的多个数据库">6. Spring Boot 中的多个数据库</a></li>
+    <li><a href="#7-结论"><strong>7. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-jpa--多个数据库">Spring JPA – 多个数据库</h1>
+<h2 id="一概述"><strong>一、概述</strong></h2>
+<p><strong>在本教程中，我们将为具有多个数据库的 Spring Data JPA 系统</strong>实现一个简单的 Spring 配置。</p>
+<h2 id="进一步阅读">进一步阅读：</h2>
+<h2 id="spring-data-jpa--派生删除方法spring-data-jpa-deleteby"><a href="/spring-data-jpa-deleteby" rel="">Spring Data JPA – 派生删除方法</a></h2>
+<p>了解如何定义 Spring Data 的 deleteBy 和 removeBy 方法</p>
+<p><a href="/spring-data-jpa-deleteby" rel="">阅读更多</a>→</p>
+<h2 id="在-spring-boot-中以编程方式配置数据源spring-boot-configure-data-source-programmatic"><a href="/spring-boot-configure-data-source-programmatic" rel="">在 Spring Boot 中以编程方式配置数据源</a></h2>
+<p>了解如何以编程方式配置 Spring Boot DataSource，从而避开 Spring Boot 的自动 DataSource 配置算法。</p>
+<p><a href="/spring-boot-configure-data-source-programmatic" rel="">阅读更多</a>→</p>
+<h2 id="2-实体"><strong>2. 实体</strong></h2>
+<p>首先，让我们创建两个简单的实体，每个实体都存在于一个单独的数据库中。</p>
+<p>这是第一个<em>用户</em> 实体：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.codingman.multipledb.model.user</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Entity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Table</span><span class="o">(</span><span class="n">schema</span> <span class="o">=</span> <span class="s">&#34;users&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Id</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Column</span><span class="o">(</span><span class="n">unique</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是第二个实体<em>Product</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.codingman.multipledb.model.product</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Entity</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Table</span><span class="o">(</span><span class="n">schema</span> <span class="o">=</span> <span class="s">&#34;products&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Product</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Id</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">price</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以看到这**两个实体也被放置在独立的包中。**当我们进入配置时，这将很重要。</p>
+<h2 id="3-jpa-存储库"><strong>3. JPA 存储库</strong></h2>
+<p>接下来，让我们看一下我们的两个 JPA 存储库<em>UserRepository</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.codingman.multipledb.dao.user</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">}</span>
+</span></span></code></pre></div><p>和<em>ProductRepository</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.codingman.multipledb.dao.product</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ProductRepository</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="o">{</span> <span class="o">}</span>
+</span></span></code></pre></div><p>再次注意我们如何在不同的包中创建这两个存储库。</p>
+<h2 id="4用java配置jpa"><strong>4.用Java配置JPA</strong></h2>
+<p>现在我们将了解实际的 Spring 配置。<strong>我们将首先设置两个配置类——一个用于*User*，另一个用于*Product*。</strong></p>
+<p>在每个配置类中，我们需要为<em>User</em>定义以下接口：</p>
+<ul>
+<li><em>数据源</em></li>
+<li><em>实体</em>管理器工厂（<em>用户实体管理器</em>）</li>
+<li><em>事务</em>管理器（<em>用户事务管理器</em>）</li>
+</ul>
+<p>让我们从查看用户配置开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@PropertySource</span><span class="o">({</span> <span class="s">&#34;classpath:persistence-multiple-db.properties&#34;</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableJpaRepositories</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">basePackages</span> <span class="o">=</span> <span class="s">&#34;com.codingman.multipledb.dao.user&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">entityManagerFactoryRef</span> <span class="o">=</span> <span class="s">&#34;userEntityManager&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">transactionManagerRef</span> <span class="o">=</span> <span class="s">&#34;userTransactionManager&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersistenceUserConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Environment</span> <span class="n">env</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Primary</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="nf">userEntityManager</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="n">em</span>
+</span></span><span class="line"><span class="cl">          <span class="o">=</span> <span class="k">new</span> <span class="n">LocalContainerEntityManagerFactoryBean</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">em</span><span class="o">.</span><span class="na">setDataSource</span><span class="o">(</span><span class="n">userDataSource</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">em</span><span class="o">.</span><span class="na">setPackagesToScan</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="k">new</span> <span class="n">String</span><span class="o">[]</span> <span class="o">{</span> <span class="s">&#34;com.codingman.multipledb.model.user&#34;</span> <span class="o">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">HibernateJpaVendorAdapter</span> <span class="n">vendorAdapter</span>
+</span></span><span class="line"><span class="cl">          <span class="o">=</span> <span class="k">new</span> <span class="n">HibernateJpaVendorAdapter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">em</span><span class="o">.</span><span class="na">setJpaVendorAdapter</span><span class="o">(</span><span class="n">vendorAdapter</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">properties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">properties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;hibernate.hbm2ddl.auto&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;hibernate.hbm2ddl.auto&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">properties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;hibernate.dialect&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;hibernate.dialect&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">em</span><span class="o">.</span><span class="na">setJpaPropertyMap</span><span class="o">(</span><span class="n">properties</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">em</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Primary</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">userDataSource</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">        <span class="n">DriverManagerDataSource</span> <span class="n">dataSource</span>
+</span></span><span class="line"><span class="cl">          <span class="o">=</span> <span class="k">new</span> <span class="n">DriverManagerDataSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setDriverClassName</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;jdbc.driverClassName&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setUrl</span><span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;user.jdbc.url&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;jdbc.user&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;jdbc.pass&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">dataSource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Primary</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">PlatformTransactionManager</span> <span class="nf">userTransactionManager</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">        <span class="n">JpaTransactionManager</span> <span class="n">transactionManager</span>
+</span></span><span class="line"><span class="cl">          <span class="o">=</span> <span class="k">new</span> <span class="n">JpaTransactionManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">transactionManager</span><span class="o">.</span><span class="na">setEntityManagerFactory</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">userEntityManager</span><span class="o">().</span><span class="na">getObject</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">transactionManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意我们如何通过使用 @Primary 注释 bean 定义来使用<em>userTransactionManager</em>作为<em>我们</em>的<strong>Primary *TransactionManager*</strong>。每当我们要隐式或显式地注入事务管理器而不指定哪个名称时，这都会很有帮助。</p>
+<p>接下来，让我们讨论<em>PersistenceProductConfiguration</em>，我们在其中定义了类似的 bean：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@PropertySource</span><span class="o">({</span> <span class="s">&#34;classpath:persistence-multiple-db.properties&#34;</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableJpaRepositories</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">basePackages</span> <span class="o">=</span> <span class="s">&#34;com.codingman.multipledb.dao.product&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">entityManagerFactoryRef</span> <span class="o">=</span> <span class="s">&#34;productEntityManager&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">transactionManagerRef</span> <span class="o">=</span> <span class="s">&#34;productTransactionManager&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersistenceProductConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Environment</span> <span class="n">env</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="nf">productEntityManager</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="n">em</span>
+</span></span><span class="line"><span class="cl">          <span class="o">=</span> <span class="k">new</span> <span class="n">LocalContainerEntityManagerFactoryBean</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">em</span><span class="o">.</span><span class="na">setDataSource</span><span class="o">(</span><span class="n">productDataSource</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">em</span><span class="o">.</span><span class="na">setPackagesToScan</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="k">new</span> <span class="n">String</span><span class="o">[]</span> <span class="o">{</span> <span class="s">&#34;com.codingman.multipledb.model.product&#34;</span> <span class="o">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">HibernateJpaVendorAdapter</span> <span class="n">vendorAdapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HibernateJpaVendorAdapter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">em</span><span class="o">.</span><span class="na">setJpaVendorAdapter</span><span class="o">(</span><span class="n">vendorAdapter</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">properties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">properties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;hibernate.hbm2ddl.auto&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;hibernate.hbm2ddl.auto&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">properties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;hibernate.dialect&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">          <span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;hibernate.dialect&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">em</span><span class="o">.</span><span class="na">setJpaPropertyMap</span><span class="o">(</span><span class="n">properties</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">em</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">productDataSource</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">        <span class="n">DriverManagerDataSource</span> <span class="n">dataSource</span>
+</span></span><span class="line"><span class="cl">          <span class="o">=</span> <span class="k">new</span> <span class="n">DriverManagerDataSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setDriverClassName</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;jdbc.driverClassName&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setUrl</span><span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;product.jdbc.url&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;jdbc.user&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSource</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;jdbc.pass&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">dataSource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">PlatformTransactionManager</span> <span class="nf">productTransactionManager</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">        <span class="n">JpaTransactionManager</span> <span class="n">transactionManager</span>
+</span></span><span class="line"><span class="cl">          <span class="o">=</span> <span class="k">new</span> <span class="n">JpaTransactionManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">transactionManager</span><span class="o">.</span><span class="na">setEntityManagerFactory</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">productEntityManager</span><span class="o">().</span><span class="na">getObject</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">transactionManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-简单测试"><strong>5. 简单测试</strong></h2>
+<p>最后，让我们测试一下我们的配置。</p>
+<p>为此，我们将创建每个实体的实例并确保它已创建：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@SpringBootTest</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableTransactionManagement</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JpaMultipleDBIntegrationTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">ProductRepository</span> <span class="n">productRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Transactional</span><span class="o">(</span><span class="s">&#34;userTransactionManager&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCreatingUser_thenCreated</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="n">User</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;John&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user</span><span class="o">.</span><span class="na">setEmail</span><span class="o">(</span><span class="s">&#34;john@test.com&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="n">20</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">assertNotNull</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Transactional</span><span class="o">(</span><span class="s">&#34;userTransactionManager&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCreatingUsersWithSameEmail_thenRollback</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">User</span> <span class="n">user1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">User</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user1</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;John&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user1</span><span class="o">.</span><span class="na">setEmail</span><span class="o">(</span><span class="s">&#34;john@test.com&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user1</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="n">20</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user1</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertNotNull</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">user1</span><span class="o">.</span><span class="na">getId</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">User</span> <span class="n">user2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">User</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user2</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Tom&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user2</span><span class="o">.</span><span class="na">setEmail</span><span class="o">(</span><span class="s">&#34;john@test.com&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user2</span><span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="n">10</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">user2</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">user2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">DataIntegrityViolationException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">assertNull</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">user2</span><span class="o">.</span><span class="na">getId</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Transactional</span><span class="o">(</span><span class="s">&#34;productTransactionManager&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCreatingProduct_thenCreated</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Product</span> <span class="n">product</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Product</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">product</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Book&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">product</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">product</span><span class="o">.</span><span class="na">setPrice</span><span class="o">(</span><span class="n">20</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">product</span> <span class="o">=</span> <span class="n">productRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">product</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">assertNotNull</span><span class="o">(</span><span class="n">productRepository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">product</span><span class="o">.</span><span class="na">getId</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-spring-boot-中的多个数据库">6. Spring Boot 中的多个数据库</h2>
+<p>Spring Boot 可以简化上面的配置。</p>
+<p>默认情况下，<strong>Spring Boot 将使用前缀为*spring.datasource.**的配置属性实例化其默认*DataSource*</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">spring</span><span class="o">.</span><span class="na">datasource</span><span class="o">.</span><span class="na">jdbcUrl</span> <span class="o">=</span> <span class="o">[</span><span class="n">url</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">spring</span><span class="o">.</span><span class="na">datasource</span><span class="o">.</span><span class="na">username</span> <span class="o">=</span> <span class="o">[</span><span class="n">username</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">spring</span><span class="o">.</span><span class="na">datasource</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="o">[</span><span class="n">password</span><span class="o">]</span>
+</span></span></code></pre></div><p>我们现在想继续使用相同的方式来<strong>配置第二个*DataSource*，但使用不同的属性命名空间</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">spring</span><span class="o">.</span><span class="na">second</span><span class="o">-</span><span class="n">datasource</span><span class="o">.</span><span class="na">jdbcUrl</span> <span class="o">=</span> <span class="o">[</span><span class="n">url</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">spring</span><span class="o">.</span><span class="na">second</span><span class="o">-</span><span class="n">datasource</span><span class="o">.</span><span class="na">username</span> <span class="o">=</span> <span class="o">[</span><span class="n">username</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">spring</span><span class="o">.</span><span class="na">second</span><span class="o">-</span><span class="n">datasource</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="o">[</span><span class="n">password</span><span class="o">]</span>
+</span></span></code></pre></div><p>因为我们希望 Spring Boot 自动配置能够获取这些不同的属性（并实例化两个不同的<em>DataSources</em>），所以我们将定义两个类似于前面部分的配置类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@PropertySource</span><span class="o">({</span><span class="s">&#34;classpath:persistence-multiple-db-boot.properties&#34;</span><span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableJpaRepositories</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">basePackages</span> <span class="o">=</span> <span class="s">&#34;com.codingman.multipledb.dao.user&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">entityManagerFactoryRef</span> <span class="o">=</span> <span class="s">&#34;userEntityManager&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">transactionManagerRef</span> <span class="o">=</span> <span class="s">&#34;userTransactionManager&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersistenceUserAutoConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nd">@Primary</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ConfigurationProperties</span><span class="o">(</span><span class="n">prefix</span><span class="o">=</span><span class="s">&#34;spring.datasource&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">userDataSource</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DataSourceBuilder</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// userEntityManager bean 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// userTransactionManager bean
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@PropertySource</span><span class="o">({</span><span class="s">&#34;classpath:persistence-multiple-db-boot.properties&#34;</span><span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableJpaRepositories</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">basePackages</span> <span class="o">=</span> <span class="s">&#34;com.codingman.multipledb.dao.product&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">entityManagerFactoryRef</span> <span class="o">=</span> <span class="s">&#34;productEntityManager&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">transactionManagerRef</span> <span class="o">=</span> <span class="s">&#34;productTransactionManager&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersistenceProductAutoConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ConfigurationProperties</span><span class="o">(</span><span class="n">prefix</span><span class="o">=</span><span class="s">&#34;spring.second-datasource&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">productDataSource</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">DataSourceBuilder</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    <span class="c1">// productEntityManager bean 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// productTransactionManager bean
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们已经根据 Boot 自动配置约定在<em>persistence-multiple-db-boot.properties中定义了数据源属性。</em></p>
+<p>有趣的部分是使用***@ConfigurationProperties*****注释数据源 bean 创建方法****。<em><em>我们只需要指定相应的配置前缀</em>。<em>在这个方法中，我们使用了一个</em>DataSourceBuilder</em>，Spring Boot 会自动处理剩下的事情。</p>
+<p>但是如何将配置的属性注入到<em>DataSource</em>配置中呢？</p>
+<p><em>在DataSourceBuilder</em>上调用*build()<em>方法时，它会调用其私有的</em>bind()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">T</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">DataSource</span><span class="o">&gt;</span> <span class="n">type</span> <span class="o">=</span> <span class="n">getType</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DataSource</span> <span class="n">result</span> <span class="o">=</span> <span class="n">BeanUtils</span><span class="o">.</span><span class="na">instantiateClass</span><span class="o">(</span><span class="n">type</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">maybeGetDriverClassName</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bind</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">(</span><span class="n">T</span><span class="o">)</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这个私有方法执行了很多自动配置魔法，将解析的配置绑定到实际的<em>DataSource</em>实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">bind</span><span class="o">(</span><span class="n">DataSource</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ConfigurationPropertySource</span> <span class="n">source</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MapConfigurationPropertySource</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">properties</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ConfigurationPropertyNameAliases</span> <span class="n">aliases</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConfigurationPropertyNameAliases</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">aliases</span><span class="o">.</span><span class="na">addAliases</span><span class="o">(</span><span class="s">&#34;url&#34;</span><span class="o">,</span> <span class="s">&#34;jdbc-url&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">aliases</span><span class="o">.</span><span class="na">addAliases</span><span class="o">(</span><span class="s">&#34;username&#34;</span><span class="o">,</span> <span class="s">&#34;user&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Binder</span> <span class="n">binder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Binder</span><span class="o">(</span><span class="n">source</span><span class="o">.</span><span class="na">withAliases</span><span class="o">(</span><span class="n">aliases</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">binder</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="n">ConfigurationPropertyName</span><span class="o">.</span><span class="na">EMPTY</span><span class="o">,</span> <span class="n">Bindable</span><span class="o">.</span><span class="na">ofInstance</span><span class="o">(</span><span class="n">result</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>尽管我们自己不必接触任何这些代码，但了解 Spring Boot 自动配置背后发生的事情仍然很有用。</p>
+<p>除此之外，事务管理器和实体管理器 bean 配置与标准 Spring 应用程序相同。</p>
+<h2 id="7-结论"><strong>7. 结论</strong></h2>
+<p>本文是关于如何配置我们的 Spring Data JPA 项目以使用多个数据库的实用概述。</p>
+<p>完整的<strong>实现</strong>可以在<a href="https://github.com/eugenp/tutorials/tree/master/persistence-modules/spring-data-jpa-enterprise-2" target="_blank" rel="noopener noreffer">GitHub 项目</a>中找到。这是一个基于 Maven 的项目，因此它应该很容易导入和运行。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring-data-jpa-multiple-databases/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring-data-jpa-multiple-databases/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring-data-jpa-multiple-databases/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring-data-jpa-multiple-databases/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring-data-jpa-multiple-databases/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring-data-mongodb-guide/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/spring-data-cassandratemplate-cqltemplate/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

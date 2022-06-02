@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="JPA 和 Spring 的 DAO 一、概述 本文将展示如何使用 Spring 和 JPA 实现 DAO。有关核心 JPA 配置，请参阅有关 JPA with Spring 的文章。 2. 不再有 Spring 模板 从 Spring 3.1 开始，已弃用JpaTemp" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring-dao-jpa/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="JPA 和 Spring 的 DAO 一、概述 本文将展示如何使用 Spring 和 JPA 实现 DAO。有关核心 JPA 配置，请参阅有关 JPA with Spring 的文章。 2. 不再有 Spring 模板 从 Spring 3.1 开始，已弃用JpaTemp"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring-dao-jpa/" /><link rel="prev" href="http://itcodingman.github.io/spring-data-cassandra-tutorial/" /><link rel="next" href="http://itcodingman.github.io/spring-core-annotations/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring-dao-jpa\/"
+        },"genre": "posts","wordcount":  996 ,
+        "url": "http:\/\/itcodingman.github.io\/spring-dao-jpa\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;996 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述"><strong>一、概述</strong></a></li>
+    <li><a href="#2-不再有-spring-模板"><strong>2. 不再有 Spring 模板</strong></a>
+      <ul>
+        <li><a href="#21-没有模板的异常翻译"><strong>2.1. 没有模板的异常翻译</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-dao"><strong>3.</strong> <strong>DAO</strong></a></li>
+    <li><a href="#4结论"><strong>4。结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="jpa-和-spring-的-dao">JPA 和 Spring 的 DAO</h1>
+<h2 id="一概述"><strong>一、概述</strong></h2>
+<p>本文将展示如何<strong>使用 Spring 和 JPA 实现 DAO</strong>。有关核心 JPA 配置，请参阅<a href="/the-persistence-layer-with-spring-and-jpa" rel="">有关 JPA</a> with Spring 的文章。</p>
+<h2 id="2-不再有-spring-模板"><strong>2. 不再有 Spring 模板</strong></h2>
+<p>从 Spring 3.1 开始，<strong>已弃用</strong><em>JpaTemplate</em>和相应的<em>JpaDaoSupport</em> 以支持使用本机 Java Persistence API。</p>
+<p>此外，这两个类仅与 JPA 1 相关（来自<em>JpaTemplate</em> javadoc）：</p>
+<blockquote>
+<p>请注意，此类没有升级到 JPA 2.0，也永远不会升级。</p>
+</blockquote>
+<p>因此，现在最好的做法是<strong>直接使用 Java Persistence API</strong>而不是<em>JpaTemplate</em>。</p>
+<h3 id="21-没有模板的异常翻译"><strong>2.1. 没有模板的异常翻译</strong></h3>
+<p><em>JpaTemplate</em>的职责之一是<strong>异常转换</strong>——将低级异常转换为更高级别的通用 Spring 异常。</p>
+<p>如果没有模板，<strong>异常翻译仍然可以</strong>为所有使用 @Repository 注释的 DAO<em>启用</em>并完全正常运行。Spring 使用 bean 后处理器实现这一点，该后处理器将使用容器中找到的所有<em>PersistenceExceptionTranslator通知所有**@Repository</em> bean 。</p>
+<p>同样重要的是要注意<strong>异常转换机制使用代理</strong>——为了让 Spring 能够围绕 DAO 类创建代理，这些代理不能被声明为<em><strong>final</strong></em>。</p>
+<h2 id="3-dao"><strong>3.</strong> <strong>DAO</strong></h2>
+<p>首先，我们将为所有 DAO 实现基础层——一个使用泛型并设计为可扩展的抽象类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractJpaDAO</span><span class="o">&lt;</span> <span class="n">T</span> <span class="kd">extends</span> <span class="n">Serializable</span> <span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">private</span> <span class="n">Class</span><span class="o">&lt;</span> <span class="n">T</span> <span class="o">&gt;</span> <span class="n">clazz</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nd">@PersistenceContext</span>
+</span></span><span class="line"><span class="cl">   <span class="n">EntityManager</span> <span class="n">entityManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">setClazz</span><span class="o">(</span> <span class="n">Class</span><span class="o">&lt;</span> <span class="n">T</span> <span class="o">&gt;</span> <span class="n">clazzToSet</span> <span class="o">){</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="o">.</span><span class="na">clazz</span> <span class="o">=</span> <span class="n">clazzToSet</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="n">T</span> <span class="nf">findOne</span><span class="o">(</span> <span class="kt">long</span> <span class="n">id</span> <span class="o">){</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">find</span><span class="o">(</span> <span class="n">clazz</span><span class="o">,</span> <span class="n">id</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span> <span class="n">T</span> <span class="o">&gt;</span> <span class="n">findAll</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">createQuery</span><span class="o">(</span> <span class="s">&#34;from &#34;</span> <span class="o">+</span> <span class="n">clazz</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">)</span>
+</span></span><span class="line"><span class="cl">       <span class="o">.</span><span class="na">getResultList</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">create</span><span class="o">(</span> <span class="n">T</span> <span class="n">entity</span> <span class="o">){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">entityManager</span><span class="o">.</span><span class="na">persist</span><span class="o">(</span> <span class="n">entity</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="n">T</span> <span class="nf">update</span><span class="o">(</span> <span class="n">T</span> <span class="n">entity</span> <span class="o">){</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span> <span class="n">entity</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">delete</span><span class="o">(</span> <span class="n">T</span> <span class="n">entity</span> <span class="o">){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">entityManager</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span> <span class="n">entity</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteById</span><span class="o">(</span> <span class="kt">long</span> <span class="n">entityId</span> <span class="o">){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">T</span> <span class="n">entity</span> <span class="o">=</span> <span class="n">findOne</span><span class="o">(</span> <span class="n">entityId</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">delete</span><span class="o">(</span> <span class="n">entity</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里主要有趣的方面是<strong>EntityManager*的*注入</strong>方式——使用标准的*@PersistenceContext<em>注释。在后台，这是由</em>PersistenceAnnotationBeanPostProcessor*处理的——它处理注释，从包含中检索 JPA 实体管理器并注入它。</p>
+<p>持久化后处理器要么通过在配置中定义显式创建，要么通过在命名空间配置中定义<em>context:annotation-config</em>或<em>context:component-scan</em>自动创建。</p>
+<p>另外，请注意实体<em><strong>Class</strong></em>在构造函数中传递以用于通用操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Repository</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooDAO</span> <span class="kd">extends</span> <span class="n">AbstractJPADAO</span><span class="o">&lt;</span> <span class="n">Foo</span> <span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">IFooDAO</span><span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="nf">FooDAO</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">setClazz</span><span class="o">(</span><span class="n">Foo</span><span class="o">.</span><span class="na">class</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4结论"><strong>4。结论</strong></h2>
+<p>本教程说明<strong>了如何使用 Spring 和 JPA 设置 DAO 层</strong>，同时使用基于 XML 和 Java 的配置。我们还讨论了为什么不使用<em>JpaTemplate</em>以及如何用<em>EntityManager</em>替换它。最终结果是一个轻量级、干净的 DAO 实现，编译时几乎不依赖 Spring。</p>
+<p>这个简单项目的实现可以在<a href="https://github.com/eugenp/tutorials/tree/master/persistence-modules/spring-jpa" target="_blank" rel="noopener noreffer">GitHub 项目</a>中找到——这是一个基于 Maven 的项目，所以它应该很容易导入和运行。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring-dao-jpa/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring-dao-jpa/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring-dao-jpa/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring-dao-jpa/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring-dao-jpa/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring-data-cassandra-tutorial/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/spring-core-annotations/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

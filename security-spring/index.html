@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="Spring 的安全性 正如您所期望的 那样，Spring Security教程 的重点是 Spring Security。 如果您有兴趣构建注册流程并了解一些框架基础知识，请" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/security-spring/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Spring 的安全性 正如您所期望的 那样，Spring Security教程 的重点是 Spring Security。 如果您有兴趣构建注册流程并了解一些框架基础知识，请"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/security-spring/" /><link rel="prev" href="http://itcodingman.github.io/spring-annotations-resource-inject-autowire/" /><link rel="next" href="http://itcodingman.github.io/securing-a-restful-web-service-with-spring-security/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/security-spring\/"
+        },"genre": "posts","wordcount":  571 ,
+        "url": "http:\/\/itcodingman.github.io\/security-spring\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;571 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#向-spring-security-注册spring-security-registration"><a href="/spring-security-registration">向 Spring Security 注册</a></a></li>
+    <li><a href="#使用-spring-security-进行身份验证spring-security-authentication-and-registration"><a href="/spring-security-authentication-and-registration">使用 Spring Security 进行身份验证</a></a></li>
+    <li><a href="#核心弹簧安全">核心弹簧安全</a></li>
+    <li><a href="#带有-spring-security-的-oauth2">带有 Spring Security 的 OAuth2</a></li>
+    <li><a href="#其他-spring-教程">其他 Spring 教程</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-的安全性">Spring 的安全性</h1>
+<p>正如您所期望的 那样，Spring Security<strong>教程</strong> 的重点是 Spring Security。</p>
+<p>如果您有兴趣构建注册流程并了解一些框架基础知识，请从注册系列开始。</p>
+<p>然后，深入探索身份验证和其他 Spring Security 内部。</p>
+<p>最后，看看一些更高级的主题，例如 OAuth 支持。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/wp-content/uploads/2018/05/registration-series-icon-k.png"
+        data-srcset="/wp-content/uploads/2018/05/registration-series-icon-k.png, /wp-content/uploads/2018/05/registration-series-icon-k.png 1.5x, /wp-content/uploads/2018/05/registration-series-icon-k.png 2x"
+        data-sizes="auto"
+        alt="/wp-content/uploads/2018/05/registration-series-icon-k.png"
+        title="注册系列-图标" /></p>
+<h2 id="向-spring-security-注册spring-security-registration"><a href="/spring-security-registration" rel="">向 Spring Security 注册</a></h2>
+<ul>
+<li><strong><a href="/spring-security-registration" rel="">Spring Security 注册教程</a></strong>
+使用 Spring Security 构建注册流程。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/wp-content/uploads/2018/05/authentication-series-icon-k.png"
+        data-srcset="/wp-content/uploads/2018/05/authentication-series-icon-k.png, /wp-content/uploads/2018/05/authentication-series-icon-k.png 1.5x, /wp-content/uploads/2018/05/authentication-series-icon-k.png 2x"
+        data-sizes="auto"
+        alt="/wp-content/uploads/2018/05/authentication-series-icon-k.png"
+        title="认证系列-图标" /></p>
+<h2 id="使用-spring-security-进行身份验证spring-security-authentication-and-registration"><a href="/spring-security-authentication-and-registration" rel="">使用 Spring Security 进行身份验证</a></h2>
+<ul>
+<li><em><strong>*<a href="/spring-security-login" rel="">Spring Security 表单登录</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-basic-authentication" rel="">Spring Security - 基本身份验证</a>（流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-login-error-handling-localization" rel="">表单登录 - 错误处理和本地化</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-logout" rel="">登出</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring_redirect_after_login" rel="">登录后重定向到不同的页面</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-remember-me" rel="">记得我</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-authentication-provider" rel="">Spring Security 身份验证提供程序</a>*</strong></em></li>
+<li><em><strong>*<a href="/manually-set-user-authentication-spring-security" rel="">如何使用 Spring Security 手动验证用户身份</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-extra-login-fields" rel="">Spring Security 的额外登录字段</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-custom-authentication-failure-handler" rel="">Spring Security 自定义 AuthenticationFailureHandler</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-block-brute-force-authentication-attempts" rel="">使用 Spring Security 防止暴力验证尝试</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-login-react" rel="">带有 React 的 Spring Security 登录页面</a>*</strong></em></li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/wp-content/uploads/2018/05/core-spring-security-icon-k.png"
+        data-srcset="/wp-content/uploads/2018/05/core-spring-security-icon-k.png, /wp-content/uploads/2018/05/core-spring-security-icon-k.png 1.5x, /wp-content/uploads/2018/05/core-spring-security-icon-k.png 2x"
+        data-sizes="auto"
+        alt="/wp-content/uploads/2018/05/core-spring-security-icon-k.png"
+        title="核心 Spring Security - 图标" /></p>
+<h2 id="核心弹簧安全">核心弹簧安全</h2>
+<ul>
+<li><em><strong>*<a href="/spring-security-with-maven" rel="">使用 Maven 的 Spring 安全性</a>*</strong></em></li>
+<li><em><strong>*<a href="/get-user-in-spring-security" rel="">Spring Security 中检索用户信息</a> （流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-expressions" rel="">Spring 安全表达式简介</a>*</strong></em></li>
+<li><em><strong>*<a href="/security-none-filters-none-access-permitAll" rel="">Spring Security - 安全无，过滤器无，访问permitAll</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-session" rel="">会话管理</a> （流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-method-security" rel="">Spring方法安全性介绍</a>（普及）*</strong></em></li>
+<li><em><strong>*<a href="/spring-boot-security-autoconfiguration" rel="">Spring Boot 安全自动配置</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-5-default-password-encoder" rel="">Spring Security 5 中的默认密码编码器</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-registered-filters" rel="">查找已注册的 Spring Security 过滤器</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-security-cors-preflight" rel="">使用 CORS Preflights 和 Spring Security 修复 401</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-prevent-xss" rel="">防止 Spring 应用程序中的跨站点脚本 (XSS)</a>*</strong></em></li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/wp-content/uploads/2018/05/oauth2-spring-icon-k.png"
+        data-srcset="/wp-content/uploads/2018/05/oauth2-spring-icon-k.png, /wp-content/uploads/2018/05/oauth2-spring-icon-k.png 1.5x, /wp-content/uploads/2018/05/oauth2-spring-icon-k.png 2x"
+        data-sizes="auto"
+        alt="/wp-content/uploads/2018/05/oauth2-spring-icon-k.png"
+        title="Oauth 春天-图标" /></p>
+<h2 id="带有-spring-security-的-oauth2">带有 Spring Security 的 OAuth2</h2>
+<ul>
+<li><strong><a href="/spring-security-oauth" rel="">Spring Security OAuth 2 指南</a></strong>
+通过 Spring Security 了解 OAuth2，同时使用 Spring Security 5 堆栈以及 Spring Security OAuth 遗留堆栈。</li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/wp-content/uploads/2018/05/other-spring-tutorials-icon-k.png"
+        data-srcset="/wp-content/uploads/2018/05/other-spring-tutorials-icon-k.png, /wp-content/uploads/2018/05/other-spring-tutorials-icon-k.png 1.5x, /wp-content/uploads/2018/05/other-spring-tutorials-icon-k.png 2x"
+        data-sizes="auto"
+        alt="/wp-content/uploads/2018/05/other-spring-tutorials-icon-k.png"
+        title="其他 Spring 教程 - 图标" /></p>
+<h2 id="其他-spring-教程">其他 Spring 教程</h2>
+<ul>
+<li><strong><a href="/rest-with-spring-series/" rel="">REST with Spring 教程</a></strong>
+如何使用 Spring 构建 REST 服务</li>
+<li><strong><a href="/persistence-with-spring-series/" rel="">Persistence with Spring Tutorial</a></strong>
+如何使用 Spring 和 Hibernate、JPA、Spring Data 等构建应用程序的持久层</li>
+<li><strong><a href="/spring-exceptions" rel="">Spring Exceptions Tutorial Spring</a></strong>
+中的常见异常以及示例——它们为什么会发生以及如何快速解决它们</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/security-spring/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/security-spring/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/security-spring/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/security-spring/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/security-spring/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring-annotations-resource-inject-autowire/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/securing-a-restful-web-service-with-spring-security/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

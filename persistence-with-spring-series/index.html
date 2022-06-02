@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="Spring 持久性教程 Spring 和 JPA/休眠 *休眠 5 与 Spring* *在 Spring Boot 中以编程方式配置数据源* *与 Spring 和 JPA 的事务 （流行）* *Spring中的事务传播和隔离@Tran" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/persistence-with-spring-series/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Spring 持久性教程 Spring 和 JPA/休眠 *休眠 5 与 Spring* *在 Spring Boot 中以编程方式配置数据源* *与 Spring 和 JPA 的事务 （流行）* *Spring中的事务传播和隔离@Tran"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/persistence-with-spring-series/" /><link rel="prev" href="http://itcodingman.github.io/project-configuration-with-spring/" /><link rel="next" href="http://itcodingman.github.io/entity-to-and-from-dto-for-a-java-spring-application/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/persistence-with-spring-series\/"
+        },"genre": "posts","wordcount":  705 ,
+        "url": "http:\/\/itcodingman.github.io\/persistence-with-spring-series\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;705 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#spring-和-jpa休眠">Spring 和 JPA/休眠</a></li>
+    <li><a href="#春季数据-jpa">春季数据 JPA</a></li>
+    <li><a href="#其他-spring-持久性技术">其他 Spring 持久性技术</a></li>
+    <li><a href="#春季数据-mongodb">春季数据 MongoDB</a></li>
+    <li><a href="#其他-spring-教程">其他 Spring 教程</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-持久性教程">Spring 持久性教程</h1>
+<h2 id="spring-和-jpa休眠">Spring 和 JPA/休眠</h2>
+<ul>
+<li><em><strong>*<a href="/hibernate-5-spring" rel="">休眠 5 与 Spring</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-boot-configure-data-source-programmatic" rel="">在 Spring Boot 中以编程方式配置数据源</a>*</strong></em></li>
+<li><em><strong>*<a href="/transaction-configuration-with-jpa-and-spring" rel="">与 Spring 和 JPA 的事务</a> （流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-transactional-propagation-isolation" rel="">Spring中的事务传播和隔离@Transactional</a> （流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-programmatic-transaction-management" rel="">Spring中的程序化事务管理</a>*</strong></em></li>
+<li><em><strong>*<a href="/jpa-hibernate-persistence-context" rel="">JPA/Hibernate 持久化上下文</a>*</strong></em></li>
+<li><em><strong>*<a href="/persistence-layer-with-spring-and-hibernate" rel="">带有 Spring 和 Hibernate 的 DAO</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-dao-jpa" rel="">JPA 和 Spring 的 DAO</a>*</strong></em></li>
+<li><em><strong>*<a href="/simplifying-the-data-access-layer-with-spring-and-java-generics" rel="">使用 Spring 和 Java 泛型简化 DAO</a>*</strong></em></li>
+<li><em><strong>*<a href="/sql-logging-spring-boot" rel="">显示来自 Spring Boot 的 Hibernate/JPA SQL 语句</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-boot-data-sql-and-schema-sql" rel="">使用 Spring Boot 加载初始数据的快速指南</a>*</strong></em></li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/wp-content/uploads/2018/09/icon_the_dao.png"
+        data-srcset="/wp-content/uploads/2018/09/icon_the_dao.png, /wp-content/uploads/2018/09/icon_the_dao.png 1.5x, /wp-content/uploads/2018/09/icon_the_dao.png 2x"
+        data-sizes="auto"
+        alt="/wp-content/uploads/2018/09/icon_the_dao.png"
+        title="DAO - 图标" /></p>
+<h2 id="春季数据-jpa">春季数据 JPA</h2>
+<ul>
+<li><em><strong>*<a href="/the-persistence-layer-with-spring-and-jpa" rel="">带有 Spring Setup 的 JPA</a>（流行）*</strong></em></li>
+<li><em><strong>*<a href="/the-persistence-layer-with-spring-data-jpa" rel="">Spring Data JPA 简介</a> （通俗）*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-jpa-query" rel="">Spring Data JPA @Query</a> （流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-jpa-modifying-annotation" rel="">Spring Data JPA @Modifying 注解</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-crud-repository-save" rel="">Spring Data – CrudRepository save() 方法</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-derived-queries" rel="">Spring Data JPA Repositories 中的派生查询方法</a>（流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-jpa-delete" rel="">Spring Data JPA 删除和关系</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-jpa-null-parameters" rel="">Spring Data JPA 和 Null 参数 </a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-boot-h2-database" rel="">带有 H2 数据库的 Spring Boot</a> （流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-disable-auto-config" rel="">禁用 Spring Data 自动配置</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-jpa-dynamicupdate" rel="">@DynamicUpdate 与 Spring Data JPA </a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-jpa-like-queries" rel="">Spring JPA 存储库中的 LIKE 查询</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-jpa-query-by-date" rel="">使用 Spring Data JPA 按日期和时间查询实体</a>*</strong></em></li>
+<li><em><strong>*<a href="/jpa-limit-query-results" rel="">使用 JPA 和 Spring Data JPA 限制查询结果</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-jpa-pagination-sorting" rel="">使用 Spring Data JPA 进行分页和排序</a> （流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-sorting" rel="">使用 Spring Data 对查询结果进行排序</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-jpa-stored-procedures" rel="">从 Spring Data JPA 存储库调用存储过程</a>*</strong></em></li>
+<li><em><strong>*<a href="/database-auditing-jpa" rel="">使用 JPA、Hibernate 和 Spring Data JPA 进行审计</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-save-saveall" rel="">Spring Data 中 save() 和 saveAll() 的性能差异</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-jpa-soft-delete" rel="">如何使用 Spring JPA 实现软删除</a>*</strong></em></li>
+<li><em><strong>*<a href="/jpa-get-auto-generated-id" rel="">使用 JPA 返回自动生成的 ID</a>*</strong></em></li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/wp-content/uploads/2018/09/icon_advanced_persistence.png"
+        data-srcset="/wp-content/uploads/2018/09/icon_advanced_persistence.png, /wp-content/uploads/2018/09/icon_advanced_persistence.png 1.5x, /wp-content/uploads/2018/09/icon_advanced_persistence.png 2x"
+        data-sizes="auto"
+        alt="/wp-content/uploads/2018/09/icon_advanced_persistence.png"
+        title="高级持久性 - 图标" /></p>
+<h2 id="其他-spring-持久性技术">其他 Spring 持久性技术</h2>
+<ul>
+<li><em><strong>*<a href="/liquibase-refactor-schema-of-java-app" rel="">使用 Liquibase 安全地发展您的数据库架构</a>*</strong></em></li>
+<li><em><strong>*<a href="/liquibase-rollback" rel="">Liquibase 回滚简介</a>*</strong></em></li>
+<li><em><strong>*<a href="/database-migrations-with-flyway" rel="">使用 Flyway 进行数据库迁移</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-dynamodb" rel="">使用 Spring Data 的 Spring Boot 应用程序中的 DynamoDB</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-mybatis" rel="">MyBatis 与 Spring</a>*</strong></em></li>
+<li><em><strong>*<a href="/kotlin-jpa" rel="">使用 Kotlin 和 JPA</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-jdbc-jdbctemplate" rel="">Spring JDBC</a>（流行）*</strong></em></li>
+<li><em><strong>*<a href="/spring-jdbctemplate-in-list" rel="">在 JdbcTemplate IN 子句中使用值列表</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-rest-intro" rel="">Spring Data REST 简介</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-jdbc-intro" rel="">Spring Data JDBC简介</a>*</strong></em></li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/wp-content/uploads/2018/09/icon_spring-_mongodb-1-1.png"
+        data-srcset="/wp-content/uploads/2018/09/icon_spring-_mongodb-1-1.png, /wp-content/uploads/2018/09/icon_spring-_mongodb-1-1.png 1.5x, /wp-content/uploads/2018/09/icon_spring-_mongodb-1-1.png 2x"
+        data-sizes="auto"
+        alt="/wp-content/uploads/2018/09/icon_spring-_mongodb-1-1.png"
+        title="Spring MongoDB - 图标" /></p>
+<h2 id="春季数据-mongodb">春季数据 MongoDB</h2>
+<ul>
+<li><em><strong>*<a href="/spring-data-mongodb-tutorial" rel="">Spring Data MongoDB 简介</a>*</strong></em></li>
+<li><em><strong>*<a href="/queries-in-spring-data-mongodb" rel="">Spring Data MongoDB 中的查询指南</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-mongodb-index-annotations-converter" rel="">Spring Data MongoDB——索引、注释和转换器</a>*</strong></em></li>
+<li><em><strong>*<a href="/cascading-with-dbref-and-lifecycle-events-in-spring-data-mongodb" rel="">Spring Data MongoDB 中的自定义级联</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-mongodb-reactive" rel="">Spring Data Reactive Repositories with MongoDB</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-boot-embedded-mongodb" rel="">使用嵌入式 MongoDB 进行 Spring Boot 集成测试</a>*</strong></em></li>
+<li><em><strong>*<a href="/spring-data-mongodb-transactions" rel="">Spring Data MongoDB 事务</a>*</strong></em></li>
+</ul>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/wp-content/uploads/2018/09/icon_other_spring_tutorials.png"
+        data-srcset="/wp-content/uploads/2018/09/icon_other_spring_tutorials.png, /wp-content/uploads/2018/09/icon_other_spring_tutorials.png 1.5x, /wp-content/uploads/2018/09/icon_other_spring_tutorials.png 2x"
+        data-sizes="auto"
+        alt="/wp-content/uploads/2018/09/icon_other_spring_tutorials.png"
+        title="其他春季教程 - 图标" /></p>
+<h2 id="其他-spring-教程">其他 Spring 教程</h2>
+<ul>
+<li><strong><a href="/rest-with-spring-series/" rel="">REST with Spring 教程</a></strong>
+如何使用 Spring 构建 REST 服务</li>
+<li><strong><a href="/spring-exceptions" rel="">Spring 异常教程 Spring</a></strong>
+中一些最常见的异常示例——为什么会发生以及如何快速解决它们</li>
+<li><strong><a href="/security-spring" rel="">Spring</a></strong>
+的安全性如何保护 MVC 项目、登录和注销、如何使用 OAuth 保护 REST 服务。</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/persistence-with-spring-series/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/persistence-with-spring-series/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/persistence-with-spring-series/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/persistence-with-spring-series/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/persistence-with-spring-series/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/project-configuration-with-spring/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/entity-to-and-from-dto-for-a-java-spring-application/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

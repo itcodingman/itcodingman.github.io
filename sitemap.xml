@@ -20,11 +20,32 @@
             <loc>http://itcodingman.github.io/tags/authentication/</loc><lastmod>2022-05-27T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/categories/spring-security/</loc><lastmod>2022-05-27T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</loc><lastmod>2022-05-27T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/pagination/</loc><lastmod>2022-05-26T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/rest-api-pagination-in-spring/</loc><lastmod>2022-05-26T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/pagination/</loc><lastmod>2022-05-26T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://itcodingman.github.io/rest-api-pagination-in-spring/</loc><lastmod>2022-05-26T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>http://itcodingman.github.io/tags/spring-5/</loc><lastmod>2022-05-25T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>http://itcodingman.github.io/bootstraping-a-web-application-with-spring-and-java-based-configuration/</loc><lastmod>2022-05-25T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>http://itcodingman.github.io/tags/hibernate/</loc><lastmod>2022-05-24T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>http://itcodingman.github.io/categories/spring-persistence/</loc><lastmod>2022-05-24T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
             <loc>http://itcodingman.github.io/hibernate-5-spring/</loc><lastmod>2022-05-24T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url><url>
+            <loc>http://itcodingman.github.io/building-a-restful-web-service-with-spring-and-java-based-configuration/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/entity-to-and-from-dto-for-a-java-spring-application/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/persistence-with-spring-series/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/project-configuration-with-spring/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/properties-with-spring/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/securing-a-restful-web-service-with-spring-security/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/security-spring/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-annotations-resource-inject-autowire/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-autowire/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-bean-annotations/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-bean-scopes/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-bean/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-boot-max-http-header-size/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-component-repository-service/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-controller-vs-restcontroller/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-core-annotations/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-dao-jpa/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-data-cassandra-tutorial/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-data-cassandratemplate-cqltemplate/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-data-jpa-multiple-databases/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-data-mongodb-guide/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/search/</loc><changefreq>weekly</changefreq><priority>0.1</priority></url></urlset>
