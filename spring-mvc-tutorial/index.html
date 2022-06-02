@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="Spring MVC 教程 一、概述 这是一个简单的Spring MVC 教程，展示了如何使用基于 Java 的配置以及 XML 配置来设置 Spring MVC 项目。 Spring MVC 项目的 Maven 依赖项在Spring MVC 依赖" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring-mvc-tutorial/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Spring MVC 教程 一、概述 这是一个简单的Spring MVC 教程，展示了如何使用基于 Java 的配置以及 XML 配置来设置 Spring MVC 项目。 Spring MVC 项目的 Maven 依赖项在Spring MVC 依赖"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring-mvc-tutorial/" /><link rel="prev" href="http://itcodingman.github.io/spring-mvc-view-resolver-tutorial/" /><link rel="next" href="http://itcodingman.github.io/spring-mvc-model-model-map-model-view/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring-mvc-tutorial\/"
+        },"genre": "posts","wordcount":  1666 ,
+        "url": "http:\/\/itcodingman.github.io\/spring-mvc-tutorial\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1666 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述"><strong>一、概述</strong></a></li>
+    <li><a href="#2什么是spring-mvc"><strong>2.什么是Spring MVC？</strong></a></li>
+    <li><a href="#3-spring-mvc-使用-java-配置"><strong>3. Spring MVC 使用 Java 配置</strong></a></li>
+    <li><a href="#4-spring-mvc-使用-xml-配置"><strong>4.</strong> <strong>Spring MVC 使用 XML 配置</strong></a></li>
+    <li><a href="#5控制器和视图"><strong>5.控制器和视图</strong></a></li>
+    <li><a href="#6-带引导的-spring-mvc"><strong>6. 带引导的 Spring MVC</strong></a>
+      <ul>
+        <li><a href="#61spring-boot-启动器"><strong>6.1。Spring Boot 启动器</strong></a></li>
+        <li><a href="#62-spring-boot-入口点"><strong>6.2. Spring Boot 入口点</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-结论"><strong>7. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-mvc-教程">Spring MVC 教程</h1>
+<h2 id="一概述"><strong>一、概述</strong></h2>
+<p>这是一个简单的<strong>Spring MVC 教程</strong>，展示了如何使用基于 Java 的配置以及 XML 配置来设置 Spring MVC 项目。</p>
+<p>Spring MVC 项目的 Maven 依赖项在<a href="https://www.baeldung.com/spring-with-maven#mvc" target="_blank" rel="noopener noreffer">Spring MVC 依赖项</a>文章中有详细描述。</p>
+<h2 id="2什么是spring-mvc"><strong>2.什么是Spring MVC？</strong></h2>
+<p>顾名思义，**它是 Spring 框架的一个模块，处理 Model-View-Controller 或 MVC 模式。**它结合了 MVC 模式的所有优点和 Spring 的便利性。</p>
+<p>Spring使用其<a href="https://www.baeldung.com/spring-controllers#Overview" target="_blank" rel="noopener noreffer"><em>DispatcherServlet</em></a><a href="https://www.baeldung.com/spring-controllers#Overview" target="_blank" rel="noopener noreffer">以前端控制器模式</a>实现 MVC 。</p>
+<p>简而言之，<em>DispatcherServlet</em>充当主控制器，将请求路由到其预期目的地。模型只不过是我们应用程序的数据，视图由<a href="https://www.baeldung.com/spring-template-engines" target="_blank" rel="noopener noreffer">各种模板引擎</a>中的任何一个表示。</p>
+<p>稍后我们将在示例中查看 JSP。</p>
+<h2 id="3-spring-mvc-使用-java-配置"><strong>3. Spring MVC 使用 Java 配置</strong></h2>
+<p>要通过 Java 配置类启用 Spring MVC 支持，我们只需<strong>添加*@EnableWebMvc*注解</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@EnableWebMvc</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">/// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>这将为 MVC 项目设置我们所需的基本支持，例如注册控制器和映射、类型转换器、验证支持、消息转换器和异常处理。</p>
+<p><strong>如果我们想自定义这个配置，我们需要实现*WebMvcConfigurer*接口</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@EnableWebMvc</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebConfig</span> <span class="kd">implements</span> <span class="n">WebMvcConfigurer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addViewControllers</span><span class="o">(</span><span class="n">ViewControllerRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">registry</span><span class="o">.</span><span class="na">addViewController</span><span class="o">(</span><span class="s">&#34;/&#34;</span><span class="o">).</span><span class="na">setViewName</span><span class="o">(</span><span class="s">&#34;index&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="n">ViewResolver</span> <span class="nf">viewResolver</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">InternalResourceViewResolver</span> <span class="n">bean</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InternalResourceViewResolver</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="n">bean</span><span class="o">.</span><span class="na">setViewClass</span><span class="o">(</span><span class="n">JstlView</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">bean</span><span class="o">.</span><span class="na">setPrefix</span><span class="o">(</span><span class="s">&#34;/WEB-INF/view/&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="n">bean</span><span class="o">.</span><span class="na">setSuffix</span><span class="o">(</span><span class="s">&#34;.jsp&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">bean</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，我们注册了一个<em>ViewResolver</em> bean，它将从*/WEB-INF/view<em>目录返回</em>.jsp视图。*</p>
+<p>这里非常重要的是，我们可以注册视图控制器， 使用<em>ViewControllerRegistry</em><strong>在 URL 和视图名称之间创建直接映射</strong>。这样，两者之间就不需要任何控制器了。</p>
+<p>如果我们还想定义和扫描控制器类，我们可以在包含控制器的包中添加*@ComponentScan注释：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@EnableWebMvc</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ComponentScan</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&#34;com.baeldung.web.controller&#34;</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebConfig</span> <span class="kd">implements</span> <span class="n">WebMvcConfigurer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>要引导加载此配置的应用程序，我们还需要一个初始化程序类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainWebAppInitializer</span> <span class="kd">implements</span> <span class="n">WebApplicationInitializer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStartup</span><span class="o">(</span><span class="kd">final</span> <span class="n">ServletContext</span> <span class="n">sc</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ServletException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">AnnotationConfigWebApplicationContext</span> <span class="n">root</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">          <span class="k">new</span> <span class="n">AnnotationConfigWebApplicationContext</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">root</span><span class="o">.</span><span class="na">scan</span><span class="o">(</span><span class="s">&#34;com.baeldung&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sc</span><span class="o">.</span><span class="na">addListener</span><span class="o">(</span><span class="k">new</span> <span class="n">ContextLoaderListener</span><span class="o">(</span><span class="n">root</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">ServletRegistration</span><span class="o">.</span><span class="na">Dynamic</span> <span class="n">appServlet</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">          <span class="n">sc</span><span class="o">.</span><span class="na">addServlet</span><span class="o">(</span><span class="s">&#34;mvc&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">DispatcherServlet</span><span class="o">(</span><span class="k">new</span> <span class="n">GenericWebApplicationContext</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">appServlet</span><span class="o">.</span><span class="na">setLoadOnStartup</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">appServlet</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">&#34;/&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，对于 Spring 5 之前的版本，我们必须使用<em>WebMvcConfigurerAdapter</em>类而不是接口。</p>
+<h2 id="4-spring-mvc-使用-xml-配置"><strong>4.</strong> <strong>Spring MVC 使用 XML 配置</strong></h2>
+<p>除了上面的 Java 配置，我们还可以使用纯 XML 配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;context:component-scan</span> <span class="na">base-package=</span><span class="s">&#34;com.baeldung.web.controller&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;mvc:annotation-driven</span> <span class="nt">/&gt;</span>    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;viewResolver&#34;</span> 
+</span></span><span class="line"><span class="cl">      <span class="na">class=</span><span class="s">&#34;org.springframework.web.servlet.view.InternalResourceViewResolver&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;prefix&#34;</span> <span class="na">value=</span><span class="s">&#34;/WEB-INF/view/&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;suffix&#34;</span> <span class="na">value=</span><span class="s">&#34;.jsp&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/bean&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;mvc:view-controller</span> <span class="na">path=</span><span class="s">&#34;/&#34;</span> <span class="na">view-name=</span><span class="s">&#34;index&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/beans&gt;</span>
+</span></span></code></pre></div><p>如果我们想使用纯 XML 配置，我们还需要添加一个<em>web.xml</em>文件来引导应用程序。有关此方法的更多详细信息，请查看<a href="https://www.baeldung.com/spring-xml-vs-java-config" target="_blank" rel="noopener noreffer">我们之前的文章</a>。</p>
+<h2 id="5控制器和视图"><strong>5.控制器和视图</strong></h2>
+<p>让我们看一个基本控制器的示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SampleController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/sample&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">showForm</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;sample&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>而对应的JSP资源就是<em>sample.jsp</em>文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;html&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;head&gt;&lt;/head&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;body&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;h1&gt;</span>This is the body of the sample view<span class="nt">&lt;/h1&gt;</span>	
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/body&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/html&gt;</span>
+</span></span></code></pre></div><p>基于 JSP 的视图文件位于项目的 / <em>WEB-INF</em>文件夹下，因此它们只能由 Spring 基础架构访问，而不能通过直接 URL 访问。</p>
+<h2 id="6-带引导的-spring-mvc"><strong>6. 带引导的 Spring MVC</strong></h2>
+<p>Spring Boot 是对 Spring 平台的一个补充，它使得上手和创建独立的生产级应用程序变得非常容易。*<strong>Boot*并不是为了取代 Spring，而是为了让使用它变得更快、更容易。</strong></p>
+<h3 id="61spring-boot-启动器"><strong>6.1。Spring Boot 启动器</strong></h3>
+<p><strong>新框架提供了方便的启动依赖项，这些依赖项描述符</strong>可以为特定功能引入所有必要的技术。</p>
+<p>它们的优点是我们不再需要为每个依赖项指定一个版本，而是允许启动器为我们管理依赖项。</p>
+<p>最快的入门方法是添加<a href="https://search.maven.org/classic/#search%7cga%7c1%7ca%3A%22spring-boot-starter-parent%22" target="_blank" rel="noopener noreffer">spring-boot-starter-parent </a><em>pom.xml</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;parent&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-parent<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.6.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/parent&gt;</span>
+</span></span></code></pre></div><p>这将负责依赖管理。</p>
+<h3 id="62-spring-boot-入口点"><strong>6.2. Spring Boot 入口点</strong></h3>
+<p><em>使用Spring Boot</em>构建的每个应用程序只需要定义主入口点。</p>
+<p>这通常是一个带有<em>main</em>方法的 Java 类，用*@SpringBootApplication*注解：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootApplication</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">Application</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此注解添加了以下其他注解：</p>
+<ul>
+<li><em>@Configuration</em>将类标记为 bean 定义的来源。</li>
+<li><em>@EnableAutoConfiguration</em>告诉框架根据类路径上的依赖项自动添加 bean。</li>
+<li><em>@ComponentScan扫描与**Application</em>类或以下相同包中的其他配置和 bean 。</li>
+</ul>
+<p>使用 Spring Boot，我们可以使用 Thymeleaf 或 JSP 设置前端，而无需使用第 3 节中定义的 ViewResolver。通过向我们的 pom.xml 添加<em>spring-boot-starter-thymeleaf</em>依赖项，Thymeleaf 被启用，并且不需要额外的配置。</p>
+<p>Boot 应用程序的源代码一如既往<a href="https://github.com/eugenp/tutorials/tree/master/spring-boot-modules/spring-boot-bootstrap" target="_blank" rel="noopener noreffer">地在 GitHub 上</a>提供。</p>
+<p>最后，如果您想开始使用 Spring Boot，请在<a href="https://www.baeldung.com/spring-boot-start" target="_blank" rel="noopener noreffer">此处查看我们的参考介绍</a>。</p>
+<h2 id="7-结论"><strong>7. 结论</strong></h2>
+<p>在本文中，我们使用 Java 配置配置了一个简单而实用的 Spring MVC 项目。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring-mvc-tutorial/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring-mvc-tutorial/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring-mvc-tutorial/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring-mvc-tutorial/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring-mvc-tutorial/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring-mvc-view-resolver-tutorial/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/spring-mvc-model-model-map-model-view/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

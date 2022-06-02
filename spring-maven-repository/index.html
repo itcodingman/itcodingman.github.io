@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="Spring Maven 存储库 一、概述 本文将展示在项目中使用 Spring 工件时要使用的 Maven 存储库 - 请参阅Spring wiki上存储库的完整列表。以前的 SpringSource 工件管理基础设施是m" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring-maven-repository/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Spring Maven 存储库 一、概述 本文将展示在项目中使用 Spring 工件时要使用的 Maven 存储库 - 请参阅Spring wiki上存储库的完整列表。以前的 SpringSource 工件管理基础设施是m"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring-maven-repository/" /><link rel="prev" href="http://itcodingman.github.io/spring-mvc-and-the-modelattribute-annotation/" /><link rel="next" href="http://itcodingman.github.io/spring-jdbc-jdbctemplate/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring-maven-repository\/"
+        },"genre": "posts","wordcount":  664 ,
+        "url": "http:\/\/itcodingman.github.io\/spring-maven-repository\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;664 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述"><strong>一、概述</strong></a></li>
+    <li><a href="#2-maven-发布"><strong>2. Maven 发布</strong></a></li>
+    <li><a href="#3-maven-里程碑和候选版本"><strong>3. Maven 里程碑和候选版本</strong></a></li>
+    <li><a href="#4-maven-快照"><strong>4. Maven 快照</strong></a></li>
+    <li><a href="#5-spring-osgi-的-maven-存储库"><strong>5. Spring OSGI 的 Maven 存储库</strong></a></li>
+    <li><a href="#六结论"><strong>六，结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-maven-存储库">Spring Maven 存储库</h1>
+<h2 id="一概述"><strong>一、概述</strong></h2>
+<p>本文将展示在项目中使用 Spring 工件时要使用的 Maven 存储库 - 请参阅<a href="https://github.com/SpringSource/spring-framework/wiki/SpringSource-repository-FAQ#what-repositories-are-available" target="_blank" rel="noopener noreffer">Spring wiki</a>上存储库的完整列表。以前的 SpringSource 工件管理基础设施是<em>maven.springframework.org</em> - 现在已被弃用，取而代之的是更强大的<em>repo.spring.io</em>。</p>
+<h2 id="2-maven-发布"><strong>2. Maven 发布</strong></h2>
+<p>所有 GA/Release 工件都发布到 Maven Central，因此如果只需要发布，则无需在<em>pom</em>中添加任何新的 repo 。但是，如果由于某种原因 Central 不可用，也有一个<strong>可用于 Spring 版本</strong>的自定义、<a href="https://repo.spring.io/release/" target="_blank" rel="noopener noreffer">可浏览的 Maven 存储库：</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;repositories&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;repository&gt;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;id&gt;</span>repository.spring.release<span class="nt">&lt;/id&gt;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;name&gt;</span>Spring GA Repository<span class="nt">&lt;/name&gt;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;url&gt;</span>http://repo.spring.io/release<span class="nt">&lt;/url&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/repository&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/repositories&gt;</span>
+</span></span></code></pre></div><p>Spring 工件版本控制规则<a href="https://github.com/SpringSource/spring-framework/wiki/Downloading-Spring-artifacts#wiki-artifact_versioning" target="_blank" rel="noopener noreffer">在项目 wiki 上进行了</a>说明。</p>
+<p>里程碑和快照不会直接发布到 Maven Central，因此它们有自己特定的存储库。</p>
+<h2 id="3-maven-里程碑和候选版本"><strong>3. Maven 里程碑和候选版本</strong></h2>
+<p>对于里程碑和 RC，需要将以下 repo 添加到<em>pom</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;repositories&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;repository&gt;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;id&gt;</span>repository.spring.milestone<span class="nt">&lt;/id&gt;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;name&gt;</span>Spring Milestone Repository<span class="nt">&lt;/name&gt;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;url&gt;</span>http://repo.spring.io/milestone<span class="nt">&lt;/url&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/repository&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/repositories&gt;</span>
+</span></span></code></pre></div><p>已经定义了一个这个存储库，项目可以开始使用 Spring<a href="https://repo.spring.io/milestone/" target="_blank" rel="noopener noreffer">里程碑依赖项</a>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.2.0.RC3<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h2 id="4-maven-快照"><strong>4. Maven 快照</strong></h2>
+<p>与里程碑类似，Spring 快照托管在自定义存储库中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;repositories&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;repository&gt;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;id&gt;</span>repository.spring.snapshot<span class="nt">&lt;/id&gt;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;name&gt;</span>Spring Snapshot Repository<span class="nt">&lt;/name&gt;</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;url&gt;</span>http://repo.spring.io/snapshot<span class="nt">&lt;/url&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/repository&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/repositories&gt;</span>
+</span></span></code></pre></div><p>在 pom 中启用存储库后，项目可以开始使用 Spring 快照：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.2.5.BUILD-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>乃至：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.3.0.BUILD-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>现在还可以<a href="https://repo.spring.io/snapshot/" target="_blank" rel="noopener noreffer">浏览</a>快照存储库。</p>
+<h2 id="5-spring-osgi-的-maven-存储库"><strong>5. Spring OSGI 的 Maven 存储库</strong></h2>
+<p>OSGI 兼容的 Spring 工件在 SpringSource <a href="https://docs.spring.io/s2-dmserver/2.0.0.M5/user-guide/html/ch04s04.html" target="_blank" rel="noopener noreffer">Enterprise Bundle Repository</a>中维护- 简而言之，EBR。这些存储库包含整个 Spring Framework 的有效 OSGI 包和库，以及这些库的完整依赖项集。对于捆绑：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;repository&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>com.springsource.repository.bundles.release<span class="nt">&lt;/id&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases<span class="nt">&lt;/name&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;url&gt;</span>http://repository.springsource.com/maven/bundles/release<span class="nt">&lt;/url&gt;</span> 
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/repository&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;repository&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>com.springsource.repository.bundles.external<span class="nt">&lt;/id&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>SpringSource Enterprise Bundle Repository - External Bundle Releases<span class="nt">&lt;/name&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;url&gt;</span>http://repository.springsource.com/maven/bundles/external<span class="nt">&lt;/url&gt;</span> 
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/repository&gt;</span>
+</span></span></code></pre></div><p>对于 OSGI 兼容库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;repository&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>com.springsource.repository.libraries.release<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>SpringSource Enterprise Bundle Repository - SpringSource Library Releases<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;url&gt;</span>http://repository.springsource.com/maven/libraries/release<span class="nt">&lt;/url&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/repository&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;repository&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>com.springsource.repository.libraries.external<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>SpringSource Enterprise Bundle Repository - External Library Releases<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;url&gt;</span>http://repository.springsource.com/maven/libraries/external<span class="nt">&lt;/url&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/repository&gt;</span>
+</span></span></code></pre></div><p>注意：<strong>SpringSource EBR 现在是只读的</strong>，不再发布 Spring Framework 3.2.x 版本。</p>
+<h2 id="六结论"><strong>六，结论</strong></h2>
+<p>本文描述了有关在<em>pom</em>中设置 Spring 特定的 Maven 存储库的实用信息——以便使用候选版本、里程碑和快照。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring-maven-repository/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring-maven-repository/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring-maven-repository/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring-maven-repository/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring-maven-repository/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring-mvc-and-the-modelattribute-annotation/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/spring-jdbc-jdbctemplate/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

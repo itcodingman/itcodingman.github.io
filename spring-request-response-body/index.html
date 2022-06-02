@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="Spring 的 RequestBody 和 ResponseBody 注解 一、简介 在这个快速教程中，我们简要概述了 Spring @RequestBody和*@ResponseBody*注释。 进一步阅读： Spring 处理程序" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring-request-response-body/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Spring 的 RequestBody 和 ResponseBody 注解 一、简介 在这个快速教程中，我们简要概述了 Spring @RequestBody和*@ResponseBody*注释。 进一步阅读： Spring 处理程序"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring-request-response-body/" /><link rel="prev" href="http://itcodingman.github.io/spring-requestmapping/" /><link rel="next" href="http://itcodingman.github.io/spring-request-param/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring-request-response-body\/"
+        },"genre": "posts","wordcount":  1276 ,
+        "url": "http:\/\/itcodingman.github.io\/spring-request-response-body\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1276 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一简介"><strong>一、简介</strong></a></li>
+    <li><a href="#进一步阅读">进一步阅读：</a></li>
+    <li><a href="#spring-处理程序映射指南httpswwwbaeldungcomspring-handler-mappings"><a href="https://www.baeldung.com/spring-handler-mappings">Spring 处理程序映射指南</a></a></li>
+    <li><a href="#spring-控制器快速指南httpswwwbaeldungcomspring-controllers"><a href="https://www.baeldung.com/spring-controllers">Spring 控制器快速指南</a></a></li>
+    <li><a href="#spring-controller-和-restcontroller-注解httpswwwbaeldungcomspring-controller-vs-restcontroller"><a href="https://www.baeldung.com/spring-controller-vs-restcontroller">Spring @Controller 和 @RestController 注解</a></a></li>
+    <li><a href="#2-requestbody"><strong>2. *@RequestBody*</strong></a></li>
+    <li><a href="#3-responsebody"><strong>3. *@ResponseBody*</strong></a>
+      <ul>
+        <li><a href="#31设置内容类型">3.1。设置内容类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#4结论"><strong>4。结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-的-requestbody-和-responsebody-注解">Spring 的 RequestBody 和 ResponseBody 注解</h1>
+<h2 id="一简介"><strong>一、简介</strong></h2>
+<p>在这个快速教程中，我们简要概述了 Spring <em>@RequestBody</em>和*@ResponseBody*注释。</p>
+<h2 id="进一步阅读">进一步阅读：</h2>
+<h2 id="spring-处理程序映射指南httpswwwbaeldungcomspring-handler-mappings"><a href="https://www.baeldung.com/spring-handler-mappings" target="_blank" rel="noopener noreffer">Spring 处理程序映射指南</a></h2>
+<p>本文解释了 HandlerMapping 实现如何将 URL 解析为特定的 Handler。</p>
+<p><a href="https://www.baeldung.com/spring-handler-mappings" target="_blank" rel="noopener noreffer">阅读更多</a>→</p>
+<h2 id="spring-控制器快速指南httpswwwbaeldungcomspring-controllers"><a href="https://www.baeldung.com/spring-controllers" target="_blank" rel="noopener noreffer">Spring 控制器快速指南</a></h2>
+<p>Spring 控制器的快速实用指南 - 适用于典型的 MVC 应用程序和 REST API。</p>
+<p><a href="https://www.baeldung.com/spring-controllers" target="_blank" rel="noopener noreffer">阅读更多</a>→</p>
+<h2 id="spring-controller-和-restcontroller-注解httpswwwbaeldungcomspring-controller-vs-restcontroller"><a href="https://www.baeldung.com/spring-controller-vs-restcontroller" target="_blank" rel="noopener noreffer">Spring @Controller 和 @RestController 注解</a></h2>
+<p>了解 Spring MVC 中 @Controller 和 @RestController 注解的区别。</p>
+<p><a href="https://www.baeldung.com/spring-controller-vs-restcontroller" target="_blank" rel="noopener noreffer">阅读更多</a>→</p>
+<h2 id="2-requestbody"><strong>2. *@RequestBody*</strong></h2>
+<p>简单地说，<strong>@ *RequestBody*注释将*HttpRequest*主体映射到传输或域对象，从而</strong>将入站<em>HttpRequest</em>主体自动反序列化到 Java 对象上。</p>
+<p>首先，我们来看一个 Spring 控制器方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/request&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span> <span class="nf">postController</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestBody</span> <span class="n">LoginForm</span> <span class="n">loginForm</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="n">exampleService</span><span class="o">.</span><span class="na">fakeAuthenticate</span><span class="o">(</span><span class="n">loginForm</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>假设指定了适当的类型，Spring 会自动将 JSON 反序列化为 Java 类型。</p>
+<p>默认情况下，<strong>我们使用*@RequestBody*注解注解的类型必须对应于从我们的客户端控制器发送的 JSON：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LoginForm</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">username</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">password</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，我们用来表示<em>HttpRequest</em>主体的对象映射到我们的<em>LoginForm</em>对象。</p>
+<p>让我们使用 CURL 进行测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-H <span class="s2">&#34;Accept: application/json&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-H <span class="s2">&#34;Content-Type:application/json&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-X POST --data 
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;{&#34;username&#34;: &#34;johnny&#34;, &#34;password&#34;: &#34;password&#34;}&#39;</span> <span class="s2">&#34;https://localhost:8080/.../request&#34;</span>
+</span></span></code></pre></div><p>这就是使用*@RequestBody*注解的 Spring REST API 和 Angular 客户端所需要的全部内容。</p>
+<h2 id="3-responsebody"><strong>3. *@ResponseBody*</strong></h2>
+<p>@ResponseBody注解告诉控制器<em>返回</em>的对象自动序列化为 JSON 并传回<em>HttpResponse</em>对象。</p>
+<p>假设我们有一个自定义的<em>Response</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResponseTransfer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">text</span><span class="o">;</span> 
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getters/setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，可以实现关联的控制器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/post&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExamplePostController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ExampleService</span> <span class="n">exampleService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/response&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">ResponseTransfer</span> <span class="nf">postResponseController</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nd">@RequestBody</span> <span class="n">LoginForm</span> <span class="n">loginForm</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseTransfer</span><span class="o">(</span><span class="s">&#34;Thanks For Posting!!!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">     <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在我们浏览器的开发者控制台中或者使用 Postman 之类的工具，我们可以看到如下响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">{&#34;text&#34;:&#34;Thanks For Posting!!!&#34;}
+</span></span></code></pre></div><p><em><em>请记住，我们不需要使用 @ResponseBody 注解来注解*@RestController-*注解的控制器，<strong>因为 Spring 默认</strong></em>会这样做。*</em>*</p>
+<h3 id="31设置内容类型">3.1。设置内容类型</h3>
+<p>当我们使用*@ResponseBody*注解时，我们仍然能够显式地设置我们的方法返回的内容类型。</p>
+<p>为此，**我们可以使用*@RequestMapping*的 *生产*属性。**请注意，<em>@PostMapping</em>、<em>@GetMapping</em>等注释定义了该参数的别名。</p>
+<p>现在让我们添加一个发送 JSON 响应的新端点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PostMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/content&#34;</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseTransfer</span> <span class="nf">postResponseJsonContent</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestBody</span> <span class="n">LoginForm</span> <span class="n">loginForm</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseTransfer</span><span class="o">(</span><span class="s">&#34;JSON Content!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在示例中，我们使用了<em>MediaType.APPLICATION_JSON_VALUE</em>常量。或者，我们可以直接使用<em>application/json</em>。</p>
+<p>接下来，让我们实现一个新方法，映射到相同的*/content*路径，但返回 XML 内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PostMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/content&#34;</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_XML_VALUE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseTransfer</span> <span class="nf">postResponseXmlContent</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestBody</span> <span class="n">LoginForm</span> <span class="n">loginForm</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseTransfer</span><span class="o">(</span><span class="s">&#34;XML Content!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，<strong>根据请求标头中发送的*Accept*参数的值，我们将得到不同的响应。</strong></p>
+<p>让我们看看它的实际效果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i <span class="se">\ </span>
+</span></span><span class="line"><span class="cl">-H <span class="s2">&#34;Accept: application/json&#34;</span> <span class="se">\ </span>
+</span></span><span class="line"><span class="cl">-H <span class="s2">&#34;Content-Type:application/json&#34;</span> <span class="se">\ </span>
+</span></span><span class="line"><span class="cl">-X POST --data 
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;{&#34;username&#34;: &#34;johnny&#34;, &#34;password&#34;: &#34;password&#34;}&#39;</span> <span class="s2">&#34;https://localhost:8080/.../content&#34;</span>
+</span></span></code></pre></div><p>CURL 命令返回 JSON 响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">HTTP/1.1 <span class="m">200</span>
+</span></span><span class="line"><span class="cl">Content-Type: application/json
+</span></span><span class="line"><span class="cl">Transfer-Encoding: chunked
+</span></span><span class="line"><span class="cl">Date: Thu, <span class="m">20</span> Feb <span class="m">2020</span> 19:43:06 GMT
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="s2">&#34;text&#34;</span>:<span class="s2">&#34;JSON Content!&#34;</span><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们更改<em>Accept</em>参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-H <span class="s2">&#34;Accept: application/xml&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-H <span class="s2">&#34;Content-Type:application/json&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>-X POST --data
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;{&#34;username&#34;: &#34;johnny&#34;, &#34;password&#34;: &#34;password&#34;}&#39;</span> <span class="s2">&#34;https://localhost:8080/.../content&#34;</span>
+</span></span></code></pre></div><p>正如预期的那样，这次我们得到了一个 XML 内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HTTP</span><span class="o">/</span><span class="n">1</span><span class="o">.</span><span class="na">1</span> <span class="n">200</span>
+</span></span><span class="line"><span class="cl"><span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="o">:</span> <span class="n">application</span><span class="o">/</span><span class="n">xml</span>
+</span></span><span class="line"><span class="cl"><span class="n">Transfer</span><span class="o">-</span><span class="n">Encoding</span><span class="o">:</span> <span class="n">chunked</span>
+</span></span><span class="line"><span class="cl"><span class="nl">Date:</span> <span class="n">Thu</span><span class="o">,</span> <span class="n">20</span> <span class="n">Feb</span> <span class="n">2020</span> <span class="n">19</span><span class="o">:</span><span class="n">43</span><span class="o">:</span><span class="n">19</span> <span class="n">GMT</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">ResponseTransfer</span><span class="o">&gt;&lt;</span><span class="n">text</span><span class="o">&gt;</span><span class="n">XML</span> <span class="n">Content</span><span class="o">!&lt;/</span><span class="n">text</span><span class="o">&gt;&lt;/</span><span class="n">ResponseTransfer</span><span class="o">&gt;</span>
+</span></span></code></pre></div><h2 id="4结论"><strong>4。结论</strong></h2>
+<p>我们为 Spring 应用构建了一个简单的 Angular 客户端，演示了如何使用*@RequestBody* 和*@ResponseBody*注释。</p>
+<p>此外，我们展示了如何在使用*@ResponseBody*时设置内容类型。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring-request-response-body/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring-request-response-body/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring-request-response-body/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring-request-response-body/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring-request-response-body/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring-requestmapping/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/spring-request-param/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

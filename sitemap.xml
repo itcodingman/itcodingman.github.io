@@ -83,4 +83,31 @@
             <loc>http://itcodingman.github.io/spring-data-cassandratemplate-cqltemplate/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/spring-data-jpa-multiple-databases/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/spring-data-mongodb-guide/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-exceptions/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-getbean/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-jdbc-jdbctemplate/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-maven-repository/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-mvc-and-the-modelattribute-annotation/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-mvc-annotations/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-mvc-form-tutorial/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-mvc-model-model-map-model-view/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-mvc-tutorial/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-mvc-view-resolver-tutorial/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-profiles/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-qualifier-annotation/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-request-param/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-request-response-body/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-requestmapping/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-security-authentication-and-registration/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-security-registration/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-security-with-maven/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-value-annotation/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-value-defaults/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-why-to-choose/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-with-maven/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/spring-xml-injection/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/the-persistence-layer-with-spring-and-jpa/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/the-persistence-layer-with-spring-data-jpa/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/thymeleaf-in-spring-mvc/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/transaction-configuration-with-jpa-and-spring/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/search/</loc><changefreq>weekly</changefreq><priority>0.1</priority></url></urlset>

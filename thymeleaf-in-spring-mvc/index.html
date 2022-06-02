@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="在 Spring 中使用 Thymeleaf 简介 一、概述 Thymeleaf是一个 Java 模板引擎，用于处理和创建 HTML、XML、JavaScript、CSS 和文本。 在本教程中，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/thymeleaf-in-spring-mvc/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在 Spring 中使用 Thymeleaf 简介 一、概述 Thymeleaf是一个 Java 模板引擎，用于处理和创建 HTML、XML、JavaScript、CSS 和文本。 在本教程中，"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/thymeleaf-in-spring-mvc/" /><link rel="prev" href="http://itcodingman.github.io/transaction-configuration-with-jpa-and-spring/" /><link rel="next" href="http://itcodingman.github.io/the-persistence-layer-with-spring-data-jpa/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/thymeleaf-in-spring-mvc\/"
+        },"genre": "posts","wordcount":  2762 ,
+        "url": "http:\/\/itcodingman.github.io\/thymeleaf-in-spring-mvc\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2762 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述"><strong>一、概述</strong></a></li>
+    <li><a href="#2-将-thymeleaf-与-spring-集成"><strong>2. 将 Thymeleaf 与 Spring 集成</strong></a></li>
+    <li><a href="#3-spring-boot-中的-thymeleaf">3. <strong>Spring Boot 中的 Thymeleaf</strong></a></li>
+    <li><a href="#4-显示来自消息源属性文件的值"><strong>4. 显示来自消息源（属性文件）的值</strong></a></li>
+    <li><a href="#5-显示模型属性"><strong>5. 显示模型属性</strong></a>
+      <ul>
+        <li><a href="#51简单属性"><strong>5.1。简单属性</strong></a></li>
+        <li><a href="#52-集合属性"><strong>5.2. 集合属性</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#6条件评估"><strong>6.条件评估</strong></a>
+      <ul>
+        <li><a href="#61如果和除非"><strong>6.1。*如果*和*除非*</strong></a></li>
+        <li><a href="#62-开关和外壳"><strong>6.2. *开关*和*外壳*</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-处理用户输入"><strong>7. 处理用户输入</strong></a></li>
+    <li><a href="#8-显示验证错误"><strong>8. 显示验证错误</strong></a></li>
+    <li><a href="#9-使用转换"><strong>9. 使用转换</strong></a></li>
+    <li><a href="#10-结论"><strong>10. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="在-spring-中使用-thymeleaf-简介">在 Spring 中使用 Thymeleaf 简介</h1>
+<h2 id="一概述"><strong>一、概述</strong></h2>
+<p><a href="http://www.thymeleaf.org/" target="_blank" rel="noopener noreffer">Thymeleaf</a>是一个 Java 模板引擎，用于处理和创建 HTML、XML、JavaScript、CSS 和文本。</p>
+<p>在本教程中，我们将讨论<strong>如何在 Spring MVC 应用程序的视图层中使用 Thymeleaf</strong>以及一些基本用例。</p>
+<p>该库具有极强的可扩展性，其自然的模板功能确保我们可以在没有后端的情况下制作模板原型。与其他流行的模板引擎（例如 JSP）相比，这使得开发速度非常快。</p>
+<h2 id="2-将-thymeleaf-与-spring-集成"><strong>2. 将 Thymeleaf 与 Spring 集成</strong></h2>
+<p>首先，让我们看看与 Spring 集成所需的配置。集成需要thymeleaf <em>-spring</em>库。</p>
+<p>我们将以下依赖项添加到我们的 Maven POM 文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.thymeleaf<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>thymeleaf<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.0.11.RELEASE<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.thymeleaf<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>thymeleaf-spring5<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.0.11.RELEASE<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>请注意，对于 Spring 4 项目，我们必须使用<em>thymeleaf-spring4</em>库而不是<em>thymeleaf-spring5</em>。</p>
+<p>SpringTemplateEngine<em>类</em>执行所有配置步骤。</p>
+<p>我们可以在 Java 配置文件中将这个类配置为 bean：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Description</span><span class="o">(</span><span class="s">&#34;Thymeleaf Template Resolver&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ServletContextTemplateResolver</span> <span class="nf">templateResolver</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ServletContextTemplateResolver</span> <span class="n">templateResolver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServletContextTemplateResolver</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">templateResolver</span><span class="o">.</span><span class="na">setPrefix</span><span class="o">(</span><span class="s">&#34;/WEB-INF/views/&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">templateResolver</span><span class="o">.</span><span class="na">setSuffix</span><span class="o">(</span><span class="s">&#34;.html&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">templateResolver</span><span class="o">.</span><span class="na">setTemplateMode</span><span class="o">(</span><span class="s">&#34;HTML5&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">templateResolver</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Description</span><span class="o">(</span><span class="s">&#34;Thymeleaf Template Engine&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">SpringTemplateEngine</span> <span class="nf">templateEngine</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SpringTemplateEngine</span> <span class="n">templateEngine</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpringTemplateEngine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">templateEngine</span><span class="o">.</span><span class="na">setTemplateResolver</span><span class="o">(</span><span class="n">templateResolver</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">templateEngine</span><span class="o">.</span><span class="na">setTemplateEngineMessageSource</span><span class="o">(</span><span class="n">messageSource</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">templateEngine</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>templateResolver</em> bean 属性<em>前缀</em>和<em>后缀分别指示**webapp</em>目录中视图页面的位置及其文件扩展名。</p>
+<p>Spring MVC 中的<em>ViewResolver</em>接口将控制器返回的视图名称映射到实际的视图对象。<em>ThymeleafViewResolver</em>实现<em>ViewResolver</em>接口，它用于确定要呈现哪些 Thymeleaf 视图，给定视图名称。</p>
+<p>集成的最后一步是将<em>ThymeleafViewResolver</em>添加为 bean：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Description</span><span class="o">(</span><span class="s">&#34;Thymeleaf View Resolver&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ThymeleafViewResolver</span> <span class="nf">viewResolver</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ThymeleafViewResolver</span> <span class="n">viewResolver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThymeleafViewResolver</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">viewResolver</span><span class="o">.</span><span class="na">setTemplateEngine</span><span class="o">(</span><span class="n">templateEngine</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">viewResolver</span><span class="o">.</span><span class="na">setOrder</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">viewResolver</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="3-spring-boot-中的-thymeleaf">3. <strong>Spring Boot 中的 Thymeleaf</strong></h2>
+<p><em>Spring Boot</em>通过添加<a href="https://search.maven.org/classic/#search%7cga%7c1%7ca%3A%22spring-boot-starter-thymeleaf%22" target="_blank" rel="noopener noreffer"><em>spring-boot-starter-thymeleaf</em></a>依赖项为<em>Thymeleaf</em>提供自动配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-thymeleaf<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.3.3.RELEASE<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>无需显式配置。默认情况下，HTML 文件应放置在<em>资源/模板</em> 位置。</p>
+<h2 id="4-显示来自消息源属性文件的值"><strong>4. 显示来自消息源（属性文件）的值</strong></h2>
+<p>我们可以使用*th:text=”#{key}”*标签属性来显示属性文件中的值。</p>
+<p>为此，我们需要将属性文件配置为<em>messageSource</em> bean：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Description</span><span class="o">(</span><span class="s">&#34;Spring Message Resolver&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResourceBundleMessageSource</span> <span class="nf">messageSource</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ResourceBundleMessageSource</span> <span class="n">messageSource</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ResourceBundleMessageSource</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messageSource</span><span class="o">.</span><span class="na">setBasename</span><span class="o">(</span><span class="s">&#34;messages&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">messageSource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>这是 Thymeleaf HTML 代码，用于显示与键welcome.message</em>关联的值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;#{welcome.message}&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h2 id="5-显示模型属性"><strong>5. 显示模型属性</strong></h2>
+<h3 id="51简单属性"><strong>5.1。简单属性</strong></h3>
+<p>我们可以使用*th:text=”${attributename}”*标签属性来显示模型属性的值。</p>
+<p>让我们在控制器类中添加一个名为<em>serverTime</em>的模型属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;serverTime&#34;</span><span class="o">,</span> <span class="n">dateFormat</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">()));</span>
+</span></span></code></pre></div><p>这是显示<em>serverTime</em>属性值的 HTML 代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">Current time is <span class="p">&lt;</span><span class="nt">span</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${serverTime}&#34;</span> <span class="p">/&gt;</span>
+</span></span></code></pre></div><h3 id="52-集合属性"><strong>5.2. 集合属性</strong></h3>
+<p>如果模型属性是对象的集合，我们可以使用<em>th:each</em>标签属性对其进行迭代。</p>
+<p>让我们定义一个包含两个字段<em>id</em> 和<em>name的**Student</em>模型类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们将在控制器类中添加一个学生列表作为模型属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// logic to build student data
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;students&#34;</span><span class="o">,</span> <span class="n">students</span><span class="o">);</span>
+</span></span></code></pre></div><p>最后，我们可以使用 Thymeleaf 模板代码遍历学生列表并显示所有字段值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span> <span class="na">th:each</span><span class="o">=</span><span class="s">&#34;student: ${students}&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">td</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${student.id}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">td</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${student.name}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="6条件评估"><strong>6.条件评估</strong></h2>
+<h3 id="61如果和除非"><strong>6.1。*如果*和*除非*</strong></h3>
+<p>如果满足条件，我们使用<em>th:if=”${condition}”<em>属性来显示视图的一部分。如果条件不满足，我们使用</em>th:unless=&quot;${condition}&ldquo;属性来显示视图的一部分。</em></p>
+<p><em>让我们在Student</em>模型中添加一个<em>性别</em>字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Character</span> <span class="n">gender</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>假设该字段有两个可能的值（M 或 F）来指示学生的性别。</p>
+<p>如果我们希望显示单词“Male”或“Female”而不是单个字符，我们可以使用以下 Thymeleaf 代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">th:if</span><span class="o">=</span><span class="s">&#34;${student.gender} == &#39;M&#39;&#34;</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;Male&#34;</span> <span class="p">/&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">th:unless</span><span class="o">=</span><span class="s">&#34;${student.gender} == &#39;M&#39;&#34;</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;Female&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="62-开关和外壳"><strong>6.2. *开关*和*外壳*</strong></h3>
+<p>我们使用<em>th:switch</em>和<em>th:case</em>属性来使用 switch 语句结构有条件地显示内容。</p>
+<p><em>让我们使用th:switch</em>和<em>th:case</em>属性重写前面的代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">td</span> <span class="na">th:switch</span><span class="o">=</span><span class="s">&#34;${student.gender}&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">th:case</span><span class="o">=</span><span class="s">&#34;&#39;M&#39;&#34;</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;Male&#34;</span> <span class="p">/&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">th:case</span><span class="o">=</span><span class="s">&#34;&#39;F&#39;&#34;</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;Female&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="7-处理用户输入"><strong>7. 处理用户输入</strong></h2>
+<p>我们可以使用<em>th:action=”@{url}”<em>和</em>th:object=”${object}”<em>属性来处理表单输入。我们使用</em>th:action</em> 提供表单操作 URL，使用<em>th:object</em>指定提交的表单数据将绑定到的对象。</p>
+<p><em>使用th:field=”*{name}”<em>属性映射各个字段，其中</em>名称</em>是对象的匹配属性。</p>
+<p>对于<em>Student</em>类，我们可以创建一个输入表单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;#&#34;</span> <span class="na">th:action</span><span class="o">=</span><span class="s">&#34;@{/saveStudent}&#34;</span> <span class="na">th:object</span><span class="o">=</span><span class="s">&#34;${student}&#34;</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;post&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">table</span> <span class="na">border</span><span class="o">=</span><span class="s">&#34;1&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">label</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;#{msg.id}&#34;</span> <span class="p">/&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;number&#34;</span> <span class="na">th:field</span><span class="o">=</span><span class="s">&#34;*{id}&#34;</span> <span class="p">/&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">label</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;#{msg.name}&#34;</span> <span class="p">/&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">th:field</span><span class="o">=</span><span class="s">&#34;*{name}&#34;</span> <span class="p">/&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Submit&#34;</span> <span class="p">/&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>在上面的代码中，<em>/saveStudent</em>是表单操作 URL，<em>student</em>是保存提交的表单数据的对象。</p>
+<p><em>StudentController</em>类处理表单提交：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">StudentController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/saveStudent&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">saveStudent</span><span class="o">(</span><span class="nd">@ModelAttribute</span> <span class="n">Student</span> <span class="n">student</span><span class="o">,</span> <span class="n">BindingResult</span> <span class="n">errors</span><span class="o">,</span> <span class="n">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// logic to process input data
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>@RequestMapping</em>注解将控制器方法映射到表单中提供的 URL。带注释的方法<em>saveStudent()<em>对提交的表单执行所需的处理。最后，</em>@ModelAttribute</em>注释将表单字段绑定到<em>学生</em>对象。</p>
+<h2 id="8-显示验证错误"><strong>8. 显示验证错误</strong></h2>
+<p>我们可以使用*#fields.hasErrors()<em>函数来检查一个字段是否有任何验证错误。我们使用</em>#fields.errors()*函数来显示特定字段的错误。字段名称是这两个函数的输入参数。</p>
+<p>让我们看一下用于迭代并显示表单中每个字段的错误的 HTML 代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">th:each</span><span class="o">=</span><span class="s">&#34;err : ${#fields.errors(&#39;id&#39;)}&#34;</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${err}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">th:each</span><span class="o">=</span><span class="s">&#34;err : ${#fields.errors(&#39;name&#39;)}&#34;</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${err}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>上述函数不接受字段名称，而是接受通配符<em><em><em>或常量</em>all</em>来表示所有字段。我们使用</em>th:each*属性来迭代每个字段可能存在的多个错误。</p>
+<p>这是之前使用通配符***重写的 HTML 代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">th:each</span><span class="o">=</span><span class="s">&#34;err : ${#fields.errors(&#39;*&#39;)}&#34;</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${err}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>在这里我们使用常量<em>all</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">th:each</span><span class="o">=</span><span class="s">&#34;err : ${#fields.errors(&#39;all&#39;)}&#34;</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${err}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p><em>同样，我们可以使用全局</em>常量在 Spring 中显示全局错误。</p>
+<p>这是显示全局错误的 HTML 代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">th:each</span><span class="o">=</span><span class="s">&#34;err : ${#fields.errors(&#39;global&#39;)}&#34;</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${err}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>此外，我们可以使用<em>th:errors</em>属性来显示错误消息。</p>
+<p>之前在表单中显示错误的代码可以使用<em>th:errors</em>属性重写：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">th:errors</span><span class="o">=</span><span class="s">&#34;*{id}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">th:errors</span><span class="o">=</span><span class="s">&#34;*{name}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="9-使用转换"><strong>9. 使用转换</strong></h2>
+<p>我们使用双括号语法*{{}}<em>来格式化数据以供显示。这利用了为上下文文件的</em>conversionService* bean 中的该类型字段配置的<em>格式化程序。</em></p>
+<p>让我们看看如何格式化<em>Student</em>类中的 name 字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">tr</span> <span class="na">th:each</span><span class="o">=</span><span class="s">&#34;student: ${students}&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">td</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${{student.name}}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>上面的代码使用<em>NameFormatter</em>类，通过覆盖*WebMvcConfigurer接口的**addFormatters()*方法进行配置。</p>
+<p>为此，我们的*@Configuration<em>类覆盖了</em>WebMvcConfigurerAdapter*类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebMVCConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Description</span><span class="o">(</span><span class="s">&#34;Custom Conversion Service&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addFormatters</span><span class="o">(</span><span class="n">FormatterRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">registry</span><span class="o">.</span><span class="na">addFormatter</span><span class="o">(</span><span class="k">new</span> <span class="n">NameFormatter</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>NameFormatter<em>类</em>实现了 Spring <em>Formatter</em>接口。</p>
+<p>我们还可以使用*#conversions<em>实用程序来转换对象以进行显示。实用程序函数的语法是</em>#conversions.convert(Object, Class)<em>，其中</em>Object<em>被转换为</em>Class*类型。</p>
+<p>以下是如何在删除小数部分的情况下显示<em>学生</em>对象<em>百分比字段：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">tr</span> <span class="na">th:each</span><span class="o">=</span><span class="s">&#34;student: ${students}&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">td</span> <span class="na">th:text</span><span class="o">=</span><span class="s">&#34;${#conversions.convert(student.percentage, &#39;Integer&#39;)}&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="10-结论"><strong>10. 结论</strong></h2>
+<p>在本文中，我们了解了如何在 Spring MVC 应用程序中集成和使用 Thymeleaf。</p>
+<p>我们还看到了如何显示字段、接受输入、显示验证错误以及转换数据以供显示的示例。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/thymeleaf-in-spring-mvc/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/thymeleaf-in-spring-mvc/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/thymeleaf-in-spring-mvc/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/thymeleaf-in-spring-mvc/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/thymeleaf-in-spring-mvc/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/transaction-configuration-with-jpa-and-spring/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/the-persistence-layer-with-spring-data-jpa/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

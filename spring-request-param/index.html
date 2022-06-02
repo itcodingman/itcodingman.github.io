@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="Spring @RequestParam 注解 一、概述 在这个快速教程中，我们将探索 Spring 的*@RequestParam*注解及其属性。 简单来说，我们可以使用*@RequestPara" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring-request-param/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="Spring @RequestParam 注解 一、概述 在这个快速教程中，我们将探索 Spring 的*@RequestParam*注解及其属性。 简单来说，我们可以使用*@RequestPara"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring-request-param/" /><link rel="prev" href="http://itcodingman.github.io/spring-request-response-body/" /><link rel="next" href="http://itcodingman.github.io/spring-qualifier-annotation/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring-request-param\/"
+        },"genre": "posts","wordcount":  1196 ,
+        "url": "http:\/\/itcodingman.github.io\/spring-request-param\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1196 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述"><strong>一、概述</strong></a></li>
+    <li><a href="#进一步阅读">进一步阅读：</a></li>
+    <li><a href="#spring-requestmapping-新的快捷方式注解httpswwwbaeldungcomspring-new-requestmapping-shortcuts"><a href="https://www.baeldung.com/spring-new-requestmapping-shortcuts">Spring @RequestMapping 新的快捷方式注解</a></a></li>
+    <li><a href="#spring-controller-和-restcontroller-注解httpswwwbaeldungcomspring-controller-vs-restcontroller"><a href="https://www.baeldung.com/spring-controller-vs-restcontroller">Spring @Controller 和 @RestController 注解</a></a></li>
+    <li><a href="#2-一个简单的映射"><strong>2. 一个简单的映射</strong></a></li>
+    <li><a href="#3-指定请求参数名称"><strong>3. 指定请求参数名称</strong></a></li>
+    <li><a href="#4可选请求参数"><strong>4.可选请求参数</strong></a>
+      <ul>
+        <li><a href="#41使用-java-8可选">4.1。使用 Java 8<em>可选</em></a></li>
+      </ul>
+    </li>
+    <li><a href="#5请求参数的默认值"><strong>5.请求参数的默认值</strong></a></li>
+    <li><a href="#6-映射所有参数"><strong>6. 映射所有参数</strong></a></li>
+    <li><a href="#7-映射多值参数"><strong>7. 映射多值参数</strong></a></li>
+    <li><a href="#8-结论"><strong>8. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="spring-requestparam-注解">Spring @RequestParam 注解</h1>
+<h2 id="一概述"><strong>一、概述</strong></h2>
+<p>在这个快速教程中，我们将探索 Spring 的*@RequestParam*注解及其属性。</p>
+<p><strong>简单来说，我们可以使用*@RequestParam*从请求中提取查询参数、表单参数，甚至是文件。</strong></p>
+<h2 id="进一步阅读">进一步阅读：</h2>
+<h2 id="spring-requestmapping-新的快捷方式注解httpswwwbaeldungcomspring-new-requestmapping-shortcuts"><a href="https://www.baeldung.com/spring-new-requestmapping-shortcuts" target="_blank" rel="noopener noreffer">Spring @RequestMapping 新的快捷方式注解</a></h2>
+<p>在本文中，我们介绍了使用传统 Spring MVC 框架进行快速 Web 开发的不同类型的 @RequestMapping 快捷方式。</p>
+<p><a href="https://www.baeldung.com/spring-new-requestmapping-shortcuts" target="_blank" rel="noopener noreffer">阅读更多</a>→</p>
+<h2 id="spring-controller-和-restcontroller-注解httpswwwbaeldungcomspring-controller-vs-restcontroller"><a href="https://www.baeldung.com/spring-controller-vs-restcontroller" target="_blank" rel="noopener noreffer">Spring @Controller 和 @RestController 注解</a></h2>
+<p>了解 Spring MVC 中 @Controller 和 @RestController 注解的区别。</p>
+<p><a href="https://www.baeldung.com/spring-controller-vs-restcontroller" target="_blank" rel="noopener noreffer">阅读更多</a>→</p>
+<h2 id="2-一个简单的映射"><strong>2. 一个简单的映射</strong></h2>
+<p>假设我们有一个端点*/api/foos*接受一个名为 <em>id</em>的查询参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/api/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoos</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;ID: &#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在此示例中，我们使用*@RequestParam<em>来提取</em>id*查询参数。</p>
+<p>一个简单的 GET 请求会调用<em>getFoos</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-mvc-basics/api/foos?id<span class="o">=</span>abc
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">ID: abc
+</span></span></code></pre></div><p>接下来，<strong>让我们看一下注解的属性：*name*、 *value*、*required*和*defaultValue*。</strong></p>
+<h2 id="3-指定请求参数名称"><strong>3. 指定请求参数名称</strong></h2>
+<p>在前面的例子中，变量名和参数名都是一样的。</p>
+<p>**不过，有时我们希望这些有所不同。**或者，如果我们不使用 Spring Boot，我们可能需要进行特殊的编译时配置，否则参数名称实际上不会出现在字节码中。</p>
+<p>幸运**的是，我们可以使用*name*属性配置*@RequestParam***名称：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/api/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">addFoo</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;id&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">fooId</span><span class="o">,</span> <span class="nd">@RequestParam</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;ID: &#34;</span> <span class="o">+</span> <span class="n">fooId</span> <span class="o">+</span> <span class="s">&#34; Name: &#34;</span> <span class="o">+</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们也可以使用 <em>@RequestParam(value = “id”)<em>或只是</em>@RequestParam(“id”)。</em></p>
+<h2 id="4可选请求参数"><strong>4.可选请求参数</strong></h2>
+<p>默认情况下需要使用*@RequestParam*注释的方法参数 。</p>
+<p>这意味着如果请求中不存在参数，我们将收到错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">GET /api/foos HTTP/1.1
+</span></span><span class="line"><span class="cl">-----
+</span></span><span class="line"><span class="cl"><span class="m">400</span> Bad Request
+</span></span><span class="line"><span class="cl">Required String parameter <span class="s1">&#39;id&#39;</span> is not present
+</span></span></code></pre></div><p><strong>不过，我们可以使用*required* 属性将*@RequestParam*配置为可选的：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/api/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoos</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span> <span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;ID: &#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这种情况下，两者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-mvc-basics/api/foos?id<span class="o">=</span>abc
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">ID: abc
+</span></span></code></pre></div><p>和</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-mvc-basics/api/foos
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">ID: null
+</span></span></code></pre></div><p>将正确调用该方法。</p>
+<p><strong>未指定参数时，方法参数绑定为*null*。</strong></p>
+<h3 id="41使用-java-8可选">4.1。使用 Java 8<em>可选</em></h3>
+<p>或者，我们可以将参数包装在 *<a href="https://www.baeldung.com/java-optional" target="_blank" rel="noopener noreffer">Optional</a>*中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/api/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoos</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">id</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;ID: &#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">.</span><span class="na">orElseGet</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="s">&#34;not provided&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这种情况下，<strong>我们不需要指定*required*属性。</strong></p>
+<p>如果未提供请求参数，将使用默认值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-mvc-basics/api/foos 
+</span></span><span class="line"><span class="cl">---- 
+</span></span><span class="line"><span class="cl">ID: not provided
+</span></span></code></pre></div><h2 id="5请求参数的默认值"><strong>5.请求参数的默认值</strong></h2>
+<p>我们还可以 使用<em>defaultValue</em>属性为*@RequestParam设置默认值：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/api/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoos</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">defaultValue</span> <span class="o">=</span> <span class="s">&#34;test&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;ID: &#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>这就像*required=false，* 因为用户不再需要提供参数</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-mvc-basics/api/foos
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">ID: <span class="nb">test</span>
+</span></span></code></pre></div><p>虽然，我们仍然可以提供它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-mvc-basics/api/foos?id<span class="o">=</span>abc
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">ID: abc
+</span></span></code></pre></div><p>请注意，当我们设置 <em>defaultValue</em> 属性时， <em>required</em>确实设置为<em>false</em>。</p>
+<h2 id="6-映射所有参数"><strong>6. 映射所有参数</strong></h2>
+<p><strong>我们也可以有多个参数，而无需定义它们的名称</strong>或数量，只需使用<em>Map</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/api/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">updateFoos</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">allParams</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Parameters are &#34;</span> <span class="o">+</span> <span class="n">allParams</span><span class="o">.</span><span class="na">entrySet</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后将反映发送的任何参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -X POST -F <span class="s1">&#39;name=abc&#39;</span> -F <span class="s1">&#39;id=123&#39;</span> http://localhost:8080/spring-mvc-basics/api/foos
+</span></span><span class="line"><span class="cl">-----
+</span></span><span class="line"><span class="cl">Parameters are <span class="o">{[</span><span class="nv">name</span><span class="o">=</span>abc<span class="o">]</span>, <span class="o">[</span><span class="nv">id</span><span class="o">=</span>123<span class="o">]}</span>
+</span></span></code></pre></div><h2 id="7-映射多值参数"><strong>7. 映射多值参数</strong></h2>
+<p>单个*@RequestParam*可以有多个值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/api/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoos</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;IDs are &#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>Spring MVC 将映射一个逗号分隔的 *id* 参数</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-mvc-basics/api/foos?id<span class="o">=</span>1,2,3
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">IDs are <span class="o">[</span>1,2,3<span class="o">]</span>
+</span></span></code></pre></div><p><strong>或单独的*id*参数</strong>列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-mvc-basics/api/foos?id<span class="o">=</span>1<span class="p">&amp;</span><span class="nv">id</span><span class="o">=</span><span class="m">2</span>
+</span></span><span class="line"><span class="cl">----
+</span></span><span class="line"><span class="cl">IDs are <span class="o">[</span>1,2<span class="o">]</span>
+</span></span></code></pre></div><h2 id="8-结论"><strong>8. 结论</strong></h2>
+<p>在本文中，我们学习了如何使用*@RequestParam。*</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring-request-param/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring-request-param/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring-request-param/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring-request-param/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring-request-param/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring-request-response-body/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/spring-qualifier-annotation/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="" />
+<meta property="og:description" content="使用带有默认值的 Spring @Value 一、概述 Spring 的*@Value*注解提供了一种将属性值注入组件的便捷方式。为可能不存在属性的情况提供合理的默认值也非常有用。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring-value-defaults/" /><meta property="article:section" content="posts" />
+
+<meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="使用带有默认值的 Spring @Value 一、概述 Spring 的*@Value*注解提供了一种将属性值注入组件的便捷方式。为可能不存在属性的情况提供合理的默认值也非常有用。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring-value-defaults/" /><link rel="prev" href="http://itcodingman.github.io/spring-why-to-choose/" /><link rel="next" href="http://itcodingman.github.io/spring-value-annotation/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring-value-defaults\/"
+        },"genre": "posts","wordcount":  759 ,
+        "url": "http:\/\/itcodingman.github.io\/spring-value-defaults\/","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="0001-01-01">0001-01-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;759 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一概述"><strong>一、概述</strong></a></li>
+    <li><a href="#进一步阅读">进一步阅读：</a></li>
+    <li><a href="#spring-value-快速指南httpswwwbaeldungcomspring-value-annotation"><a href="https://www.baeldung.com/spring-value-annotation">Spring @Value 快速指南</a></a></li>
+    <li><a href="#spring-和-spring-boot-的属性httpswwwbaeldungcomproperties-with-spring"><a href="https://www.baeldung.com/properties-with-spring">Spring 和 Spring Boot 的属性</a></a></li>
+    <li><a href="#spring-表达式语言指南httpswwwbaeldungcomspring-expression-language"><a href="https://www.baeldung.com/spring-expression-language">Spring 表达式语言指南</a></a></li>
+    <li><a href="#2-字符串默认值"><strong>2. 字符串默认值</strong></a></li>
+    <li><a href="#3-原语"><strong>3. 原语</strong></a></li>
+    <li><a href="#4-数组"><strong>4. 数组</strong></a></li>
+    <li><a href="#5-使用-spel"><strong>5. 使用 SpEL</strong></a></li>
+    <li><a href="#六结论"><strong>六，结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="使用带有默认值的-spring-value">使用带有默认值的 Spring @Value</h1>
+<h2 id="一概述"><strong>一、概述</strong></h2>
+<p>Spring 的*@Value*注解提供了一种将属性值注入组件的便捷方式。<strong>为可能不存在属性的情况提供合理的默认值</strong>也非常有用。</p>
+<p>这就是我们将在本教程中关注的内容——如何为*@Value* Spring 注解指定默认值。</p>
+<p>有关*@Value*的更详细的快速指南，请参阅<a href="https://www.baeldung.com/spring-value-annotation" target="_blank" rel="noopener noreffer">此处</a>的文章。</p>
+<h2 id="进一步阅读">进一步阅读：</h2>
+<h2 id="spring-value-快速指南httpswwwbaeldungcomspring-value-annotation"><a href="https://www.baeldung.com/spring-value-annotation" target="_blank" rel="noopener noreffer">Spring @Value 快速指南</a></h2>
+<p>学习使用 Spring @Value 注解从属性文件、系统属性等配置字段。</p>
+<p><a href="https://www.baeldung.com/spring-value-annotation" target="_blank" rel="noopener noreffer">阅读更多</a>→</p>
+<h2 id="spring-和-spring-boot-的属性httpswwwbaeldungcomproperties-with-spring"><a href="https://www.baeldung.com/properties-with-spring" target="_blank" rel="noopener noreffer">Spring 和 Spring Boot 的属性</a></h2>
+<p>关于如何在 Spring 中使用属性文件和属性值的教程。</p>
+<p><a href="https://www.baeldung.com/properties-with-spring" target="_blank" rel="noopener noreffer">阅读更多</a>→</p>
+<h2 id="spring-表达式语言指南httpswwwbaeldungcomspring-expression-language"><a href="https://www.baeldung.com/spring-expression-language" target="_blank" rel="noopener noreffer">Spring 表达式语言指南</a></h2>
+<p>本文探讨 Spring 表达式语言 (SpEL)，它是一种强大的表达式语言，支持在运行时查询和操作对象图。</p>
+<p><a href="https://www.baeldung.com/spring-expression-language" target="_blank" rel="noopener noreffer">阅读更多</a>→</p>
+<h2 id="2-字符串默认值"><strong>2. 字符串默认值</strong></h2>
+<p>让我们看一下为<em>String</em>属性设置默认值的基本语法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${some.key:my default value}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">stringWithDefaultValue</span><span class="o">;</span>
+</span></span></code></pre></div><p>如果<em>some.key</em>无法解析，<em>stringWithDefaultValue**将</em>设置为<em>我的 default value 的默认值</em>。</p>
+<p>同样，我们可以设置一个长度为零的<em>字符串</em>作为默认值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${some.key:})&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">stringWithBlankDefaultValue</span><span class="o">;</span>
+</span></span></code></pre></div><h2 id="3-原语"><strong>3. 原语</strong></h2>
+<p><em>要为boolean</em>和<em>int</em>等基本类型设置默认值，我们使用文字值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${some.key:true}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">boolean</span> <span class="n">booleanWithDefaultValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${some.key:42}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="n">intWithDefaultValue</span><span class="o">;</span>
+</span></span></code></pre></div><p>如果我们愿意，我们可以通过将类型更改为<em>Boolean</em>和<em>Integer</em>来使用原始包装器。</p>
+<h2 id="4-数组"><strong>4. 数组</strong></h2>
+<p>我们还可以将逗号分隔的值列表注入数组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${some.key:one,two,three}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span><span class="o">[]</span> <span class="n">stringArrayWithDefaults</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${some.key:1,2,3}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">intArrayWithDefaults</span><span class="o">;</span>
+</span></span></code></pre></div><p>在上面的第一个示例中，值<em>one</em>、<em>two</em> 和<em>three</em>作为默认值注入到<em>stringArrayWithDefaults</em>中。</p>
+<p>在第二个示例中，值<em>1</em>、<em>2</em> 和<em>3</em>作为默认值注入到<em>intArrayWithDefaults</em>中。</p>
+<h2 id="5-使用-spel"><strong>5. 使用 SpEL</strong></h2>
+<p>我们还可以使用 Spring 表达式语言 (SpEL) 来指定表达式和默认值。</p>
+<p>在下面的示例中，我们希望<em>将 some.system.key</em>设置为系统属性，如果未设置，我们希望使用<em>我的默认系统属性值</em> 作为默认值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{systemProperties[&#39;some.key&#39;] ?: &#39;my default system property value&#39;}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">spelWithDefaultValue</span><span class="o">;</span>
+</span></span></code></pre></div><h2 id="六结论"><strong>六，结论</strong></h2>
+<p>在这篇快速文章中，我们了解了如何为希望使用 Spring 的*@Value*注释注入其值的属性设置默认值。</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 0001-01-01</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring-value-defaults/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring-value-defaults/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring-value-defaults/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring-value-defaults/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring-value-defaults/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring-why-to-choose/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/spring-value-annotation/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>
