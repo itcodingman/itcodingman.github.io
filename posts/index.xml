@@ -12,6 +12,14 @@
     <description><![CDATA[10分钟学习Java Log]]></description>
 </item>
 <item>
+    <title>一小时学习Servlet</title>
+    <link>http://itcodingman.github.io/1_hour_servlet/</link>
+    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/1_hour_servlet/</guid>
+    <description><![CDATA[一小时学习Servlet 本教程将讲解如何使用 Java Servlet 来开发基于 web 的应用程序。]]></description>
+</item>
+<item>
     <title>Grails 3 和 GORM 简介</title>
     <link>http://itcodingman.github.io/grails-gorm-tutorial/</link>
     <pubDate>Wed, 01 Jun 2022 12:37:50 &#43;0800</pubDate>
@@ -60,28 +68,20 @@
     <description><![CDATA[使用 Spring Security 的 REST 服务的基本和摘要式身份验证 1. 概述 本文讨论如何在REST API 的相同 URI 结构上设置基本身份验证和摘要式身份验证。在之前的文章中，我们讨论]]></description>
 </item>
 <item>
+    <title>conda的安装和使用、国内源、常用命令</title>
+    <link>http://itcodingman.github.io/conda_install_introduce/</link>
+    <pubDate>Fri, 27 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/conda_install_introduce/</guid>
+    <description><![CDATA[conda的安装和使用、国内源、常用命令 conda的安装和使用、国内源、常用命令]]></description>
+</item>
+<item>
     <title>扫雷——pygame项目实战</title>
     <link>http://itcodingman.github.io/pygame_minesweeper/</link>
     <pubDate>Fri, 27 May 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/pygame_minesweeper/</guid>
     <description><![CDATA[扫雷——pygame项目实战]]></description>
-</item>
-<item>
-    <title>Spring中的REST分页</title>
-    <link>http://itcodingman.github.io/rest-api-pagination-in-spring/</link>
-    <pubDate>Thu, 26 May 2022 12:37:50 &#43;0800</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/rest-api-pagination-in-spring/</guid>
-    <description><![CDATA[Spring中的REST分页 1. 概述 本教程将重点介绍使用 Spring MVC 和 Spring Data 在 REST API 中实现分页。 2. 页面作为资源与页面作为表示 在 RESTful 架构的上下文中设计分页时的]]></description>
-</item>
-<item>
-    <title>使用 Spring 5 创建 Web 应用程序</title>
-    <link>http://itcodingman.github.io/bootstraping-a-web-application-with-spring-and-java-based-configuration/</link>
-    <pubDate>Wed, 25 May 2022 12:37:50 &#43;0800</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/bootstraping-a-web-application-with-spring-and-java-based-configuration/</guid>
-    <description><![CDATA[使用 Spring 5 创建 Web 应用程序 1. 概述 本教程说明了如何使用 Spring 创建 Web 应用程序。 我们将研究用于构建应用程序的 Spring Boot 解决方案，并查看非 Spring Boot 方法。 我们将主要使用]]></description>
 </item>
 </channel>
 </rss>

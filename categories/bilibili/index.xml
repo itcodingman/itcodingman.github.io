@@ -1,0 +1,87 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>BiliBili - Category - Coding Man</title>
+        <link>http://itcodingman.github.io/categories/bilibili/</link>
+        <description>BiliBili - Category - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/bilibili/" rel="self" type="application/rss+xml" /><item>
+    <title>一小时学习Servlet</title>
+    <link>http://itcodingman.github.io/1_hour_servlet/</link>
+    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/1_hour_servlet/</guid>
+    <description><![CDATA[一小时学习Servlet 本教程将讲解如何使用 Java Servlet 来开发基于 web 的应用程序。]]></description>
+</item>
+<item>
+    <title>conda的安装和使用、国内源、常用命令</title>
+    <link>http://itcodingman.github.io/conda_install_introduce/</link>
+    <pubDate>Fri, 27 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/conda_install_introduce/</guid>
+    <description><![CDATA[conda的安装和使用、国内源、常用命令 conda的安装和使用、国内源、常用命令]]></description>
+</item>
+<item>
+    <title>PIP安装和使用、国内源、常用命令</title>
+    <link>http://itcodingman.github.io/pip_install_introduce/</link>
+    <pubDate>Mon, 23 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/pip_install_introduce/</guid>
+    <description><![CDATA[PIP安装和使用、国内源、常用命令 PIP安装和使用、国内源、常用命令]]></description>
+</item>
+<item>
+    <title>50分钟学习JSP</title>
+    <link>http://itcodingman.github.io/50_mins_jsp/</link>
+    <pubDate>Fri, 13 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/50_mins_jsp/</guid>
+    <description><![CDATA[50分钟学习JSP JSP教程主要提供JSP基础知识以及部分常用的JSP进阶知识，大家在学习JSP之前，需要具备一定的HTML及Java基础。]]></description>
+</item>
+<item>
+    <title>Eclipse、Tomcat和Java Web的安装、配置及开发</title>
+    <link>http://itcodingman.github.io/eclipse_tomcat_java_web_install_introduce/</link>
+    <pubDate>Mon, 09 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/eclipse_tomcat_java_web_install_introduce/</guid>
+    <description><![CDATA[Eclipse、Tomcat和Java Web的安装、配置及开发 Eclipse、Tomcat和Java Web的安装、配置及开发]]></description>
+</item>
+<item>
+    <title>Eclipse和Java的安装</title>
+    <link>http://itcodingman.github.io/eclipse_java_install_introduce/</link>
+    <pubDate>Mon, 02 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/eclipse_java_install_introduce/</guid>
+    <description><![CDATA[Eclipse和Java的安装 Eclipse和Java的安装]]></description>
+</item>
+<item>
+    <title>100分钟学习Java</title>
+    <link>http://itcodingman.github.io/100_mins_java/</link>
+    <pubDate>Mon, 25 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/100_mins_java/</guid>
+    <description><![CDATA[100分钟学习Java 这是一门针对初学者的完整课程，学习有关Java的所有知识。包括：语法、语句、字符串、操作符、函数、文件等]]></description>
+</item>
+<item>
+    <title>Visual Studio Code Java 的安装及使用</title>
+    <link>http://itcodingman.github.io/vscode_java_install_introduce/</link>
+    <pubDate>Mon, 18 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/vscode_java_install_introduce/</guid>
+    <description><![CDATA[Visual Studio Code Java 的安装及使用 VisualStudioCode和Java的安装及使用]]></description>
+</item>
+<item>
+    <title>Visaul Studio Code C&#43;&#43; 安装及使用</title>
+    <link>http://itcodingman.github.io/vscode_c_install_introduce/</link>
+    <pubDate>Tue, 12 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/vscode_c_install_introduce/</guid>
+    <description><![CDATA[Visaul Studio Code C++ 安装及使用 Visaul Studio Code C++ 安装及使用]]></description>
+</item>
+<item>
+    <title>jupyter notebook安装及使用</title>
+    <link>http://itcodingman.github.io/jupyter_notebook_install_introduce/</link>
+    <pubDate>Wed, 06 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/jupyter_notebook_install_introduce/</guid>
+    <description><![CDATA[jupyter notebook安装及使用 Jupyter Notebook是以网页的形式打开，可以在网页页面中直接编写代码和运行代码，代码的运行结果也会直接在代码块下显]]></description>
+</item>
+</channel>
+</rss>
