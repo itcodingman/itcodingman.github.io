@@ -3,29 +3,85 @@
         <title>Python - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/python/</link>
         <description>Python - Category - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 07 Jun 2021 12:37:50 &#43;0800</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/python/" rel="self" type="application/rss+xml" /><item>
-    <title>一小时学习python和mediapipe</title>
-    <link>http://itcodingman.github.io/1_hour_python_mediapipe/</link>
-    <pubDate>Mon, 07 Jun 2021 12:37:50 &#43;0800</pubDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 27 May 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/python/" rel="self" type="application/rss+xml" /><item>
+    <title>扫雷——pygame项目实战</title>
+    <link>http://itcodingman.github.io/pygame_minesweeper/</link>
+    <pubDate>Fri, 27 May 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/1_hour_python_mediapipe/</guid>
-    <description><![CDATA[一小时学习python和mediapipe 这是一门针对初学者的完整课程，学习有关MediaPipe的所有知识。包括：人脸识别、匹配、手势、姿]]></description>
+    <guid>http://itcodingman.github.io/pygame_minesweeper/</guid>
+    <description><![CDATA[扫雷——pygame项目实战]]></description>
 </item>
 <item>
-    <title>一小时学习python和flask</title>
-    <link>http://itcodingman.github.io/1_hour_python_flask/</link>
-    <pubDate>Tue, 01 Jun 2021 12:37:50 &#43;0800</pubDate>
+    <title>10分钟学习PyScript</title>
+    <link>http://itcodingman.github.io/10_mins_pyscript/</link>
+    <pubDate>Fri, 13 May 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/1_hour_python_flask/</guid>
-    <description><![CDATA[一小时学习python和flask 这是一门针对初学者的完整课程，学习有关Flask的所有知识。包括：基础知识（路由、变量及URL规则、 模板、]]></description>
+    <guid>http://itcodingman.github.io/10_mins_pyscript/</guid>
+    <description><![CDATA[10分钟学习PyScript]]></description>
 </item>
 <item>
-    <title>一小时学习python和opencv</title>
-    <link>http://itcodingman.github.io/1_hour_python_opencv/</link>
-    <pubDate>Wed, 19 May 2021 12:37:50 &#43;0800</pubDate>
+    <title>使用OpenCV和EasyOCR识别车牌</title>
+    <link>http://itcodingman.github.io/opencv_easyocr_anpr/</link>
+    <pubDate>Fri, 14 Jan 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/1_hour_python_opencv/</guid>
-    <description><![CDATA[一小时学习python和opencv 这是一门针对初学者的完整课程，学习有关OpenCV的所有知识。包括：基础知识（图像和视频的读取、图像变换]]></description>
+    <guid>http://itcodingman.github.io/opencv_easyocr_anpr/</guid>
+    <description><![CDATA[使用OpenCV和EasyOCR识别车牌]]></description>
+</item>
+<item>
+    <title>10分钟学习TesseractOCR</title>
+    <link>http://itcodingman.github.io/10_mins_tesseractocr/</link>
+    <pubDate>Fri, 31 Dec 2021 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/10_mins_tesseractocr/</guid>
+    <description><![CDATA[10分钟学习TesseractOCR]]></description>
+</item>
+<item>
+    <title>10分钟学习EasyOCR</title>
+    <link>http://itcodingman.github.io/10_mins_easyocr/</link>
+    <pubDate>Fri, 24 Dec 2021 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/10_mins_easyocr/</guid>
+    <description><![CDATA[10分钟学习EasyOCR]]></description>
+</item>
+<item>
+    <title>10分钟学习Opencv目标跟踪 Object Tracking</title>
+    <link>http://itcodingman.github.io/10_mins_opencv_object_tracking/</link>
+    <pubDate>Fri, 12 Nov 2021 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/10_mins_opencv_object_tracking/</guid>
+    <description><![CDATA[10分钟学习Opencv目标跟踪 Object Tracking Opencv目标跟踪 Object Tracking]]></description>
+</item>
+<item>
+    <title>conda的安装和使用、国内源、常用命令</title>
+    <link>http://itcodingman.github.io/conda_install_introduce/</link>
+    <pubDate>Fri, 22 Oct 2021 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/conda_install_introduce/</guid>
+    <description><![CDATA[conda的安装和使用、国内源、常用命令 conda的安装和使用、国内源、常用命令]]></description>
+</item>
+<item>
+    <title>PIP安装和使用、国内源、常用命令</title>
+    <link>http://itcodingman.github.io/pip_install_introduce/</link>
+    <pubDate>Sat, 16 Oct 2021 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/pip_install_introduce/</guid>
+    <description><![CDATA[PIP安装和使用、国内源、常用命令 PIP安装和使用、国内源、常用命令]]></description>
+</item>
+<item>
+    <title>jupyter notebook安装及使用</title>
+    <link>http://itcodingman.github.io/jupyter_notebook_install_introduce/</link>
+    <pubDate>Fri, 20 Aug 2021 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/jupyter_notebook_install_introduce/</guid>
+    <description><![CDATA[jupyter notebook安装及使用 Jupyter Notebook是以网页的形式打开，可以在网页页面中直接编写代码和运行代码，代码的运行结果也会直接在代码块下显]]></description>
+</item>
+<item>
+    <title>15分钟学习Numpy的通用函数</title>
+    <link>http://itcodingman.github.io/15_mins_numpy_ufunc/</link>
+    <pubDate>Fri, 06 Aug 2021 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/15_mins_numpy_ufunc/</guid>
+    <description><![CDATA[15分钟学习Numpy的通用函数 这是一门针对初学者的完整课程，学习有关NumPy的通用函数知识。包括：ufunc、计算、连接、差分等]]></description>
 </item>
 </channel>
 </rss>

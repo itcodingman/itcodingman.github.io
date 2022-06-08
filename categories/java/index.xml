@@ -1,0 +1,87 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Java - Category - Coding Man</title>
+        <link>http://itcodingman.github.io/categories/java/</link>
+        <description>Java - Category - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/java/" rel="self" type="application/rss+xml" /><item>
+    <title>10分钟学习Java Log</title>
+    <link>http://itcodingman.github.io/10_mins_java_log/</link>
+    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/10_mins_java_log/</guid>
+    <description><![CDATA[10分钟学习Java Log]]></description>
+</item>
+<item>
+    <title>20分钟学习Ant安装和使用</title>
+    <link>http://itcodingman.github.io/20_mins_ant/</link>
+    <pubDate>Fri, 06 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/20_mins_ant/</guid>
+    <description><![CDATA[20分钟学习Ant安装和使用]]></description>
+</item>
+<item>
+    <title>30分钟学习MyBatis通用CRUD Mapper</title>
+    <link>http://itcodingman.github.io/30_mins_mybatis_generic_mapper/</link>
+    <pubDate>Fri, 29 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/30_mins_mybatis_generic_mapper/</guid>
+    <description><![CDATA[30分钟学习MyBatis通用CRUD Mapper]]></description>
+</item>
+<item>
+    <title>15分钟学习MyBatis Generator</title>
+    <link>http://itcodingman.github.io/15_mins_mybatis_generator/</link>
+    <pubDate>Fri, 22 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/15_mins_mybatis_generator/</guid>
+    <description><![CDATA[15分钟学习MyBatis Generator]]></description>
+</item>
+<item>
+    <title>15分钟学习Spring Boot和MyBatis</title>
+    <link>http://itcodingman.github.io/15_mins_spring_boot_mybatis/</link>
+    <pubDate>Fri, 15 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/15_mins_spring_boot_mybatis/</guid>
+    <description><![CDATA[15分钟学习Spring Boot和MyBatis]]></description>
+</item>
+<item>
+    <title>15分钟学习Spring和MyBatis</title>
+    <link>http://itcodingman.github.io/15_mins_spring_mybatis/</link>
+    <pubDate>Fri, 08 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/15_mins_spring_mybatis/</guid>
+    <description><![CDATA[15分钟学习Spring和MyBatis]]></description>
+</item>
+<item>
+    <title>40分钟学习MyBatis</title>
+    <link>http://itcodingman.github.io/40_mins_mybatis/</link>
+    <pubDate>Fri, 01 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/40_mins_mybatis/</guid>
+    <description><![CDATA[40分钟学习MyBatis]]></description>
+</item>
+<item>
+    <title>40分钟学习Spring Boot Web</title>
+    <link>http://itcodingman.github.io/40_mins_spring_boot_web/</link>
+    <pubDate>Fri, 25 Mar 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/40_mins_spring_boot_web/</guid>
+    <description><![CDATA[40分钟学习Spring Boot Web]]></description>
+</item>
+<item>
+    <title>30分钟学习Spring MVC和Thymeleaf</title>
+    <link>http://itcodingman.github.io/30_mins_spring_mvc_thymeleaf/</link>
+    <pubDate>Fri, 18 Mar 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/30_mins_spring_mvc_thymeleaf/</guid>
+    <description><![CDATA[30分钟学习Spring MVC和Thymeleaf]]></description>
+</item>
+<item>
+    <title>50分钟学习Thymeleaf</title>
+    <link>http://itcodingman.github.io/50_mins_thymeleaf/</link>
+    <pubDate>Fri, 11 Mar 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/50_mins_thymeleaf/</guid>
+    <description><![CDATA[50分钟学习Thymeleaf]]></description>
+</item>
+</channel>
+</rss>
