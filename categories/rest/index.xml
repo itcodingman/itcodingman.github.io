@@ -3,37 +3,53 @@
         <title>REST - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/rest/</link>
         <description>REST - Category - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 30 May 2022 12:37:50 &#43;0800</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/rest/" rel="self" type="application/rss+xml" /><item>
-    <title>使用 Spring 的 REST 错误处理</title>
-    <link>http://itcodingman.github.io/exception-handling-for-rest-with-spring/</link>
-    <pubDate>Mon, 30 May 2022 12:37:50 &#43;0800</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/exception-handling-for-rest-with-spring/</guid>
-    <description><![CDATA[使用 Spring 的 REST 错误处理 1. 概述 本教程将说明**如何使用 Spring 为 REST API 实现异常处理。**我们还将获得一些历史概览，并查看不同版本引入了哪些新选项。 *在 Spring 3.2]]></description>
-</item>
-<item>
-    <title>使用 Spring Security 的 REST 服务的基本和摘要式身份验证</title>
-    <link>http://itcodingman.github.io/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</link>
-    <pubDate>Fri, 27 May 2022 12:37:50 &#43;0800</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/basic-and-digest-authentication-for-a-rest-api-with-spring-security/</guid>
-    <description><![CDATA[使用 Spring Security 的 REST 服务的基本和摘要式身份验证 1. 概述 本文讨论如何在REST API 的相同 URI 结构上设置基本身份验证和摘要式身份验证。在之前的文章中，我们讨论]]></description>
-</item>
-<item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 25 Mar 2020 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/rest/" rel="self" type="application/rss+xml" /><item>
     <title>Spring中的REST分页</title>
-    <link>http://itcodingman.github.io/rest-api-pagination-in-spring/</link>
-    <pubDate>Thu, 26 May 2022 12:37:50 &#43;0800</pubDate>
+    <link>http://itcodingman.github.io/rest_api_pagination_in_spring/</link>
+    <pubDate>Wed, 25 Mar 2020 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/rest-api-pagination-in-spring/</guid>
-    <description><![CDATA[Spring中的REST分页 1. 概述 本教程将重点介绍使用 Spring MVC 和 Spring Data 在 REST API 中实现分页。 2. 页面作为资源与页面作为表示 在 RESTful 架构的上下文中设计分页时的]]></description>
+    <guid>http://itcodingman.github.io/rest_api_pagination_in_spring/</guid>
+    <description><![CDATA[1. 概述 本教程将重点介绍使用 Spring MVC 和 Spring Data 在 REST API 中实现分页。 2. 页面作为资源与页面作为表示 在 RESTful 架构的上下文中设计分页时的第一个问题是，是否将页面视为]]></description>
+</item>
+<item>
+    <title>使用 Spring REST 错误处理</title>
+    <link>http://itcodingman.github.io/exception_handling_for_rest_with_spring/</link>
+    <pubDate>Wed, 12 Feb 2020 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/exception_handling_for_rest_with_spring/</guid>
+    <description><![CDATA[1. 概述 本教程将说明**如何使用 Spring 为 REST API 实现异常处理。**我们还将获得一些历史概览，并查看不同版本引入了哪些新选项。 *在 Spring 3.2 之前，在 Spring MVC 应用程]]></description>
+</item>
+<item>
+    <title>Spring REST API中从实体到 DTO 转换</title>
+    <link>http://itcodingman.github.io/entity_to_and_from_dto_for_a_java_spring_application/</link>
+    <pubDate>Wed, 05 Feb 2020 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/entity_to_and_from_dto_for_a_java_spring_application/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将处理需要在 Spring 应用程序的内部实体和发布回客户端的外部**DTO （数据传输对象）之间发生的转换。** 2. 模型映射器 让我们首]]></description>
+</item>
+<item>
+    <title>使用 Spring 和 Java Config 构建 REST API</title>
+    <link>http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/</link>
+    <pubDate>Wed, 22 Jan 2020 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/</guid>
+    <description><![CDATA[1.概述 在本教程中，我们将学习如何**在 Spring 中设置 REST，**包括控制器和 HTTP 响应代码、有效负载编组的配置和内容协商。 2. 了解 Spring 中的 REST Spring 框架支持]]></description>
 </item>
 <item>
     <title>使用 Spring 5 创建 Web 应用程序</title>
-    <link>http://itcodingman.github.io/bootstraping-a-web-application-with-spring-and-java-based-configuration/</link>
-    <pubDate>Wed, 25 May 2022 12:37:50 &#43;0800</pubDate>
+    <link>http://itcodingman.github.io/bootstraping_a_web_application_with_spring_and_java_based_configuration/</link>
+    <pubDate>Wed, 15 Jan 2020 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/bootstraping-a-web-application-with-spring-and-java-based-configuration/</guid>
-    <description><![CDATA[使用 Spring 5 创建 Web 应用程序 1. 概述 本教程说明了如何使用 Spring 创建 Web 应用程序。 我们将研究用于构建应用程序的 Spring Boot 解决方案，并查看非 Spring Boot 方法。 我们将主要使用]]></description>
+    <guid>http://itcodingman.github.io/bootstraping_a_web_application_with_spring_and_java_based_configuration/</guid>
+    <description><![CDATA[1. 概述 本教程说明了如何使用 Spring 创建 Web 应用程序。 我们将研究用于构建应用程序的 Spring Boot 解决方案，并查看非 Spring Boot 方法。 我们将主要使用 Java 配置，但也会看看它们]]></description>
+</item>
+<item>
+    <title>使用 Spring Security 的 REST 服务的基本和摘要式身份验证</title>
+    <link>http://itcodingman.github.io/basic_and_digest_authentication_for_a_rest_api_with_spring_security/</link>
+    <pubDate>Wed, 08 Jan 2020 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/basic_and_digest_authentication_for_a_rest_api_with_spring_security/</guid>
+    <description><![CDATA[1. 概述 本文讨论如何在REST API 的相同 URI 结构上设置基本身份验证和摘要式身份验证。在之前的文章中，我们讨论了另一种保护 REST 服务的方法——基于表单的]]></description>
 </item>
 </channel>
 </rss>

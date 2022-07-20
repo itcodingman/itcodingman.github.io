@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring REST API &#43; OAuth2 &#43; Angular - Coding Man</title><meta name="Description" content="在本文中，我们学习了如何使用 OAuth2 授权我们的应用程序。"><meta property="og:title" content="Spring REST API &#43; OAuth2 &#43; Angular" />
+<meta property="og:description" content="在本文中，我们学习了如何使用 OAuth2 授权我们的应用程序。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/securing_a_restful_web_service_with_spring_security/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-04-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring REST API &#43; OAuth2 &#43; Angular"/>
+<meta name="twitter:description" content="在本文中，我们学习了如何使用 OAuth2 授权我们的应用程序。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/securing_a_restful_web_service_with_spring_security/" /><link rel="prev" href="http://itcodingman.github.io/rest_api_pagination_in_spring/" /><link rel="next" href="http://itcodingman.github.io/spring_annotations_resource_inject_autowire/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring REST API + OAuth2 + Angular",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/securing_a_restful_web_service_with_spring_security\/"
+        },"genre": "posts","wordcount":  2830 ,
+        "url": "http:\/\/itcodingman.github.io\/securing_a_restful_web_service_with_spring_security\/","datePublished": "2020-04-01T00:00:00+00:00","dateModified": "2022-07-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们学习了如何使用 OAuth2 授权我们的应用程序。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring REST API + OAuth2 + Angular</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a>&nbsp;<a href="/categories/spring-security/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring Security</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-04-01">2020-04-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2830 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1概述"><strong>1、概述</strong></a></li>
+    <li><a href="#2-oauth2授权服务器as"><strong>2. OAuth2授权服务器（AS）</strong></a></li>
+    <li><a href="#3-资源服务器rs">3. 资源服务器（RS）</a>
+      <ul>
+        <li><a href="#31-maven-配置"><strong>3.1 Maven 配置</strong></a></li>
+        <li><a href="#32-安全配置">3.2 安全配置</a></li>
+        <li><a href="#34-模型和存储库">3.4 模型和存储库</a></li>
+        <li><a href="#34-服务与实施">3.4 服务与实施</a></li>
+        <li><a href="#35-示例控制器">3.5 示例控制器</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-前端设置"><strong>4. 前端——设置</strong></a></li>
+    <li><a href="#5-使用-angular-的授权代码流程">5. 使用 Angular 的授权代码流程</a>
+      <ul>
+        <li><a href="#51-homecomponent">5.1 HomeComponent</a></li>
+        <li><a href="#52-appservice">5.2 AppService</a></li>
+        <li><a href="#53-foo-组件">5.3. Foo 组件</a></li>
+        <li><a href="#54-appcomponent"><strong>5.4 AppComponent</strong></a></li>
+        <li><a href="#55-运行前端"><strong>5.5 运行前端</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1概述"><strong>1、概述</strong></h2>
+<p>在本教程中，<strong>我们将使用 OAuth2 保护 REST API，并从一个简单的 Angular 客户端使用它。</strong></p>
+<p>我们要构建的应用程序将包含三个独立的模块：</p>
+<ul>
+<li>授权服务器</li>
+<li>资源服务器</li>
+<li>UI 授权码：使用授权码流程的前端应用程序</li>
+</ul>
+<p>**我们将在 Spring Security 5 中使用 OAuth 堆栈。**如果您想使用 Spring Security OAuth legacy stack，请查看之前的这篇文章：<a href="/rest-api-spring-oauth2-angular-legacy" rel="">Spring REST API + OAuth2 + Angular（使用 Spring Security OAuth Legacy Stack）</a>。</p>
+<h2 id="2-oauth2授权服务器as"><strong>2. OAuth2授权服务器（AS）</strong></h2>
+<p>简单地说，<strong>授权服务器是一个发布授权令牌的应用程序。</strong></p>
+<p>以前，Spring Security OAuth 堆栈提供了将授权服务器设置为 Spring 应用程序的可能性。但该项目已被弃用，主要是因为 OAuth 是一个开放标准，拥有许多成熟的供应商，例如 Okta、Keycloak 和 ForgeRock，仅举几例。</p>
+<p>其中，我们将使用<a href="/spring-boot-keycloak" rel="">Keycloak</a>。它是由 Red Hat 管理的开源身份和访问管理服务器，由 JBoss 用 Java 开发。它不仅支持 OAuth2，还支持其他标准协议，例如 OpenID Connect 和 SAML。</p>
+<p>对于本教程，<strong>我们将在 Spring Boot 应用程序中设置<a href="/keycloak-embedded-in-a-spring-boot-application/" rel="">嵌入式 Keycloak 服务器</a>。</strong></p>
+<h2 id="3-资源服务器rs">3. 资源服务器（RS）</h2>
+<p>现在让我们讨论资源服务器；<strong>这本质上是 REST API，我们最终希望能够使用它。</strong></p>
+<h3 id="31-maven-配置"><strong>3.1 Maven 配置</strong></h3>
+<p>我们的资源服务器的 pom 与之前的授权服务器 pom 非常相似，没有 Keycloak 部分，并具有<strong>额外的<a href="https://search.maven.org/search?q=a:spring-boot-starter-oauth2-resource-server" target="_blank" rel="noopener noreffer">spring-boot-starter-oauth2-resource-server</a>依赖</strong>项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-oauth2-resource-server<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h3 id="32-安全配置">3.2 安全配置</h3>
+<p>由于我们使用的是 Spring Boot，<strong>因此我们可以使用 Boot 属性定义所需的最低配置。</strong></p>
+<p>我们将在<em>application.yml</em>文件中执行此操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">server: 
+</span></span><span class="line"><span class="cl">  port: 8081
+</span></span><span class="line"><span class="cl">  servlet: 
+</span></span><span class="line"><span class="cl">    context-path: /resource-server
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">spring:
+</span></span><span class="line"><span class="cl">  security:
+</span></span><span class="line"><span class="cl">    oauth2:
+</span></span><span class="line"><span class="cl">      resourceserver:
+</span></span><span class="line"><span class="cl">        jwt:
+</span></span><span class="line"><span class="cl">          issuer-uri: http://localhost:8083/auth/realms/codingman
+</span></span><span class="line"><span class="cl">          jwk-set-uri: http://localhost:8083/auth/realms/codingman/protocol/openid-connect/certs
+</span></span></code></pre></div><p>在这里，我们指定我们将使用 JWT 令牌进行授权。</p>
+<p><strong>jwk *-set-uri*属性指向包含公钥的 URI，以便我们的资源服务器可以验证令牌的完整性。</strong></p>
+<p><em>issuer-uri</em>属性表示验证令牌颁发者（即授权服务器）的附加安全措施。但是，添加此属性还要求授权服务器应该在我们启动资源服务器应用程序之前运行。</p>
+<p>接下来，让我们<strong>为 API 设置安全配置以保护端点</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfig</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">http</span><span class="o">.</span><span class="na">cors</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">HttpMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">&#34;/user/info&#34;</span><span class="o">,</span> <span class="s">&#34;/api/foos/**&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                  <span class="o">.</span><span class="na">hasAuthority</span><span class="o">(</span><span class="s">&#34;SCOPE_read&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">antMatchers</span><span class="o">(</span><span class="n">HttpMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">,</span> <span class="s">&#34;/api/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                  <span class="o">.</span><span class="na">hasAuthority</span><span class="o">(</span><span class="s">&#34;SCOPE_write&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">anyRequest</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                  <span class="o">.</span><span class="na">authenticated</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">and</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">oauth2ResourceServer</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">                <span class="o">.</span><span class="na">jwt</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们所见，对于我们的 GET 方法，我们只允许具有<em>读取</em>范围的请求。对于 POST 方法，请求者除了<em>read</em>之外还需要有<em>写</em>权限。但是，对于任何其他端点，该请求应该只通过任何用户进行身份验证。</p>
+<p>此外，**oauth2ResourceServer *()***方法指定这是一个资源服务器，带有*jwt()*格式的令牌。</p>
+<p>这里要注意的另一点是使用方法*cors()*来允许请求上的 Access-Control 标头。这一点尤其重要，因为我们正在处理一个 Angular 客户端，并且我们的请求将来自另一个源 URL。</p>
+<h3 id="34-模型和存储库">3.4 模型和存储库</h3>
+<p>接下来，让我们为我们的模型Foo定义一个<em>javax.persistence.Entity</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Entity</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Foo</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Id</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// constructor, getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>然后我们需要一个<em>Foo</em>的存储库。我们将使用 Spring 的<em>PagingAndSortingRepository</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IFooRepository</span> <span class="kd">extends</span> <span class="n">PagingAndSortingRepository</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="34-服务与实施">3.4 服务与实施</h3>
+<p>之后，我们将为我们的 API 定义并实现一个简单的服务：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IFooService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="nf">findById</span><span class="o">(</span><span class="n">Long</span> <span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Foo</span> <span class="nf">save</span><span class="o">(</span><span class="n">Foo</span> <span class="n">foo</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Service</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooServiceImpl</span> <span class="kd">implements</span> <span class="n">IFooService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">IFooRepository</span> <span class="n">fooRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">FooServiceImpl</span><span class="o">(</span><span class="n">IFooRepository</span> <span class="n">fooRepository</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">fooRepository</span> <span class="o">=</span> <span class="n">fooRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="nf">findById</span><span class="o">(</span><span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">fooRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Foo</span> <span class="nf">save</span><span class="o">(</span><span class="n">Foo</span> <span class="n">foo</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">fooRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">foo</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">fooRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="35-示例控制器">3.5 示例控制器</h3>
+<p>现在让我们实现一个简单的控制器，通过 DTO公开我们的<em>Foo资源：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/api/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">IFooService</span> <span class="n">fooService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">FooController</span><span class="o">(</span><span class="n">IFooService</span> <span class="n">fooService</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">fooService</span> <span class="o">=</span> <span class="n">fooService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@CrossOrigin</span><span class="o">(</span><span class="n">origins</span> <span class="o">=</span> <span class="s">&#34;http://localhost:8089&#34;</span><span class="o">)</span>    
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">FooDto</span> <span class="nf">findOne</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Foo</span> <span class="n">entity</span> <span class="o">=</span> <span class="n">fooService</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">orElseThrow</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">ResponseStatusException</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">convertToDto</span><span class="o">(</span><span class="n">entity</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">FooDto</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="n">foos</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">fooService</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">FooDto</span><span class="o">&gt;</span> <span class="n">fooDtos</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">foos</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">p</span> <span class="o">-&gt;</span> <span class="n">fooDtos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">convertToDto</span><span class="o">(</span><span class="n">p</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">fooDtos</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="n">FooDto</span> <span class="nf">convertToDto</span><span class="o">(</span><span class="n">Foo</span> <span class="n">entity</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">FooDto</span> <span class="n">dto</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FooDto</span><span class="o">(</span><span class="n">entity</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">entity</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">dto</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>注意上面@CrossOrigin的使用；这是控制器级别的配置，我们需要允许来自我们的 Angular 应用程序的 CORS 在指定的 URL 上运行。</strong></p>
+<p>这是我们的<em>FooDto</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooDto</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">long</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4-前端设置"><strong>4. 前端——设置</strong></h2>
+<p>现在，我们将研究一个简单的客户端 Angular 前端实现，它将访问我们的 REST API。</p>
+<p>我们将首先使用<a href="https://cli.angular.io/" target="_blank" rel="noopener noreffer">Angular CLI</a>来生成和管理我们的前端模块。</p>
+<p><strong>首先，我们安装<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener noreffer">node 和 npm</a></strong>，因为 Angular CLI 是一个 npm 工具。</p>
+<p>然后我们需要使用<a href="https://github.com/eirslett/frontend-maven-plugin" target="_blank" rel="noopener noreffer"><em>frontend-maven-plugin</em></a>来使用 Maven 构建我们的 Angular 项目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;build&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;plugins&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;groupId&gt;</span>com.github.eirslett<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;artifactId&gt;</span>frontend-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;version&gt;</span>1.3<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;nodeVersion&gt;</span>v6.10.2<span class="nt">&lt;/nodeVersion&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;npmVersion&gt;</span>3.10.10<span class="nt">&lt;/npmVersion&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;workingDirectory&gt;</span>src/main/resources<span class="nt">&lt;/workingDirectory&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;id&gt;</span>install node and npm<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&lt;goal&gt;</span>install-node-and-npm<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;id&gt;</span>npm install<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&lt;goal&gt;</span>npm<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;id&gt;</span>npm run build<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&lt;goal&gt;</span>npm<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&lt;arguments&gt;</span>run build<span class="nt">&lt;/arguments&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/plugins&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/build&gt;</span>
+</span></span></code></pre></div><p>最后，<strong>使用 Angular CLI 生成一个新模块：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ng new oauthApp
+</span></span></code></pre></div><p>在下一节中，我们将讨论 Angular 应用程序逻辑。</p>
+<h2 id="5-使用-angular-的授权代码流程">5. 使用 Angular 的授权代码流程</h2>
+<p>我们将在此处使用 OAuth2 授权代码流程。</p>
+<p>我们的用例：客户端应用程序从授权服务器请求代码并显示登录页面。**一旦用户提供了他们的有效凭证并提交，授权服务器就会给我们代码。**然后前端客户端使用它来获取访问令牌。</p>
+<h3 id="51-homecomponent">5.1 HomeComponent</h3>
+<p>让我们从我们的主要组件<em>HomeComponent</em>开始，所有动作都从这里开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="err">@</span><span class="nx">Component</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;home-header&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">providers</span><span class="o">:</span> <span class="p">[</span><span class="nx">AppService</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">template</span><span class="o">:</span> <span class="sb">`&lt;div class=&#34;container&#34; &gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;button *ngIf=&#34;!isLoggedIn&#34; class=&#34;btn btn-primary&#34; (click)=&#34;login()&#34; type=&#34;submit&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      Login&lt;/button&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;div *ngIf=&#34;isLoggedIn&#34; class=&#34;content&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;span&gt;Welcome !!&lt;/span&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;a class=&#34;btn btn-default pull-right&#34;(click)=&#34;logout()&#34; href=&#34;#&#34;&gt;Logout&lt;/a&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;br/&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;foo-details&gt;&lt;/foo-details&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">  &lt;/div&gt;`</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">HomeComponent</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">public</span> <span class="nx">isLoggedIn</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">_service</span><span class="o">:</span> <span class="nx">AppService</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">  <span class="nx">ngOnInit</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">isLoggedIn</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_service</span><span class="p">.</span><span class="nx">checkCredentials</span><span class="p">();</span>    
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">isLoggedIn</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">_service</span><span class="p">.</span><span class="nx">retrieveToken</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">5</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">login</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;http://localhost:8083/auth/realms/codingman/protocol/openid-connect/auth?
+</span></span></span><span class="line"><span class="cl"><span class="s1">         response_type=code&amp;scope=openid%20write%20read&amp;client_id=&#39;</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">         <span class="k">this</span><span class="p">.</span><span class="nx">_service</span><span class="p">.</span><span class="nx">clientId</span> <span class="o">+</span> <span class="s1">&#39;&amp;redirect_uri=&#39;</span><span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_service</span><span class="p">.</span><span class="nx">redirectUri</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">  <span class="nx">logout</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">_service</span><span class="p">.</span><span class="nx">logout</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>一开始，当用户没有登录时，只出现登录按钮。单击此按钮后，用户将导航到 AS 的授权 URL，他们在其中键入用户名和密码。成功登录后，用户将使用授权代码重定向回来，然后我们使用此代码检索访问令牌。</p>
+<h3 id="52-appservice">5.2 AppService</h3>
+<p>现在让我们看看*AppService——<em>位于</em>app.service.ts——*它包含服务器交互的逻辑：</p>
+<ul>
+<li><em>retrieveToken()</em>：使用授权码获取访问令牌</li>
+<li><em>saveToken()</em>：使用 ng2-cookies 库将我们的访问令牌保存在 cookie 中</li>
+<li><em>getResource()</em>：使用其 ID 从服务器获取 Foo 对象</li>
+<li><em>checkCredentials()</em> : 检查用户是否登录</li>
+<li><em>logout()</em>：删除访问令牌cookie并注销用户</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">Foo</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">constructor</span><span class="p">(</span><span class="kr">public</span> <span class="nx">id</span><span class="o">:</span> <span class="nx">number</span><span class="p">,</span> <span class="kr">public</span> <span class="nx">name</span><span class="o">:</span> <span class="nx">string</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">@</span><span class="nx">Injectable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">AppService</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">public</span> <span class="nx">clientId</span> <span class="o">=</span> <span class="s1">&#39;newClient&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">public</span> <span class="nx">redirectUri</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:8089/&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">_http</span><span class="o">:</span> <span class="nx">HttpClient</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">retrieveToken</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">params</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URLSearchParams</span><span class="p">();</span>   
+</span></span><span class="line"><span class="cl">    <span class="nx">params</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;grant_type&#39;</span><span class="p">,</span><span class="s1">&#39;authorization_code&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">params</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;client_id&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">clientId</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">params</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;client_secret&#39;</span><span class="p">,</span> <span class="s1">&#39;newClientSecret&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">params</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;redirect_uri&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">redirectUri</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">params</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">,</span><span class="nx">code</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">headers</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="nx">HttpHeaders</span><span class="p">({</span><span class="s1">&#39;Content-type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/x-www-form-urlencoded; charset=utf-8&#39;</span><span class="p">});</span>
+</span></span><span class="line"><span class="cl">       
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">.</span><span class="nx">_http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;http://localhost:8083/auth/realms/codingman/protocol/openid-connect/token&#39;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="nx">params</span><span class="p">.</span><span class="nx">toString</span><span class="p">(),</span> <span class="p">{</span> <span class="nx">headers</span><span class="o">:</span> <span class="nx">headers</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">data</span> <span class="p">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">saveToken</span><span class="p">(</span><span class="nx">data</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">err</span> <span class="p">=&gt;</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;Invalid Credentials&#39;</span><span class="p">));</span> 
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">saveToken</span><span class="p">(</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">expireDate</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="nx">token</span><span class="p">.</span><span class="nx">expires_in</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Cookie</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&#34;access_token&#34;</span><span class="p">,</span> <span class="nx">token</span><span class="p">.</span><span class="nx">access_token</span><span class="p">,</span> <span class="nx">expireDate</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Obtained Access token&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:8089&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">getResource</span><span class="p">(</span><span class="nx">resourceUrl</span><span class="p">)</span> <span class="o">:</span> <span class="nx">Observable</span><span class="o">&lt;</span><span class="nx">any</span><span class="o">&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpHeaders</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;Content-type&#39;</span><span class="o">:</span> <span class="s1">&#39;application/x-www-form-urlencoded; charset=utf-8&#39;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="s1">&#39;Authorization&#39;</span><span class="o">:</span> <span class="s1">&#39;CD &#39;</span><span class="o">+</span><span class="nx">Cookie</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span><span class="p">)});</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">resourceUrl</span><span class="p">,</span> <span class="p">{</span> <span class="nx">headers</span><span class="o">:</span> <span class="nx">headers</span> <span class="p">})</span>
+</span></span><span class="line"><span class="cl">                   <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">error</span><span class="o">:</span><span class="nx">any</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">Observable</span><span class="p">.</span><span class="k">throw</span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">json</span><span class="p">().</span><span class="nx">error</span> <span class="o">||</span> <span class="s1">&#39;Server error&#39;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">checkCredentials</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">Cookie</span><span class="p">.</span><span class="nx">check</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">logout</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">Cookie</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在<em>retrieveToken</em>方法中，我们使用我们的客户端凭据和基本身份验证将<em>POST</em>发送到*/openid-connect/token*端点以获取访问令牌。参数以 URL 编码格式发送。获得访问令牌后，<strong>我们将其存储在 cookie 中。</strong></p>
+<p>cookie 存储在这里尤为重要，因为我们仅将 cookie 用于存储目的，而不是直接驱动身份验证过程。<strong>这有助于防止跨站点请求伪造 (CSRF) 攻击和漏洞。</strong></p>
+<h3 id="53-foo-组件">5.3. Foo 组件</h3>
+<p>最后，我们的<em>FooComponent</em>来显示我们的 Foo 详细信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="err">@</span><span class="nx">Component</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;foo-details&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">providers</span><span class="o">:</span> <span class="p">[</span><span class="nx">AppService</span><span class="p">],</span>  
+</span></span><span class="line"><span class="cl">  <span class="nx">template</span><span class="o">:</span> <span class="sb">`&lt;div class=&#34;container&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;h1 class=&#34;col-sm-12&#34;&gt;Foo Details&lt;/h1&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;div class=&#34;col-sm-12&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">        &lt;label class=&#34;col-sm-3&#34;&gt;ID&lt;/label&gt; &lt;span&gt;{{foo.id}}&lt;/span&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;div class=&#34;col-sm-12&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">        &lt;label class=&#34;col-sm-3&#34;&gt;Name&lt;/label&gt; &lt;span&gt;{{foo.name}}&lt;/span&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;div class=&#34;col-sm-12&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">        &lt;button class=&#34;btn btn-primary&#34; (click)=&#34;getFoo()&#34; type=&#34;submit&#34;&gt;New Foo&lt;/button&gt;        
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">  &lt;/div&gt;`</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">FooComponent</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">public</span> <span class="nx">foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;sample foo&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">private</span> <span class="nx">foosUrl</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:8081/resource-server/api/foos/&#39;</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">constructor</span><span class="p">(</span><span class="kr">private</span> <span class="nx">_service</span><span class="o">:</span><span class="nx">AppService</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">getFoo</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">_service</span><span class="p">.</span><span class="nx">getResource</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">foosUrl</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">data</span> <span class="p">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="nx">data</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">         <span class="nx">error</span> <span class="p">=&gt;</span>  <span class="k">this</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Error&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="54-appcomponent"><strong>5.4 AppComponent</strong></h3>
+<p>我们简单的<em>AppComponent</em>作为根组件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="err">@</span><span class="nx">Component</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">selector</span><span class="o">:</span> <span class="s1">&#39;app-root&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">template</span><span class="o">:</span> <span class="sb">`&lt;nav class=&#34;navbar navbar-default&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;div class=&#34;container-fluid&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;div class=&#34;navbar-header&#34;&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">        &lt;a class=&#34;navbar-brand&#34; href=&#34;/&#34;&gt;Spring Security Oauth - Authorization Code&lt;/a&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">  &lt;/nav&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">  &lt;router-outlet&gt;&lt;/router-outlet&gt;`</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">AppComponent</span> <span class="p">{</span> <span class="p">}</span>
+</span></span></code></pre></div><p>还有我们包装所有组件、服务和路由的<em><strong>AppModule ：</strong></em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="err">@</span><span class="nx">NgModule</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">declarations</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">AppComponent</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">HomeComponent</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">FooComponent</span>    
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">imports</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">BrowserModule</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">HttpClientModule</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">RouterModule</span><span class="p">.</span><span class="nx">forRoot</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">     <span class="p">{</span> <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">component</span><span class="o">:</span> <span class="nx">HomeComponent</span><span class="p">,</span> <span class="nx">pathMatch</span><span class="o">:</span> <span class="s1">&#39;full&#39;</span> <span class="p">}],</span> <span class="p">{</span><span class="nx">onSameUrlNavigation</span><span class="o">:</span> <span class="s1">&#39;reload&#39;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">providers</span><span class="o">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">bootstrap</span><span class="o">:</span> <span class="p">[</span><span class="nx">AppComponent</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="kr">export</span> <span class="kr">class</span> <span class="nx">AppModule</span> <span class="p">{</span> <span class="p">}</span>
+</span></span></code></pre></div><h3 id="55-运行前端"><strong>5.5 运行前端</strong></h3>
+<ol>
+<li>要运行我们的任何前端模块，我们需要先构建应用程序：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mvn clean install
+</span></span></code></pre></div><ol start="2">
+<li>然后我们需要导航到我们的 Angular 应用目录：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> src/main/resources
+</span></span></code></pre></div><ol start="3">
+<li>最后，我们将启动我们的应用程序：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">npm start
+</span></span></code></pre></div><p>服务器将默认在端口 4200 上启动；要更改任何模块的端口，请更改：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="s2">&#34;start&#34;</span>: <span class="s2">&#34;ng serve&#34;</span>
+</span></span></code></pre></div><p>在*package.json 中；*例如，要使其在端口 8089 上运行，请添加：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="s2">&#34;start&#34;</span>: <span class="s2">&#34;ng serve --port 8089&#34;</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/securing_a_restful_web_service_with_spring_security/" data-title="Spring REST API &#43; OAuth2 &#43; Angular"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/securing_a_restful_web_service_with_spring_security/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/securing_a_restful_web_service_with_spring_security/" data-title="Spring REST API &#43; OAuth2 &#43; Angular"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/securing_a_restful_web_service_with_spring_security/" data-title="Spring REST API &#43; OAuth2 &#43; Angular"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/securing_a_restful_web_service_with_spring_security/" data-title="Spring REST API &#43; OAuth2 &#43; Angular"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/rest_api_pagination_in_spring/" class="prev" rel="prev" title="Spring中的REST分页"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Spring中的REST分页</a>
+            <a href="/spring_annotations_resource_inject_autowire/" class="next" rel="next" title="Spring 中的注解：@Autowired、@Resource 和 @Inject">Spring 中的注解：@Autowired、@Resource 和 @Inject<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

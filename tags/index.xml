@@ -60,27 +60,27 @@
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>Spring Batch</title>
-    <link>http://itcodingman.github.io/tags/spring-batch/</link>
-    <pubDate>Tue, 31 May 2022 12:37:50 &#43;0800</pubDate>
+    <title>EasyOCR</title>
+    <link>http://itcodingman.github.io/tags/easyocr/</link>
+    <pubDate>Fri, 24 Dec 2021 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/spring-batch/</guid>
+    <guid>http://itcodingman.github.io/tags/easyocr/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>Spring Core Basics</title>
-    <link>http://itcodingman.github.io/tags/spring-core-basics/</link>
-    <pubDate>Sun, 29 May 2022 12:37:50 &#43;0800</pubDate>
+    <title>OCR</title>
+    <link>http://itcodingman.github.io/tags/ocr/</link>
+    <pubDate>Fri, 24 Dec 2021 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/spring-core-basics/</guid>
+    <guid>http://itcodingman.github.io/tags/ocr/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>Spring DI</title>
-    <link>http://itcodingman.github.io/tags/spring-di/</link>
-    <pubDate>Sun, 29 May 2022 12:37:50 &#43;0800</pubDate>
+    <title>Flask</title>
+    <link>http://itcodingman.github.io/tags/flask/</link>
+    <pubDate>Tue, 01 Jun 2021 12:37:50 &#43;0800</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/spring-di/</guid>
+    <guid>http://itcodingman.github.io/tags/flask/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>

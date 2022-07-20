@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring 和 JPA 的事务配置 - Coding Man</title><meta name="Description" content="在本文中，我们介绍了使用 Java 和 XML 的事务语义的基本配置。我们还学习了如何使用*@Transactional*，以及事务策略的最佳实践。"><meta property="og:title" content="Spring 和 JPA 的事务配置" />
+<meta property="og:description" content="在本文中，我们介绍了使用 Java 和 XML 的事务语义的基本配置。我们还学习了如何使用*@Transactional*，以及事务策略的最佳实践。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-12-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring 和 JPA 的事务配置"/>
+<meta name="twitter:description" content="在本文中，我们介绍了使用 Java 和 XML 的事务语义的基本配置。我们还学习了如何使用*@Transactional*，以及事务策略的最佳实践。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/" /><link rel="prev" href="http://itcodingman.github.io/thymeleaf_in_spring_mvc/" /><link rel="next" href="http://itcodingman.github.io/1_hour_python_opencv/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring 和 JPA 的事务配置",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/transaction_configuration_with_jpa_and_spring\/"
+        },"genre": "posts","keywords": "JPA, Hibernate","wordcount":  1887 ,
+        "url": "http:\/\/itcodingman.github.io\/transaction_configuration_with_jpa_and_spring\/","datePublished": "2020-12-23T00:00:00+00:00","dateModified": "2022-07-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们介绍了使用 Java 和 XML 的事务语义的基本配置。我们还学习了如何使用*@Transactional*，以及事务策略的最佳实践。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring 和 JPA 的事务配置</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-12-23">2020-12-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1887 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-配置事务"><strong>2. 配置事务</strong></a></li>
+    <li><a href="#3-使用-xml-配置事务"><strong>3. 使用 XML 配置事务</strong></a></li>
+    <li><a href="#4-transactional注解"><strong>4. @Transactional注解</strong></a></li>
+    <li><a href="#5-潜在的陷阱"><strong>5. 潜在的陷阱</strong></a>
+      <ul>
+        <li><a href="#51-交易和代理"><strong>5.1 交易和代理</strong></a></li>
+        <li><a href="#52-更改隔离级别"><strong>5.2 更改隔离级别</strong></a></li>
+        <li><a href="#53-只读事务"><strong>5.3 只读事务</strong></a></li>
+        <li><a href="#54-事务记录"><strong>5.4 事务记录</strong></a></li>
+        <li><a href="#55-事务回滚">5.5 事务回滚</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>本教程将讨论<strong>配置 Spring Transactions 的正确方法</strong>、如何使用*@Transactional*注解以及常见的陷阱。</p>
+<p>有关核心持久性配置的更深入讨论，请查看<a href="/the-persistence-layer-with-spring-and-jpa" rel="">Spring with JPA 教程</a>。</p>
+<p>基本上，有两种不同的方式来配置事务、注解和AOP，每一种方式都有自己的优势。我们将在这里讨论更常见的注释配置。</p>
+<h2 id="2-配置事务"><strong>2. 配置事务</strong></h2>
+<p>Spring 3.1 引入了**@EnableTransactionManagement注解**，我们可以在*@Configuration*类中使用它来启用事务支持：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableTransactionManagement</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersistenceJPAConfig</span><span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="n">LocalContainerEntityManagerFactoryBean</span>
+</span></span><span class="line"><span class="cl">     <span class="nf">entityManagerFactoryBean</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="n">PlatformTransactionManager</span> <span class="nf">transactionManager</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">      <span class="n">JpaTransactionManager</span> <span class="n">transactionManager</span>
+</span></span><span class="line"><span class="cl">        <span class="o">=</span> <span class="k">new</span> <span class="n">JpaTransactionManager</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">      <span class="n">transactionManager</span><span class="o">.</span><span class="na">setEntityManagerFactory</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">entityManagerFactoryBean</span><span class="o">().</span><span class="na">getObject</span><span class="o">()</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">transactionManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>但是，<strong>如果我们使用的是 Spring Boot 项目并且类路径上有 spring-data-* 或 spring-tx 依赖项，则默认情况下将启用事务管理</strong>。</p>
+<h2 id="3-使用-xml-配置事务"><strong>3. 使用 XML 配置事务</strong></h2>
+<p>对于 3.1 之前的版本，或者如果 Java 不是一个选项，这里是使用<em>注释驱动</em>和命名空间支持的 XML 配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;txManager&#34;</span> <span class="na">class=</span><span class="s">&#34;org.springframework.orm.jpa.JpaTransactionManager&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;entityManagerFactory&#34;</span> <span class="na">ref=</span><span class="s">&#34;myEmf&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/bean&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;tx:annotation-driven</span> <span class="na">transaction-manager=</span><span class="s">&#34;txManager&#34;</span> <span class="nt">/&gt;</span>
+</span></span></code></pre></div><h2 id="4-transactional注解"><strong>4. @Transactional注解</strong></h2>
+<p>配置事务后，我们现在可以在类或方法级别使用*@Transactional注解 bean：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Service</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Transactional</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>注解还支持<strong>进一步的配置</strong>：</p>
+<ul>
+<li>交易的<em>传播类型</em></li>
+<li>事务的<em>隔离级别</em></li>
+<li>事务包装的操作的<em>超时</em></li>
+<li>一个<em>readOnly 标志</em>——提示持久性提供者事务应该是只读的</li>
+<li>事务的<em>回滚规则</em></li>
+</ul>
+<p>请注意，默认情况下，回滚仅发生在运行时，未经检查的异常。<strong>检查的异常不会触发</strong>事务的回滚。当然，我们可以使用<em>rollbackFor</em>和<em>noRollbackFor</em>注释参数来配置这种行为。</p>
+<h2 id="5-潜在的陷阱"><strong>5. 潜在的陷阱</strong></h2>
+<h3 id="51-交易和代理"><strong>5.1 交易和代理</strong></h3>
+<p>在高层次上， Spring 为所有使用**@Transactional**注释的类创建代理，无论是在类上还是在任何方法上。代理允许框架在运行方法之前和之后注入事务逻辑，主要用于启动和提交事务。</p>
+<p>需要记住的重要一点是，如果事务 bean 正在实现一个接口，那么默认情况下代理将是一个 Java 动态代理。这意味着只有通过代理传入的外部方法调用才会被拦截。**任何自调用都不会启动任何事务，*<em>即使该方法具有</em>@Transactional*注释。</p>
+<p>使用代理的另一个注意事项是**只有公共方法才应该使用@Transactional 进行注释。**任何其他可见性的方法将简单地忽略注释，因为它们没有被代理。</p>
+<h3 id="52-更改隔离级别"><strong>5.2 更改隔离级别</strong></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">courseDao</span><span class="o">.</span><span class="na">createWithRuntimeException</span><span class="o">(</span><span class="n">course</span><span class="o">);</span>
+</span></span></code></pre></div><p>我们还可以更改事务隔离级别：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Transactional</span><span class="o">(</span><span class="n">isolation</span> <span class="o">=</span> <span class="n">Isolation</span><span class="o">.</span><span class="na">SERIALIZABLE</span><span class="o">)</span>
+</span></span></code></pre></div><p>请注意，这实际上已在 Spring 4.1中<a href="https://jira.spring.io/browse/SPR-5012" target="_blank" rel="noopener noreffer">引入</a>；如果我们在 Spring 4.1之前运行上面的示例，它将导致：</p>
+<blockquote>
+<p><em>org.springframework.transaction.InvalidIsolationLevelException</em>：标准 JPA 不支持自定义隔离级别 -为您的 JPA 实现使用特殊的<em>JpaDialect</em></p>
+</blockquote>
+<h3 id="53-只读事务"><strong>5.3 只读事务</strong></h3>
+<p><em>readOnly</em>标志通常会产生混淆，尤其是在使用 JPA 时。来自 Javadoc：</p>
+<blockquote>
+<p>这只是作为实际事务子系统的提示；它<em>不一定</em>会导致写访问尝试失败。无法解释只读提示的事务管理器在请求只读事务时<em>不会抛出异常。</em></p>
+</blockquote>
+<p>事实是，当设置了<strong>readOnly</strong>标志时，我们不能确定不会发生插入或更新。此行为取决于驱动，而 JPA 与驱动无关。</p>
+<p>了解<strong>readOnly</strong>标志仅在事务内部相关也很重要。如果操作发生在事务上下文之外，则简单地忽略该标志。一个简单的示例将调用一个带有以下注释的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Transactional</span><span class="o">(</span> <span class="n">propagation</span> <span class="o">=</span> <span class="n">Propagation</span><span class="o">.</span><span class="na">SUPPORTS</span><span class="o">,</span><span class="n">readOnly</span> <span class="o">=</span> <span class="kc">true</span> <span class="o">)</span>
+</span></span></code></pre></div><p>在非事务性上下文中，不会创建事务并且<em>readOnly</em>标志将被忽略。</p>
+<h3 id="54-事务记录"><strong>5.4 事务记录</strong></h3>
+<p>了解事务相关问题的一个有用方法是微调事务包中的日志记录。Spring中的相关包是“ <em>org.springframework.transaction”</em>，需要配置一个<em>TRACE的日志级别。</em></p>
+<h3 id="55-事务回滚">5.5 事务回滚</h3>
+<p><em>@Transactional</em>注解是指定方法上事务的语义的元数据。我们有两种回滚事务的方法：声明式和编程式。</p>
+<p>在<strong>声明式方法中，我们使用 @Transactional对方法进行注解</strong>。<em>@Transactional</em>注解使用属性<em>rollbackFor</em>或<em>rollbackForClassName</em>来回滚事务，并使用属性<em>noRollbackFor</em>或<em>noRollbackForClassName</em>来避免对列出的异常进行回滚。</p>
+<p>声明式方法中的默认回滚行为将在运行时异常时回滚。</p>
+<p>让我们看一个使用声明性方法回滚事务以处理运行时异常或错误的简单示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Transactional</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">createCourseDeclarativeWithRuntimeException</span><span class="o">(</span><span class="n">Course</span> <span class="n">course</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">courseDao</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">course</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">throw</span> <span class="k">new</span> <span class="n">DataIntegrityViolationException</span><span class="o">(</span><span class="s">&#34;Throwing exception for demoing Rollback!!!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们将使用声明性方法为列出的检查异常回滚事务。我们示例中的回滚是在<em>SQLException</em>上：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Transactional</span><span class="o">(</span><span class="n">rollbackFor</span> <span class="o">=</span> <span class="o">{</span> <span class="n">SQLException</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">createCourseDeclarativeWithCheckedException</span><span class="o">(</span><span class="n">Course</span> <span class="n">course</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">courseDao</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">course</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">throw</span> <span class="k">new</span> <span class="n">SQLException</span><span class="o">(</span><span class="s">&#34;Throwing exception for demoing rollback&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>让我们看一下在声明性方法中对属性noRollbackFor</em>的简单使用，以防止所列异常的事务回滚：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Transactional</span><span class="o">(</span><span class="n">noRollbackFor</span> <span class="o">=</span> <span class="o">{</span> <span class="n">SQLException</span><span class="o">.</span><span class="na">class</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">createCourseDeclarativeWithNoRollBack</span><span class="o">(</span><span class="n">Course</span> <span class="n">course</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SQLException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">courseDao</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">course</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">throw</span> <span class="k">new</span> <span class="n">SQLException</span><span class="o">(</span><span class="s">&#34;Throwing exception for demoing rollback&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在编程方法中，我们使用<strong>TransactionAspectSupport回滚事务</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">createCourseDefaultRatingProgramatic</span><span class="o">(</span><span class="n">Course</span> <span class="n">course</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">       <span class="n">courseDao</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">course</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">       <span class="n">TransactionAspectSupport</span><span class="o">.</span><span class="na">currentTransactionStatus</span><span class="o">().</span><span class="na">setRollbackOnly</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>声明性</strong>回滚策略应该优于程序化回滚策略。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/" data-title="Spring 和 JPA 的事务配置" data-hashtags="JPA,Hibernate"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/" data-hashtag="JPA"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/" data-title="Spring 和 JPA 的事务配置"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/" data-title="Spring 和 JPA 的事务配置"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/" data-title="Spring 和 JPA 的事务配置"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/jpa/">JPA</a>,&nbsp;<a href="/tags/hibernate/">Hibernate</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/thymeleaf_in_spring_mvc/" class="prev" rel="prev" title="在 Spring 中使用 Thymeleaf"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>在 Spring 中使用 Thymeleaf</a>
+            <a href="/1_hour_python_opencv/" class="next" rel="next" title="一小时学习Python和OpenCV">一小时学习Python和OpenCV<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

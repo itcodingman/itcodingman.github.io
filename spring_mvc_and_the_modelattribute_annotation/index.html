@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring MVC 和 @ModelAttribute 注解 - Coding Man</title><meta name="Description" content="在本文中，我们研究了在方法参数和方法级用例中使用@ModelAttribute注释。"><meta property="og:title" content="Spring MVC 和 @ModelAttribute 注解" />
+<meta property="og:description" content="在本文中，我们研究了在方法参数和方法级用例中使用@ModelAttribute注释。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring_mvc_and_the_modelattribute_annotation/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-08-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring MVC 和 @ModelAttribute 注解"/>
+<meta name="twitter:description" content="在本文中，我们研究了在方法参数和方法级用例中使用@ModelAttribute注释。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring_mvc_and_the_modelattribute_annotation/" /><link rel="prev" href="http://itcodingman.github.io/spring_maven_repository/" /><link rel="next" href="http://itcodingman.github.io/spring_mvc_annotations/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring MVC 和 @ModelAttribute 注解",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring_mvc_and_the_modelattribute_annotation\/"
+        },"genre": "posts","wordcount":  1768 ,
+        "url": "http:\/\/itcodingman.github.io\/spring_mvc_and_the_modelattribute_annotation\/","datePublished": "2020-08-05T00:00:00+00:00","dateModified": "2022-07-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们研究了在方法参数和方法级用例中使用@ModelAttribute注释。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring MVC 和 @ModelAttribute 注解</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-08-05">2020-08-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1768 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-深入了解modelattribute"><strong>2. 深入了解@ModelAttribute</strong></a>
+      <ul>
+        <li><a href="#21-在方法级别"><strong>2.1 在方法级别</strong></a></li>
+        <li><a href="#22-作为方法论据"><strong>2.2 作为方法论据</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-表格示例"><strong>3. 表格示例</strong></a>
+      <ul>
+        <li><a href="#31-view"><strong>3.1 View</strong></a></li>
+        <li><a href="#32-控制器"><strong>3.2 控制器</strong></a></li>
+        <li><a href="#33-模型"><strong>3.3 模型</strong></a></li>
+        <li><a href="#34-controlleradvice"><strong>3.4 ControllerAdvice</strong></a></li>
+        <li><a href="#35-结果视图"><strong>3.5 结果视图</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>最重要的<a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html" target="_blank" rel="noopener noreffer">Spring MVC</a>注释之一是<a href="https://docs.spring.io/spring/docs/3.1.x/javadoc-api/org/springframework/web/bind/annotation/ModelAttribute.html" target="_blank" rel="noopener noreffer">@ModelAttribute</a>注释。</p>
+<p><em>@ModelAttribute</em>是一个注解，它将方法参数或方法返回值绑定到命名模型属性，然后将其公开给 Web 视图。</p>
+<p>在本教程中，我们将通过一个通用概念（公司员工提交的表单）来演示此注释的可用性和功能。</p>
+<h2 id="2-深入了解modelattribute"><strong>2. 深入了解@ModelAttribute</strong></h2>
+<p>正如介绍性段落所揭示的，我们可以将*@ModelAttribute*用作方法参数或在方法级别使用。</p>
+<h3 id="21-在方法级别"><strong>2.1 在方法级别</strong></h3>
+<p>当我们在方法级别使用注解时，它表明方法的目的是添加一个或多个模型属性。<a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html" target="_blank" rel="noopener noreffer">此类方法支持与@RequestMapping</a>方法相同的参数类型，但它们不能直接映射到请求。</p>
+<p>让我们看一个简单的例子来了解它是如何工作的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ModelAttribute</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">addAttributes</span><span class="o">(</span><span class="n">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;msg&#34;</span><span class="o">,</span> <span class="s">&#34;Welcome to the Netherlands!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上面的例子中，我们看到了一个方法，它为控制器类中定义的所有<em>Model</em>添加了一个名为msg的属性。</p>
+<p>当然，我们将在本文后面看到这一点。</p>
+<p>一般来说，Spring MVC 在调用任何请求处理程序方法之前总是会先调用该方法。基本上，**@ModelAttribute方法在调用带有@RequestMapping注释的控制器方法之前被调用。**这是因为必须在控制器方法内部开始任何处理之前创建模型对象。</p>
+<p>将相应的类注释为<a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ControllerAdvice.html" target="_blank" rel="noopener noreffer">@ControllerAdvice</a>也很重要。因此，我们可以在<em>Model</em>中添加将被标识为全局的值。这实际上意味着对于每个请求，响应中的每个方法都存在一个默认值。</p>
+<h3 id="22-作为方法论据"><strong>2.2 作为方法论据</strong></h3>
+<p>当我们使用注解作为方法参数时，它表示从模型中检索参数。当注释不存在时，它应该首先被实例化，然后添加到模型中。一旦出现在模型中，参数字段应该从具有匹配名称的所有请求参数中填充。</p>
+<p>在以下代码片段中，我们将使用提交到<em>addEmployee</em>端点的表单中的数据填充员工模型属性。Spring MVC 在调用提交方法之前在后台执行此操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/addEmployee&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">submit</span><span class="o">(</span><span class="nd">@ModelAttribute</span><span class="o">(</span><span class="s">&#34;employee&#34;</span><span class="o">)</span> <span class="n">Employee</span> <span class="n">employee</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Code that uses the employee object
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;employeeView&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在本文后面，我们将看到一个完整的示例，说明如何使用<em>Employee</em>对象来填充<em>employeeView</em>模板。</p>
+<p>它将表单数据与 bean 绑定。使用@RequestMapping注释的控制器可以具有使用*@ModelAttribute*注释的自定义类参数。</p>
+<p>在 Spring MVC 中，我们将其称为数据绑定，这是一种通用机制，可以让我们不必单独解析每个表单字段。</p>
+<h2 id="3-表格示例"><strong>3. 表格示例</strong></h2>
+<p>在本节中，我们将查看概述部分中概述的示例，这是一个非常基本的表单，提示用户（特别是公司员工）输入一些个人信息（特别是<em>name</em>和<em>ID</em>）。*在提交完成并且没有任何错误之后，用户希望看到之前提交的数据显示在另一个屏幕上。</p>
+<h3 id="31-view"><strong>3.1 View</strong></h3>
+<p>让我们首先创建一个带有 id 和 name 字段的简单表单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">form:form</span> <span class="na">method</span><span class="o">=</span><span class="s">&#34;POST&#34;</span> <span class="na">action</span><span class="o">=</span><span class="s">&#34;/spring-mvc-basics/addEmployee&#34;</span> 
+</span></span><span class="line"><span class="cl">  <span class="na">modelAttribute</span><span class="o">=</span><span class="s">&#34;employee&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">form:label</span> <span class="na">path</span><span class="o">=</span><span class="s">&#34;name&#34;</span><span class="p">&gt;</span>Name<span class="p">&lt;/</span><span class="nt">form:label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">form:input</span> <span class="na">path</span><span class="o">=</span><span class="s">&#34;name&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">form:label</span> <span class="na">path</span><span class="o">=</span><span class="s">&#34;id&#34;</span><span class="p">&gt;</span>Id<span class="p">&lt;/</span><span class="nt">form:label</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">form:input</span> <span class="na">path</span><span class="o">=</span><span class="s">&#34;id&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;submit&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Submit&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">form:form</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="32-控制器"><strong>3.2 控制器</strong></h3>
+<p>这是控制器类，我们将在其中实现上述视图的逻辑：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ControllerAdvice</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EmployeeController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">,</span> <span class="n">Employee</span><span class="o">&gt;</span> <span class="n">employeeMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/addEmployee&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">submit</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="nd">@ModelAttribute</span><span class="o">(</span><span class="s">&#34;employee&#34;</span><span class="o">)</span> <span class="n">Employee</span> <span class="n">employee</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">BindingResult</span> <span class="n">result</span><span class="o">,</span> <span class="n">ModelMap</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">hasErrors</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="s">&#34;error&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="n">employee</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">,</span> <span class="n">employee</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">employeeMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">employee</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">employee</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;employeeView&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@ModelAttribute</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addAttributes</span><span class="o">(</span><span class="n">Model</span> <span class="n">model</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;msg&#34;</span><span class="o">,</span> <span class="s">&#34;Welcome to the Netherlands!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在<em>submit()<em>方法中，我们有一个绑定到</em>View</em>的Employee对象。我们可以像这样简单地将表单字段映射到对象模型。在该方法中，我们从表单中获取值并将它们设置为<a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/ui/ModelMap.html" target="_blank" rel="noopener noreffer">ModelMap</a>。</p>
+<p><strong>最后，我们返回<em>employeeView</em>，这意味着我们将各自的 JSP 文件称为View代表。</strong></p>
+<p>此外，还有一个<em>addAttributes()<em>方法。其目的是在</em>模型</em>中添加将被全局识别的值。也就是说，对每个控制器方法的每个请求都将返回一个默认值作为响应。我们还必须将特定类注释为*@ControllerAdvice。*</p>
+<h3 id="33-模型"><strong>3.3 模型</strong></h3>
+<p>如前所述，<em>模型</em>对象非常简单，包含“前端”属性所需的所有内容。现在让我们看一个例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@XmlRootElement</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Employee</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">long</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Employee</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getters and setters removed
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h3 id="34-controlleradvice"><strong>3.4 ControllerAdvice</strong></h3>
+<p><em>@ControllerAdvice</em>协助控制器，特别是适用于所有*@RequestMapping<em>方法的</em>@ModelAttribute<em>方法。当然，我们的</em>addAttributes()<em>方法将是第一个运行的，在其余的</em>@RequestMapping*方法之前。</p>
+<p>记住这一点，在<em>submit()<em>和</em>addAttributes()<em>都运行之后，我们可以在从</em>Controller</em>类返回的<em>View</em>中引用它们，方法是在美元化的花括号中提及它们的给定名称，例如*${name}*。</p>
+<h3 id="35-结果视图"><strong>3.5 结果视图</strong></h3>
+<p>现在让我们打印我们从表单中收到的内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>${msg}<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">Name : ${name}
+</span></span><span class="line"><span class="cl">ID : ${id}
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring_mvc_and_the_modelattribute_annotation/" data-title="Spring MVC 和 @ModelAttribute 注解"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring_mvc_and_the_modelattribute_annotation/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring_mvc_and_the_modelattribute_annotation/" data-title="Spring MVC 和 @ModelAttribute 注解"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring_mvc_and_the_modelattribute_annotation/" data-title="Spring MVC 和 @ModelAttribute 注解"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring_mvc_and_the_modelattribute_annotation/" data-title="Spring MVC 和 @ModelAttribute 注解"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring_maven_repository/" class="prev" rel="prev" title="Spring Maven 存储库"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Spring Maven 存储库</a>
+            <a href="/spring_mvc_annotations/" class="next" rel="next" title="Spring Web 注释">Spring Web 注释<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

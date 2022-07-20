@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring Data JPA 简介 - Coding Man</title><meta name="Description" content="在本文中，我们介绍了使用基于 XML 和 Java 的配置的 Spring 5、JPA 2 和 Spring Data JPA（Spring Data 项目的一部分）的持久层的配置和实现。"><meta property="og:title" content="Spring Data JPA 简介" />
+<meta property="og:description" content="在本文中，我们介绍了使用基于 XML 和 Java 的配置的 Spring 5、JPA 2 和 Spring Data JPA（Spring Data 项目的一部分）的持久层的配置和实现。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-12-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring Data JPA 简介"/>
+<meta name="twitter:description" content="在本文中，我们介绍了使用基于 XML 和 Java 的配置的 Spring 5、JPA 2 和 Spring Data JPA（Spring Data 项目的一部分）的持久层的配置和实现。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/" /><link rel="prev" href="http://itcodingman.github.io/the_persistence_layer_with_spring_and_jpa/" /><link rel="next" href="http://itcodingman.github.io/thymeleaf_in_spring_mvc/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring Data JPA 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/the_persistence_layer_with_spring_data_jpa\/"
+        },"genre": "posts","keywords": "Spring Data, JPA","wordcount":  2417 ,
+        "url": "http:\/\/itcodingman.github.io\/the_persistence_layer_with_spring_data_jpa\/","datePublished": "2020-12-09T00:00:00+00:00","dateModified": "2022-07-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们介绍了使用基于 XML 和 Java 的配置的 Spring 5、JPA 2 和 Spring Data JPA（Spring Data 项目的一部分）的持久层的配置和实现。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring Data JPA 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-12-09">2020-12-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2417 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-spring-data-generated-dao--不再有-dao-实现"><strong>2. Spring Data Generated DAO – 不再有 DAO 实现</strong></a></li>
+    <li><a href="#3-自定义访问方法和查询"><strong>3. 自定义访问方法和查询</strong></a>
+      <ul>
+        <li><a href="#31-自动自定义查询"><strong>3.1 自动自定义查询</strong></a></li>
+        <li><a href="#32-手动自定义查询"><strong>3.2 手动自定义查询</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-交易配置"><strong>4. 交易配置</strong></a>
+      <ul>
+        <li><a href="#41-异常翻译"><strong>4.1 异常翻译</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-spring-data-jpa-存储库配置"><strong>5. Spring Data JPA 存储库配置</strong></a></li>
+    <li><a href="#6-java-或-xml-配置"><strong>6. Java 或 XML 配置</strong></a></li>
+    <li><a href="#7-maven依赖"><strong>7. Maven依赖</strong></a></li>
+    <li><a href="#8-使用-spring-boot">8. 使用 Spring Boot</a></li>
+    <li><a href="#9-spring-data-jpa-的有用工具">9. Spring Data JPA 的有用工具</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>本教程将重点**介绍将 Spring Data JPA 引入 Spring 项目，**并全面配置持久层。有关使用基于 Java 的配置和项目的基本 Maven pom 设置 Spring 上下文的分步介绍，请参阅<a href="/bootstraping-a-web-application-with-spring-and-java-based-configuration" rel="">本文</a>。</p>
+<h2 id="2-spring-data-generated-dao--不再有-dao-实现"><strong>2. Spring Data Generated DAO – 不再有 DAO 实现</strong></h2>
+<p>正如我们在之前的文章中所讨论的，<a href="/simplifying-the-data-access-layer-with-spring-and-java-generics" rel="">DAO 层</a>通常由许多可以而且应该被简化的样板代码组成。这种简化的优点有很多：减少了我们需要定义和维护的工件数量、数据访问模式的一致性以及配置的一致性。</p>
+<p>Spring Data 将这种简化更进一步，<strong>使得完全删除 DAO 实现成为可能</strong>。DAO 的接口现在是我们需要明确定义的唯一工件。</p>
+<p>为了开始利用 JPA 的 Spring Data 编程模型，DAO 接口需要扩展 JPA 特定的<em>Repository</em>接口<em>JpaRepository</em>。这将使 Spring Data 能够找到这个接口并自动为其创建一个实现。</p>
+<p>通过扩展接口，我们获得了标准 DAO 中可用的标准数据访问最相关的 CRUD 方法。</p>
+<h2 id="3-自定义访问方法和查询"><strong>3. 自定义访问方法和查询</strong></h2>
+<p>如前所述，<strong>通过实现Repository接口之一，DAO 将已经定义和实现了一些基本的 CRUD 方法（和查询）</strong>。</p>
+<p>为了定义更具体的访问方法，Spring JPA 支持很多选项：</p>
+<ul>
+<li>只需在接口中<strong>定义一个新方法</strong></li>
+<li>使用*@Query*注释提供实际的<strong>JPQL 查询</strong></li>
+<li>在 Spring Data 中使用更高级的<strong>Specification 和 Querydsl 支持</strong></li>
+<li>通过 JPA 命名查询定义<strong>自定义查询</strong></li>
+</ul>
+<p>第三个<a href="https://spring.io/blog/2011/04/26/advanced-spring-data-jpa-specifications-and-querydsl/" target="_blank" rel="noopener noreffer">选项</a>Specifications and Querydsl support 与 JPA Criteria 类似，但使用了更灵活方便的 API。这使得整个操作更具可读性和可重用性。当处理大量固定查询时，此 API 的优势将变得更加明显，因为我们可以通过较少数量的可重用块更简洁地表达这些。</p>
+<p>最后一个选项的缺点是它要么涉及 XML，要么给域类增加了查询负担。</p>
+<h3 id="31-自动自定义查询"><strong>3.1 自动自定义查询</strong></h3>
+<p>当 Spring Data 创建一个新的<em>Repository</em>实现时，它会分析接口定义的所有方法，并尝试<strong>从方法名称自动生成查询</strong>。虽然这有一些限制，但它是一种非常强大且优雅的方式，可以轻松定义新的自定义访问方法。</p>
+<p>让我们看一个例子。如果实体有一个<em>名称</em>字段（以及 Java Bean 标准的<em>getName</em>和<em>setName</em>方法），**我们将在 DAO 接口中定义findByName方法。**这将自动生成正确的查询：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IFooDAO</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Foo</span> <span class="nf">findByName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是一个比较简单的例子。查询创建机制支持<a href="https://docs.spring.io/spring-data/data-jpa/docs/current/reference/html/#jpa.query-methods.query-creation" target="_blank" rel="noopener noreffer">更大的关键字集</a>。</p>
+<p>如果解析器无法将属性与域对象字段匹配，我们将看到以下异常：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">java.lang.IllegalArgumentException: No property nam found <span class="k">for</span> <span class="nb">type</span> class com.baeldung.spring.data.persistence.model.Foo
+</span></span></code></pre></div><h3 id="32-手动自定义查询"><strong>3.2 手动自定义查询</strong></h3>
+<p>现在让我们看一下我们将通过*@Query*注释定义的自定义查询：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Query</span><span class="o">(</span><span class="s">&#34;SELECT f FROM Foo f WHERE LOWER(f.name) = LOWER(:name)&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Foo</span> <span class="nf">retrieveByName</span><span class="o">(</span><span class="nd">@Param</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">name</span><span class="o">);</span>
+</span></span></code></pre></div><p>要对查询的创建进行更细粒度的控制，例如使用命名参数或修改现有查询，<a href="https://docs.spring.io/spring-data/data-jpa/docs/current/reference/html/#jpa.named-parameters" target="_blank" rel="noopener noreffer">参考</a>是一个很好的起点。</p>
+<h2 id="4-交易配置"><strong>4. 交易配置</strong></h2>
+<p>Spring 管理的 DAO 的实际实现确实是隐藏的，因为我们不直接使用它。但是，它是一个足够简单的实现，<strong>即SimpleJpaRepository，它使用 annotations 定义事务语义</strong>。</p>
+<p>更明确地说，这在类级别使用只读*@Transactional*注释，然后为非只读方法覆盖该注释。其余的事务语义是默认的，但是这些可以很容易地被每个方法手动覆盖。</p>
+<h3 id="41-异常翻译"><strong>4.1 异常翻译</strong></h3>
+<p>现在的问题变成了：由于 Spring Data JPA 不依赖于旧的 ORM 模板（<em>JpaTemplate</em>、<em>HibernateTemplate</em>），并且自 Spring 5 以来它们已被删除，我们是否仍将 JPA 异常转换为 Spring 的<em>DataAccessException</em>层次结构？</p>
+<p>答案是，当然，我们是。<strong>通过在 DAO 上使用@Repository仍然可以启用异常翻译</strong>。此注解使 Spring bean 后处理器能够通知所有*@Repository* bean 以及在容器中找到的所有<em>PersistenceExceptionTranslator</em>实例，并像以前一样提供异常翻译。</p>
+<p>让我们通过集成测试来验证异常翻译：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span><span class="o">(</span><span class="n">expected</span> <span class="o">=</span> <span class="n">DataIntegrityViolationException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenFooHasNoName_whenInvalidEntityIsCreated_thenDataException</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">service</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="k">new</span> <span class="n">Foo</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请记住，**异常翻译是通过代理完成的。**为了让 Spring 能够围绕 DAO 类创建代理，这些代理不能被声明为<em>final</em>。</p>
+<h2 id="5-spring-data-jpa-存储库配置"><strong>5. Spring Data JPA 存储库配置</strong></h2>
+<p>要激活 Spring JPA 存储库支持，我们可以使用*@EnableJpaRepositories*注释并指定包含 DAO 接口的包：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@EnableJpaRepositories</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="s">&#34;com.codingman.spring.data.persistence.repository&#34;</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersistenceConfig</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以对 XML 配置做同样的事情：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;jpa:repositories</span> <span class="na">base-package=</span><span class="s">&#34;com.codingman.spring.data.persistence.repository&#34;</span> <span class="nt">/&gt;</span>
+</span></span></code></pre></div><h2 id="6-java-或-xml-配置"><strong>6. Java 或 XML 配置</strong></h2>
+<p>我们已经在之前的文章中详细讨论了如何<a href="/the-persistence-layer-with-spring-and-jpa" rel="">在 Spring 中配置 JPA 。</a>Spring Data 还利用了 Spring 对 JPA <em>@PersistenceContext</em>注释的支持。它使用它将<em>EntityManager</em>连接到负责创建实际 DAO 实现<em>JpaRepositoryFactoryBean</em>的 Spring 工厂 bean 。</p>
+<p>除了已经讨论过的配置，如果我们使用 XML，我们还需要包含 Spring Data XML 配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableTransactionManagement</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ImportResource</span><span class="o">(</span><span class="s">&#34;classpath*:*springDataConfig.xml&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersistenceJPAConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="7-maven依赖"><strong>7. Maven依赖</strong></h2>
+<p>除了 JPA 的 Maven 配置之外，就像在<a href="/the-persistence-layer-with-spring-and-jpa" rel="">之前的文章中</a>一样，我们将添加<a href="https://search.maven.org/search?q=a:spring-data-jpa" target="_blank" rel="noopener noreffer">spring <em>-data-jpa</em>依赖</a>项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;groupId&gt;</span>org.springframework.data<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;artifactId&gt;</span>spring-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;version&gt;</span>2.4.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h2 id="8-使用-spring-boot">8. 使用 Spring Boot</h2>
+<p><strong>我们还可以使用<a href="https://search.maven.org/search?q=a:spring-boot-starter-data-jpa" target="_blank" rel="noopener noreffer">Spring Boot Starter Data JPA</a>依赖项，它会自动为我们配置DataSource。</strong></p>
+<p>我们需要确保我们要使用的数据库存在于类路径中。在我们的示例中，我们添加了 H2 内存数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;version&gt;</span>2.6.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.h2database<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>h2<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.4.200<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>结果，只需执行这些依赖项，我们的应用程序就可以启动并运行，我们可以将其用于其他数据库操作。</p>
+<p><strong>标准 Spring 应用程序的显式配置现在包含在 Spring Boot 自动配置中。</strong></p>
+<p>当然，我们可以通过添加我们自定义的显式配置来修改自动配置。</p>
+<p><em>Spring Boot 提供了一种使用application.properties</em>文件中的属性的简单方法。让我们看一个更改连接 URL 和凭据的示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">spring</span><span class="o">.</span><span class="na">datasource</span><span class="o">.</span><span class="na">url</span><span class="o">=</span><span class="n">jdbc</span><span class="o">:</span><span class="n">h2</span><span class="o">:</span><span class="n">mem</span><span class="o">:</span><span class="n">db</span><span class="o">;</span><span class="n">DB_CLOSE_DELAY</span><span class="o">=-</span><span class="n">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">spring</span><span class="o">.</span><span class="na">datasource</span><span class="o">.</span><span class="na">username</span><span class="o">=</span><span class="n">sa</span>
+</span></span><span class="line"><span class="cl"><span class="n">spring</span><span class="o">.</span><span class="na">datasource</span><span class="o">.</span><span class="na">password</span><span class="o">=</span><span class="n">sa</span>
+</span></span></code></pre></div><h2 id="9-spring-data-jpa-的有用工具">9. Spring Data JPA 的有用工具</h2>
+<p>所有主要的 Java IDE 都支持 Spring Data JPA。让我们看看 Eclipse 和 IntelliJ IDEA 有哪些有用的工具。</p>
+<p>**如果你使用 Eclipse 作为你的 IDE，你可以安装<a href="https://www.eclipse.org/webtools/dali/downloads.php" target="_blank" rel="noopener noreffer">Dali Java Persistence Tools</a>插件。**这提供了 JPA 实体的 ER 图、用于初始化模式的 DDL 生成以及基本的逆向工程功能。此外，您还可以使用 Eclipse Spring Tool Suite (STS)。它将有助于验证 Spring Data JPA 存储库中的查询方法名称。</p>
+<p>如果您使用 IntelliJ IDEA，有两个选项。</p>
+<p>IntelliJ IDEA Ultimate 支持 ER 图、用于测试 JPQL 语句的 JPA 控制台和有价值的检查。但是，这些功能在 Community Edition 中不可用。</p>
+<p>**为了提高 IntelliJ 的生产力，您可以安装<a href="https://plugins.jetbrains.com/plugin/15075-jpa-buddy" target="_blank" rel="noopener noreffer">JPA Buddy</a>插件，**它提供了许多功能，包括生成 JPA 实体、Spring Data JPA 存储库、DTO、初始化 DDL 脚本、Flyway 版本化迁移、Liquibase 更改日志等。此外，JPA Buddy 提供逆向工程的高级工具。</p>
+<p>最后，JPA Buddy 插件适用于社区版和终极版。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/" data-title="Spring Data JPA 简介" data-hashtags="Spring Data,JPA"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/" data-hashtag="Spring Data"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/" data-title="Spring Data JPA 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/" data-title="Spring Data JPA 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/" data-title="Spring Data JPA 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/spring-data/">Spring Data</a>,&nbsp;<a href="/tags/jpa/">JPA</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/the_persistence_layer_with_spring_and_jpa/" class="prev" rel="prev" title="使用 Spring 的 JPA 指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Spring 的 JPA 指南</a>
+            <a href="/thymeleaf_in_spring_mvc/" class="next" rel="next" title="在 Spring 中使用 Thymeleaf">在 Spring 中使用 Thymeleaf<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

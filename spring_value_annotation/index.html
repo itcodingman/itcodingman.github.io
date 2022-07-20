@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring @Value 快速指南 - Coding Man</title><meta name="Description" content="在本文中，我们研究了将@Value注释与文件中定义的简单属性、系统属性以及使用 SpEL 表达式计算的属性一起使用的各种可能性。"><meta property="og:title" content="Spring @Value 快速指南" />
+<meta property="og:description" content="在本文中，我们研究了将@Value注释与文件中定义的简单属性、系统属性以及使用 SpEL 表达式计算的属性一起使用的各种可能性。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring_value_annotation/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-10-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring @Value 快速指南"/>
+<meta name="twitter:description" content="在本文中，我们研究了将@Value注释与文件中定义的简单属性、系统属性以及使用 SpEL 表达式计算的属性一起使用的各种可能性。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring_value_annotation/" /><link rel="prev" href="http://itcodingman.github.io/spring_security_with_maven/" /><link rel="next" href="http://itcodingman.github.io/spring_value_defaults/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring @Value 快速指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring_value_annotation\/"
+        },"genre": "posts","wordcount":  1504 ,
+        "url": "http:\/\/itcodingman.github.io\/spring_value_annotation\/","datePublished": "2020-10-28T00:00:00+00:00","dateModified": "2022-07-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们研究了将@Value注释与文件中定义的简单属性、系统属性以及使用 SpEL 表达式计算的属性一起使用的各种可能性。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring @Value 快速指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-10-28">2020-10-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1504 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1概述">1.概述</a></li>
+    <li><a href="#2-设置应用程序">2. 设置应用程序</a></li>
+    <li><a href="#3-使用示例">3. 使用示例</a></li>
+    <li><a href="#4-spel-的高级示例">4. SpEL 的高级示例</a></li>
+    <li><a href="#5-将value与map一起使用">5. 将*@Value<em>与</em>Map*一起使用</a></li>
+    <li><a href="#6-将value与构造函数注入一起使用">6. 将*@Value*与构造函数注入一起使用</a></li>
+    <li><a href="#7-使用value和-setter-注入">7. 使用*@Value*和 Setter 注入</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1概述">1.概述</h2>
+<p>在这个快速教程中，我们将<strong>看一下*@Value* 注释。</strong></p>
+<p>此注解可用于将值注入 Spring 管理的 bean 中的字段，并且可以在字段或构造函数/方法参数级别应用。</p>
+<h2 id="2-设置应用程序">2. 设置应用程序</h2>
+<p>为了描述这个注解的不同用途，我们需要配置一个简单的 Spring 应用程序配置类。</p>
+<p>自然，<strong>我们需要一个属性文件</strong>来定义我们想要使用*@Value*注释注入的值。因此，我们首先需要在我们的配置类中定义一个@PropertySource——使用属性文件名。</p>
+<p>让我们定义属性文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">value.from.file=Value got from the file
+</span></span><span class="line"><span class="cl">priority=high
+</span></span><span class="line"><span class="cl">listOfValues=A,B,C
+</span></span></code></pre></div><h2 id="3-使用示例">3. 使用示例</h2>
+<p>作为一个基本且几乎无用的示例，我们只能将注释中的“字符串值”注入字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;string value&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">stringValue</span><span class="o">;</span>
+</span></span></code></pre></div><p>使用*@PropertySource<em>注释允许我们使用带有</em>@Value*注释的属性文件中的值。</p>
+<p>在以下示例中，我们从 分配给该字段的文件中获取 Value：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${value.from.file}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">valueFromFile</span><span class="o">;</span>
+</span></span></code></pre></div><p>我们还可以使用相同的语法从系统属性中设置值。</p>
+<p>假设我们已经定义了一个名为<em>systemValue</em>的系统属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${systemValue}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">systemValue</span><span class="o">;</span>
+</span></span></code></pre></div><p>可以为可能未定义的属性提供默认值。在这里， 将注入<em>一些默认值：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${unknown.param:some default}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">someDefault</span><span class="o">;</span>
+</span></span></code></pre></div><p>如果相同的属性被定义为系统属性并在属性文件中，则系统属性将被应用。</p>
+<p>假设我们将属性<em>优先级</em>定义为系统属性，其值为<em>System 属性</em>，并在属性文件中定义为其他内容。该值将是<em>系统属性</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${priority}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">prioritySystemProperty</span><span class="o">;</span>
+</span></span></code></pre></div><p>有时，我们需要注入一堆值。将它们定义为属性文件中单个属性的逗号分隔值或系统属性并注入数组会很方便。</p>
+<p>在第一节中，我们在属性文件的<em>listOfValues</em>中定义了逗号分隔的值，因此数组值将是*[“A”, “B”, “C”]：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${listOfValues}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span><span class="o">[]</span> <span class="n">valuesArray</span><span class="o">;</span>
+</span></span></code></pre></div><h2 id="4-spel-的高级示例">4. SpEL 的高级示例</h2>
+<p>我们还可以使用 SpEL 表达式来获取值。</p>
+<p>如果我们有一个名为<em>priority</em>的系统属性，那么它的值将应用于该字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{systemProperties[&#39;priority&#39;]}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">spelValue</span><span class="o">;</span>
+</span></span></code></pre></div><p>如果我们没有定义系统属性，那么将分配<em>空值</em>。</p>
+<p>为了防止这种情况，我们可以在 SpEL 表达式中提供一个默认值。如果未定义系统属性，我们将获得该字段的<em>一些默认值</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{systemProperties[&#39;unknown&#39;] ?: &#39;some default&#39;}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">spelSomeDefault</span><span class="o">;</span>
+</span></span></code></pre></div><p>此外，我们可以使用来自其他 bean 的字段值。假设我们有一个名为<em>someBean</em>的 bean ，其字段<em>someValue</em>等于<em>10</em>。然后，<em>10</em>将分配给该字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{someBean.someValue}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Integer</span> <span class="n">someBeanValue</span><span class="o">;</span>
+</span></span></code></pre></div><p>我们可以操作属性来获取值<em>列表</em>，这里是字符串值 A、B 和 C 的列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{&#39;${listOfValues}&#39;.split(&#39;,&#39;)}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">valuesList</span><span class="o">;</span>
+</span></span></code></pre></div><h2 id="5-将value与map一起使用">5. 将*@Value<em>与</em>Map*一起使用</h2>
+<p>我们还可以使用*@Value<em>注解来注入</em>Map*属性。</p>
+<p>首先，我们需要在属性文件的*{key: &lsquo;value&rsquo; }*表单中定义属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">valuesMap</span><span class="o">={</span><span class="n">key1</span><span class="o">:</span> <span class="sc">&#39;1&#39;</span><span class="o">,</span> <span class="n">key2</span><span class="o">:</span> <span class="sc">&#39;2&#39;</span><span class="o">,</span> <span class="n">key3</span><span class="o">:</span> <span class="sc">&#39;3&#39;</span><span class="o">}</span>
+</span></span></code></pre></div><p><strong>请注意，<em>Map</em>中的值必须用单引号引起来。</strong></p>
+<p>现在我们可以将属性文件中的这个值作为<em>Map</em>注入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{${valuesMap}}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">valuesMap</span><span class="o">;</span>
+</span></span></code></pre></div><p>如果我们需要在<em>Map</em>中获取特定键的值，我们所要做的就是<strong>在表达式中添加键的名称</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{${valuesMap}.key1}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Integer</span> <span class="n">valuesMapKey1</span><span class="o">;</span>
+</span></span></code></pre></div><p>如果我们不确定<em>Map</em>是否包含某个键，我们应该选择一个更安全的表达式，它不会抛出异常，而是在找不到键时将值设置为null ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{${valuesMap}[&#39;unknownKey&#39;]}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Integer</span> <span class="n">unknownMapKey</span><span class="o">;</span>
+</span></span></code></pre></div><p>我们还可<strong>以为可能不存在的属性或键设置默认值</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{${unknownMap : {key1: &#39;1&#39;, key2: &#39;2&#39;}}}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">unknownMap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{${valuesMap}[&#39;unknownKey&#39;] ?: 5}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Integer</span> <span class="n">unknownMapKeyWithDefaultValue</span><span class="o">;</span>
+</span></span></code></pre></div><p><strong>映射条目也可以</strong>在注入之前进行过滤。</p>
+<p>假设我们只需要获取值大于 1 的条目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">@Value(&#34;#{${valuesMap}.?[value&gt;&#39;1&#39;]}&#34;)
+</span></span><span class="line"><span class="cl">private Map<span class="p">&lt;</span><span class="nt">String</span><span class="err">,</span> <span class="na">Integer</span><span class="p">&gt;</span> valuesMapFiltered;
+</span></span></code></pre></div><p>我们还可以使用*@Value*注解<strong>注入所有当前系统属性</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{systemProperties}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">systemPropertiesMap</span><span class="o">;</span>
+</span></span></code></pre></div><h2 id="6-将value与构造函数注入一起使用">6. 将*@Value*与构造函数注入一起使用</h2>
+<p>当我们使用*@Value*注解时，我们并不局限于字段注入。<strong>我们也可以将它与构造函数注入一起使用。</strong></p>
+<p>让我们在实践中看看：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@PropertySource</span><span class="o">(</span><span class="s">&#34;classpath:values.properties&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PriorityProvider</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">priority</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">PriorityProvider</span><span class="o">(</span><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${priority:normal}&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">priority</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">priority</span> <span class="o">=</span> <span class="n">priority</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在上面的示例中，我们将<em>优先级</em>直接注入到<em>PriorityProvider</em>的构造函数中。</p>
+<p>请注意，我们还提供默认值以防找不到该属性。</p>
+<h2 id="7-使用value和-setter-注入">7. 使用*@Value*和 Setter 注入</h2>
+<p>类似于构造函数注入，<em><em>我们也可以使用</em>@Value*和setter注入。</em>*</p>
+<p>让我们来看看：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@PropertySource</span><span class="o">(</span><span class="s">&#34;classpath:values.properties&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CollectionProvider</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setValues</span><span class="o">(</span><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;#{&#39;${listOfValues}&#39;.split(&#39;,&#39;)}&#34;</span><span class="o">)</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">values</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">values</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>我们使用 SpEL 表达式将值列表注入到<em>setValues</em>方法中。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring_value_annotation/" data-title="Spring @Value 快速指南"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring_value_annotation/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring_value_annotation/" data-title="Spring @Value 快速指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring_value_annotation/" data-title="Spring @Value 快速指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring_value_annotation/" data-title="Spring @Value 快速指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring_security_with_maven/" class="prev" rel="prev" title="使用 Maven 的 Spring 安全性"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Maven 的 Spring 安全性</a>
+            <a href="/spring_value_defaults/" class="next" rel="next" title="使用带有默认值的 Spring @Value">使用带有默认值的 Spring @Value<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring Data Cassandra简介 - Coding Man</title><meta name="Description" content="我们通过使用CassandraRepository数据访问机制的最常见方法，对带有 Spring 数据的 Cassandra 进行了基本的动手介绍。"><meta property="og:title" content="Spring Data Cassandra简介" />
+<meta property="og:description" content="我们通过使用CassandraRepository数据访问机制的最常见方法，对带有 Spring 数据的 Cassandra 进行了基本的动手介绍。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring_data_cassandra_tutorial/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-06-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring Data Cassandra简介"/>
+<meta name="twitter:description" content="我们通过使用CassandraRepository数据访问机制的最常见方法，对带有 Spring 数据的 Cassandra 进行了基本的动手介绍。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring_data_cassandra_tutorial/" /><link rel="prev" href="http://itcodingman.github.io/spring_data_cassandratemplate_cqltemplate/" /><link rel="next" href="http://itcodingman.github.io/spring_data_jpa_multiple_databases/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring Data Cassandra简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring_data_cassandra_tutorial\/"
+        },"genre": "posts","wordcount":  1816 ,
+        "url": "http:\/\/itcodingman.github.io\/spring_data_cassandra_tutorial\/","datePublished": "2020-06-24T00:00:00+00:00","dateModified": "2022-07-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "我们通过使用CassandraRepository数据访问机制的最常见方法，对带有 Spring 数据的 Cassandra 进行了基本的动手介绍。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring Data Cassandra简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-06-24">2020-06-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1816 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
+    <li><a href="#3-cassandra的配置"><strong>3. Cassandra的配置</strong></a>
+      <ul>
+        <li><a href="#31-主要配置spring"><strong>3.1 主要配置（Spring）</strong></a></li>
+        <li><a href="#32-主要配置spring-boot"><strong>3.2 主要配置（Spring Boot）</strong></a></li>
+        <li><a href="#33-cassandra-连接属性"><strong>3.3 Cassandra 连接属性</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-cassandrarepository"><strong>4. CassandraRepository</strong></a>
+      <ul>
+        <li><a href="#41-创建cassandrarepository"><strong>4.1 创建CassandraRepository</strong></a></li>
+        <li><a href="#42-cassandrarepository的配置"><strong>4.2 CassandraRepository的配置</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-实体"><strong>5. 实体</strong></a></li>
+    <li><a href="#6-使用嵌入式服务器进行测试"><strong>6. 使用嵌入式服务器进行测试</strong></a>
+      <ul>
+        <li><a href="#61-maven-依赖项"><strong>6.1 Maven 依赖项</strong></a></li>
+        <li><a href="#62-启动和停止服务器"><strong>6.2 启动和停止服务器</strong></a></li>
+        <li><a href="#63-清洁数据表"><strong>6.3 清洁数据表</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-使用cassandrarepository-进行数据访问"><strong>7. 使用CassandraRepository 进行数据访问</strong></a>
+      <ul>
+        <li><a href="#71-保存一本新书"><strong>7.1 保存一本新书</strong></a></li>
+        <li><a href="#72-更新现有书籍"><strong>7.2 更新现有书籍</strong></a></li>
+        <li><a href="#73-删除现有书籍"><strong>7.3 删除现有书籍</strong></a></li>
+        <li><a href="#74-查找所有书籍"><strong>7.4 查找所有书籍</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>本文是使用 Spring Data 使用 Cassandra 的实用介绍。</p>
+<p>我们将从基础开始，通过配置和编码，最终构建一个完整的 Spring Data Cassandra 模块。</p>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
+<p>让我们首先使用 Maven在<em>pom.xml</em>中定义依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.datastax.cassandra<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cassandra-driver-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.1.9<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h2 id="3-cassandra的配置"><strong>3. Cassandra的配置</strong></h2>
+<p>我们将在整个过程中使用 Java 配置风格来配置 Cassandra 集成。</p>
+<h3 id="31-主要配置spring"><strong>3.1 主要配置（Spring）</strong></h3>
+<p>我们将为此使用 Java 配置风格。让我们从主要的配置类开始——当然是通过类级别的*@Configuration*注解驱动的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CassandraConfig</span> <span class="kd">extends</span> <span class="n">AbstractCassandraConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">protected</span> <span class="n">String</span> <span class="nf">getKeyspaceName</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;testKeySpace&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CassandraClusterFactoryBean</span> <span class="nf">cluster</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CassandraClusterFactoryBean</span> <span class="n">cluster</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">          <span class="k">new</span> <span class="n">CassandraClusterFactoryBean</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cluster</span><span class="o">.</span><span class="na">setContactPoints</span><span class="o">(</span><span class="s">&#34;127.0.0.1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cluster</span><span class="o">.</span><span class="na">setPort</span><span class="o">(</span><span class="n">9142</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">cluster</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CassandraMappingContext</span> <span class="nf">cassandraMapping</span><span class="o">()</span> 
+</span></span><span class="line"><span class="cl">      <span class="kd">throws</span> <span class="n">ClassNotFoundException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">BasicCassandraMappingContext</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>注意带有默认实现的新 bean - *BasicCassandraMappingContext 。*这是在它们的对象和它们的持久格式之间映射持久实体所必需的。</p>
+<p>并且由于默认实现足够强大，我们可以直接使用它。</p>
+<h3 id="32-主要配置spring-boot"><strong>3.2 主要配置（Spring Boot）</strong></h3>
+<p>让我们通过<em>application.properties</em>进行 Cassandra 配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">spring.data.cassandra.keyspace-name=testKeySpace
+</span></span><span class="line"><span class="cl">spring.data.cassandra.port=9142
+</span></span><span class="line"><span class="cl">spring.data.cassandra.contact-points=127.0.0.1
+</span></span></code></pre></div><p>我们完成了！这就是我们在使用 Spring Boot 时所需要的。</p>
+<h3 id="33-cassandra-连接属性"><strong>3.3 Cassandra 连接属性</strong></h3>
+<p>我们必须配置三个强制设置来设置 Cassandra 客户端的连接。</p>
+<p>我们必须设置 Cassandra 服务器作为联系点运行的主机名*。端口*只是服务器中请求的侦听端口。<em>KeyspaceName</em>是定义节点上数据复制的命名空间，它基于 Cassandra 相关概念。</p>
+<h2 id="4-cassandrarepository"><strong>4. CassandraRepository</strong></h2>
+<p>我们将使用<em>CassandraRepository</em>作为数据访问层。这遵循 Spring Data repository 抽象，该抽象专注于抽象出跨不同持久性机制实现数据访问层所需的代码。</p>
+<h3 id="41-创建cassandrarepository"><strong>4.1 创建CassandraRepository</strong></h3>
+<p>让我们创建要在配置中使用的<em>CassandraRepository</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Repository</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">BookRepository</span> <span class="kd">extends</span> <span class="n">CassandraRepository</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h3 id="42-cassandrarepository的配置"><strong>4.2 CassandraRepository的配置</strong></h3>
+<p>现在，我们可以扩展第 3.1 节中的配置，在 CassandraConfig 中添加*@EnableCassandraRepositories*类级别注释来标记我们在第 4.1 节中创建的 Cassandra Repository：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableCassandraRepositories</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">basePackages</span> <span class="o">=</span> <span class="s">&#34;com.codingman.spring.data.cassandra.repository&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CassandraConfig</span> <span class="kd">extends</span> <span class="n">AbstractCassandraConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-实体"><strong>5. 实体</strong></h2>
+<p>让我们快速看一下实体——我们将要使用的模型类。该类被注释并定义了嵌入模式下元数据 Cassandra 数据表创建的附加参数。</p>
+<p>使用*@Table*注解，bean 直接映射到 Cassandra 数据表。此外，每个属性都被定义为一种主键或简单列：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Table</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Book</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@PrimaryKeyColumn</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">name</span> <span class="o">=</span> <span class="s">&#34;isbn&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">ordinal</span> <span class="o">=</span> <span class="n">2</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">type</span> <span class="o">=</span> <span class="n">PrimaryKeyType</span><span class="o">.</span><span class="na">CLUSTERED</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">ordering</span> <span class="o">=</span> <span class="n">Ordering</span><span class="o">.</span><span class="na">DESCENDING</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">UUID</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@PrimaryKeyColumn</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">name</span> <span class="o">=</span> <span class="s">&#34;title&#34;</span><span class="o">,</span> <span class="n">ordinal</span> <span class="o">=</span> <span class="n">0</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="n">PrimaryKeyType</span><span class="o">.</span><span class="na">PARTITIONED</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@PrimaryKeyColumn</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">name</span> <span class="o">=</span> <span class="s">&#34;publisher&#34;</span><span class="o">,</span> <span class="n">ordinal</span> <span class="o">=</span> <span class="n">1</span><span class="o">,</span> <span class="n">type</span> <span class="o">=</span> <span class="n">PrimaryKeyType</span><span class="o">.</span><span class="na">PARTITIONED</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">publisher</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Column</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">tags</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-使用嵌入式服务器进行测试"><strong>6. 使用嵌入式服务器进行测试</strong></h2>
+<h3 id="61-maven-依赖项"><strong>6.1 Maven 依赖项</strong></h3>
+<p>如果要在嵌入式模式下运行 Cassandra（无需手动安装单独的 Cassandra 服务器），则需要将<em>cassandra-unit</em>相关依赖项添加到<em>pom.xml</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.cassandraunit<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cassandra-unit-spring<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.1.9.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;exclusions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;exclusion&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.cassandraunit<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>cassandra-unit<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/exclusion&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/exclusions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.cassandraunit<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cassandra-unit-shaded<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.1.9.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.hectorclient<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>hector-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.0-0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>可以<strong>使用嵌入式 Cassandra 服务器来测试此应用程序</strong>。主要优点是您不想显式安装 Cassandra。</p>
+<p>这个嵌入式服务器也与 Spring JUnit 测试兼容。在这里，我们可以使用*@RunWith<em>注解与嵌入式服务器一起设置</em>SpringJUnit4ClassRunner 。*因此，无需运行外部 Cassandra 服务即可实现完整的测试套件。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringJUnit4ClassRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ContextConfiguration</span><span class="o">(</span><span class="n">classes</span> <span class="o">=</span> <span class="n">CassandraConfig</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BookRepositoryIntegrationTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h3 id="62-启动和停止服务器"><strong>6.2 启动和停止服务器</strong></h3>
+<p>如果您正在运行外部 Cassandra 服务器，则可以忽略此部分。</p>
+<p>我们必须为整个测试套件启动一次服务器，因此服务器启动方法用*@BeforeClass*注释标记：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@BeforeClass</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">startCassandraEmbedded</span><span class="o">()</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">EmbeddedCassandraServerHelper</span><span class="o">.</span><span class="na">startEmbeddedCassandra</span><span class="o">();</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">Cluster</span> <span class="n">cluster</span> <span class="o">=</span> <span class="n">Cluster</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">addContactPoints</span><span class="o">(</span><span class="s">&#34;127.0.0.1&#34;</span><span class="o">).</span><span class="na">withPort</span><span class="o">(</span><span class="n">9142</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span> 
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们必须确保在测试套件执行完成后服务器停止：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@AfterClass</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">stopCassandraEmbedded</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EmbeddedCassandraServerHelper</span><span class="o">.</span><span class="na">cleanEmbeddedCassandra</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="63-清洁数据表"><strong>6.3 清洁数据表</strong></h3>
+<p>最好在每次测试执行之前删除并创建数据表，以避免由于早期测试执行中的操纵数据而导致意外结果。</p>
+<p>现在我们可以在服务器启动时创建数据表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Before</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">createTable</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">adminTemplate</span><span class="o">.</span><span class="na">createTable</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">true</span><span class="o">,</span> <span class="n">CqlIdentifier</span><span class="o">.</span><span class="na">cqlId</span><span class="o">(</span><span class="n">DATA_TABLE_NAME</span><span class="o">),</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">Book</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>并在每个测试用例执行后丢弃：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@After</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">dropTable</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">adminTemplate</span><span class="o">.</span><span class="na">dropTable</span><span class="o">(</span><span class="n">CqlIdentifier</span><span class="o">.</span><span class="na">cqlId</span><span class="o">(</span><span class="n">DATA_TABLE_NAME</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="7-使用cassandrarepository-进行数据访问"><strong>7. 使用CassandraRepository 进行数据访问</strong></h2>
+<p>我们可以直接使用上面创建的<em>BookRepository</em>来持久化、操作和获取 Cassandra 数据库中的数据。</p>
+<h3 id="71-保存一本新书"><strong>7.1 保存一本新书</strong></h3>
+<p>我们可以将一本新书保存到我们的书店：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Book</span> <span class="n">javaBook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Book</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UUIDs</span><span class="o">.</span><span class="na">timeBased</span><span class="o">(),</span> <span class="s">&#34;Demo Book 1&#34;</span><span class="o">,</span> <span class="s">&#34;ABC Company&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;Computer&#34;</span><span class="o">,</span> <span class="s">&#34;Software&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">bookRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">javaBook</span><span class="o">));</span>
+</span></span></code></pre></div><p>然后我们可以检查数据库中插入的书的可用性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="n">books</span> <span class="o">=</span> <span class="n">bookRepository</span><span class="o">.</span><span class="na">findByTitleAndPublisher</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Demo Book 1&#34;</span><span class="o">,</span> <span class="s">&#34;ABC Company&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">javaBook</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">books</span><span class="o">.</span><span class="na">iterator</span><span class="o">().</span><span class="na">next</span><span class="o">().</span><span class="na">getId</span><span class="o">());</span>
+</span></span></code></pre></div><h3 id="72-更新现有书籍"><strong>7.2 更新现有书籍</strong></h3>
+<p>Lat 从插入一本新书开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Book</span> <span class="n">javaBook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Book</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UUIDs</span><span class="o">.</span><span class="na">timeBased</span><span class="o">(),</span> <span class="s">&#34;Demo Book 1&#34;</span><span class="o">,</span> <span class="s">&#34;ABC Company&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;Computer&#34;</span><span class="o">,</span> <span class="s">&#34;Software&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">bookRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">javaBook</span><span class="o">));</span>
+</span></span></code></pre></div><p>让我们按标题获取这本书：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="n">books</span> <span class="o">=</span> <span class="n">bookRepository</span><span class="o">.</span><span class="na">findByTitleAndPublisher</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Demo Book 1&#34;</span><span class="o">,</span> <span class="s">&#34;ABC Company&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>那我们改一下书名：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">javaBook</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="s">&#34;Demo Book 2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">bookRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">javaBook</span><span class="o">));</span>
+</span></span></code></pre></div><p>最后让我们检查一下数据库中的标题是否更新：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="n">books</span> <span class="o">=</span> <span class="n">bookRepository</span><span class="o">.</span><span class="na">findByTitleAndPublisher</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Demo Book 2&#34;</span><span class="o">,</span> <span class="s">&#34;ABC Company&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">javaBook</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span> <span class="n">updateBooks</span><span class="o">.</span><span class="na">iterator</span><span class="o">().</span><span class="na">next</span><span class="o">().</span><span class="na">getTitle</span><span class="o">());</span>
+</span></span></code></pre></div><h3 id="73-删除现有书籍"><strong>7.3 删除现有书籍</strong></h3>
+<p>插入一本新书：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Book</span> <span class="n">javaBook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Book</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UUIDs</span><span class="o">.</span><span class="na">timeBased</span><span class="o">(),</span> <span class="s">&#34;Demo Book 1&#34;</span><span class="o">,</span> <span class="s">&#34;ABC Company&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;Computer&#34;</span><span class="o">,</span> <span class="s">&#34;Software&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">bookRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">javaBook</span><span class="o">));</span>
+</span></span></code></pre></div><p>然后删除新输入的书：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">bookRepository</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">javaBook</span><span class="o">);</span>
+</span></span></code></pre></div><p>现在我们可以检查删除：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="n">books</span> <span class="o">=</span> <span class="n">bookRepository</span><span class="o">.</span><span class="na">findByTitleAndPublisher</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Demo Book 1&#34;</span><span class="o">,</span> <span class="s">&#34;ABC Company&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertNotEquals</span><span class="o">(</span><span class="n">javaBook</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">books</span><span class="o">.</span><span class="na">iterator</span><span class="o">().</span><span class="na">next</span><span class="o">().</span><span class="na">getId</span><span class="o">());</span>
+</span></span></code></pre></div><p>这将导致从代码中抛出 NoSuchElementException 以确保该书已被删除。</p>
+<h3 id="74-查找所有书籍"><strong>7.4 查找所有书籍</strong></h3>
+<p>先插入一本新书：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Book</span> <span class="n">javaBook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Book</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UUIDs</span><span class="o">.</span><span class="na">timeBased</span><span class="o">(),</span> <span class="s">&#34;Demo Book 1&#34;</span><span class="o">,</span> <span class="s">&#34;ABC Company&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;Computer&#34;</span><span class="o">,</span> <span class="s">&#34;Software&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">Book</span> <span class="n">dPatternBook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Book</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UUIDs</span><span class="o">.</span><span class="na">timeBased</span><span class="o">(),</span> <span class="s">&#34;Demo Book 2&#34;</span><span class="o">,</span><span class="s">&#34;ABC Company&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;Computer&#34;</span><span class="o">,</span> <span class="s">&#34;Software&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">bookRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">javaBook</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">bookRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">ImmutableSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">dPatternBook</span><span class="o">));</span>
+</span></span></code></pre></div><p>查找所有书籍：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span> <span class="n">books</span> <span class="o">=</span> <span class="n">bookRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+</span></span></code></pre></div><p>然后我们可以检查数据库中可用书籍的数量：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">bookCount</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">Book</span> <span class="n">book</span> <span class="o">:</span> <span class="n">books</span><span class="o">)</span> <span class="n">bookCount</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">bookCount</span><span class="o">,</span> <span class="n">2</span><span class="o">);</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring_data_cassandra_tutorial/" data-title="Spring Data Cassandra简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring_data_cassandra_tutorial/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring_data_cassandra_tutorial/" data-title="Spring Data Cassandra简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring_data_cassandra_tutorial/" data-title="Spring Data Cassandra简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring_data_cassandra_tutorial/" data-title="Spring Data Cassandra简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring_data_cassandratemplate_cqltemplate/" class="prev" rel="prev" title="使用 Spring Data 中的 CassandraTemplate"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Spring Data 中的 CassandraTemplate</a>
+            <a href="/spring_data_jpa_multiple_databases/" class="next" rel="next" title="Spring JPA – 多个数据库">Spring JPA – 多个数据库<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Spring 和 Java Config 构建 REST API - Coding Man</title><meta name="Description" content="本文说明了如何使用 Spring 和基于 Java 的配置来实现和配置 REST 服务。"><meta property="og:title" content="使用 Spring 和 Java Config 构建 REST API" />
+<meta property="og:description" content="本文说明了如何使用 Spring 和基于 Java 的配置来实现和配置 REST 服务。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-01-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-19T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Spring 和 Java Config 构建 REST API"/>
+<meta name="twitter:description" content="本文说明了如何使用 Spring 和基于 Java 的配置来实现和配置 REST 服务。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/" /><link rel="prev" href="http://itcodingman.github.io/bootstraping_a_web_application_with_spring_and_java_based_configuration/" /><link rel="next" href="http://itcodingman.github.io/constructor_injection_in_spring/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Spring 和 Java Config 构建 REST API",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/building_a_restful_web_service_with_spring_and_java_based_configuration\/"
+        },"genre": "posts","wordcount":  2832 ,
+        "url": "http:\/\/itcodingman.github.io\/building_a_restful_web_service_with_spring_and_java_based_configuration\/","datePublished": "2020-01-22T00:00:00+00:00","dateModified": "2022-07-19T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本文说明了如何使用 Spring 和基于 Java 的配置来实现和配置 REST 服务。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Spring 和 Java Config 构建 REST API</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/rest/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>REST</a>&nbsp;<a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-01-22">2020-01-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2832 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1概述">1.概述</a></li>
+    <li><a href="#2-了解-spring-中的-rest">2. 了解 Spring 中的 REST</a></li>
+    <li><a href="#3-java-配置"><strong>3. Java 配置</strong></a>
+      <ul>
+        <li><a href="#31-使用-spring-boot">3.1 使用 Spring Boot</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-测试-spring-上下文">4. 测试 Spring 上下文</a>
+      <ul>
+        <li><a href="#41-使用-spring-boot">4.1 使用 Spring Boot</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-控制器">5. 控制器</a></li>
+    <li><a href="#6-映射-http-响应代码">6. 映射 HTTP 响应代码</a>
+      <ul>
+        <li><a href="#61-未映射的请求">6.1 未映射的请求</a></li>
+        <li><a href="#62-有效的映射请求">6.2 有效的映射请求</a></li>
+        <li><a href="#63-客户端错误">6.3 客户端错误</a></li>
+        <li><a href="#64-使用exceptionhandler">6.4 使用@ExceptionHandler</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-额外的-maven-依赖">7. 额外的 Maven 依赖</a>
+      <ul>
+        <li><a href="#71-使用-spring-boot">7.1 使用 Spring Boot</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1概述">1.概述</h2>
+<p>在本教程中，我们将学习如何**在 Spring 中设置 REST，**包括控制器和 HTTP 响应代码、有效负载编组的配置和内容协商。</p>
+<h2 id="2-了解-spring-中的-rest">2. 了解 Spring 中的 REST</h2>
+<p>Spring 框架支持两种创建 RESTful 服务的方式：</p>
+<ul>
+<li>将 MVC 与<em>ModelAndView一起使用</em></li>
+<li>使用 HTTP 消息转换器</li>
+</ul>
+<p><em>ModelAndView</em>方法更老，文档更好，但也更冗长且配置繁重。它试图将 REST 范式硬塞到旧模型中，这并非没有问题。Spring 团队明白这一点，并从 Spring 3.0 开始提供一流的 REST 支持。</p>
+<p>**新方法基于*HttpMessageConverter* 和注解，更轻量级且易于实现。**配置是最少的，它为我们对 RESTful 服务的期望提供了合理的默认值。</p>
+<h2 id="3-java-配置"><strong>3. Java 配置</strong></h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebMvc</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebConfig</span><span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>新的*@EnableWebMvc*注解做了一些有用的事情；具体来说，在 REST 的情况下，它会检测到类路径中 Jackson 和 JAXB 2 的存在，并自动创建和注册默认的 JSON 和 XML 转换器。注解的功能等同于 XML 版本：</p>
+<p><em>&lt;mvc:注解驱动 /&gt;</em></p>
+<p>这是一条捷径，尽管它在许多情况下可能很有用，但并不完美。当我们需要更复杂的配置时，可以去掉注解，直接扩展<em>WebMvcConfigurationSupport</em>。</p>
+<h3 id="31-使用-spring-boot">3.1 使用 Spring Boot</h3>
+<p>如果我们使用*@SpringBootApplication<em>注解，并且</em>spring-webmvc* 库位于类路径上，那么 <em>@EnableWebMvc</em>注解会自动添加，并<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-spring-mvc-auto-configuration" target="_blank" rel="noopener noreffer">带有默认的 autoconfiguration</a>。</p>
+<p><em>我们仍然可以通过在@Configuration</em> 注释类上实现<em>WebMvcConfigurer</em> 接口 来将 MVC 功能添加到此配置中 。我们还可以使用 <em>WebMvcRegistrationsAdapter</em>实例来提供我们自己的 <em>RequestMappingHandlerMapping</em>、<em>RequestMappingHandlerAdapter</em>或<em>ExceptionHandlerExceptionResolver</em> 实现。</p>
+<p>最后，如果我们想放弃 Spring Boot 的 MVC 特性并声明自定义配置，我们可以使用*@EnableWebMvc*注解来实现。</p>
+<h2 id="4-测试-spring-上下文">4. 测试 Spring 上下文</h2>
+<p><em>从 Spring 3.1 开始，我们获得了对@Configuration</em>类的一流测试支持：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringJUnit4ClassRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ContextConfiguration</span><span class="o">(</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">classes</span> <span class="o">=</span> <span class="o">{</span><span class="n">WebConfig</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">PersistenceConfig</span><span class="o">.</span><span class="na">class</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">  <span class="n">loader</span> <span class="o">=</span> <span class="n">AnnotationConfigContextLoader</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringContextIntegrationTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">contextLoads</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// When
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们使用*@ContextConfiguration<em>注解指定 Java 配置类。新的</em>AnnotationConfigContextLoader<em>从</em>@Configuration*类加载 bean 定义。</p>
+<p>请注意，<em>WebConfig</em>配置类未包含在测试中，因为它需要在未提供的 Servlet 上下文中运行。</p>
+<h3 id="41-使用-spring-boot">4.1 使用 Spring Boot</h3>
+<p>Spring Boot 提供了几个注解来以更直观的方式为我们的测试设置 Spring <em>ApplicationContext 。</em></p>
+<p>我们可以只加载应用程序配置的特定部分，也可以模拟整个上下文启动过程。</p>
+<p>例如， 如果我们想在不启动服务器的情况下创建整个上下文，我们可以使用*@SpringBootTest注解。*</p>
+<p>有了它，我们就可以添加*@AutoConfigureMockMvc* 来注入 <em>MockMvc</em> 实例并发送 HTTP 请求*：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@SpringBootTest</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@AutoConfigureMockMvc</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooControllerAppIntegrationTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenTestApp_thenEmptyResponse</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">andExpect</span><span class="o">(</span><span class="n">status</span><span class="o">().</span><span class="na">isOk</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">andExpect</span><span class="o">(...);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>为了避免创建整个上下文并只测试我们的 MVC 控制器，我们可以使用 <em>@WebMvcTest：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@WebMvcTest</span><span class="o">(</span><span class="n">FooController</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooControllerWebLayerIntegrationTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">MockMvc</span> <span class="n">mockMvc</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@MockBean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">IFooService</span> <span class="n">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Test</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenTestMvcController_thenRetrieveExpectedResult</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">mockMvc</span><span class="o">.</span><span class="na">perform</span><span class="o">(</span><span class="n">get</span><span class="o">(</span><span class="s">&#34;/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">andExpect</span><span class="o">(...);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以在<a href="/spring-boot-testing" rel="">“Spring Boot 中的测试”文章</a>中找到有关此主题的详细信息。</p>
+<h2 id="5-控制器">5. 控制器</h2>
+<p>**@RestController是 RESTful API 的整个 Web 层中的核心工件*。***就本文而言，控制器正在建模一个简单的 REST 资源<em>Foo</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/foos&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">FooController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">IFooService</span> <span class="n">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="nf">findAll</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Foo</span> <span class="nf">findById</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">)</span> <span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">RestPreconditions</span><span class="o">.</span><span class="na">checkFound</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@PostMapping</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">CREATED</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Long</span> <span class="nf">create</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="n">Foo</span> <span class="n">resource</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Preconditions</span><span class="o">.</span><span class="na">checkNotNull</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">service</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@PutMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span> <span class="s">&#34;id&#34;</span> <span class="o">)</span> <span class="n">Long</span> <span class="n">id</span><span class="o">,</span> <span class="nd">@RequestBody</span> <span class="n">Foo</span> <span class="n">resource</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Preconditions</span><span class="o">.</span><span class="na">checkNotNull</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">RestPreconditions</span><span class="o">.</span><span class="na">checkNotNull</span><span class="o">(</span><span class="n">service</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">resource</span><span class="o">.</span><span class="na">getId</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">service</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">resource</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@DeleteMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">delete</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">)</span> <span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">service</span><span class="o">.</span><span class="na">deleteById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们所见，我们使用了一个简单的 Guava 风格的<em>RestPreconditions</em>实用程序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RestPreconditions</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="nf">checkFound</span><span class="o">(</span><span class="n">T</span> <span class="n">resource</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">resource</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="n">MyResourceNotFoundException</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">resource</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>Controller 实现是非公开的，因为它不需要。</strong></p>
+<p>通常，控制器是依赖链中的最后一个。它从 Spring 前端控制器（<em>DispatcherServlet</em>）接收 HTTP 请求，并将它们简单地委托给服务层。如果没有必须通过直接引用注入或操作控制器的用例，那么我们可能不希望将其声明为公共的。</p>
+<p>请求映射很简单。<strong>与任何控制器一样，映射的实际值以及 HTTP 方法决定了请求的目标方法。</strong>@RequestBody将方法的参数绑定到 HTTP 请求的主体，而*@ResponseBody<em>对响应和返回类型执行相同的操作</em>。*</p>
+<p><strong>@RestController 是在我们的类中包含 @ResponseBody 和 @Controller注释的<a href="/spring-controller-vs-restcontroller" rel="">简写</a>。</strong></p>
+<p>他们还确保使用正确的 HTTP 转换器对资源进行编组和解组。将进行内容协商以选择将使用哪一个活动转换器，主要基于<em>Accept</em>标头，尽管也可以使用其他 HTTP 标头来确定表示形式。</p>
+<h2 id="6-映射-http-响应代码">6. 映射 HTTP 响应代码</h2>
+<p>HTTP 响应的状态码是 REST 服务最重要的部分之一，主题很快就会变得非常复杂。正确处理这些可能是服务的成败。</p>
+<h3 id="61-未映射的请求">6.1 未映射的请求</h3>
+<p>如果 Spring MVC 接收到一个没有映射的请求，它认为该请求不允许，并返回一个 405 METHOD NOT ALLOWED 返回给客户端。</p>
+<p><em>在向客户端返回405</em>以指定允许哪些操作时，包含<em>Allow</em> HTTP 标头也是一种很好的做法。这是 Spring MVC 的标准行为，不需要任何额外的配置。</p>
+<h3 id="62-有效的映射请求">6.2 有效的映射请求</h3>
+<p>对于任何具有映射的请求，Spring MVC 认为该请求有效并以 200 OK 响应，如果没有另外指定其他状态代码。</p>
+<p>正因为如此，控制器为<em>create</em>、<em>update</em>和<em>delete</em>操作声明了不同的@ResponseStatus，但没有为<em>get</em>声明，它确实应该返回默认的 200 OK。</p>
+<h3 id="63-客户端错误">6.3 客户端错误</h3>
+<p><strong>在客户端错误的情况下，自定义异常被定义并映射到适当的错误代码。</strong></p>
+<p>简单地从 web 层的任何层抛出这些异常将确保 Spring 在 HTTP 响应上映射相应的状态代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BadRequestException</span> <span class="kd">extends</span> <span class="n">RuntimeException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResourceNotFoundException</span> <span class="kd">extends</span> <span class="n">RuntimeException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>这些异常是 REST API 的一部分，因此，我们应该只在与 REST 对应的适当层中使用它们；例如，如果存在 DAO/DAL 层，则不应直接使用异常。</p>
+<p>另请注意，这些不是检查异常，而是符合 Spring 实践和习惯用法的运行时异常。</p>
+<h3 id="64-使用exceptionhandler">6.4 使用@ExceptionHandler</h3>
+<p>将自定义异常映射到特定状态代码的另一个选项是在控制器中使用*@ExceptionHandler*注释。这种方法的问题在于注释仅适用于定义它的控制器。这意味着我们需要在每个控制器中单独声明它们。</p>
+<p>当然，在 Spring 和 Spring Boot 中<a href="/exception-handling-for-rest-with-spring" rel="">处理错误的方法更多，提供了更大的灵活性。</a></p>
+<h2 id="7-额外的-maven-依赖">7. 额外的 Maven 依赖</h2>
+<p>除了<a href="/spring-with-maven#mvc" rel="">标准 Web 应用程序所需的</a><em>spring-webmvc</em>依赖项之外，我们还需要为 REST API 设置内容编组和解组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;groupId&gt;</span>com.fasterxml.jackson.core<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;artifactId&gt;</span>jackson-databind<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;version&gt;</span>2.9.8<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;groupId&gt;</span>javax.xml.bind<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;artifactId&gt;</span>jaxb-api<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;version&gt;</span>2.3.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependencies&gt;</span>
+</span></span></code></pre></div><p>我们将使用这些库将 REST 资源的表示形式转换为 JSON 或 XML。</p>
+<h3 id="71-使用-spring-boot">7.1 使用 Spring Boot</h3>
+<p>如果我们想检索 JSON 格式的资源，Spring Boot 提供了对不同库的支持，即 Jackson、Gson 和 JSON-B。</p>
+<p>我们可以通过简单地在类路径中包含任何映射库来执行自动配置。</p>
+<p>通常，如果我们正在开发一个 Web 应用程序，<strong>我们只需添加spring-boot-starter-web依赖项并依赖它来将所有必要的工件包含到我们的项目中</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.6.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>Spring Boot 默认使用 Jackson。</p>
+<p>如果我们想以 XML 格式序列化我们的资源，我们必须将 Jackson XML 扩展 ( <em>jackson-dataformat-xml</em> ) 添加到我们的依赖项中，或者通过使用回退到 JAXB 实现（JDK 中默认提供） 我们资源上的*@XmlRootElement*注释。&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-19</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/" data-title="使用 Spring 和 Java Config 构建 REST API"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/" data-title="使用 Spring 和 Java Config 构建 REST API"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/" data-title="使用 Spring 和 Java Config 构建 REST API"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/" data-title="使用 Spring 和 Java Config 构建 REST API"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/bootstraping_a_web_application_with_spring_and_java_based_configuration/" class="prev" rel="prev" title="使用 Spring 5 创建 Web 应用程序"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Spring 5 创建 Web 应用程序</a>
+            <a href="/constructor_injection_in_spring/" class="next" rel="next" title="Spring 的构造函数依赖注入">Spring 的构造函数依赖注入<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

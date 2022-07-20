@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring Web 注释 - Coding Man</title><meta name="Description" content="在本文中，我们了解了如何使用 Spring MVC 处理 HTTP 请求和响应。"><meta property="og:title" content="Spring Web 注释" />
+<meta property="og:description" content="在本文中，我们了解了如何使用 Spring MVC 处理 HTTP 请求和响应。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring_mvc_annotations/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-08-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring Web 注释"/>
+<meta name="twitter:description" content="在本文中，我们了解了如何使用 Spring MVC 处理 HTTP 请求和响应。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring_mvc_annotations/" /><link rel="prev" href="http://itcodingman.github.io/spring_mvc_and_the_modelattribute_annotation/" /><link rel="next" href="http://itcodingman.github.io/spring_mvc_form_tutorial/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring Web 注释",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring_mvc_annotations\/"
+        },"genre": "posts","wordcount":  2092 ,
+        "url": "http:\/\/itcodingman.github.io\/spring_mvc_annotations\/","datePublished": "2020-08-12T00:00:00+00:00","dateModified": "2022-07-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们了解了如何使用 Spring MVC 处理 HTTP 请求和响应。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring Web 注释</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-08-12">2020-08-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2092 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-requestmapping">2. <em>@RequestMapping</em></a></li>
+    <li><a href="#3-requestbody">3. <em>@RequestBody</em></a></li>
+    <li><a href="#4-pathvariable">4. <em>@PathVariable</em></a></li>
+    <li><a href="#5-requestparam">5. <em>@RequestParam</em></a></li>
+    <li><a href="#6-响应处理注解">6. 响应处理注解</a>
+      <ul>
+        <li><a href="#61-responsebody">6.1 <em>@ResponseBody</em></a></li>
+        <li><a href="#62-exceptionhandler">6.2 <em>@ExceptionHandler</em></a></li>
+        <li><a href="#63-responsestatus">6.3 <em>@ResponseStatus</em></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-其他网页注解">7. 其他网页注解</a>
+      <ul>
+        <li><a href="#71-controller">7.1 <em>@Controller</em></a></li>
+        <li><a href="#72-restcontroller">7.2. <em>@RestController</em></a></li>
+        <li><a href="#73-modelattribute">7.3 <em>@ModelAttribute</em></a></li>
+        <li><a href="#74-crossorigin">7.4 <em>@CrossOrigin</em></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>在本教程中，我们将探索<em>org.springframework.web.bind.annotation</em>包中的 Spring Web 注释。</p>
+<h2 id="2-requestmapping">2. <em>@RequestMapping</em></h2>
+<p>简单地说，<a href="/spring-requestmapping" rel=""><em>@RequestMapping</em></a> 标记了*@Controller*类内部<strong>的请求处理方法</strong>；可以使用以下方式进行配置：</p>
+<ul>
+<li><em>路径</em>或其别名、<em>名称</em>和*值：*方法映射到哪个 URL</li>
+<li>*方法：*兼容的 HTTP 方法</li>
+<li>*params：*根据 HTTP 参数的存在、不存在或值过滤请求</li>
+<li>*标头：*根据 HTTP 标头的存在、不存在或值过滤请求</li>
+<li>*消费：*该方法可以在 HTTP 请求正文中消费哪些媒体类型</li>
+<li>*产生：*该方法可以在 HTTP 响应正文中产生哪些媒体类型</li>
+</ul>
+<p>这是一个简单的示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">VehicleController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/vehicles/home&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">home</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;home&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们在类级别应用此注解，我们可以为@Controller类<strong>中的所有处理程序方法提供</strong>默认设置。<strong>唯一的</strong>例外是Spring不会用方法级别设置覆盖但附加两个路径部分的 URL。</p>
+<p>例如，下面的配置和上面的效果是一样的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/vehicles&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">VehicleController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/home&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">home</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;home&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此外，<em>@GetMapping</em>、<em>@PostMapping</em>、<em>@PutMapping</em>、 <em>@DeleteMapping</em>和*@PatchMapping<em>是</em>@RequestMapping*的不同变体， HTTP 方法已分别设置为 GET、POST、PUT、DELETE 和 PATCH。</p>
+<p>这些从 Spring 4.3 版本开始可用。</p>
+<h2 id="3-requestbody">3. <em>@RequestBody</em></h2>
+<p>让我们继续看<a href="/spring-request-response-body" rel=""><em>@RequestBody——</em></a><strong>它将HTTP 请求</strong>的主体映射到一个对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/save&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">saveVehicle</span><span class="o">(</span><span class="nd">@RequestBody</span> <span class="n">Vehicle</span> <span class="n">vehicle</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>反序列化是自动的，取决于请求的内容类型。</p>
+<h2 id="4-pathvariable">4. <em>@PathVariable</em></h2>
+<p>接下来，让我们谈谈*@PathVariable*。</p>
+<p>此注释指示<strong>方法参数绑定到 URI 模板变量</strong>。我们可以使用*@RequestMapping<em>注释指定 URI 模板，并使用</em>@PathVariable*将方法参数绑定到模板部分之一。</p>
+<p>我们可以使用<em>名称</em>或其别名、<em>Value</em>参数来实现这一点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Vehicle</span> <span class="nf">getVehicle</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">)</span> <span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>如果模板中部分的名称与方法参数的名称匹配，我们不必在注解中指定：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Vehicle</span> <span class="nf">getVehicle</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>此外，我们可以通过将<em>required</em>的参数设置为false来将路径变量标记为可选：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Vehicle</span> <span class="nf">getVehicle</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span> <span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-requestparam">5. <em>@RequestParam</em></h2>
+<p>我们使用*@RequestParam*来<strong>访问 HTTP 请求参数</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span>
+</span></span><span class="line"><span class="cl"><span class="n">Vehicle</span> <span class="nf">getVehicleByParam</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">)</span> <span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>它具有与*@PathVariable*注释相同的配置选项。</p>
+<p>除了这些设置之外，当 Spring 在请求中发现没有值或空值时，我们可以使用*@RequestParam<em>指定注入值。为此，我们必须设置</em>defaultValue*参数。</p>
+<p>提供默认值隐式地将<em>required</em>设置为<em>false</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/buy&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Car</span> <span class="nf">buyCar</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">defaultValue</span> <span class="o">=</span> <span class="s">&#34;5&#34;</span><span class="o">)</span> <span class="kt">int</span> <span class="n">seatCount</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>除了参数，<strong>我们还可以访问其他 HTTP 请求部分：cookies 和 headers</strong>。我们可以分别使用注解*@CookieValue<em>和</em>@RequestHeader*来访问它们。</p>
+<p><em>我们可以像@RequestParam</em>一样配置它们。</p>
+<h2 id="6-响应处理注解">6. 响应处理注解</h2>
+<p>在接下来的部分中，我们将看到在 Spring MVC 中操作 HTTP 响应的最常见的注解。</p>
+<h3 id="61-responsebody">6.1 <em>@ResponseBody</em></h3>
+<p>如果我们使用<a href="/spring-request-response-body" rel="">@ResponseBody</a>标记请求处理程序方法，<strong>Spring 将方法的结果视为响应本身</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/hello&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="nf">hello</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Hello World!&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们用这个注解来注解一个*@Controller*类，所有的请求处理方法都会使用它。</p>
+<h3 id="62-exceptionhandler">6.2 <em>@ExceptionHandler</em></h3>
+<p>有了这个注解，我们可以声明一个<strong>自定义的错误处理方法</strong>。当请求处理程序方法抛出任何指定的异常时，Spring 调用此方法。</p>
+<p>捕获的异常可以作为参数传递给方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="n">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">onIllegalArgumentException</span><span class="o">(</span><span class="n">IllegalArgumentException</span> <span class="n">exception</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h3 id="63-responsestatus">6.3 <em>@ResponseStatus</em></h3>
+<p>如果我们使用此注释注释请求处理程序方法，我们可以指定**响应的所需 HTTP 状态。**我们可以使用<em>code</em>参数或它的别名<em>value</em>参数来声明状态代码。</p>
+<p>此外，我们可以使用<em>reason</em>参数提供原因。</p>
+<p>我们也可以将它与*@ExceptionHandler*一起使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ExceptionHandler</span><span class="o">(</span><span class="n">IllegalArgumentException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseStatus</span><span class="o">(</span><span class="n">HttpStatus</span><span class="o">.</span><span class="na">BAD_REQUEST</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">onIllegalArgumentException</span><span class="o">(</span><span class="n">IllegalArgumentException</span> <span class="n">exception</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>有关 HTTP 响应状态的更多信息，请访问<a href="/spring-mvc-controller-custom-http-status-code" rel="">本文</a>。</p>
+<h2 id="7-其他网页注解">7. 其他网页注解</h2>
+<p>一些注释不直接管理 HTTP 请求或响应。在接下来的部分中，我们将介绍最常见的部分。</p>
+<h3 id="71-controller">7.1 <em>@Controller</em></h3>
+<p><em>我们可以使用@Controller</em>定义一个 Spring MVC 控制器。有关更多信息，请访问<a href="/spring-bean-annotations" rel="">我们关于 Spring Bean Annotations 的文章</a>。</p>
+<h3 id="72-restcontroller">7.2. <em>@RestController</em></h3>
+<p><em>@RestController</em>结合了*@Controller<em>和</em>@ResponseBody*。</p>
+<p>因此，以下声明是等价的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">VehicleRestController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RestController</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">VehicleRestController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h3 id="73-modelattribute">7.3 <em>@ModelAttribute</em></h3>
+<p>使用这个注解，我们可以通过提供模型键来访问已经存在于MVC <em>@Controller</em>模型中的元素：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/assemble&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">assembleVehicle</span><span class="o">(</span><span class="nd">@ModelAttribute</span><span class="o">(</span><span class="s">&#34;vehicle&#34;</span><span class="o">)</span> <span class="n">Vehicle</span> <span class="n">vehicleInModel</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>与*@PathVariable<em>和</em>@RequestParam*一样，如果参数具有相同的名称，我们不必指定模型键：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PostMapping</span><span class="o">(</span><span class="s">&#34;/assemble&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">assembleVehicle</span><span class="o">(</span><span class="nd">@ModelAttribute</span> <span class="n">Vehicle</span> <span class="n">vehicle</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>此外，<em>@ModelAttribute</em>还有一个用途：如果我们用它来注解一个方法，Spring 会<strong>自动将该方法的返回值添加到模型中</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ModelAttribute</span><span class="o">(</span><span class="s">&#34;vehicle&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Vehicle</span> <span class="nf">getVehicle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>和以前一样，我们不必指定模型键，Spring 默认使用方法的名称：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@ModelAttribute</span>
+</span></span><span class="line"><span class="cl"><span class="n">Vehicle</span> <span class="nf">vehicle</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在 Spring 调用请求处理程序方法之前，它会调用类中所有*@ModelAttribute*注释的方法。</p>
+<p>有关*@ModelAttribute*的更多信息，请参阅<a href="/spring-mvc-and-the-modelattribute-annotation" rel="">本文</a>。</p>
+<h3 id="74-crossorigin">7.4 <em>@CrossOrigin</em></h3>
+<p><em>@CrossOrigin</em> 为带注释的请求处理程序方法<strong>启用跨域通信：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/hello&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="nf">hello</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Hello World!&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们用它标记一个类，它适用于其中的所有请求处理程序方法。</p>
+<p>我们可以使用此注释的参数微调 CORS 行为。</p>
+<p>有关更多详细信息，请访问<a href="/spring-cors" rel="">本文</a>。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring_mvc_annotations/" data-title="Spring Web 注释"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring_mvc_annotations/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring_mvc_annotations/" data-title="Spring Web 注释"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring_mvc_annotations/" data-title="Spring Web 注释"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring_mvc_annotations/" data-title="Spring Web 注释"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring_mvc_and_the_modelattribute_annotation/" class="prev" rel="prev" title="Spring MVC 和 @ModelAttribute 注解"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Spring MVC 和 @ModelAttribute 注解</a>
+            <a href="/spring_mvc_form_tutorial/" class="next" rel="next" title="Spring MVC 中的表单入门">Spring MVC 中的表单入门<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Spring请求映射 - Coding Man</title><meta name="Description" content="本文重点介绍Spring中的@RequestMapping注解，讨论一个简单的用例、HTTP 标头的映射、使用@PathVariable绑定部分 URI ，以及使用 URI 参数和@RequestParam注解。"><meta property="og:title" content="Spring请求映射" />
+<meta property="og:description" content="本文重点介绍Spring中的@RequestMapping注解，讨论一个简单的用例、HTTP 标头的映射、使用@PathVariable绑定部分 URI ，以及使用 URI 参数和@RequestParam注解。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/spring_requestmapping/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-09-30T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Spring请求映射"/>
+<meta name="twitter:description" content="本文重点介绍Spring中的@RequestMapping注解，讨论一个简单的用例、HTTP 标头的映射、使用@PathVariable绑定部分 URI ，以及使用 URI 参数和@RequestParam注解。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/spring_requestmapping/" /><link rel="prev" href="http://itcodingman.github.io/spring_qualifier_annotation/" /><link rel="next" href="http://itcodingman.github.io/spring_request_param/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Spring请求映射",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/spring_requestmapping\/"
+        },"genre": "posts","wordcount":  3060 ,
+        "url": "http:\/\/itcodingman.github.io\/spring_requestmapping\/","datePublished": "2020-09-30T00:00:00+00:00","dateModified": "2022-07-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本文重点介绍Spring中的@RequestMapping注解，讨论一个简单的用例、HTTP 标头的映射、使用@PathVariable绑定部分 URI ，以及使用 URI 参数和@RequestParam注解。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Spring请求映射</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-09-30">2020-09-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3060 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-requestmapping基础"><strong>2. <em>@RequestMapping</em>基础</strong></a>
+      <ul>
+        <li><a href="#21-requestmapping--按路径"><strong>2.1 <em>@RequestMapping</em> — 按路径</strong></a></li>
+        <li><a href="#22-requestmapping--http-方法"><strong>2.2. <em>@RequestMapping</em> — HTTP 方法</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-requestmapping和-http-标头"><strong>3. <em>RequestMapping</em>和 HTTP 标头</strong></a>
+      <ul>
+        <li><a href="#31-requestmapping带有headers属性"><strong>3.1 <em>@RequestMapping</em>带有<em>headers</em>属性</strong></a></li>
+        <li><a href="#32-requestmapping消费和生产"><strong>3.2 <em>@RequestMapping</em>消费和生产</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#-4-带路径变量的-requestmapping">** 4. 带路径变量的 RequestMapping**</a>
+      <ul>
+        <li><a href="#41-单个pathvariable"><strong>4.1 单个@PathVariable</strong></a></li>
+        <li><a href="#42-多个pathvariable"><strong>4.2 多个@PathVariable</strong></a></li>
+        <li><a href="#43-pathvariable与正则表达式"><strong>4.3 @PathVariable与正则表达式</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-请求参数的requestmapping"><strong>5. 请求参数的RequestMapping</strong></a></li>
+    <li><a href="#6-requestmapping角落案例"><strong>6. <em>RequestMapping</em>角落案例</strong></a>
+      <ul>
+        <li><a href="#61-requestmapping--映射到同一个控制器方法的多个路径"><strong>6.1 <em>@RequestMapping</em> — 映射到同一个控制器方法的多个路径</strong></a></li>
+        <li><a href="#62-requestmapping--对同一个控制器方法的多个-http-请求方法"><strong>6.2 <em>@RequestMapping</em> — 对同一个控制器方法的多个 HTTP 请求方法</strong></a></li>
+        <li><a href="#63-requestmapping--所有请求的后备"><strong>6.3 <em>@RequestMapping</em> — 所有请求的后备</strong></a></li>
+        <li><a href="#64-模棱两可的映射错误"><strong>6.4 模棱两可的映射错误</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-新的请求映射快捷方式"><strong>7. 新的请求映射快捷方式</strong></a></li>
+    <li><a href="#8-spring-配置"><strong>8. Spring 配置</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本教程中，我们将关注<strong>Spring MVC 中的主要注解之一：@RequestMapping。</strong></p>
+<p>简单来说，注解就是用来将 web 请求映射到 Spring Controller 方法上的。</p>
+<h2 id="2-requestmapping基础"><strong>2. <em>@RequestMapping</em>基础</strong></h2>
+<p>让我们从一个简单的示例开始：使用一些基本标准将 HTTP 请求映射到方法。</p>
+<h3 id="21-requestmapping--按路径"><strong>2.1 <em>@RequestMapping</em> — 按路径</strong></h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoosBySimplePath</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get some Foos&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>要使用简单的curl</em>命令测试此映射，请运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i http://localhost:8080/spring-rest/ex/foos
+</span></span></code></pre></div><h3 id="22-requestmapping--http-方法"><strong>2.2. <em>@RequestMapping</em> — HTTP 方法</strong></h3>
+<p>HTTP<em>方法</em>参数**没有默认值。**因此，如果我们不指定值，它将映射到任何 HTTP 请求。</p>
+<p>这是一个简单的示例，与上一个类似，但这次映射到 HTTP POST 请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">POST</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">postFoos</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Post some Foos&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>通过<em>curl</em>命令测试 POST：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i -X POST http://localhost:8080/spring-rest/ex/foos
+</span></span></code></pre></div><h2 id="3-requestmapping和-http-标头"><strong>3. <em>RequestMapping</em>和 HTTP 标头</strong></h2>
+<h3 id="31-requestmapping带有headers属性"><strong>3.1 <em>@RequestMapping</em>带有<em>headers</em>属性</strong></h3>
+<p>通过为请求指定标头，可以进一步缩小映射范围：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos&#34;</span><span class="o">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="s">&#34;key=val&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoosWithHeader</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get some Foos with Header&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>为了测试操作，我们将使用<em>curl</em>标头支持：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i -H <span class="s2">&#34;key:val&#34;</span> http://localhost:8080/spring-rest/ex/foos
+</span></span></code></pre></div><p>甚至通过*@RequestMapping<em>的</em>headers*属性设置多个标头：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">headers</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&#34;key1=val1&#34;</span><span class="o">,</span> <span class="s">&#34;key2=val2&#34;</span> <span class="o">},</span> <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoosWithHeaders</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get some Foos with Header&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以使用以下命令进行测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i -H <span class="s2">&#34;key1:val1&#34;</span> -H <span class="s2">&#34;key2:val2&#34;</span> http://localhost:8080/spring-rest/ex/foos
+</span></span></code></pre></div><p>请注意，对于<em>curl</em>语法，冒号分隔标头键和标头值，与 HTTP 规范中相同，而在 Spring 中，使用等号。</p>
+<h3 id="32-requestmapping消费和生产"><strong>3.2 <em>@RequestMapping</em>消费和生产</strong></h3>
+<p><strong>由控制器</strong>方法生成的映射媒体类型值得特别注意。</p>
+<p>我们可以通过上面介绍的*@RequestMapping* <em>headers</em>属性根据其<em>Accept标头映射请求：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">headers</span> <span class="o">=</span> <span class="s">&#34;Accept=application/json&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoosAsJsonFromBrowser</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get some Foos with Header Old&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这种定义<em>Accept</em>标头的方式的匹配是灵活的——它使用 contains 而不是 equals，所以像下面这样的请求仍然可以正确映射：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -H <span class="s2">&#34;Accept:application/json,text/html&#34;</span> 
+</span></span><span class="line"><span class="cl">  http://localhost:8080/spring-rest/ex/foos
+</span></span></code></pre></div><p>从 Spring 3.1 开始，<strong>@RequestMapping注解现在具有<em>生产</em>和<em>消费</em>属性</strong>，专门用于此目的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">produces</span> <span class="o">=</span> <span class="s">&#34;application/json&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoosAsJsonFromREST</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get some Foos with Header New&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>此外，从 Spring 3.1 开始，带有headers</em>属性的旧映射类型将自动转换为新的<em>生产</em>机制，因此结果将是相同的。</p>
+<p>这是通过<em>curl</em>以相同的方式使用的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -H <span class="s2">&#34;Accept:application/json&#34;</span> 
+</span></span><span class="line"><span class="cl">  http://localhost:8080/spring-rest/ex/foos
+</span></span></code></pre></div><p>此外，<em>produces</em> 还支持多个值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">produces</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&#34;application/json&#34;</span><span class="o">,</span> <span class="s">&#34;application/xml&#34;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span></code></pre></div><p><em>请记住，这些（指定Accept</em>标头的新旧方法）基本上是相同的映射，因此 Spring 不允许它们一起使用。</p>
+<p>激活这两种方法将导致：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Caused by: java.lang.IllegalStateException: Ambiguous mapping found. 
+</span></span><span class="line"><span class="cl">Cannot map <span class="s1">&#39;fooController&#39;</span> bean method 
+</span></span><span class="line"><span class="cl">java.lang.String 
+</span></span><span class="line"><span class="cl">org.baeldung.spring.web.controller
+</span></span><span class="line"><span class="cl">  .FooController.getFoosAsJsonFromREST<span class="o">()</span>
+</span></span><span class="line"><span class="cl">to 
+</span></span><span class="line"><span class="cl"><span class="o">{</span> <span class="o">[</span>/ex/foos<span class="o">]</span>,
+</span></span><span class="line"><span class="cl">  <span class="nv">methods</span><span class="o">=[</span>GET<span class="o">]</span>,params<span class="o">=[]</span>,headers<span class="o">=[]</span>,
+</span></span><span class="line"><span class="cl">  <span class="nv">consumes</span><span class="o">=[]</span>,produces<span class="o">=[</span>application/json<span class="o">]</span>,custom<span class="o">=[]</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>: 
+</span></span><span class="line"><span class="cl">There is already <span class="s1">&#39;fooController&#39;</span> bean method
+</span></span><span class="line"><span class="cl">java.lang.String 
+</span></span><span class="line"><span class="cl">org.baeldung.spring.web.controller
+</span></span><span class="line"><span class="cl">  .FooController.getFoosAsJsonFromBrowser<span class="o">()</span> 
+</span></span><span class="line"><span class="cl">mapped.
+</span></span></code></pre></div><p>关于新<em>生产</em>和<em>消费</em>机制的最后一点说明，其行为与大多数其他注释不同：在类型级别指定时，<strong>方法级别注释不会补充而是覆盖</strong>类型级别信息。</p>
+<p>当然，如果您想深入了解如何使用 Spring 构建 REST API，<a href="/rest-with-spring-course" rel="">请查看<strong>新的 REST with Spring 课程</strong></a>。</p>
+<h2 id="-4-带路径变量的-requestmapping">** 4. 带路径变量的 RequestMapping**</h2>
+<p>映射 URI 的一部分可以通过*@PathVariable*注释绑定到变量。</p>
+<h3 id="41-单个pathvariable"><strong>4.1 单个@PathVariable</strong></h3>
+<p>带有单个路径变量的简单示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos/{id}&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoosBySimplePathWithPathVariable</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">)</span> <span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get a specific Foo with id=&#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这可以用<em>curl</em>测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl http://localhost:8080/spring-rest/ex/foos/1
+</span></span></code></pre></div><p>如果方法参数的名称与路径变量的名称完全匹配，则可以<strong>使用不带值的@PathVariable</strong>来简化：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos/{id}&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoosBySimplePathWithPathVariable</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@PathVariable</span> <span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get a specific Foo with id=&#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，<em>@PathVariable</em>受益于自动类型转换，因此我们也可以将<em>id</em>声明为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PathVariable</span> <span class="kt">long</span> <span class="n">id</span>
+</span></span></code></pre></div><h3 id="42-多个pathvariable"><strong>4.2 多个@PathVariable</strong></h3>
+<p>更复杂的 URI 可能需要将 URI 的多个部分映射到<strong>多个值</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos/{fooid}/bar/{barid}&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoosBySimplePathWithPathVariables</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="nd">@PathVariable</span> <span class="kt">long</span> <span class="n">fooid</span><span class="o">,</span> <span class="nd">@PathVariable</span> <span class="kt">long</span> <span class="n">barid</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get a specific Bar with id=&#34;</span> <span class="o">+</span> <span class="n">barid</span> <span class="o">+</span> 
+</span></span><span class="line"><span class="cl">      <span class="s">&#34; from a Foo with id=&#34;</span> <span class="o">+</span> <span class="n">fooid</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这很容易用<em>curl</em>以相同的方式进行测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl http://localhost:8080/spring-rest/ex/foos/1/bar/2
+</span></span></code></pre></div><h3 id="43-pathvariable与正则表达式"><strong>4.3 @PathVariable与正则表达式</strong></h3>
+<p>映射*@PathVariable*时也可以使用正则表达式。</p>
+<p>例如，我们将映射限制为只接受id的数值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/bars/{numericId:[\\d]+}&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getBarsBySimplePathWithPathVariable</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@PathVariable</span> <span class="kt">long</span> <span class="n">numericId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get a specific Bar with id=&#34;</span> <span class="o">+</span> <span class="n">numericId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这意味着以下 URI 将匹配：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-rest/ex/bars/1
+</span></span></code></pre></div><p>但这不会：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-rest/ex/bars/abc
+</span></span></code></pre></div><h2 id="5-请求参数的requestmapping"><strong>5. 请求参数的RequestMapping</strong></h2>
+<p>@RequestMapping 允许使用@RequestParam注释轻松映射 URL 参数。</p>
+<p>我们现在将请求映射到 URI：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-rest/ex/bars?id<span class="o">=</span><span class="m">100</span>
+</span></span><span class="line"><span class="cl">@RequestMapping<span class="o">(</span><span class="nv">value</span> <span class="o">=</span> <span class="s2">&#34;/ex/bars&#34;</span>, <span class="nv">method</span> <span class="o">=</span> GET<span class="o">)</span>
+</span></span><span class="line"><span class="cl">@ResponseBody
+</span></span><span class="line"><span class="cl">public String getBarBySimplePathWithRequestParam<span class="o">(</span>
+</span></span><span class="line"><span class="cl">  @RequestParam<span class="o">(</span><span class="s2">&#34;id&#34;</span><span class="o">)</span> long id<span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s2">&#34;Get a specific Bar with id=&#34;</span> + id<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后，我们使用控制器方法签名中的*@RequestParam(&ldquo;id&rdquo;)<em>注释来提取</em>id*参数的值。</p>
+<p>要发送带有<em>id</em>参数的请求，我们将使用<em>curl</em>中的参数支持：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i -d <span class="nv">id</span><span class="o">=</span><span class="m">100</span> http://localhost:8080/spring-rest/ex/bars
+</span></span></code></pre></div><p>在这个例子中，参数是直接绑定的，没有先声明。</p>
+<p>对于更高级的场景，<strong>@RequestMapping可以选择将参数定义</strong>为缩小请求映射的另一种方式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/bars&#34;</span><span class="o">,</span> <span class="n">params</span> <span class="o">=</span> <span class="s">&#34;id&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getBarBySimplePathWithExplicitRequestParam</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">)</span> <span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Get a specific Bar with id=&#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>允许更灵活的映射。可以设置多个参数值，而不是必须使用所有参数值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/bars&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">params</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&#34;id&#34;</span><span class="o">,</span> <span class="s">&#34;second&#34;</span> <span class="o">},</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getBarBySimplePathWithExplicitRequestParams</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&#34;id&#34;</span><span class="o">)</span> <span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Narrow Get a specific Bar with id=&#34;</span> <span class="o">+</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当然，还有对 URI 的请求，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://localhost:8080/spring-rest/ex/bars?id<span class="o">=</span>100<span class="p">&amp;</span><span class="nv">second</span><span class="o">=</span>something
+</span></span></code></pre></div><p>将始终映射到最佳匹配——这是更窄的匹配，它定义了<em>id</em>和<em>第二个</em>参数。</p>
+<h2 id="6-requestmapping角落案例"><strong>6. <em>RequestMapping</em>角落案例</strong></h2>
+<h3 id="61-requestmapping--映射到同一个控制器方法的多个路径"><strong>6.1 <em>@RequestMapping</em> — 映射到同一个控制器方法的多个路径</strong></h3>
+<p>尽管单个*@RequestMapping*路径值通常用于单个控制器方法（只是一种好的做法，而不是硬性规定），但在某些情况下可能需要将多个请求映射到同一个方法。</p>
+<p>在这种情况下，<em>@RequestMapping</em>的<em>value</em>属性确实接受多个映射，而不仅仅是一个：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&#34;/ex/advanced/bars&#34;</span><span class="o">,</span> <span class="s">&#34;/ex/advanced/foos&#34;</span> <span class="o">},</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">method</span> <span class="o">=</span> <span class="n">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoosOrBarsByPath</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Advanced - Get some Foos or Bars&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在这两个<em>curl</em>命令都应该使用相同的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i http://localhost:8080/spring-rest/ex/advanced/foos
+</span></span><span class="line"><span class="cl">curl -i http://localhost:8080/spring-rest/ex/advanced/bars
+</span></span></code></pre></div><h3 id="62-requestmapping--对同一个控制器方法的多个-http-请求方法"><strong>6.2 <em>@RequestMapping</em> — 对同一个控制器方法的多个 HTTP 请求方法</strong></h3>
+<p>使用不同 HTTP 动词的多个请求可以映射到同一个控制器方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">value</span> <span class="o">=</span> <span class="s">&#34;/ex/foos/multiple&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">method</span> <span class="o">=</span> <span class="o">{</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">PUT</span><span class="o">,</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">POST</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">putAndPostFoos</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Advanced - PUT and POST within single method&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>使用<em>curl</em>，这两个现在都将使用相同的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -i -X POST http://localhost:8080/spring-rest/ex/foos/multiple
+</span></span><span class="line"><span class="cl">curl -i -X PUT http://localhost:8080/spring-rest/ex/foos/multiple
+</span></span></code></pre></div><h3 id="63-requestmapping--所有请求的后备"><strong>6.3 <em>@RequestMapping</em> — 所有请求的后备</strong></h3>
+<p>要使用特定 HTTP 方法为所有请求实现简单的回退，例如，对于 GET：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;*&#34;</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getFallback</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Fallback for GET Requests&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>甚至对于所有请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RequestMapping</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">value</span> <span class="o">=</span> <span class="s">&#34;*&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">method</span> <span class="o">=</span> <span class="o">{</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">POST</span> <span class="o">...</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ResponseBody</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">allFallback</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Fallback for All Requests&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="64-模棱两可的映射错误"><strong>6.4 模棱两可的映射错误</strong></h3>
+<p>当 Spring 评估两个或多个请求映射对于不同的控制器方法相同时，会发生不明确的映射错误。当请求映射具有相同的 HTTP 方法、URL、参数、标头和媒体类型时，它是相同的。</p>
+<p>例如，这是一个模棱两可的映射：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;foos/duplicate&#34;</span> <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">duplicate</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Duplicate&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;foos/duplicate&#34;</span> <span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">duplicateEx</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Duplicate&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>抛出的异常通常确实包含以下错误消息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Caused by: java.lang.IllegalStateException: Ambiguous mapping.
+</span></span><span class="line"><span class="cl">  Cannot map <span class="s1">&#39;fooMappingExamplesController&#39;</span> method 
+</span></span><span class="line"><span class="cl">  public java.lang.String com.codingman.web.controller.FooMappingExamplesController.duplicateEx<span class="o">()</span>
+</span></span><span class="line"><span class="cl">  to <span class="o">{[</span>/ex/foos/duplicate<span class="o">]</span>,methods<span class="o">=[</span>GET<span class="o">]}</span>:
+</span></span><span class="line"><span class="cl">  There is already <span class="s1">&#39;fooMappingExamplesController&#39;</span> bean method
+</span></span><span class="line"><span class="cl">  public java.lang.String com.codingman.web.controller.FooMappingExamplesController.duplicate<span class="o">()</span> mapped.
+</span></span></code></pre></div><p>仔细阅读错误消息会发现 Spring 无法映射方法 *com.codingman.web.controller.FooMappingExamplesController.duplicateEx()，*因为它与已映射的 <em>com.codingman.web.controller的映射存在冲突.FooMappingExamplesController.duplicate()。</em></p>
+<p><strong>下面的代码片段不会导致不明确的映射错误，因为两种方法都返回不同的内容类型</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;foos/duplicate&#34;</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_XML_VALUE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">duplicateXml</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;&lt;message&gt;Duplicate&lt;/message&gt;&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">&#34;foos/duplicate&#34;</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="n">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">duplicateJson</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;{\&#34;message\&#34;:\&#34;Duplicate\&#34;}&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这种区分允许我们的控制器根据请求中提供的<em>Accepts</em>标头返回正确的数据表示 。</p>
+<p>解决此问题的另一种方法是更新分配给所涉及的两种方法中的任何一种的 URL。</p>
+<h2 id="7-新的请求映射快捷方式"><strong>7. 新的请求映射快捷方式</strong></h2>
+<p>Spring Framework 4.3 引入<a href="/spring-new-requestmapping-shortcuts" rel="">了一些新的</a>HTTP 映射注解，全部基于*@RequestMapping*：</p>
+<ul>
+<li><em>@GetMapping</em></li>
+<li><em>@PostMapping</em></li>
+<li><em>@PutMapping</em></li>
+<li><em>@DeleteMapping</em></li>
+<li><em>@PatchMapping</em></li>
+</ul>
+<p>这些新的注释可以提高可读性并减少代码的冗长。</p>
+<p>让我们通过创建一个支持 CRUD 操作的 RESTful API 来看看这些新注释的实际应用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;?&gt;</span> <span class="n">getBazz</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="n">String</span> <span class="n">id</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">Bazz</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="s">&#34;Bazz&#34;</span><span class="o">+</span><span class="n">id</span><span class="o">),</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@PostMapping</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;?&gt;</span> <span class="n">newBazz</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">name</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">Bazz</span><span class="o">(</span><span class="s">&#34;5&#34;</span><span class="o">,</span> <span class="n">name</span><span class="o">),</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@PutMapping</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;?&gt;</span> <span class="n">updateBazz</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@PathVariable</span> <span class="n">String</span> <span class="n">id</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nd">@RequestParam</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">Bazz</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">name</span><span class="o">),</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@DeleteMapping</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;?&gt;</span> <span class="n">deleteBazz</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="n">String</span> <span class="n">id</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">ResponseEntity</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">Bazz</span><span class="o">(</span><span class="n">id</span><span class="o">),</span> <span class="n">HttpStatus</span><span class="o">.</span><span class="na">OK</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><a href="/spring-new-requestmapping-shortcuts" rel="">可以在这里</a>找到对这些的深入了解。</p>
+<h2 id="8-spring-配置"><strong>8. Spring 配置</strong></h2>
+<p><em>考虑到我们的FooController</em>定义在以下包中，Spring MVC 配置非常简单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nn">com.codingman.controller</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Controller</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooController</span> <span class="o">{</span> <span class="o">...</span> <span class="o">}</span>
+</span></span></code></pre></div><p>我们只需要一个*@Configuration*类来启用完整的 MVC 支持并为控制器配置类路径扫描：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebMvc</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ComponentScan</span><span class="o">({</span> <span class="s">&#34;com.codingman.controller&#34;</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MvcConfig</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/spring_requestmapping/" data-title="Spring请求映射"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/spring_requestmapping/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/spring_requestmapping/" data-title="Spring请求映射"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/spring_requestmapping/" data-title="Spring请求映射"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/spring_requestmapping/" data-title="Spring请求映射"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/spring_qualifier_annotation/" class="prev" rel="prev" title="Spring @Qualifier 注解"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Spring @Qualifier 注解</a>
+            <a href="/spring_request_param/" class="next" rel="next" title="Spring @RequestParam 注解">Spring @RequestParam 注解<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

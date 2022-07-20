@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>DTO - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/dto/</link>
+        <description>DTO - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 05 Feb 2020 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/dto/" rel="self" type="application/rss+xml" /><item>
+    <title>Spring REST API中从实体到 DTO 转换</title>
+    <link>http://itcodingman.github.io/entity_to_and_from_dto_for_a_java_spring_application/</link>
+    <pubDate>Wed, 05 Feb 2020 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/entity_to_and_from_dto_for_a_java_spring_application/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将处理需要在 Spring 应用程序的内部实体和发布回客户端的外部**DTO （数据传输对象）之间发生的转换。** 2. 模型映射器 让我们首]]></description>
+</item>
+</channel>
+</rss>

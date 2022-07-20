@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Spring 进行项目配置 - Coding Man</title><meta name="Description" content="本文讨论了在 Spring 中进行环境特定配置的灵活解决方案。"><meta property="og:title" content="使用 Spring 进行项目配置" />
+<meta property="og:description" content="本文讨论了在 Spring 中进行环境特定配置的灵活解决方案。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/project_configuration_with_spring/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-03-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-20T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Spring 进行项目配置"/>
+<meta name="twitter:description" content="本文讨论了在 Spring 中进行环境特定配置的灵活解决方案。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/project_configuration_with_spring/" /><link rel="prev" href="http://itcodingman.github.io/inversion_control_and_dependency_injection_in_spring/" /><link rel="next" href="http://itcodingman.github.io/properties_with_spring/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Spring 进行项目配置",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/project_configuration_with_spring\/"
+        },"genre": "posts","keywords": "Spring Core Basics","wordcount":  1413 ,
+        "url": "http:\/\/itcodingman.github.io\/project_configuration_with_spring\/","datePublished": "2020-03-11T00:00:00+00:00","dateModified": "2022-07-20T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本文讨论了在 Spring 中进行环境特定配置的灵活解决方案。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Spring 进行项目配置</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2020-03-11">2020-03-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1413 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-配置必须是特定于环境的"><strong>1. 配置必须是特定于环境的</strong></a></li>
+    <li><a href="#2每个环境的properties文件"><strong>2.每个环境的.properties文件</strong></a></li>
+    <li><a href="#3-spring-配置"><strong>3. Spring 配置</strong></a></li>
+    <li><a href="#4-在每个环境中设置属性"><strong>4. 在每个环境中设置属性</strong></a></li>
+    <li><a href="#5-测试和-maven"><strong>5. 测试和 Maven</strong></a></li>
+    <li><a href="#6-更进一步"><strong>6. 更进一步</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-配置必须是特定于环境的"><strong>1. 配置必须是特定于环境的</strong></h2>
+<p>配置必须是特定于环境的——这是不争的事实。如果不是这种情况，那么它就不是配置，我们只会在代码中硬编码值。</p>
+<p><strong>对于 Spring 应用程序，您可以使用多种解决方案</strong>——从简单的解决方案一直到超级灵活、高度复杂的替代方案。</p>
+<p>一个更常见和直接的解决方案是灵活使用<strong>属性文件</strong>和<a href="/properties-with-spring" rel="">Spring 提供的属性支持</a>。</p>
+<p>作为概念证明，出于本文的目的，我们将了解一种特定类型的属性——数据库配置。将一种类型的数据库配置用于生产，另一种用于测试，另一种用于开发环境是非常有意义的。</p>
+<h2 id="2每个环境的properties文件"><strong>2.每个环境的.properties文件</strong></h2>
+<p>让我们开始我们的概念证明——通过定义我们想要定位的环境：</p>
+<ul>
+<li>开发</li>
+<li>分期</li>
+<li>生产</li>
+</ul>
+<p>接下来 – 让我们创建 3 个属性文件 – 每个环境一个：</p>
+<ul>
+<li><em>persistence-dev.properties</em></li>
+<li><em>persistence-staging.properties</em></li>
+<li><em>persistence-production.properties</em></li>
+</ul>
+<p>在典型的 Maven 应用程序中，它们可以驻留在<em>src/main/resources</em>中，但是无论它们在哪里，它们都需要在部署应用程序时<strong>在类路径中可用。</strong></p>
+<p><strong>将所有属性文件置于版本控制之下，使配置更加透明</strong>和可重复。这与将配置放在磁盘上的某个地方并简单地将 Spring 指向它们不同。</p>
+<h2 id="3-spring-配置"><strong>3. Spring 配置</strong></h2>
+<p>在 Spring 中，我们将根据环境包含正确的文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">&#34;http://www.springframework.org/schema/beans&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="na">xmlns:context=</span><span class="s">&#34;http://www.springframework.org/schema/context&#34;</span>
+</span></span><span class="line"><span class="cl">   <span class="na">xsi:schemaLocation=</span><span class="s">&#34;http://www.springframework.org/schema/beans
+</span></span></span><span class="line"><span class="cl"><span class="s">      http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+</span></span></span><span class="line"><span class="cl"><span class="s">      http://www.springframework.org/schema/context
+</span></span></span><span class="line"><span class="cl"><span class="s">      http://www.springframework.org/schema/context/spring-context-4.0.xsd&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;context:property-placeholder</span>
+</span></span><span class="line"><span class="cl">         <span class="na">location=</span><span class="s">&#34;classpath*:*persistence-${envTarget}.properties&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/beans&gt;</span>
+</span></span></code></pre></div><p>当然，Java 配置也可以做到这一点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PropertySource</span><span class="o">({</span> <span class="s">&#34;classpath:persistence-${envTarget:dev}.properties&#34;</span> <span class="o">})</span>
+</span></span></code></pre></div><p>这种方法允许灵活地拥有多个*.properties*文件以用于<strong>特定的、集中的目的</strong>。例如——在我们的例子中，Spring持久性配置导入持久性属性——这非常有意义。安全配置将导入与安全相关的属性等。</p>
+<h2 id="4-在每个环境中设置属性"><strong>4. 在每个环境中设置属性</strong></h2>
+<p>最终的、可部署的war<strong>将包含所有属性文件</strong>——例如持久性，persistence-*.properties的三个文件。由于文件实际上命名不同，因此不必担心意外包含错误的文件。我们将设置<strong>envTarget变量</strong>，从而从多个现有文件中选择我们想要的实例。</p>
+<p>envTarget变量可以在操作系统/环境中设置或作为 JVM 命令行的参数*：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-DenvTarget<span class="o">=</span>dev
+</span></span></code></pre></div><h2 id="5-测试和-maven"><strong>5. 测试和 Maven</strong></h2>
+<p>对于需要启用持久性的集成测试——我们只需在 pom.xml 中设置<em>envTarget</em>属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;systemPropertyVariables&gt;</span>
+</span></span><span class="line"><span class="cl">         <span class="nt">&lt;envTarget&gt;</span>h2_test<span class="nt">&lt;/envTarget&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/systemPropertyVariables&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>对应的<em>persistence-h2_test.properties</em>文件可以放在<em>src/test/resources</em>中，这样它就<strong>只会用于测试</strong>，而不是在运行时不必要地包含和部署在 war 中。</p>
+<h2 id="6-更进一步"><strong>6. 更进一步</strong></h2>
+<p>如果需要，有几种方法可以在此解决方案中增加额外的灵活性。</p>
+<p>一种这样的方法是对属性文件的<strong>名称使用更复杂的编码</strong>，不仅指定要使用它们的环境，还指定更多信息（例如持久性提供程序）。例如，我们可能会使用以下类型的属性：<em>persistence-h2.properties</em>、<em>persistence-mysql.properties</em> ，或者更具体的：<em>persistence-dev_h2.properties</em>、<em>persistence-staging_mysql.properties</em>、<em>persistence-production_amazonRDS.properties</em>。</p>
+<p>这种命名约定的优势——它<strong>只是一个约定</strong>，因为整体方法没有任何变化——只是透明。现在仅通过查看名称就可以更清楚地了解配置的作用：</p>
+<ul>
+<li><strong>persistence-dev_h2.properties</strong>：<em>开发</em>环境的持久性提供程序是一个轻量级的内存 H2 数据库</li>
+<li><strong>persistence-staging_mysql.properties</strong>：<em>暂存</em>环境的持久性提供程序是一个 MySQL 实例</li>
+<li><strong>persistence-production_amazon_rds.propertie</strong>：<em>生产</em>环境的持久性提供程序是 Amazon RDS
+&quot;</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-20</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/project_configuration_with_spring/" data-title="使用 Spring 进行项目配置" data-hashtags="Spring Core Basics"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/project_configuration_with_spring/" data-hashtag="Spring Core Basics"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/project_configuration_with_spring/" data-title="使用 Spring 进行项目配置"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/project_configuration_with_spring/" data-title="使用 Spring 进行项目配置"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/project_configuration_with_spring/" data-title="使用 Spring 进行项目配置"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/spring-core-basics/">Spring Core Basics</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/inversion_control_and_dependency_injection_in_spring/" class="prev" rel="prev" title="Spring 控制反转和依赖注入简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Spring 控制反转和依赖注入简介</a>
+            <a href="/properties_with_spring/" class="next" rel="next" title="Spring 和 Spring Boot 的属性">Spring 和 Spring Boot 的属性<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>
