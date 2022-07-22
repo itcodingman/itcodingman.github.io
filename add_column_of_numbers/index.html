@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>如何在 Bash 中添加一列数字 - Coding Man</title><meta name="Description" content="在本教程中，我们讨论了在 Bash shell 中将一列数字相加的方法。我们首先讨论了使用awk工具的解决方案。此外，我们还探索了处理包含多列或标题行的文件的方法。然后我们使用 Bash 循环实现了该解决方案。最后，我们展示了使用bc命令计算总和的技术，方法是使用tr、paste和sed实用程序将数字转换为单行表达式。"><meta property="og:title" content="如何在 Bash 中添加一列数字" />
+<meta property="og:description" content="在本教程中，我们讨论了在 Bash shell 中将一列数字相加的方法。我们首先讨论了使用awk工具的解决方案。此外，我们还探索了处理包含多列或标题行的文件的方法。然后我们使用 Bash 循环实现了该解决方案。最后，我们展示了使用bc命令计算总和的技术，方法是使用tr、paste和sed实用程序将数字转换为单行表达式。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/add_column_of_numbers/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-02-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="如何在 Bash 中添加一列数字"/>
+<meta name="twitter:description" content="在本教程中，我们讨论了在 Bash shell 中将一列数字相加的方法。我们首先讨论了使用awk工具的解决方案。此外，我们还探索了处理包含多列或标题行的文件的方法。然后我们使用 Bash 循环实现了该解决方案。最后，我们展示了使用bc命令计算总和的技术，方法是使用tr、paste和sed实用程序将数字转换为单行表达式。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/add_column_of_numbers/" /><link rel="prev" href="http://itcodingman.github.io/absolute_directory_of_file/" /><link rel="next" href="http://itcodingman.github.io/add_newline_variable_bash/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "如何在 Bash 中添加一列数字",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/add_column_of_numbers\/"
+        },"genre": "posts","keywords": "awk, expr, paste, sed, tr","wordcount":  2175 ,
+        "url": "http:\/\/itcodingman.github.io\/add_column_of_numbers\/","datePublished": "2016-02-24T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们讨论了在 Bash shell 中将一列数字相加的方法。我们首先讨论了使用awk工具的解决方案。此外，我们还探索了处理包含多列或标题行的文件的方法。然后我们使用 Bash 循环实现了该解决方案。最后，我们展示了使用bc命令计算总和的技术，方法是使用tr、paste和sed实用程序将数字转换为单行表达式。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">如何在 Bash 中添加一列数字</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/scripting/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Scripting</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-02-24">2016-02-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2175 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#3使用awk工具">3.使用<em>awk</em>工具</a>
+      <ul>
+        <li><a href="#31-当文件包含多列时">3.1 当文件包含多列时</a></li>
+        <li><a href="#32-当文件包含标题行时">3.2. 当文件包含标题行时</a></li>
+        <li><a href="#41-使用expr命令">4.1 使用<em>expr</em>命令</a></li>
+        <li><a href="#42-使用算术展开">4.2. 使用算术展开</a></li>
+        <li><a href="#51-使用paste命令">5.1 使用<em>paste</em>命令</a></li>
+        <li><a href="#52-使用tr命令">5.2. 使用<em>tr</em>命令</a></li>
+        <li><a href="#53-使用sed命令">5.3. 使用<em>sed</em>命令</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>概述</li>
+</ol>
+<hr>
+<p>在本教程中，我们将学习如何在 Bash shell 中将一列数字相加。我们将仔细研究一些可用于此目的的 Bash 实用程序。<strong>我们还将对所提供解决方案的性能进行基准测试</strong>。</p>
+<ol start="2">
+<li>设置</li>
+</ol>
+<hr>
+<p>首先，让我们设置我们将在大部分教程中使用的输入文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="k">for</span> i in <span class="sb">`</span>seq 1000000<span class="sb">`</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="k">$((</span><span class="nv">$RANDOM</span><span class="o">%</span><span class="m">100</span><span class="k">))</span><span class="p">;</span> <span class="k">done</span> &gt;numbers.csv
+</span></span></code></pre></div><p>在这里，<strong>我们正在生成一个文件<em>numbers.csv</em>，其中包含 1-100 范围内的一百万个随机数</strong>。我们使用<a href="/repeat-command#seq-xargs" rel=""><em>seq</em></a>命令运行一个<em>for循环，使用</em><a href="/random-numbers#random-bash" rel=""><em>RANDOM</em></a>内置变量生成 1,000,000 个数字。</p>
+<p>在接下来的部分中，我们还将查看使用<a href="/time-command" rel=""><em>time</em></a>命令提供的解决方案的本地速度，以了解每个命令的执行方式。</p>
+<h2 id="3使用awk工具">3.使用<em>awk</em>工具</h2>
+<p>让我们从*<a href="/awk-guide" rel="">awk</a>*命令开始计算列中数字的总和：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ awk <span class="s1">&#39;{Total=Total+$1} END{print &#34;Total is: &#34; Total}&#39;</span> numbers.csv
+</span></span><span class="line"><span class="cl">Total is: <span class="m">49471228</span>
+</span></span></code></pre></div><p>现在，让我们看看使用<a href="/time-command" rel=""><em>time</em></a>命令的执行时间：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">time</span> awk <span class="s1">&#39;{Total=Total+$1} END{print &#34;Total is: &#34; Total}&#39;</span> numbers.csv
+</span></span><span class="line"><span class="cl">Total is: <span class="m">49471228</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">real    0m0.228s
+</span></span><span class="line"><span class="cl">user    0m0.141s
+</span></span><span class="line"><span class="cl">sys     0m0.047s
+</span></span></code></pre></div><p><strong>它非常快！我们可以在 0.228 秒内计算出一百万个数字的总和</strong>。事实上，<em>awk</em>是 Bash 中用于文件处理的最强大的工具之一。</p>
+<h3 id="31-当文件包含多列时">3.1 当文件包含多列时</h3>
+<p>到目前为止，我们知道一种使用<em>awk</em>将列中的数字相加的方法。让我们看看我们在一个文件中有多个列并且我们只对计算特定列的总和感兴趣的情况：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat prices.csv
+</span></span><span class="line"><span class="cl">Books,40
+</span></span><span class="line"><span class="cl">Bag,70
+</span></span><span class="line"><span class="cl">Dress,80
+</span></span><span class="line"><span class="cl">Box,10
+</span></span></code></pre></div><p>此处，文件<em>prices.csv</em>包含两列。现在，让我们计算第二列中元素的总和：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ awk -F <span class="s2">&#34;,&#34;</span> <span class="s1">&#39;{Total=Total+$2} END{print &#34;Total is: &#34; Total}&#39;</span> prices.csv
+</span></span><span class="line"><span class="cl">Total is: <span class="m">200</span>
+</span></span></code></pre></div><h3 id="32-当文件包含标题行时">3.2. 当文件包含标题行时</h3>
+<p>有时，文本或 CSV 文件也包含标题行。该标题行通常包含列名，以提高可读性。让我们修改我们的<em>prices.csv</em>并添加一个标题行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat prices.csv
+</span></span><span class="line"><span class="cl">Item,Value
+</span></span><span class="line"><span class="cl">Books,40
+</span></span><span class="line"><span class="cl">Bag,70
+</span></span><span class="line"><span class="cl">Dress,80
+</span></span><span class="line"><span class="cl">Box,10
+</span></span></code></pre></div><p>当文件包含标题行时，<strong>我们希望在文本处理发生之前消除此标题行</strong>。有<a href="/remove-first-line-text-file" rel="">几种方法</a>可以实现这一点。在这种情况下，<strong>我们将使用<a href="/remove-first-line-text-file#using-the-awkcommand" rel=""><em>awk</em></a>工具来忽略标题行</strong>。所以，让我们继续修改我们的命令来计算列总和：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$  awk -F <span class="s2">&#34;,&#34;</span> <span class="s1">&#39;NR!=1{Total=Total+$2} END{print &#34;Total is: &#34; Total}&#39;</span> prices.csv
+</span></span><span class="line"><span class="cl">Total is: <span class="m">200</span>
+</span></span></code></pre></div><p>在接下来的部分中，我们将检查一些其他方法来将列中的数字相加，并评估<em>awk</em>解决方案相对于这些方法的执行情况。</p>
+<ol start="4">
+<li>使用 Bash 循环进行迭代</li>
+</ol>
+<hr>
+<p><em>awk</em>是一个很棒的工具，但是，<strong>我们也可以使用<a href="/repeat-command" rel="">循环</a>来遍历列值</strong>。</p>
+<h3 id="41-使用expr命令">4.1 使用<em>expr</em>命令</h3>
+<p>让我们运行一个实验并检查<a href="/bash-arithmetic-expressions#expr" rel=""><em>expr</em></a> 命令在<em>for</em>循环中计算总和的有效性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">time</span> <span class="o">(</span><span class="nv">sum</span><span class="o">=</span>0<span class="p">;</span><span class="k">for</span> number in <span class="sb">`</span>cat numbers.csv<span class="sb">`</span><span class="p">;</span> <span class="k">do</span> <span class="nv">sum</span><span class="o">=</span><span class="sb">`</span>expr <span class="nv">$sum</span> + <span class="nv">$number</span><span class="sb">`</span><span class="p">;</span> <span class="k">done</span><span class="p">;</span> <span class="nb">echo</span> <span class="s2">&#34;Total is: </span><span class="nv">$sum</span><span class="s2">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">Total is: <span class="m">49471228</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">real    212m48.418s
+</span></span><span class="line"><span class="cl">user    7m19.375s
+</span></span><span class="line"><span class="cl">sys     145m48.203s
+</span></span></code></pre></div><p>**处理速度非常慢。使用<em>expr</em>命令，添加一百万个数字需要 3.5 多个小时。**值得注意的是，<em>expr</em>实用程序是 Bash 早期的遗留物，我们应该只在我们的脚本需要与遗留（POSIX 之前）实现互操作的情况下使用它。</p>
+<h3 id="42-使用算术展开">4.2. 使用算术展开</h3>
+<p>由于使用<em>expr</em>命令没有多大帮助，让我们尝试另一种使用算术扩展的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">time</span> <span class="o">(</span><span class="nv">sum</span><span class="o">=</span>0<span class="p">;</span><span class="k">for</span> number in <span class="sb">`</span>cat numbers.csv<span class="sb">`</span><span class="p">;</span> <span class="k">do</span> <span class="nv">sum</span><span class="o">=</span><span class="k">$((</span>sum+number<span class="k">))</span><span class="p">;</span> <span class="k">done</span><span class="p">;</span> <span class="nb">echo</span> <span class="s2">&#34;Total is: </span><span class="nv">$sum</span><span class="s2">&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">Total is: <span class="m">49471228</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">real    0m1.961s
+</span></span><span class="line"><span class="cl">user    0m1.813s
+</span></span><span class="line"><span class="cl">sys     0m0.125s
+</span></span></code></pre></div><p>在这里，<em><em>我们使用算术展开式计算总和，形式为</em>$((..))<em>。与</em>expr<em>命令相反，使用算术扩展，我们能够在两秒内添加一百万个数字。**算术扩展允许我们执行简单的整数算术。但是，它不适用于浮点数。因此，<strong>对于浮点运算，我们必须使用<a href="/bash-arithmetic-expressions#bc" rel=""><em>bc</em></a>命令</strong>。我们将在下一节检查</em>bc命令的实现。</em></p>
+<ol start="5">
+<li>使用<em>bc</em>命令添加值</li>
+</ol>
+<hr>
+<p><em>bc</em>命令对单行表达式执行计算。因此，我们需要将这些数字组合成一行，并由加法运算符分隔。然后我们将表达式传递给<em>bc</em>以计算总数。让我们来看看实现这一点的几种方法。</p>
+<h3 id="51-使用paste命令">5.1 使用<em>paste</em>命令</h3>
+<p>首先，**让我们看一下将数据集的前 10 个数字排列在一行中的<a href="/using-paste-command" rel=""><em>paste</em></a>**命令，它们之间使用加号 (+) 运算符：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat numbers.csv<span class="p">|</span> head -10 <span class="p">|</span> paste -sd+ - 
+</span></span><span class="line"><span class="cl">2+44+6+15+23+0+15+88+82+1
+</span></span></code></pre></div><p>选项*-s*确保 paste 将所有数字连接在一行中。我们还指定了 d+ 选项以在加入条目<strong>时添加“+”字符作为分隔符。</strong></p>
+<p>有了这个，我们准备将这个序列作为<em>标准输入</em>提供给<em>bc</em>命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">time</span> <span class="nb">echo</span> <span class="s2">&#34;Total is: </span><span class="k">$(</span>cat numbers.csv <span class="p">|</span> paste -sd+ - <span class="p">|</span> bc<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">Total is: <span class="m">49471228</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">real    0m0.244s
+</span></span><span class="line"><span class="cl">user    0m0.203s
+</span></span><span class="line"><span class="cl">sys     0m0.063s
+</span></span></code></pre></div><p>值得注意<strong>的是，性能优于我们使用 Bash 循环观察到的性能（约 2 秒）。此外，它接近但无法击败<em>awk</em>命令的性能（0.228 秒）。</strong></p>
+<h3 id="52-使用tr命令">5.2. 使用<em>tr</em>命令</h3>
+<p>与<em>粘贴命令类似，让我们再次使用</em><a href="/tr-command" rel=""><em>tr</em></a>命令生成一个序列：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat numbers.csv <span class="p">|</span> head -10 <span class="p">|</span>tr <span class="s2">&#34;\n&#34;</span> <span class="s2">&#34;+&#34;</span>
+</span></span><span class="line"><span class="cl">2+44+6+15+23+0+15+88+82+1+
+</span></span></code></pre></div><p>在这里，我们将每个换行符*(&rsquo;\n&rsquo;)<em>转换为加号</em>(&rsquo;+&rsquo;)<em>字符。但是，请注意序列末尾的额外</em>“+” 。<em>作为一种解决方法，我们可以在最后添加一个额外的零来解决这个问题，然后再将它传递给</em>bc*命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat numbers.csv <span class="p">|</span> head -10 <span class="p">|</span>tr <span class="s2">&#34;\n&#34;</span> <span class="s2">&#34;+&#34;</span> <span class="p">;</span> <span class="nb">echo</span> <span class="s2">&#34;0&#34;</span>
+</span></span><span class="line"><span class="cl">2+44+6+15+23+0+15+88+82+1+0
+</span></span></code></pre></div><p>现在，让我们将输出重定向到<em>bc</em>命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">time</span> <span class="o">((</span>cat numbers.csv <span class="p">|</span> tr <span class="s2">&#34;\n&#34;</span> <span class="s2">&#34;+&#34;</span> <span class="p">;</span> <span class="nb">echo</span> <span class="s2">&#34;0&#34;</span><span class="o">)</span> <span class="p">|</span> bc<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="m">49471228</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">real    0m0.217s
+</span></span><span class="line"><span class="cl">user    0m0.203s
+</span></span><span class="line"><span class="cl">sys     0m0.031s
+</span></span></code></pre></div><p><em><em><em>tr</em>和</em>bc</em>命令的组合执行速度比<em>awk</em>解决方案快。**</p>
+<h3 id="53-使用sed命令">5.3. 使用<em>sed</em>命令</h3>
+<p>最后，我们将使用<em>sed</em>命令生成序列：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> $ cat numbers.csv <span class="p">|</span> head -10 <span class="p">|</span> sed -z <span class="s1">&#39;s#\n#+#g&#39;</span>
+</span></span><span class="line"><span class="cl">2+44+6+15+23+0+15+88+82+1+
+</span></span></code></pre></div><p>同样，我们使用<em>sed</em>命令的<a href="/sed-editor#search-and-replace" rel="">搜索和替换</a>选项将换行符*(&rsquo;\n&rsquo;)<em>替换为加号</em>(&rsquo;+&rsquo;)*字符。此外，我们在末尾打印零来处理额外的加号运算符，类似于上一节：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">time</span> <span class="o">((</span>cat numbers.csv <span class="p">|</span> sed -z <span class="s1">&#39;s#\n#+#g&#39;</span> <span class="p">;</span> <span class="nb">echo</span> <span class="s2">&#34;0&#34;</span><span class="o">)</span> <span class="p">|</span> bc<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="m">49471228</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">real    0m0.343s
+</span></span><span class="line"><span class="cl">user    0m0.281s
+</span></span><span class="line"><span class="cl">sys     0m0.109s
+</span></span></code></pre></div><p>在这里，使用*-z选项会更改<strong>sed<em>命令的换行符的含义。它将不再将</em>\n<em>视为行尾，而是将空字符解释为行尾。实际上，我们可以用加号</em>(&rsquo;+&rsquo;)字符替换换行符</strong>(&rsquo;\n&rsquo;)*。</p>
+<p>请注意，与<em>tr</em>和<em>paste</em>选项相比，用<em>sed</em>替换字符很慢。</p>
+<p>在我们结束之前，我们应该知道，对于包含单个数字列的文件，非*awk替代方案可能运行得更快。*但是<strong>在许多现实世界的场景中，文件将包含多个列，并且</strong>在实际计算发生之前要去除一些附加信息（有点类似于我们在第 3.1 节中的讨论）。</p>
+<p>在这种情况下，<em>awk</em>应该是首选工具，因为非<em>awk</em>替代方案的所有速度优势将被在计算其元素之和之前<strong>预处理文件以提取单个列所花费的时间所消耗。</strong>
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/add_column_of_numbers/" data-title="如何在 Bash 中添加一列数字" data-hashtags="awk,expr,paste,sed,tr"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/add_column_of_numbers/" data-hashtag="awk"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/add_column_of_numbers/" data-title="如何在 Bash 中添加一列数字"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/add_column_of_numbers/" data-title="如何在 Bash 中添加一列数字"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/add_column_of_numbers/" data-title="如何在 Bash 中添加一列数字"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/awk/">awk</a>,&nbsp;<a href="/tags/expr/">expr</a>,&nbsp;<a href="/tags/paste/">paste</a>,&nbsp;<a href="/tags/sed/">sed</a>,&nbsp;<a href="/tags/tr/">tr</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/absolute_directory_of_file/" class="prev" rel="prev" title="在 Linux 中获取文件的绝对目录"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>在 Linux 中获取文件的绝对目录</a>
+            <a href="/add_newline_variable_bash/" class="next" rel="next" title="在 Bash 的变量中插入换行符">在 Bash 的变量中插入换行符<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

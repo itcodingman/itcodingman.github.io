@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>netstat - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/netstat/</link>
+        <description>netstat - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 02 Mar 2016 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/netstat/" rel="self" type="application/rss+xml" /><item>
+    <title>Linux 中的匿名和命名管道</title>
+    <link>http://itcodingman.github.io/anonymous_named_pipes/</link>
+    <pubDate>Wed, 02 Mar 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/anonymous_named_pipes/</guid>
+    <description><![CDATA[概述 在使用 Linux 命令行界面时，通常会将程序的输出重定向为另一个程序的输入。 在本教程中，我们将研究在 Linux 中使用管道和命名管道。 什么是管道？ 管道是基于]]></description>
+</item>
+</channel>
+</rss>

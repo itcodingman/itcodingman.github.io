@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>如果任何命令失败则中止 Shell 脚本 - Coding Man</title><meta name="Description" content="在本文中，我们学习了如何使用set -e使 bash 脚本在发生错误时立即终止。我们还学会了添加 -o pipefail以使管道以相同的方式运行。始终将 set -eo pipefail添加为脚本的第一行是一种很好的做法。"><meta property="og:title" content="如果任何命令失败则中止 Shell 脚本" />
+<meta property="og:description" content="在本文中，我们学习了如何使用set -e使 bash 脚本在发生错误时立即终止。我们还学会了添加 -o pipefail以使管道以相同的方式运行。始终将 set -eo pipefail添加为脚本的第一行是一种很好的做法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/aborting_shell_script/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-02-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="如果任何命令失败则中止 Shell 脚本"/>
+<meta name="twitter:description" content="在本文中，我们学习了如何使用set -e使 bash 脚本在发生错误时立即终止。我们还学会了添加 -o pipefail以使管道以相同的方式运行。始终将 set -eo pipefail添加为脚本的第一行是一种很好的做法。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/aborting_shell_script/" /><link rel="prev" href="http://itcodingman.github.io/a_so_extension_files/" /><link rel="next" href="http://itcodingman.github.io/absolute_directory_of_file/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "如果任何命令失败则中止 Shell 脚本",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/aborting_shell_script\/"
+        },"genre": "posts","wordcount":  727 ,
+        "url": "http:\/\/itcodingman.github.io\/aborting_shell_script\/","datePublished": "2016-02-22T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们学习了如何使用set -e使 bash 脚本在发生错误时立即终止。我们还学会了添加 -o pipefail以使管道以相同的方式运行。始终将 set -eo pipefail添加为脚本的第一行是一种很好的做法。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">如果任何命令失败则中止 Shell 脚本</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/processes/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Processes</a>&nbsp;<a href="/categories/scripting/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Scripting</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-02-22">2016-02-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;727 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#2问题">2.问题</a></li>
+    <li><a href="#3第一个错误退出">3.第一个错误退出</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>概述</li>
+</ol>
+<hr>
+<p>使用<a href="/linux-scripting-series" rel="">Bash 脚本</a>，我们拥有了一个强大的工具。Bash 脚本是连续运行多个命令的好方法。在编写脚本的时候，我们要提醒自己，如果一个命令失败了，后面的所有命令仍然会执行。在本文中，我们将学习如何通过添加一些保护措施来防止这种情况。<strong>本文示例中使用的命令已经在 Bash 中进行了测试。它们也应该在其他 POSIX 兼容的 shell 中工作。</strong></p>
+<h2 id="2问题">2.问题</h2>
+<p>首先，让我们看一下 bash 脚本在默认情况下是如何处理错误的。假设我们有一个简单的脚本<em>hello.sh</em>打印单词 &lsquo;hello&rsquo; 和 &lsquo;world&rsquo;：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">echo</span> hello
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> world
+</span></span></code></pre></div><p>运行它会给出预期的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ./hello.sh
+</span></span><span class="line"><span class="cl">hello
+</span></span><span class="line"><span class="cl">world
+</span></span></code></pre></div><p>现在让我们添加一个保证失败的语句：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">echo</span> hello
+</span></span><span class="line"><span class="cl">cat non-existing-file
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> world
+</span></span></code></pre></div><p>执行时，此脚本将打印错误。然而，执行并没有停止，&lsquo;world&rsquo; 仍然被打印出来：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ./hello.sh
+</span></span><span class="line"><span class="cl">hello
+</span></span><span class="line"><span class="cl">cat: non-existing-file: No such file or directory
+</span></span><span class="line"><span class="cl">world
+</span></span></code></pre></div><p>此外，我们的脚本的退出代码为零，表明一切正常：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="m">0</span>
+</span></span></code></pre></div><h2 id="3第一个错误退出">3.第一个错误退出</h2>
+<p>假设我们想让我们的脚本在发生第一个错误时以非零退出代码终止。因此，我们必须在脚本开头使用<a href="https://man7.org/linux/man-pages/man1/set.1p.html" target="_blank" rel="noopener noreffer"><em>set</em></a>更改 shell 的默认行为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -e
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> hello
+</span></span><span class="line"><span class="cl">cat non-existing-file
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> world
+</span></span></code></pre></div><p>在第一行使用 <em>set -e</em>，我们告诉 Bash 在第一个错误时停止执行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ./hello.sh
+</span></span><span class="line"><span class="cl">hello
+</span></span><span class="line"><span class="cl">cat: non-existing-file: No such file or directory
+</span></span></code></pre></div><p>此外，返回的退出代码等于失败命令的退出代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span>
+</span></span></code></pre></div><ol start="4">
+<li>使用<em>pipefail</em></li>
+</ol>
+<hr>
+<p>不幸的是，此解决方案不适用于包含<a href="/pipes-redirection" rel="">管道语句</a>的脚本。例如，让我们将前两个命令连接在一起，从失败的命令开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -e
+</span></span><span class="line"><span class="cl">cat non-existing-file <span class="p">|</span> <span class="nb">echo</span> hello
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> world
+</span></span></code></pre></div><p>尽管我们使用 了<em>set -e</em>，但输出是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ./hello.sh
+</span></span><span class="line"><span class="cl">hello
+</span></span><span class="line"><span class="cl">cat: non-existing-file: No such file or directory
+</span></span><span class="line"><span class="cl">world
+</span></span></code></pre></div><p>为了处理这种情况，让我们在第一行的<em>set</em> 命令中添加*-o pipefail* 作为附加选项 ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nb">set</span> -eo pipefail
+</span></span><span class="line"><span class="cl">cat non-existing-file <span class="p">|</span> <span class="nb">echo</span> hello
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> world
+</span></span></code></pre></div><p>因此我们告诉 Bash，当管道中发生错误时，它应该停止并返回最右边失败的命令的退出代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ./hello.sh
+</span></span><span class="line"><span class="cl">hello
+</span></span><span class="line"><span class="cl">cat: non-existing-file: No such file or directory
+</span></span></code></pre></div><p>这会产生与我们之前看到的相同的非零退出代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="nv">$?</span>
+</span></span><span class="line"><span class="cl"><span class="m">1</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/aborting_shell_script/" data-title="如果任何命令失败则中止 Shell 脚本"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/aborting_shell_script/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/aborting_shell_script/" data-title="如果任何命令失败则中止 Shell 脚本"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/aborting_shell_script/" data-title="如果任何命令失败则中止 Shell 脚本"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/aborting_shell_script/" data-title="如果任何命令失败则中止 Shell 脚本"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/a_so_extension_files/" class="prev" rel="prev" title="什么是 .a 和 .so 文件？"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>什么是 .a 和 .so 文件？</a>
+            <a href="/absolute_directory_of_file/" class="next" rel="next" title="在 Linux 中获取文件的绝对目录">在 Linux 中获取文件的绝对目录<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

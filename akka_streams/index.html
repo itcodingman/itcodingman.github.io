@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Akka Streams 指南 - Coding Man</title><meta name="Description" content="在本文中，我们正在研究akka-stream库。我们定义了一个过程，该过程结合了多个流来计算元素的移动平均值。然后，我们定义了作为流处理入口点的Source和触发实际处理的Sink 。最后，我们使用akka-stream-testkit为我们的处理编写了一个测试。"><meta property="og:title" content="Akka Streams 指南" />
+<meta property="og:description" content="在本文中，我们正在研究akka-stream库。我们定义了一个过程，该过程结合了多个流来计算元素的移动平均值。然后，我们定义了作为流处理入口点的Source和触发实际处理的Sink 。最后，我们使用akka-stream-testkit为我们的处理编写了一个测试。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/akka_streams/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Akka Streams 指南"/>
+<meta name="twitter:description" content="在本文中，我们正在研究akka-stream库。我们定义了一个过程，该过程结合了多个流来计算元素的移动平均值。然后，我们定义了作为流处理入口点的Source和触发实际处理的Sink 。最后，我们使用akka-stream-testkit为我们的处理编写了一个测试。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/akka_streams/" /><link rel="prev" href="http://itcodingman.github.io/akka_play_websockets/" /><link rel="next" href="http://itcodingman.github.io/akka_with_spring/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Akka Streams 指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/akka_streams\/"
+        },"genre": "posts","keywords": "Akka","wordcount":  2594 ,
+        "url": "http:\/\/itcodingman.github.io\/akka_streams\/","datePublished": "2018-04-09T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们正在研究akka-stream库。我们定义了一个过程，该过程结合了多个流来计算元素的移动平均值。然后，我们定义了作为流处理入口点的Source和触发实际处理的Sink 。最后，我们使用akka-stream-testkit为我们的处理编写了一个测试。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Akka Streams 指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a>&nbsp;<a href="/categories/reactive/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Reactive</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-09">2018-04-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2594 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#3-streams-api"><strong>3. Streams API</strong></a></li>
+    <li><a href="#4在-akka-streams-中创建flow"><strong>4.在 Akka Streams 中创建Flow</strong></a>
+      <ul>
+        <li><a href="#41-使用stream解析输入"><strong>4.1 使用<em>stream</em>解析输入</strong></a></li>
+        <li><a href="#42-使用streams执行计算"><strong>4.2 使用<em>Streams</em>执行计算</strong></a></li>
+        <li><a href="#43-将多个flow组合成一个flow"><strong>4.3. 将多个Flow组合成一个Flow</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-向流中添加sink"><strong>5. 向流中添加Sink</strong></a></li>
+    <li><a href="#6-定义流量来源"><strong>6. 定义流量来源</strong></a></li>
+    <li><a href="#7-测试akka-流"><strong>7. 测试Akka 流</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将研究建立在 Akka actor 框架之上的<a href="http://doc.akka.io/docs/akka/current/scala/stream/" target="_blank" rel="noopener noreffer"><em>akka-streams</em></a>库，它遵循<a href="http://www.reactive-streams.org/" target="_blank" rel="noopener noreffer">响应式流</a>宣言。<strong>Akka Streams API 允许我们从独立的步骤轻松组合数据转换流。</strong></p>
+<p>此外，所有处理都是以反应式、非阻塞和异步的方式完成的。</p>
+<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<p>首先，我们需要将<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22com.typesafe.akka%22%20AND%20a%3A%22akka-stream_2.11%22" target="_blank" rel="noopener noreffer"><em>akka-stream</em></a> 和<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22com.typesafe.akka%22%20AND%20a%3A%22akka-stream-testkit_2.11%22" target="_blank" rel="noopener noreffer"><em>akka-stream-testkit</em></a>库添加到我们的<em>pom.xml</em> 中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.typesafe.akka<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>akka-stream_2.11<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.5.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.typesafe.akka<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>akka-stream-testkit_2.11<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.5.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h2 id="3-streams-api"><strong>3. Streams API</strong></h2>
+<p>要使用 Akka Streams，我们需要了解核心 API 概念：</p>
+<ul>
+<li><em><em><a href="http://doc.akka.io/japi/akka/2.5.2/akka/stream/scaladsl/Source.html" target="_blank" rel="noopener noreffer">Source</a> ——</em> <em>akka-stream库中处理的入口点</em></em>——我们可以从多个源创建这个类的实例；例如，如果我们想从单个<em>StringSourcesingle()<em>从</em>IterableItemCreateSource</em></li>
+<li><strong><a href="http://doc.akka.io/japi/akka/2.5.2/akka/stream/scaladsl/Flow.html" target="_blank" rel="noopener noreffer"><em>Flow</em></a> – 主要处理构建块</strong>– 每个<em>Flow</em>实例都有一个输入和一个输出值</li>
+<li><strong>Materializer——如果我们希望我们的<em>Flow</em>有一些副作用，比如记录或保存结果</strong>，我们可以使用它；最常见的是，我们将<em>NotUsed</em>别名作为<em>Materializer</em>传递，以表示我们的<em>Flow</em>不应该有任何副作用</li>
+<li><strong><a href="http://doc.akka.io/japi/akka/2.5.2/akka/stream/scaladsl/Sink.html" target="_blank" rel="noopener noreffer"><em>Sink</em></a> 操作——当我们构建一个<em>Streams</em> 时，它不会执行，直到我们在其上注册一个<a href="http://doc.akka.io/japi/akka/2.5.2/akka/stream/scaladsl/Sink.html" target="_blank" rel="noopener noreffer"><em>Sink</em></a> 操作</strong>——它是一个终端操作，会触发整个<em>Streams</em></li>
+</ul>
+<h2 id="4在-akka-streams-中创建flow"><strong>4.在 Akka Streams 中创建Flow</strong></h2>
+<p>让我们从构建一个简单的示例开始，我们将在其中展示如何**创建和组合多个Flow——**以处理整数流并从流中计算整数对的平均移动窗口。</p>
+<p>我们将解析一个以分号分隔的整数<em>字符串</em>作为输入，以创建示例的<em>akka-stream 源</em>。</p>
+<h3 id="41-使用stream解析输入"><strong>4.1 使用<em>stream</em>解析输入</strong></h3>
+<p>首先，让我们创建一个<em>DataImporter</em>类，它将采用 ActorSystem 的一个实例*，<em>我们稍后将使用它来创建我们的</em>Flow*：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DataImporter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">ActorSystem</span> <span class="n">actorSystem</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard constructors, getters...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，让我们创建一个<em>parseLine</em>方法，该方法将从我们的分隔输入<em>字符串</em>生成一个<em>整数</em>列表。请记住，我们在这里使用 Java Stream API 仅用于解析：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">parseLine</span><span class="o">(</span><span class="n">String</span> <span class="n">line</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span><span class="o">[]</span> <span class="n">fields</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">fields</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">Integer</span><span class="o">::</span><span class="n">parseInt</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们的初始<em>Flow</em>会将<em>parseLine</em>应用于我们的输入，以创建一个输入类型为<em>String</em>且输出类型为<em>Integer</em>的<em>Flow</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Flow</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">,</span> <span class="n">NotUsed</span><span class="o">&gt;</span> <span class="nf">parseContent</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Flow</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">mapConcat</span><span class="o">(</span><span class="k">this</span><span class="o">::</span><span class="n">parseLine</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当我们调用<em>parseLine()<em>方法时，编译器知道该 lambda 函数的参数将是一个</em>字符串——与我们的</em>Flow*的输入类型相同。</p>
+<p>请注意，我们使用的是<em>mapConcat()<em>方法——等效于 Java 8 <em>flatMap()<em>方法——因为我们希望将</em>parseLine()<em>返回的</em>整数</em>列表扁平化为</em>整数</em>流，以便我们处理中的后续步骤不需要处理<em>List</em>。</p>
+<h3 id="42-使用streams执行计算"><strong>4.2 使用<em>Streams</em>执行计算</strong></h3>
+<p>至此，我们有了解析整数的<em>流程</em>。现在，我们需要<strong>实现将所有输入元素组合成对并计算这些对的平均值的逻辑</strong>。</p>
+<p>现在，我们将<strong>创建一个*Integer</strong>流<em>并使用</em>grouped()*方法对**它们进行分组。</p>
+<p>接下来，我们要计算平均值。</p>
+<p>由于我们对处理这些平均值的顺序不感兴趣，因此我们可以<strong>使用*mapAsyncUnordered()*方法</strong>使用多个线程并行计算平均值，并将线程数作为参数传递给该方法。</p>
+<p>将作为 lambda 传递给<em>Flow</em>的操作需要返回<em>CompletableFuture</em>，因为该操作将在单独的线程中异步计算：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Flow</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Double</span><span class="o">,</span> <span class="n">NotUsed</span><span class="o">&gt;</span> <span class="nf">computeAverage</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Flow</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">grouped</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">mapAsyncUnordered</span><span class="o">(</span><span class="n">8</span><span class="o">,</span> <span class="n">integers</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">mapToDouble</span><span class="o">(</span><span class="n">v</span> <span class="o">-&gt;</span> <span class="n">v</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">average</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">orElse</span><span class="o">(-</span><span class="n">1</span><span class="o">.</span><span class="na">0</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们正在计算八个并行线程的平均值。请注意，我们使用 Java 8 Stream API 来计算平均值。</p>
+<h3 id="43-将多个flow组合成一个flow"><strong>4.3. 将多个Flow组合成一个Flow</strong></h3>
+<p><em>Flow</em> API 是一个流畅的抽象，它允许我们<strong>组合多个<em>Flow</em>实例来实现我们的最终处理目标</strong>。我们可以有细粒度的流程，例如，一个正在解析*JSON，*另一个正在做一些转换，另一个正在收集一些统计信息。</p>
+<p>这样的粒度将帮助我们创建更多可测试的代码，因为我们可以独立地测试每个处理步骤。</p>
+<p>我们在上面创建了两个可以相互独立工作的流程。现在，我们想将它们组合在一起。</p>
+<p>首先，我们要解析我们的输入<em>String</em>，接下来，我们要计算元素流的平均值。</p>
+<p>*我们可以使用via()*方法来组合我们的流程：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Flow</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Double</span><span class="o">,</span> <span class="n">NotUsed</span><span class="o">&gt;</span> <span class="nf">calculateAverage</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Flow</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">via</span><span class="o">(</span><span class="n">parseContent</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">via</span><span class="o">(</span><span class="n">computeAverage</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们创建了一个输入类型为<em>String的**Flow</em>和两个其他流。parseContent <em>()**流</em>接受一个<em>字符串</em>输入并返回一个<em>整数</em>作为输出。<em>computeAverage() 流</em>采用该Integer<em>并</em>计算返回<em>Double</em>作为输出类型的平均值。</p>
+<h2 id="5-向流中添加sink"><strong>5. 向流中添加Sink</strong></h2>
+<p>正如我们所提到的，到目前为止，整个<em>Flow</em>还没有执行，因为它是惰性的。**要开始执行<em>Flow</em>，我们需要定义一个<em>Sink</em>。例如，<em>Sink</em>操作可以将数据保存到数据库中，或将结果发送到某些外部 Web 服务。</p>
+<p>假设我们有一个带有以下<em>save()方法的**AverageRepository</em>类，它将结果写入我们的数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CompletionStage</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="nf">save</span><span class="o">(</span><span class="n">Double</span> <span class="n">average</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">CompletableFuture</span><span class="o">.</span><span class="na">supplyAsync</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// write to database
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">average</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">});</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，我们要创建一个使用此方法保存<em>Flow</em>处理结果的<em>Sink操作。<em>要创建我们的</em>Sink，<em>我们首先需要**创建一个</em>Flow</em>，它将我们的处理结果作为输入类型**。接下来，我们要将所有结果保存到数据库中。</p>
+<p>同样，我们不关心元素的顺序，因此我们可以使用*mapAsyncUnordered()<em>方法并行执行</em>save()*操作。</p>
+<p><em>要从Flow</em>中创建<em>Sink</em>，我们需要使用<em>Sink.ignore()<em>作为第一个参数和</em>Keep.right()<em>作为第二个参数调用</em>toMat()</em> ，因为我们想要返回处理的状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Sink</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">,</span> <span class="n">CompletionStage</span><span class="o">&lt;</span><span class="n">Done</span><span class="o">&gt;&gt;</span> <span class="nf">storeAverages</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Flow</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">mapAsyncUnordered</span><span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="n">averageRepository</span><span class="o">::</span><span class="n">save</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">toMat</span><span class="o">(</span><span class="n">Sink</span><span class="o">.</span><span class="na">ignore</span><span class="o">(),</span> <span class="n">Keep</span><span class="o">.</span><span class="na">right</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-定义流量来源"><strong>6. 定义流量来源</strong></h2>
+<p>我们需要做的最后一件事是*<em>从输入<em>String</em>创建一个<em>Source</em>。我们可以使用*via()<em>方法将</em>calculateAverage()<em>流应用到这个源。</em></em></p>
+<p>然后，要将<em>Sink</em>添加到处理中，我们需要调用<em>runWith()<em>方法并传递我们刚刚创建的</em>storeAverages() Sink</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CompletionStage</span><span class="o">&lt;</span><span class="n">Done</span><span class="o">&gt;</span> <span class="nf">calculateAverageForContent</span><span class="o">(</span><span class="n">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Source</span><span class="o">.</span><span class="na">single</span><span class="o">(</span><span class="n">content</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">via</span><span class="o">(</span><span class="n">calculateAverage</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">runWith</span><span class="o">(</span><span class="n">storeAverages</span><span class="o">(),</span> <span class="n">ActorMaterializer</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">actorSystem</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">whenComplete</span><span class="o">((</span><span class="n">d</span><span class="o">,</span> <span class="n">e</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">if</span> <span class="o">(</span><span class="n">d</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Import finished &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">          <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">              <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">          <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">});</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，当处理完成时，我们正在添加*whenComplete()*回调，我们可以在其中根据处理的结果执行一些操作。</p>
+<h2 id="7-测试akka-流"><strong>7. 测试Akka 流</strong></h2>
+<p>我们可以使用<em>akka-stream-testkit 测试我们的处理。</em></p>
+<p><strong>测试处理的实际逻辑的最佳方法是测试所有<em>Flow</em>逻辑并使用<em>TestSink</em>触发计算并对结果进行断言。</strong></p>
+<p>在我们的测试中，我们正在创建我们想要测试的<em>Flow</em> ，接下来，我们将从测试输入内容创建一个<em>Source ：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenStreamOfIntegers_whenCalculateAverageOfPairs_thenShouldReturnProperResults</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// given
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Flow</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Double</span><span class="o">,</span> <span class="n">NotUsed</span><span class="o">&gt;</span> <span class="n">tested</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataImporter</span><span class="o">(</span><span class="n">actorSystem</span><span class="o">).</span><span class="na">calculateAverage</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="s">&#34;1;9;11;0&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// when
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Source</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">,</span> <span class="n">NotUsed</span><span class="o">&gt;</span> <span class="n">flow</span> <span class="o">=</span> <span class="n">Source</span><span class="o">.</span><span class="na">single</span><span class="o">(</span><span class="n">input</span><span class="o">).</span><span class="na">via</span><span class="o">(</span><span class="n">tested</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// then
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">flow</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">runWith</span><span class="o">(</span><span class="n">TestSink</span><span class="o">.</span><span class="na">probe</span><span class="o">(</span><span class="n">actorSystem</span><span class="o">),</span> <span class="n">ActorMaterializer</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">actorSystem</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="n">4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">expectNextUnordered</span><span class="o">(</span><span class="n">5d</span><span class="o">,</span> <span class="n">5</span><span class="o">.</span><span class="na">5</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们正在检查我们是否期望四个输入参数，并且两个平均值的结果可以以任何顺序到达，因为我们的处理是以异步和并行方式完成的。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/akka_streams/" data-title="Akka Streams 指南" data-hashtags="Akka"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/akka_streams/" data-hashtag="Akka"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/akka_streams/" data-title="Akka Streams 指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/akka_streams/" data-title="Akka Streams 指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/akka_streams/" data-title="Akka Streams 指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/akka/">Akka</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/akka_play_websockets/" class="prev" rel="prev" title="带有 Play 框架和 Akka 的 WebSockets"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>带有 Play 框架和 Akka 的 WebSockets</a>
+            <a href="/akka_with_spring/" class="next" rel="next" title="用 Akka 介绍 Spring">用 Akka 介绍 Spring<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

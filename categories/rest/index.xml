@@ -3,10 +3,50 @@
         <title>REST - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/rest/</link>
         <description>REST - Category - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 25 Mar 2020 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/rest/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 13 Apr 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/rest/" rel="self" type="application/rss+xml" /><item>
+    <title>带有 Spring Data REST 的 AngularJS CRUD 应用程序</title>
+    <link>http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/</link>
+    <pubDate>Fri, 13 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将创建一个简单的 CRUD 应用程序示例，使用 AngularJS 作为前端，使用 Spring Data REST 作为后端。 2. 创建 REST 数据服务 为了创建对持久性的支持，我们将使用]]></description>
+</item>
+<item>
+    <title>用于 REST API 的简单 AngularJS 前端</title>
+    <link>http://itcodingman.github.io/angular_js_rest_api/</link>
+    <pubDate>Thu, 12 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/angular_js_rest_api/</guid>
+    <description><![CDATA[1. 概述 在这个快速教程中，我们将学习如何从一个简单的 AngularJS 前端使用 RESTful API。 我们将在表格中显示数据，创建资源，更新它，最后删除它。 2. REST API 首先，让我]]></description>
+</item>
+<item>
+    <title>ActiveWeb 简介</title>
+    <link>http://itcodingman.github.io/activeweb/</link>
+    <pubDate>Fri, 30 Mar 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/activeweb/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将说明Activeweb——来自 JavaLite 的全栈 Web 框架——提供开发动态 Web 应用程序或 REST-ful Web 服务所需的一切。 2. 基本概念与原则 Activeweb 利用“约]]></description>
+</item>
+<item>
+    <title>Spring请求映射</title>
+    <link>http://itcodingman.github.io/spring_requestmapping/</link>
+    <pubDate>Mon, 08 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_requestmapping/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将关注Spring MVC 中的主要注解之一：@RequestMapping。 简单来说，注解就是用来将 web 请求映射到 Spring Controller 方法上的]]></description>
+</item>
+<item>
+    <title>Spring 核心注解</title>
+    <link>http://itcodingman.github.io/spring_core_annotations/</link>
+    <pubDate>Sat, 23 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_core_annotations/</guid>
+    <description><![CDATA[1. 概述 我们可以使用org.springframework.beans.factory.annotation 和 org.springframew]]></description>
+</item>
+<item>
     <title>Spring中的REST分页</title>
     <link>http://itcodingman.github.io/rest_api_pagination_in_spring/</link>
-    <pubDate>Wed, 25 Mar 2020 00:00:00 &#43;0000</pubDate>
+    <pubDate>Wed, 13 Jan 2016 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/rest_api_pagination_in_spring/</guid>
     <description><![CDATA[1. 概述 本教程将重点介绍使用 Spring MVC 和 Spring Data 在 REST API 中实现分页。 2. 页面作为资源与页面作为表示 在 RESTful 架构的上下文中设计分页时的第一个问题是，是否将页面视为]]></description>
@@ -14,7 +54,7 @@
 <item>
     <title>使用 Spring REST 错误处理</title>
     <link>http://itcodingman.github.io/exception_handling_for_rest_with_spring/</link>
-    <pubDate>Wed, 12 Feb 2020 00:00:00 &#43;0000</pubDate>
+    <pubDate>Thu, 07 Jan 2016 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/exception_handling_for_rest_with_spring/</guid>
     <description><![CDATA[1. 概述 本教程将说明**如何使用 Spring 为 REST API 实现异常处理。**我们还将获得一些历史概览，并查看不同版本引入了哪些新选项。 *在 Spring 3.2 之前，在 Spring MVC 应用程]]></description>
@@ -22,7 +62,7 @@
 <item>
     <title>Spring REST API中从实体到 DTO 转换</title>
     <link>http://itcodingman.github.io/entity_to_and_from_dto_for_a_java_spring_application/</link>
-    <pubDate>Wed, 05 Feb 2020 00:00:00 &#43;0000</pubDate>
+    <pubDate>Wed, 06 Jan 2016 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/entity_to_and_from_dto_for_a_java_spring_application/</guid>
     <description><![CDATA[1. 概述 在本教程中，我们将处理需要在 Spring 应用程序的内部实体和发布回客户端的外部**DTO （数据传输对象）之间发生的转换。** 2. 模型映射器 让我们首]]></description>
@@ -30,7 +70,7 @@
 <item>
     <title>使用 Spring 和 Java Config 构建 REST API</title>
     <link>http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/</link>
-    <pubDate>Wed, 22 Jan 2020 00:00:00 &#43;0000</pubDate>
+    <pubDate>Mon, 04 Jan 2016 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/building_a_restful_web_service_with_spring_and_java_based_configuration/</guid>
     <description><![CDATA[1.概述 在本教程中，我们将学习如何**在 Spring 中设置 REST，**包括控制器和 HTTP 响应代码、有效负载编组的配置和内容协商。 2. 了解 Spring 中的 REST Spring 框架支持]]></description>
@@ -38,18 +78,10 @@
 <item>
     <title>使用 Spring 5 创建 Web 应用程序</title>
     <link>http://itcodingman.github.io/bootstraping_a_web_application_with_spring_and_java_based_configuration/</link>
-    <pubDate>Wed, 15 Jan 2020 00:00:00 &#43;0000</pubDate>
+    <pubDate>Sun, 03 Jan 2016 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/bootstraping_a_web_application_with_spring_and_java_based_configuration/</guid>
     <description><![CDATA[1. 概述 本教程说明了如何使用 Spring 创建 Web 应用程序。 我们将研究用于构建应用程序的 Spring Boot 解决方案，并查看非 Spring Boot 方法。 我们将主要使用 Java 配置，但也会看看它们]]></description>
-</item>
-<item>
-    <title>使用 Spring Security 的 REST 服务的基本和摘要式身份验证</title>
-    <link>http://itcodingman.github.io/basic_and_digest_authentication_for_a_rest_api_with_spring_security/</link>
-    <pubDate>Wed, 08 Jan 2020 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/basic_and_digest_authentication_for_a_rest_api_with_spring_security/</guid>
-    <description><![CDATA[1. 概述 本文讨论如何在REST API 的相同 URI 结构上设置基本身份验证和摘要式身份验证。在之前的文章中，我们讨论了另一种保护 REST 服务的方法——基于表单的]]></description>
 </item>
 </channel>
 </rss>

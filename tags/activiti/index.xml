@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Activiti - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/activiti/</link>
+        <description>Activiti - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 02 Apr 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/activiti/" rel="self" type="application/rss+xml" /><item>
+    <title>带有 Spring Security 的 Activiti</title>
+    <link>http://itcodingman.github.io/activiti_spring_security/</link>
+    <pubDate>Mon, 02 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/activiti_spring_security/</guid>
+    <description><![CDATA[1. 概述 Activiti 是一个开源 BPM（业务流程管理）系统。有关介绍，请查看我们的 Java Activiti 指南。 Activiti 和 Spring 框架都提供了自己的身份管理。但是，在集成了这两个项目的应]]></description>
+</item>
+<item>
+    <title>Activiti 中的 ProcessEngine 配置</title>
+    <link>http://itcodingman.github.io/activiti_process_engine/</link>
+    <pubDate>Sun, 01 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/activiti_process_engine/</guid>
+    <description><![CDATA[1. 概述 在我们之前的Activiti with Java介绍文章中，我们看到了ProcessEngine的重要性，并通过框架提供的默认静态 API 创建了一个。]]></description>
+</item>
+<item>
+    <title>Activiti Kickstart App 和 Activiti Rest Webapp</title>
+    <link>http://itcodingman.github.io/activiti_kickstart_and_rest_apps/</link>
+    <pubDate>Sat, 31 Mar 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/activiti_kickstart_and_rest_apps/</guid>
+    <description><![CDATA[1. 概述 在我们之前的文章（基于Java和Spring 的 Activiti API）中，我们看到了如何以编程方式管理进程。如果我们想设置一个演示，连同 Activiti 的 UI，我]]></description>
+</item>
+</channel>
+</rss>

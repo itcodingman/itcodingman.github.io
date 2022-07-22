@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>带有 Spring Security 的 Activiti - Coding Man</title><meta name="Description" content="在本文中，我们看到了将 Activiti 与 Spring Security 集成的两种方式。"><meta property="og:title" content="带有 Spring Security 的 Activiti" />
+<meta property="og:description" content="在本文中，我们看到了将 Activiti 与 Spring Security 集成的两种方式。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/activiti_spring_security/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="带有 Spring Security 的 Activiti"/>
+<meta name="twitter:description" content="在本文中，我们看到了将 Activiti 与 Spring Security 集成的两种方式。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/activiti_spring_security/" /><link rel="prev" href="http://itcodingman.github.io/activiti_process_engine/" /><link rel="next" href="http://itcodingman.github.io/adding_shutdown_hooks_for_jvm_applications/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "带有 Spring Security 的 Activiti",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/activiti_spring_security\/"
+        },"genre": "posts","keywords": "Activiti","wordcount":  2313 ,
+        "url": "http:\/\/itcodingman.github.io\/activiti_spring_security\/","datePublished": "2018-04-02T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们看到了将 Activiti 与 Spring Security 集成的两种方式。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">带有 Spring Security 的 Activiti</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring-security/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring Security</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-02">2018-04-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2313 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
+    <li><a href="#3-使用-activiti-进行身份管理"><strong>3. 使用 Activiti 进行身份管理</strong></a>
+      <ul>
+        <li><a href="#31-设置-activiti-用户"><strong>3.1 设置 Activiti 用户</strong></a></li>
+        <li><a href="#32-spring-安全配置"><strong>3.2. Spring 安全配置</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-使用-spring-security-进行身份管理"><strong>4. 使用 Spring Security 进行身份管理</strong></a>
+      <ul>
+        <li><a href="#41-扩展userentitymanagerimpl-">**4.1 扩展<em>UserEntityManagerImpl</em> **</a></li>
+        <li><a href="#42-扩展groupentitymanagerimpl"><strong>4.2. 扩展<em>GroupEntityManagerImpl</em></strong></a></li>
+        <li><a href="#43-流程引擎配置"><strong>4.3. 流程引擎配置</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>Activiti 是一个开源 BPM（业务流程管理）系统。有关介绍，请查看我们<a href="/java-activiti" rel="">的 Java Activiti 指南</a>。</p>
+<p>Activiti 和 Spring 框架都提供了自己的身份管理。但是，<strong>在集成了这两个项目的应用程序中，我们可能希望将两者组合成一个用户管理流程。</strong></p>
+<p>在下文中，我们将探索实现这一目标的两种可能性：一种是通过为 Spring Security 提供 Activiti 支持的用户服务，另一种是通过将 Spring Security 用户源插入到 Activiti 身份管理中。</p>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
+<p>要在 Spring Boot 项目中设置 Activiti，请查看<a href="/spring-activiti" rel="">我们之前的文章</a>。除了*activiti-spring-boot-starter-basic，*我们还需要<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22activiti-spring-boot-starter-security%22" target="_blank" rel="noopener noreffer">activiti-spring-boot-starter-security</a>依赖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.activiti<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>activiti-spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>6.0.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h2 id="3-使用-activiti-进行身份管理"><strong>3. 使用 Activiti 进行身份管理</strong></h2>
+<p>对于这个场景，Activiti 启动器提供了一个 Spring Boot 自动配置类，它使用<em>HTTP 基本</em>身份验证保护所有 REST 端点。</p>
+<p><strong>自动配置还创建了<em>IdentityServiceUserDetailsService</em>类的<em>UserDetailsService bean</em>。</strong></p>
+<p>该类实现了 Spring 接口<em>UserDetailsService</em>并覆盖了*loadUserByUsername()*方法。<em>此方法检索具有给定id</em>的 Activiti <em>User</em>对象，并使用它来创建 Spring <em>UserDetails</em>对象。</p>
+<p>此外，Activiti <em>Group</em>对象对应于一个 Spring 用户角色。</p>
+<p>这意味着当我们登录 Spring Security 应用程序时，我们将使用 Activiti 凭据。</p>
+<h3 id="31-设置-activiti-用户"><strong>3.1 设置 Activiti 用户</strong></h3>
+<p><em>首先，让我们使用IdentityService</em>在主*@SpringBootApplication<em>类中定义的</em>InitializingBean*中创建一个用户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="n">InitializingBean</span> <span class="nf">usersAndGroupsInitializer</span><span class="o">(</span><span class="n">IdentityService</span> <span class="n">identityService</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">InitializingBean</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterPropertiesSet</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="n">identityService</span><span class="o">.</span><span class="na">newUser</span><span class="o">(</span><span class="s">&#34;activiti_user&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">user</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="s">&#34;pass&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">identityService</span><span class="o">.</span><span class="na">saveUser</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="n">identityService</span><span class="o">.</span><span class="na">newGroup</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">group</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;ROLE_USER&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">group</span><span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="s">&#34;USER&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">identityService</span><span class="o">.</span><span class="na">saveGroup</span><span class="o">(</span><span class="n">group</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">identityService</span><span class="o">.</span><span class="na">createMembership</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">group</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>您会注意到，<em><em>由于 Spring Security 将使用它，因此<em>Group</em>对象<em>名称</em>必须采用</em>“ROLE_X”<em>形式。</em></em></p>
+<h3 id="32-spring-安全配置"><strong>3.2. Spring 安全配置</strong></h3>
+<p>如果我们想使用不同的安全配置而不是 HTTP Basic 身份验证，首先我们必须排除自动配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootApplication</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">exclude</span> <span class="o">=</span> <span class="n">org</span><span class="o">.</span><span class="na">activiti</span><span class="o">.</span><span class="na">spring</span><span class="o">.</span><span class="na">boot</span><span class="o">.</span><span class="na">SecurityAutoConfiguration</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ActivitiSpringSecurityApplication</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>然后，我们可以提供我们自己的 Spring Security 配置类，它使用*IdentityServiceUserDetailsService 从 Activiti 数据源中检索用户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecurityConfig</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">IdentityService</span> <span class="n">identityService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureGlobal</span><span class="o">(</span><span class="n">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">auth</span><span class="o">.</span><span class="na">userDetailsService</span><span class="o">(</span><span class="n">userDetailsService</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">UserDetailsService</span> <span class="nf">userDetailsService</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">IdentityServiceUserDetailsService</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="k">this</span><span class="o">.</span><span class="na">identityService</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// spring security configuration
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4-使用-spring-security-进行身份管理"><strong>4. 使用 Spring Security 进行身份管理</strong></h2>
+<p>如果我们已经使用 Spring Security 设置了用户管理，并且我们想将 Activiti 添加到我们的应用程序中，那么我们需要自定义 Activiti 的身份管理。</p>
+<p>为此，我们必须扩展两个主要类：<em>UserEntityManagerImpl</em>和<em>GroupEntityManagerImpl</em>，它们处理用户和组。</p>
+<p>让我们更详细地看一下其中的每一个。</p>
+<h3 id="41-扩展userentitymanagerimpl-">**4.1 扩展<em>UserEntityManagerImpl</em> **</h3>
+<p>让我们创建自己的类来扩展<em>UserEntityManagerImpl</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringSecurityUserManager</span> <span class="kd">extends</span> <span class="n">UserEntityManagerImpl</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">JdbcUserDetailsManager</span> <span class="n">userManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SpringSecurityUserManager</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">ProcessEngineConfigurationImpl</span> <span class="n">processEngineConfiguration</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">UserDataManager</span> <span class="n">userDataManager</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">JdbcUserDetailsManager</span> <span class="n">userManager</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">processEngineConfiguration</span><span class="o">,</span> <span class="n">userDataManager</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">userManager</span> <span class="o">=</span> <span class="n">userManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>此类需要上述形式的构造函数，以及 Spring Security 用户管理器。在我们的例子中，我们使用了数据库支持的<em>UserDetailsManager</em>。</p>
+<p><strong>我们要覆盖的主要方法是那些处理用户检索的方法：<em>findById()</em>、 <em>findUserByQueryCriteria()<em>和</em>findGroupsByUser()</em>。</strong></p>
+<p><em>findById()<em>方法使用</em>JdbcUserDetailsManager</em>查找<em>UserDetails</em>对象并将其转换为<em>User</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">UserEntity</span> <span class="nf">findById</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UserDetails</span> <span class="n">userDetails</span> <span class="o">=</span> <span class="n">userManager</span><span class="o">.</span><span class="na">loadUserByUsername</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">userDetails</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">UserEntityImpl</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UserEntityImpl</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">user</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">user</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，<em>findGroupsByUser()<em>方法查找用户的所有 Spring Security 权限并返回</em>Group</em>对象<em>列表</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="nf">findGroupsByUser</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UserDetails</span> <span class="n">userDetails</span> <span class="o">=</span> <span class="n">userManager</span><span class="o">.</span><span class="na">loadUserByUsername</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">userDetails</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">userDetails</span><span class="o">.</span><span class="na">getAuthorities</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Group</span> <span class="n">g</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GroupEntityImpl</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">g</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">getAuthority</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">g</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">})</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>findUserByQueryCriteria()<em>方法基于具有多个属性的</em>UserQueryImpl</em>对象，我们将从中提取组 id 和用户 id，因为它们在 Spring Security 中具有对应关系：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">findUserByQueryCriteria</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UserQueryImpl</span> <span class="n">query</span><span class="o">,</span> <span class="n">Page</span> <span class="n">page</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>此方法遵循与上述类似的原则，通过从<em>UserDetails</em>对象创建<em>User</em>对象。</p>
+<p>同样，我们有*findUserCountByQueryCriteria()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">long</span> <span class="nf">findUserCountByQueryCriteria</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UserQueryImpl</span> <span class="n">query</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">findUserByQueryCriteria</span><span class="o">(</span><span class="n">query</span><span class="o">,</span> <span class="kc">null</span><span class="o">).</span><span class="na">size</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>*checkPassword()*方法应该总是返回 true，因为密码验证不是由 Activiti 完成的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Boolean</span> <span class="nf">checkPassword</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">,</span> <span class="n">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>对于其他方法，例如那些处理更新用户的方法，我们只会抛出一个异常，因为这是由 Spring Security 处理的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">User</span> <span class="nf">createNewUser</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">throw</span> <span class="k">new</span> <span class="n">UnsupportedOperationException</span><span class="o">(</span><span class="s">&#34;This operation is not supported!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="42-扩展groupentitymanagerimpl"><strong>4.2. 扩展<em>GroupEntityManagerImpl</em></strong></h3>
+<p>SpringSecurityGroupManager<em>类似于</em>用户管理器类，除了它处理用户组的事实：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringSecurityGroupManager</span> <span class="kd">extends</span> <span class="n">GroupEntityManagerImpl</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">JdbcUserDetailsManager</span> <span class="n">userManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">SpringSecurityGroupManager</span><span class="o">(</span><span class="n">ProcessEngineConfigurationImpl</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">processEngineConfiguration</span><span class="o">,</span> <span class="n">GroupDataManager</span> <span class="n">groupDataManager</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">(</span><span class="n">processEngineConfiguration</span><span class="o">,</span> <span class="n">groupDataManager</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>这里*<em>要覆盖的主要方法是*findGroupsByUser()<em>方法：</em></em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="nf">findGroupsByUser</span><span class="o">(</span><span class="n">String</span> <span class="n">userId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UserDetails</span> <span class="n">userDetails</span> <span class="o">=</span> <span class="n">userManager</span><span class="o">.</span><span class="na">loadUserByUsername</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">userDetails</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">userDetails</span><span class="o">.</span><span class="na">getAuthorities</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Group</span> <span class="n">g</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GroupEntityImpl</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">g</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">getAuthority</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">g</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">          <span class="o">})</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>该方法检索 Spring Security 用户的权限并将其转换为<em>Group</em>对象列表。</p>
+<p>基于此，我们还可以重写*findGroupByQueryCriteria()<em>和</em>findGroupByQueryCriteriaCount()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="nf">findGroupByQueryCriteria</span><span class="o">(</span><span class="n">GroupQueryImpl</span> <span class="n">query</span><span class="o">,</span> <span class="n">Page</span> <span class="n">page</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">query</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">findGroupsByUser</span><span class="o">(</span><span class="n">query</span><span class="o">.</span><span class="na">getUserId</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">long</span> <span class="nf">findGroupCountByQueryCriteria</span><span class="o">(</span><span class="n">GroupQueryImpl</span> <span class="n">query</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">findGroupByQueryCriteria</span><span class="o">(</span><span class="n">query</span><span class="o">,</span> <span class="kc">null</span><span class="o">).</span><span class="na">size</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>可以覆盖更新组的其他方法以引发异常：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Group</span> <span class="nf">createNewGroup</span><span class="o">(</span><span class="n">String</span> <span class="n">groupId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">throw</span> <span class="k">new</span> <span class="n">UnsupportedOperationException</span><span class="o">(</span><span class="s">&#34;This operation is not supported!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="43-流程引擎配置"><strong>4.3. 流程引擎配置</strong></h3>
+<p>在定义了两个身份管理器类之后，我们需要将它们连接到配置中。</p>
+<p>spring 启动器为我们自动配置<em>SpringProcessEngineConfiguration</em>。要修改它，我们可以使用<em>InitializingBean：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">SpringProcessEngineConfiguration</span> <span class="n">processEngineConfiguration</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">JdbcUserDetailsManager</span> <span class="n">userManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="n">InitializingBean</span> <span class="nf">processEngineInitializer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">InitializingBean</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterPropertiesSet</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">processEngineConfiguration</span><span class="o">.</span><span class="na">setUserEntityManager</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">              <span class="k">new</span> <span class="n">SpringSecurityUserManager</span><span class="o">(</span><span class="n">processEngineConfiguration</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">              <span class="k">new</span> <span class="n">MybatisUserDataManager</span><span class="o">(</span><span class="n">processEngineConfiguration</span><span class="o">),</span> <span class="n">userManager</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">            <span class="n">processEngineConfiguration</span><span class="o">.</span><span class="na">setGroupEntityManager</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">              <span class="k">new</span> <span class="n">SpringSecurityGroupManager</span><span class="o">(</span><span class="n">processEngineConfiguration</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">              <span class="k">new</span> <span class="n">MybatisGroupDataManager</span><span class="o">(</span><span class="n">processEngineConfiguration</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>在这里，现有的<em>processEngineConfiguration</em>被修改为使用我们的自定义身份管理器。</p>
+<p>如果我们想在Activiti中设置当前用户，可以使用方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">identityService</span><span class="o">.</span><span class="na">setAuthenticatedUserId</span><span class="o">(</span><span class="n">userId</span><span class="o">);</span>
+</span></span></code></pre></div><p>请记住，这会设置一个<em>ThreadLocal</em>属性，因此每个线程的值都不同。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/activiti_spring_security/" data-title="带有 Spring Security 的 Activiti" data-hashtags="Activiti"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/activiti_spring_security/" data-hashtag="Activiti"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/activiti_spring_security/" data-title="带有 Spring Security 的 Activiti"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/activiti_spring_security/" data-title="带有 Spring Security 的 Activiti"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/activiti_spring_security/" data-title="带有 Spring Security 的 Activiti"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/activiti/">Activiti</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/activiti_process_engine/" class="prev" rel="prev" title="Activiti 中的 ProcessEngine 配置"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Activiti 中的 ProcessEngine 配置</a>
+            <a href="/adding_shutdown_hooks_for_jvm_applications/" class="next" rel="next" title="为 JVM 应用程序添加关闭挂钩">为 JVM 应用程序添加关闭挂钩<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

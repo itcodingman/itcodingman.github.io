@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>什么是 .a 和 .so 文件？ - Coding Man</title><meta name="Description" content="在本教程中，我们了解了大多数程序如何在 Linux 机器上运行以及这些程序如何依赖于库。然后我们查看了静态库和共享库以及它们的用途。最后，我们查看了一个示例，说明如何使用gcc编译器及其辅助实用程序ar为我们自己的程序构建静态和共享库。"><meta property="og:title" content="什么是 .a 和 .so 文件？" />
+<meta property="og:description" content="在本教程中，我们了解了大多数程序如何在 Linux 机器上运行以及这些程序如何依赖于库。然后我们查看了静态库和共享库以及它们的用途。最后，我们查看了一个示例，说明如何使用gcc编译器及其辅助实用程序ar为我们自己的程序构建静态和共享库。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/a_so_extension_files/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-02-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="什么是 .a 和 .so 文件？"/>
+<meta name="twitter:description" content="在本教程中，我们了解了大多数程序如何在 Linux 机器上运行以及这些程序如何依赖于库。然后我们查看了静态库和共享库以及它们的用途。最后，我们查看了一个示例，说明如何使用gcc编译器及其辅助实用程序ar为我们自己的程序构建静态和共享库。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/a_so_extension_files/" /><link rel="prev" href="http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/" /><link rel="next" href="http://itcodingman.github.io/aborting_shell_script/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "什么是 .a 和 .so 文件？",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/a_so_extension_files\/"
+        },"genre": "posts","keywords": "gcc","wordcount":  1802 ,
+        "url": "http:\/\/itcodingman.github.io\/a_so_extension_files\/","datePublished": "2016-02-21T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们了解了大多数程序如何在 Linux 机器上运行以及这些程序如何依赖于库。然后我们查看了静态库和共享库以及它们的用途。最后，我们查看了一个示例，说明如何使用gcc编译器及其辅助实用程序ar为我们自己的程序构建静态和共享库。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">什么是 .a 和 .so 文件？</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/administration/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Administration</a>&nbsp;<a href="/categories/installation/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Installation</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-02-21">2016-02-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1802 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#2linux下程序如何运行">2.Linux下程序如何运行</a></li>
+    <li><a href="#3程序库">3.程序库</a>
+      <ul>
+        <li><a href="#31-静态库"><strong>3.1 静态库</strong></a></li>
+        <li><a href="#32-共享库"><strong>3.2 共享库</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>概述</li>
+</ol>
+<hr>
+<p>想象一个程序员想要设计和编写三个不同的程序。他认为这三个程序共享几个可以被程序重用的通用功能。为了让他的生活更轻松，他需要将这些功能收集到一个名为<em>library</em>的实体中。</p>
+<p>通常，库是为其他程序员或程序重用而编写的数据和函数的集合。在 Linux 上，<em><em>存档库以</em>.a<em>扩展名结尾，共享对象库以</em>.so</em> 扩展名**结尾。</p>
+<p>在本文中，我们将了解程序如何在 Linux 下运行以及归档和共享对象库的用途。除此之外，我们还将看到一些关于如何为程序构建库的示例。我们将使用<a href="https://man7.org/linux/man-pages/man1/gcc.1.html" target="_blank" rel="noopener noreffer">GNU C 编译器</a> 和<a href="https://man7.org/linux/man-pages/man1/ar.1.html" target="_blank" rel="noopener noreffer">GNU <em>ar</em></a>实用程序。</p>
+<h2 id="2linux下程序如何运行">2.Linux下程序如何运行</h2>
+<p>大多数 Linux 用户可能都遇到过*/lib<em>和</em>/usr/lib*目录。这些是<strong>我们存储</strong> 安装在我们的 Linux 机器上**的程序使用的所有常用功能的目录。**作为约定，库名称以“lib”开头，扩展名决定了库的类型：</p>
+<ul>
+<li><em>.a</em> — 代表“存档”</li>
+<li><em>.so</em> — 代表“共享对象”</li>
+</ul>
+<p>一个程序可能依赖于多个共享对象。因此，手动安装共享对象可能很麻烦。为了解决这个问题，我们需要一个包管理器——一个在安装实际程序之前计算和确定依赖关系的工具。</p>
+<p>当我们运行程序时，它会在*/usr/lib* 和*/share*目录中查找所需的依赖项。但是，<strong>如果缺少所需的依赖项，程序将无法启动</strong>。</p>
+<h2 id="3程序库">3.程序库</h2>
+<p>程序库由执行常见任务所需的相关数据和子程序组成。例如，多个程序可能需要使用复数来计算结果。提供此功能的库的一个很好的例子是<a href="https://man7.org/linux/man-pages/man7/libc.7.html" target="_blank" rel="noopener noreffer">GNU C 库</a>，它在链接阶段由<a href="https://man7.org/linux/man-pages/man1/gcc.1.html" target="_blank" rel="noopener noreffer"><em>gcc</em></a>编译器链接到我们的程序中。</p>
+<h3 id="31-静态库"><strong>3.1 静态库</strong></h3>
+<p>传统的静态库是一种<strong>在编译时与程序链接的库</strong>。因此，库的目标代码包含在可执行程序的目标代码中。最终，如果我们有多个程序链接到一个静态库，那么每个生成的程序二进制文件都将包含引用库的目标代码。因此，这将导致更大的可执行文件。</p>
+<p>静态库通常以*.a<em>扩展名结尾——例如</em>glibc.a*。</p>
+<h3 id="32-共享库"><strong>3.2 共享库</strong></h3>
+<p>为了解决较大的可执行二进制文件的问题，程序员改用<em>共享库</em>。共享库也称为动态库。这些<strong>共享库在运行时由</strong>操作系统上可用的动态链接器链接。</p>
+<p>共享库通常以*.so<em>扩展名结尾——例如</em>libboost.5.6.so*。与静态库不同，<strong>引用共享库的程序不会在其生成的可执行文件中包含共享库对象代码</strong>。因此，我们得到更小的可执行文件。</p>
+<p>同样，<strong>当我们有多个程序引用同一个共享库时，该库将有一个可供程序同时重用的单一副本</strong>。这是由操作系统安全管理的，它是现代计算的基础。我们看一下*/usr/lib/xorg*目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ls -halF /usr/bin/xorg
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  95K Apr <span class="m">13</span> 20:12 libexa.so*
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  23K Apr <span class="m">13</span> 20:12 libfbdevhw.so*
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root 111K Apr <span class="m">13</span> 20:12 libfb.so*
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root 213K Apr <span class="m">13</span> 20:12 libglamoregl.so*
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root 143K Apr <span class="m">13</span> 20:12 libint10.so*
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  15K Apr <span class="m">13</span> 20:12 libshadowfb.so*
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> root root  39K Apr <span class="m">13</span> 20:12 libshadow.so*
+</span></span></code></pre></div><p>正如我们所见，<a href="https://x.org" target="_blank" rel="noopener noreffer">Xorg</a>依赖于列出的共享库。反过来，这些库也可以被<a href="https://dwm.suckless.org/" target="_blank" rel="noopener noreffer"><em>dwm</em></a>等其他程序使用。</p>
+<ol start="4">
+<li>构建*.a*或静态库</li>
+</ol>
+<hr>
+<p>为了使这个说明起作用，我们需要<a href="https://gcc.gnu.org/install/download.html" target="_blank" rel="noopener noreffer"><em>gcc</em></a>来编译我们的源代码。假设我们有一堆<em>C</em>编程源文件——我们需要将源文件编译成目标代码。我们可以通过发出带有*-Wall<em>选项的</em>gcc*命令来实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ gcc -Wall -c *.c
+</span></span></code></pre></div><p>我们需要确保我们位于源目录的根目录。<em>-Wall</em>选项告诉编译器打印它遇到的所有警告。<em>*.c</em>参数中的星号告诉编译器编译所有**.c<em>源文件。发出上述命令后，编译器会将</em>*.c<em>文件编译为相应的目标文件。因此，我们获得了 构建库所需的所有必需的</em>*.o*文件。</p>
+<p>接下来，我们将使用<a href="https://man7.org/linux/man-pages/man1/ar.1.html" target="_blank" rel="noopener noreffer">GNU Binutils</a>中包含的<em>ar</em>实用程序从目标代码创建一个库文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ar -cvq libfile.a *.o
+</span></span></code></pre></div><p><em>-c</em>选项抑制错误，  -v <em>选项</em>用于详细输出，  <em>-q</em>选项用于快速将指定文件附加到存档。如果存档不存在，则会创建一个新存档。当<em>ar</em>命令执行成功时，我们应该得到一个静态库文件<em>libfile.a</em>。让我们看看<em>libfile.a</em>文件中包含的内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ar -t libfile.a
+</span></span></code></pre></div><p>这将列出归档到<em>libfile.a</em>中的所有目标文件。稍后，<strong>当我们想在我们的程序中包含该库时，我们可以简单地在编译命令</strong>中引用该库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ gcc -o MyProgram *.o -L path/to/libdir -lfile.a
+</span></span></code></pre></div><p><em>-L</em>选项用于指定库目录。 注意命令中的库文件名。我们 用*-l<em>替换了</em>lib*前缀。<em>MyProgram</em>可执行文件将包含 <em>libfile.a</em>库的目标代码。</p>
+<ol start="5">
+<li>构建*.so*或共享库</li>
+</ol>
+<hr>
+<p><em>使用gcc</em>可以轻松构建共享库。和之前一样，我们首先需要将源文件编译成对应的目标文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ gcc -Wall -c *.c
+</span></span></code></pre></div><p>编译代码后，我们需要将目标代码文件提供给我们的下一个命令以创建共享库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ gcc -shared -o libfile.so *.o
+</span></span></code></pre></div><p><em>-shared</em>选项向编译器指定我们正在构建一个共享库。 成功编译后，我们将构建一个共享库，我们可以将其安装在我们的系统上，以便所有程序在运行时都可以使用它。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/a_so_extension_files/" data-title="什么是 .a 和 .so 文件？" data-hashtags="gcc"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/a_so_extension_files/" data-hashtag="gcc"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/a_so_extension_files/" data-title="什么是 .a 和 .so 文件？"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/a_so_extension_files/" data-title="什么是 .a 和 .so 文件？"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/a_so_extension_files/" data-title="什么是 .a 和 .so 文件？"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/gcc/">gcc</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/transaction_configuration_with_jpa_and_spring/" class="prev" rel="prev" title="Spring 和 JPA 的事务配置"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Spring 和 JPA 的事务配置</a>
+            <a href="/aborting_shell_script/" class="next" rel="next" title="如果任何命令失败则中止 Shell 脚本">如果任何命令失败则中止 Shell 脚本<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

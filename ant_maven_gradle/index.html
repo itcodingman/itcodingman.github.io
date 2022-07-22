@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Ant vs Maven vs Gradle - Coding Man</title><meta name="Description" content="在本文中，我们介绍了 Ant、Maven 和 Gradle——三个 Java 构建自动化工具。"><meta property="og:title" content="Ant vs Maven vs Gradle" />
+<meta property="og:description" content="在本文中，我们介绍了 Ant、Maven 和 Gradle——三个 Java 构建自动化工具。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/ant_maven_gradle/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ant vs Maven vs Gradle"/>
+<meta name="twitter:description" content="在本文中，我们介绍了 Ant、Maven 和 Gradle——三个 Java 构建自动化工具。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/ant_maven_gradle/" /><link rel="prev" href="http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/" /><link rel="next" href="http://itcodingman.github.io/1_hour_python_opencv/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Ant vs Maven vs Gradle",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/ant_maven_gradle\/"
+        },"genre": "posts","wordcount":  2419 ,
+        "url": "http:\/\/itcodingman.github.io\/ant_maven_gradle\/","datePublished": "2018-04-14T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们介绍了 Ant、Maven 和 Gradle——三个 Java 构建自动化工具。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Ant vs Maven vs Gradle</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/devops/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>DevOps</a>&nbsp;<a href="/categories/gradle/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Gradle</a>&nbsp;<a href="/categories/maven/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Maven</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-14">2018-04-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2419 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
+    <li><a href="#2-apache-ant"><strong>2. Apache Ant</strong></a></li>
+    <li><a href="#3-apache-maven"><strong>3. Apache Maven</strong></a></li>
+    <li><a href="#4-gradle"><strong>4. Gradle</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
+<p>在本文中，我们将探讨<strong>主导 JVM 生态系统的三个 Java 构建自动化工具——Ant、Maven 和 Gradle</strong>。</p>
+<p>我们将介绍它们中的每一个，并探索 Java 构建自动化工具是如何演变的。</p>
+<h2 id="2-apache-ant"><strong>2. Apache Ant</strong></h2>
+<p><strong>一开始，<a href="https://www.gnu.org/software/make/" target="_blank" rel="noopener noreffer">Make</a>是唯一</strong>一款超越本土解决方案的构建自动化工具。Make 自 1976 年以来一直存在，因此，它在 Java 早期用于构建 Java 应用程序。</p>
+<p>但是，C 程序的许多约定并不适合 Java 生态系统，因此 Ant 及时取代了它作为更好的选择。</p>
+<p><strong><a href="https://ant.apache.org/" target="_blank" rel="noopener noreffer">Apache Ant</a>（“Another Neat Tool”）是一个 Java 库，用于自动化 Java 应用程序的构建过程</strong>。此外，Ant 可用于构建非 Java 应用程序。它最初是 Apache Tomcat 代码库的一部分，并于 2000 年作为独立项目发布。</p>
+<p>在许多方面，Ant 与 Make 非常相似，而且它非常简单，因此任何人都可以在没有任何特定先决条件的情况下开始使用它。Ant 构建文件是用 XML 编写的，按照惯例，它们被称为<em>build.xml</em>。</p>
+<p>构建过程的不同阶段称为“target”。</p>
+<p>下面是一个带有<em>HelloWorld</em>主类的简单 Java 项目的<em>build.xml</em>文件示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;project&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&#34;clean&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;delete</span> <span class="na">dir=</span><span class="s">&#34;classes&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/target&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&#34;compile&#34;</span> <span class="na">depends=</span><span class="s">&#34;clean&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">&#34;classes&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;javac</span> <span class="na">srcdir=</span><span class="s">&#34;src&#34;</span> <span class="na">destdir=</span><span class="s">&#34;classes&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/target&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&#34;jar&#34;</span> <span class="na">depends=</span><span class="s">&#34;compile&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">&#34;jar&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;jar</span> <span class="na">destfile=</span><span class="s">&#34;jar/HelloWorld.jar&#34;</span> <span class="na">basedir=</span><span class="s">&#34;classes&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;manifest&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;attribute</span> <span class="na">name=</span><span class="s">&#34;Main-Class&#34;</span> 
+</span></span><span class="line"><span class="cl">                  <span class="na">value=</span><span class="s">&#34;antExample.HelloWorld&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/manifest&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/jar&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/target&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;target</span> <span class="na">name=</span><span class="s">&#34;run&#34;</span> <span class="na">depends=</span><span class="s">&#34;jar&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;java</span> <span class="na">jar=</span><span class="s">&#34;jar/HelloWorld.jar&#34;</span> <span class="na">fork=</span><span class="s">&#34;true&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/target&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/project&gt;</span>
+</span></span></code></pre></div><p>该构建文件定义了四个目标：<em>clean</em>、<em>compile</em>、<em>jar</em>和<em>run</em>。例如，我们可以通过运行来编译代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">ant compile
+</span></span></code></pre></div><p>这将首先触发目标<em>clean</em>，这将删除“classes”目录。之后，目标<em>compile</em>将重新创建目录并将 src 文件夹编译到其中。</p>
+<p>**Ant 的主要优点是它的灵活性。Ant 没有强加任何编码约定或项目结构。**因此，这意味着 Ant 需要开发人员自己编写所有命令，这有时会导致难以维护的巨大 XML 构建文件。</p>
+<p>由于没有约定，只知道 Ant 并不意味着我们会很快理解任何 Ant 构建文件。习惯一个不熟悉的 Ant 文件可能需要一些时间，与其他较新的工具相比，这是一个劣势。</p>
+<p>起初，Ant 没有对依赖管理的内置支持。然而，随着依赖管理在后来的几年中成为必须，<a href="https://ant.apache.org/ivy/" target="_blank" rel="noopener noreffer">Apache Ivy</a>被开发为 Apache Ant 项目的子项目。它与 Apache Ant 集成，并且遵循相同的设计原则。</p>
+<p>然而，最初的 Ant 限制是由于没有对依赖管理的内置支持以及在处理不可管理的 XML 构建文件时的挫败感，这导致了 Maven 的创建。</p>
+<h2 id="3-apache-maven"><strong>3. Apache Maven</strong></h2>
+<p><a href="https://maven.apache.org/" target="_blank" rel="noopener noreffer">Apache Maven</a>是一个依赖管理和构建自动化工具，主要用于 Java 应用程序。**Maven 继续像 Ant 一样使用 XML 文件，但以一种更易于管理的方式。**这里的游戏名称是约定优于配置。</p>
+<p>Ant 提供了灵活性并要求一切从头开始编写，而<strong>Maven 依赖于约定并提供预定义的命令（目标）。</strong></p>
+<p>简而言之，Maven 允许我们专注于构建应该做什么，并为我们提供了框架来完成它。Maven 的另一个积极方面是它为依赖管理提供了内置支持。</p>
+<p>Maven 的配置文件，包含构建和依赖管理指令，按照约定称为<em>pom.xml</em>。此外，Maven 还规定了严格的项目结构，而 Ant 也提供了灵活性。</p>
+<p>下面是一个<em>pom.xml</em>文件示例，用于与之前的<em>HelloWorld</em>主类相同的简单 Java 项目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&#34;http://maven.apache.org/POM/4.0.0&#34;</span> 
+</span></span><span class="line"><span class="cl">  <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">xsi:schemaLocation=</span><span class="s">&#34;http://maven.apache.org/POM/4.0.0 
+</span></span></span><span class="line"><span class="cl"><span class="s">      http://maven.apache.org/xsd/maven-4.0.0.xsd&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>codingman<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>mavenExample<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;description&gt;</span>Maven example<span class="nt">&lt;/description&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;groupId&gt;</span>junit<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;artifactId&gt;</span>junit<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;version&gt;</span>4.12<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependencies&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/project&gt;</span>
+</span></span></code></pre></div><p>但是，现在项目结构也已经标准化，并且符合 Maven 约定：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">+---src
+</span></span><span class="line"><span class="cl">|   +---main
+</span></span><span class="line"><span class="cl">|   |   +---java
+</span></span><span class="line"><span class="cl">|   |   |   \---com
+</span></span><span class="line"><span class="cl">|   |   |       \---codingman
+</span></span><span class="line"><span class="cl">|   |   |           \---maven
+</span></span><span class="line"><span class="cl">|   |   |                   HelloWorld.java
+</span></span><span class="line"><span class="cl">|   |   |
+</span></span><span class="line"><span class="cl">|   |   \---resources
+</span></span><span class="line"><span class="cl">|   \---test
+</span></span><span class="line"><span class="cl">|       +---java
+</span></span><span class="line"><span class="cl">|       \---resources
+</span></span></code></pre></div><p>与 Ant 相比，无需手动定义构建过程中的每个阶段。相反，我们可以简单地调用 Maven 的内置命令。</p>
+<p>例如，我们可以通过运行来编译代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">mvn compile
+</span></span></code></pre></div><p>正如官方页面所指出的，**Maven 的核心可以被认为是一个插件执行框架，因为所有工作都是由插件完成的。**Maven 支持范围广泛的<a href="https://maven.apache.org/plugins/" target="_blank" rel="noopener noreffer">可用插件</a>，每个插件都可以额外配置。</p>
+<p>可用的插件之一是 Apache Maven 依赖插件，它有一个<em>复制依赖</em>目标，它将我们的依赖复制到指定的目录。</p>
+<p>为了展示这个插件，让我们在<em>pom.xml</em>文件中包含这个插件，并为我们的依赖项配置一个输出目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;build&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;plugins&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;artifactId&gt;</span>maven-dependency-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;id&gt;</span>copy-dependencies<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;phase&gt;</span>package<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&lt;goal&gt;</span>copy-dependencies<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">                        <span class="nt">&lt;outputDirectory&gt;</span>target/dependencies
+</span></span><span class="line"><span class="cl">                          <span class="nt">&lt;/outputDirectory&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/plugins&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/build&gt;</span>
+</span></span></code></pre></div><p>这个插件将在<em>package</em>阶段执行，所以如果我们运行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mvn package
+</span></span></code></pre></div><p>我们将执行此插件并将依赖项复制到 target/dependencies 文件夹。</p>
+<p>还有<a href="/executable-jar-with-maven" rel="">一篇</a>关于如何使用不同的 Maven 插件创建可执行 JAR 的文章。此外，有关 Maven 的详细概述，请查看<a href="/maven" rel="">有关 Maven 的核心指南</a>，其中探讨了 Maven 的一些关键特性。</p>
+<p>Maven 变得非常流行，因为构建文件现在已经标准化，并且与 Ant 相比，维护构建文件所需的时间明显减少。然而，尽管比 Ant 文件更标准化，Maven 配置文件仍然趋于变得庞大和繁琐。</p>
+<p>**Maven 的严格约定的代价是灵活性不如 Ant。**目标定制非常困难，因此与 Ant 相比，编写定制构建脚本要困难得多。</p>
+<p>尽管 Maven 在使应用程序的构建过程更容易和更标准化方面做出了一些重大改进，但由于比 Ant 灵活得多，它仍然要付出代价。这导致了 Gradle 的创建，它结合了两全其美——Ant 的灵活性和 Maven 的特性。</p>
+<h2 id="4-gradle"><strong>4. Gradle</strong></h2>
+<p><a href="https://gradle.org/" target="_blank" rel="noopener noreffer">Gradle</a>是一个依赖管理和构建自动化工具，<strong>它建立在 Ant 和 Maven 的概念之上。</strong></p>
+<p>关于 Gradle，我们首先要注意的一点是它不使用 XML 文件，这与 Ant 或 Maven 不同。</p>
+<p>随着时间的推移，开发人员对拥有和使用特定领域的语言越来越感兴趣——简单地说，这将允许他们使用为特定领域量身定制的语言来解决特定领域中的问题。</p>
+<p>这被 Gradle 采用，它使用基于<a href="http://groovy-lang.org/" target="_blank" rel="noopener noreffer">Groovy</a>或<a href="https://kotlinlang.org/" target="_blank" rel="noopener noreffer">Kotlin</a>的 DSL 。**由于该语言是专门为解决特定领域问题而设计的，因此这导致了更小的配置文件和更少的混乱。**Gradle 的配置文件按照惯例在 Groovy 中称为<em>build.gradle</em> ，在 Kotlin中称为<em>build.gradle.kts 。</em></p>
+<p>请注意，Kotlin 在自动完成和错误检测方面提供了比 Groovy 更好的 IDE 支持。</p>
+<p>下面是一个<em>build.gradle文件的示例，用于与之前的**HelloWorld</em>主类相同的简单 Java 项目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;java&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">repositories</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mavenCentral</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">jar</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">baseName</span> <span class="o">=</span> <span class="s1">&#39;gradleExample&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;0.0.1-SNAPSHOT&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">dependencies</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">testImplementation</span> <span class="s1">&#39;junit:junit:4.12&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以通过运行来编译代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gradle classes
+</span></span></code></pre></div><p>Gradle 的核心是有意提供很少的功能。**插件添加了所有有用的功能。**在我们的示例中，我们使用了<em>java</em>插件，它允许我们编译 Java 代码和其他有价值的功能。</p>
+<p>**Gradle 将其构建步骤命名为“任务”，而不是 Ant 的“目标”或 Maven 的“阶段”。**在 Maven 中，我们使用了 Apache Maven Dependency Plugin，将依赖项复制到指定目录是一个特定的目标。使用 Gradle，我们可以使用任务来做同样的事情：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">task</span> <span class="nf">copyDependencies</span><span class="o">(</span><span class="nl">type:</span> <span class="n">Copy</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="n">from</span> <span class="n">configurations</span><span class="o">.</span><span class="na">compile</span>
+</span></span><span class="line"><span class="cl">   <span class="n">into</span> <span class="s1">&#39;dependencies&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以通过执行以下命令来运行此任务：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gradle copyDependencies
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/ant_maven_gradle/" data-title="Ant vs Maven vs Gradle"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/ant_maven_gradle/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/ant_maven_gradle/" data-title="Ant vs Maven vs Gradle"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/ant_maven_gradle/" data-title="Ant vs Maven vs Gradle"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/ant_maven_gradle/" data-title="Ant vs Maven vs Gradle"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/angularjs_crud_with_spring_data_rest/" class="prev" rel="prev" title="带有 Spring Data REST 的 AngularJS CRUD 应用程序"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>带有 Spring Data REST 的 AngularJS CRUD 应用程序</a>
+            <a href="/1_hour_python_opencv/" class="next" rel="next" title="一小时学习Python和OpenCV">一小时学习Python和OpenCV<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

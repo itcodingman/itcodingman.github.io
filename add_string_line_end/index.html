@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>如何在 Linux 中的文件中的每一行之后添加一个字符串 - Coding Man</title><meta name="Description" content="在本文中，我们了解了如何在 Linux 中将字符串添加到文件的每一行末尾。我们使用sed、awk、echo、perl和其他命令来实现这一点。由于这些方法，我们以类似的方式看待工作，我们选择哪种方法是一个偏好问题。"><meta property="og:title" content="如何在 Linux 中的文件中的每一行之后添加一个字符串" />
+<meta property="og:description" content="在本文中，我们了解了如何在 Linux 中将字符串添加到文件的每一行末尾。我们使用sed、awk、echo、perl和其他命令来实现这一点。由于这些方法，我们以类似的方式看待工作，我们选择哪种方法是一个偏好问题。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/add_string_line_end/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-02-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="如何在 Linux 中的文件中的每一行之后添加一个字符串"/>
+<meta name="twitter:description" content="在本文中，我们了解了如何在 Linux 中将字符串添加到文件的每一行末尾。我们使用sed、awk、echo、perl和其他命令来实现这一点。由于这些方法，我们以类似的方式看待工作，我们选择哪种方法是一个偏好问题。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/add_string_line_end/" /><link rel="prev" href="http://itcodingman.github.io/add_newline_variable_bash/" /><link rel="next" href="http://itcodingman.github.io/advanced_file_permissions/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "如何在 Linux 中的文件中的每一行之后添加一个字符串",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/add_string_line_end\/"
+        },"genre": "posts","keywords": "awk, echo, file, perl, sed","wordcount":  1477 ,
+        "url": "http:\/\/itcodingman.github.io\/add_string_line_end\/","datePublished": "2016-02-26T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们了解了如何在 Linux 中将字符串添加到文件的每一行末尾。我们使用sed、awk、echo、perl和其他命令来实现这一点。由于这些方法，我们以类似的方式看待工作，我们选择哪种方法是一个偏好问题。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">如何在 Linux 中的文件中的每一行之后添加一个字符串</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/file-editing/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>File Editing</a>&nbsp;<a href="/categories/files/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Files</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-02-26">2016-02-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1477 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#3使用sed">3.使用<em>sed</em></a></li>
+    <li><a href="#4使用awk">4.使用<em>awk</em></a></li>
+    <li><a href="#5使用回声">5.使用<em>回声</em></a></li>
+    <li><a href="#6使用perl">6.使用<em>perl</em></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>概述</li>
+</ol>
+<hr>
+<p>我们有时需要快速更改文件，最好是从命令行本身。在文件的每一行末尾添加一个字符串就是这样一种更改。</p>
+<p>在本教程中，我们将研究使用<em>sed</em>、<em>awk</em>、<em>echo</em>和<em>perl</em> 执行此操作的多种方法。</p>
+<ol start="2">
+<li>问题陈述</li>
+</ol>
+<hr>
+<p>在本文中，我们将使用以下名为<em>test.txt</em>的示例文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat test.txt
+</span></span><span class="line"><span class="cl">Python
+</span></span><span class="line"><span class="cl">Java
+</span></span><span class="line"><span class="cl">JavaScript
+</span></span><span class="line"><span class="cl">PHP
+</span></span></code></pre></div><p>我们将看到如何添加字符串“是一种很棒的编程语言”。使用不同的方法到我们的<em>test.txt</em>文件中每一行的末尾。</p>
+<h2 id="3使用sed">3.使用<em>sed</em></h2>
+<p><a href="/grep-sed-awk-differences#sed" rel=""><em>sed</em></a>（流编辑器）是 Linux 中一个强大的内置实用程序。<strong>我们可以使用它来执行文件的查找和替换、搜索、插入和删除等功能。</strong></p>
+<p>我们可以使用<em>sed</em>来编辑文件，甚至无需打开它们，这使得它可以轻松快捷地执行不同的文件功能。</p>
+<p>让我们在测试文件上运行<em>sed</em>命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sed -i s/$/ is a great programming language./ test.txt
+</span></span><span class="line"><span class="cl">Python is a great programming language.
+</span></span><span class="line"><span class="cl">Java is a great programming language.
+</span></span><span class="line"><span class="cl">JavaScript is a great programming language.
+</span></span><span class="line"><span class="cl">PHP is a great programming language.
+</span></span></code></pre></div><p>让我们分解此命令以了解更多信息：</p>
+<ul>
+<li><em>-i</em>：指示<em>sed</em>就地编辑文件</li>
+<li><em>s</em> : 用于替换</li>
+<li><em>/</em> : 用于基于正则表达式的替换</li>
+<li><em>$</em> : 匹配行尾的正则表达式</li>
+<li><em>” is a great&hellip;”</em>：表示我们要添加的字符串</li>
+</ul>
+<p><strong>但是我们的结果只打印在标准输出上。要保存更改，我们需要修改我们的命令：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sed -i s/$/ is a great programming language./ test.txt &gt; test_sed.txt
+</span></span></code></pre></div><p>这会将我们的更改保存到<em>test_sed.txt</em>文件中。</p>
+<h2 id="4使用awk">4.使用<em>awk</em></h2>
+<p><a href="/grep-sed-awk-differences#awk" rel=""><em>awk</em></a>是包含在 Unix 和大多数 Unix 变体中的脚本语言。它的开发者名字是 Aho、Weinberger 和 Kernighan 的缩写，他们于 1977 年建造了它。</p>
+<p><strong><em>awk</em>使我们能够以语句的形式编写小程序，这些语句定义要在文件的每一行中搜索的文本模式，并在找到匹配项后执行操作。</strong></p>
+<p>让我们输入以下命令来添加我们的字符串：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ awk <span class="s1">&#39;{print $0, &#34; is a great programming language.&#34;}&#39;</span> test.txt
+</span></span><span class="line"><span class="cl">Python is a great programming language.
+</span></span><span class="line"><span class="cl">Java is a great programming language.
+</span></span><span class="line"><span class="cl">JavaScript is a great programming language.
+</span></span><span class="line"><span class="cl">PHP is a great programming language.
+</span></span></code></pre></div><p>让我们理解命令：</p>
+<ul>
+<li><em>print</em>：用于从输入文件中输出选定的数据。</li>
+<li><em>$0</em>：用于匹配整行的正则表达式。</li>
+<li><em>” is a great&hellip;”</em>：表示我们要在每行末尾添加的字符串。</li>
+</ul>
+<p>此命令将结果输出到标准输出 (STDOUT)。</p>
+<p>让我们修改它以将我们的更改保存到另一个文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ awk <span class="s1">&#39;{print $0, &#34; is a great programming language.&#34;}&#39;</span> test.txt &gt; test_awk.txt
+</span></span></code></pre></div><h2 id="5使用回声">5.使用<em>回声</em></h2>
+<p>众所周知，*<a href="/echo-command" rel="">echo</a>*命令将文本写入标准输出（STDOUT）。</p>
+<p>虽然<em>echo</em>命令的行为因 shell 而略有不同，但我们将在此处介绍 bash 内置版本。</p>
+<p>让我们结合*<a href="/files-cat-more-less#cat" rel="">cat</a><em>命令并运行</em>echo：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat test.txt <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> line<span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">$&#34; is a great programming language.&#34;</span><span class="p">;</span> <span class="k">done</span>
+</span></span><span class="line"><span class="cl">Python is a great programming language.
+</span></span><span class="line"><span class="cl">Java is a great programming language.
+</span></span><span class="line"><span class="cl">JavaScript is a great programming language.
+</span></span><span class="line"><span class="cl">PHP is a great programming language.
+</span></span></code></pre></div><p>和以前一样，让我们分解一下：</p>
+<ul>
+<li><em>cat</em>：我们首先使用<em>cat</em>来读取我们的文件。</li>
+<li><em>| pipe</em>：我们用它来将<em>cat</em>与一个附加命令结合起来。</li>
+<li><em>while&hellip;do</em>：我们使用 while 循环遍历文件中的每一行。</li>
+<li><em>done</em>：一旦完成，我们就使用它来终止我们的函数。</li>
+</ul>
+<p><strong>但是，我们的结果只打印到标准输出 (STDOUT)，以保存我们的更改。</strong></p>
+<p>让我们将更改保存到一个名为<em>test_echo.txt</em>的新文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat test.txt <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> line<span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">$&#34; is a great programming language.&#34;</span> &gt;&gt; test_echo.txt<span class="p">;</span> <span class="k">done</span>
+</span></span></code></pre></div><h2 id="6使用perl">6.使用<em>perl</em></h2>
+<p><a href="/string-contains-substring#searching-with-perl" rel=""><em>perl</em></a>  <em>(Practical Extraction and Report Language)<em>是一种**最初为扫描任意文本文件、从中提取信息并根据输入数据生成报告而优化的语言。**它结合了</em>sed、awk</em>和<a href="https://man7.org/linux/man-pages/man1/sh.1p.html" target="_blank" rel="noopener noreffer"><em>sh</em></a>的一些特性，使我们能够更轻松、更熟悉地快速解决常见问题。</p>
+<p>让我们运行<em>perl</em>命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ perl -pi -e <span class="s1">&#39;s/$/\ is a great programming language./&#39;</span> test.txt
+</span></span></code></pre></div><p>让我们仔细看看以了解更多信息：</p>
+<ul>
+<li>*-pi：*我们使用这个标签来打印和保存我们的更改。</li>
+<li><em>-e</em>：我们使用这个标签，以便我们可以从终端执行<em>perl</em>代码，而不是创建一个文件。</li>
+<li><em>s/$/</em>：代表一个正则表达式，它以我们文件中每一行的结尾为目标。</li>
+</ul>
+<p>上面的命令没有显示标准输出的结果。但是，我们可以对输入文件本身使用<em>cat</em>命令来查看更改。<strong>由于<em>perl</em>直接对输入文件进行更改，因此我们不需要创建新文件。</strong>
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/add_string_line_end/" data-title="如何在 Linux 中的文件中的每一行之后添加一个字符串" data-hashtags="awk,echo,file,perl,sed"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/add_string_line_end/" data-hashtag="awk"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/add_string_line_end/" data-title="如何在 Linux 中的文件中的每一行之后添加一个字符串"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/add_string_line_end/" data-title="如何在 Linux 中的文件中的每一行之后添加一个字符串"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/add_string_line_end/" data-title="如何在 Linux 中的文件中的每一行之后添加一个字符串"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/awk/">awk</a>,&nbsp;<a href="/tags/echo/">echo</a>,&nbsp;<a href="/tags/file/">file</a>,&nbsp;<a href="/tags/perl/">perl</a>,&nbsp;<a href="/tags/sed/">sed</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/add_newline_variable_bash/" class="prev" rel="prev" title="在 Bash 的变量中插入换行符"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>在 Bash 的变量中插入换行符</a>
+            <a href="/advanced_file_permissions/" class="next" rel="next" title="Linux 中的高级文件权限">Linux 中的高级文件权限<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

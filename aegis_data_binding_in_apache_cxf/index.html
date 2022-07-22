@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache CXF Aegis 数据绑定简介 - Coding Man</title><meta name="Description" content="本教程说明如何将 Apache CXF Aegis 数据绑定用作独立子系统。它演示了如何使用 Aegis 将 Java 对象映射到 XML 元素"><meta property="og:title" content="Apache CXF Aegis 数据绑定简介" />
+<meta property="og:description" content="本教程说明如何将 Apache CXF Aegis 数据绑定用作独立子系统。它演示了如何使用 Aegis 将 Java 对象映射到 XML 元素" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache CXF Aegis 数据绑定简介"/>
+<meta name="twitter:description" content="本教程说明如何将 Apache CXF Aegis 数据绑定用作独立子系统。它演示了如何使用 Aegis 将 Java 对象映射到 XML 元素"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/" /><link rel="prev" href="http://itcodingman.github.io/adding_shutdown_hooks_for_jvm_applications/" /><link rel="next" href="http://itcodingman.github.io/ahead_of_time_compilation/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache CXF Aegis 数据绑定简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/aegis_data_binding_in_apache_cxf\/"
+        },"genre": "posts","keywords": "Apache CXF","wordcount":  2659 ,
+        "url": "http:\/\/itcodingman.github.io\/aegis_data_binding_in_apache_cxf\/","datePublished": "2018-04-04T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本教程说明如何将 Apache CXF Aegis 数据绑定用作独立子系统。它演示了如何使用 Aegis 将 Java 对象映射到 XML 元素"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache CXF Aegis 数据绑定简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/xml/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>XML</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-04">2018-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2659 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
+    <li><a href="#3-类型定义"><strong>3. 类型定义</strong></a>
+      <ul>
+        <li><a href="#31课程"><strong>3.1。<em>课程</em></strong></a></li>
+        <li><a href="#32-courserepo"><strong>3.2. CourseRepo</strong></a></li>
+        <li><a href="#33-courserepoimpl"><strong>3.3. CourseRepoImpl</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-自定义数据绑定"><strong>4. 自定义数据绑定</strong></a>
+      <ul>
+        <li><a href="#41-courserepo映射"><strong>4.1 <em>CourseRepo</em>映射</strong></a></li>
+        <li><a href="#42-course映射"><strong>4.2. Course映射</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-测试"><strong>5. 测试</strong></a>
+      <ul>
+        <li><a href="#51-aegiscontext初始化"><strong>5.1 <em>AegisContext</em>初始化</strong></a></li>
+        <li><a href="#52-简单的数据设置"><strong>5.2. 简单的数据设置</strong></a></li>
+        <li><a href="#53-绑定-java-对象和-xml-元素"><strong>5.3. 绑定 Java 对象和 XML 元素</strong></a></li>
+        <li><a href="#54-测试"><strong>5.4. 测试</strong></a></li>
+        <li><a href="#55-输出-xml-文档"><strong>5.5. 输出 XML 文档</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>本教程介绍了<a href="https://cxf.apache.org/docs/aegis-21.html" target="_blank" rel="noopener noreffer">Aegis</a>数据绑定，这是一个可以在 Java 对象和 XML 模式描述的 XML 文档之间映射的子系统。Aegis 允许对映射过程进行详细控制，同时将编程工作量降至最低。</p>
+<p>Aegis 是<a href="https://cxf.apache.org/" target="_blank" rel="noopener noreffer">Apache CXF</a>的一部分，但不限于仅在此框架内使用。相反，这种数据绑定机制可以在任何地方使用，因此在本教程中，我们将重点关注它作为独立子系统的使用。</p>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
+<p>激活 Aegis 数据绑定所需的唯一依赖项是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.cxf<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cxf-rt-databinding-aegis<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.1.8<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>可以在<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.cxf%22%20AND%20a%3A%22cxf-rt-databinding-aegis%22" target="_blank" rel="noopener noreffer">此处</a>找到此工件的最新版本。</p>
+<h2 id="3-类型定义"><strong>3. 类型定义</strong></h2>
+<p>本节介绍用于说明 Aegis 的三种类型的定义。</p>
+<h3 id="31课程"><strong>3.1。<em>课程</em></strong></h3>
+<p>这是我们示例中最简单的类，定义为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Course</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">instructor</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Date</span> <span class="n">enrolmentDate</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h3 id="32-courserepo"><strong>3.2. CourseRepo</strong></h3>
+<p><em>CourseRepo</em>是我们模型中的顶级类型。我们将它定义为一个接口而不是一个类，以演示编组 Java 接口是多么容易，这在没有自定义适配器的 JAXB 中是不可能的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CourseRepo</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">getGreeting</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">setGreeting</span><span class="o">(</span><span class="n">String</span> <span class="n">greeting</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Course</span><span class="o">&gt;</span> <span class="nf">getCourses</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">setCourses</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Course</span><span class="o">&gt;</span> <span class="n">courses</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">addCourse</span><span class="o">(</span><span class="n">Course</span> <span class="n">course</span><span class="o">);</span>  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，我们使用返回类型<em>Map</em>声明<em>getCourses</em>方法。这是为了表达 Aegis 相对于 JAXB 的另一个优势。后者无法在没有自定义适配器的情况下编组地图，而前者可以。</p>
+<h3 id="33-courserepoimpl"><strong>3.3. CourseRepoImpl</strong></h3>
+<p>此类提供<em>CourseRepo</em>接口的实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CourseRepoImpl</span> <span class="kd">implements</span> <span class="n">CourseRepo</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">greeting</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Course</span><span class="o">&gt;</span> <span class="n">courses</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addCourse</span><span class="o">(</span><span class="n">Course</span> <span class="n">course</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">courses</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">course</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">course</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4-自定义数据绑定"><strong>4. 自定义数据绑定</strong></h2>
+<p>为了使自定义生效，XML 映射文件必须存在于类路径中。要求将这些文件放在一个目录中，该目录的结构对应于相关 Java 类型的包层次结构。</p>
+<p>例如，如果一个完全限定的名称类名为<em>package.ClassName</em>，则其关联的映射文件必须位于类路径上的<em>package/ClassName</em>子目录中。映射文件的名称必须与附加了*.aegis.xml*后缀的关联 Java 类型相同。</p>
+<h3 id="41-courserepo映射"><strong>4.1 <em>CourseRepo</em>映射</strong></h3>
+<p>CourseRepo接口属于<em>com.codingman.cxf.aegis</em>包，所以其对应的映射文件命名为<em>CourseRepo.aegis.xml</em>，放到classpath的<em>com/codingman/cxf/aegis</em>目录下。</p>
+<p>在<em>CourseRepo映射文件中，我们更改与**CourseRepo</em>接口关联的 XML 元素的名称和命名空间，以及它的<em>greeting</em>属性的样式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;mappings</span> <span class="na">xmlns:ns=</span><span class="s">&#34;http://courserepo.codingman.com&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;mapping</span> <span class="na">name=</span><span class="s">&#34;ns:Codingman&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;greeting&#34;</span> <span class="na">style=</span><span class="s">&#34;attribute&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/mapping&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/mappings&gt;</span>
+</span></span></code></pre></div><h3 id="42-course映射"><strong>4.2. Course映射</strong></h3>
+<p>与<em>CourseRepo类型类似，</em> <em>Course</em>类的映射文件名为<em>Course.aegis.xml</em>，也位于<em>com/codingman/cxf/aegis</em>目录下。</p>
+<p>在这个映射文件中，我们指示 Aegis 在编组时忽略<em>Course</em>类的<em>instructor</em>属性，以便其值在从输出 XML 文档重新创建的对象中不可用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;mappings&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;mapping&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;instructor&#34;</span> <span class="na">ignore=</span><span class="s">&#34;true&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/mapping&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/mappings&gt;</span>
+</span></span></code></pre></div><p><a href="https://cxf.apache.org/docs/aegis-21.html" target="_blank" rel="noopener noreffer">Aegis 的主页</a>是我们可以找到更多自定义选项的地方。</p>
+<h2 id="5-测试"><strong>5. 测试</strong></h2>
+<p>本节是设置和执行测试用例的分步指南，说明 Aegis 数据绑定的使用。</p>
+<p>为了方便测试过程，我们在测试类中声明了两个字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CodingmanTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">AegisContext</span> <span class="n">context</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="s">&#34;codingman.xml&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// other methods
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>这些字段已在此处定义以供此类的其他方法使用。</p>
+<h3 id="51-aegiscontext初始化"><strong>5.1 <em>AegisContext</em>初始化</strong></h3>
+<p>首先，必须创建一个<em>AegisContext</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AegisContext</span><span class="o">();</span>
+</span></span></code></pre></div><p>然后配置并初始化该<em>AegisContext</em>实例。以下是我们为上下文设置根类的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Type</span><span class="o">&gt;</span> <span class="n">rootClasses</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;</span><span class="n">Type</span><span class="o">&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="n">rootClasses</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">CourseRepo</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">context</span><span class="o">.</span><span class="na">setRootClasses</span><span class="o">(</span><span class="n">rootClasses</span><span class="o">);</span>
+</span></span></code></pre></div><p><em>Aegis</em> 为Set<!-- raw HTML omitted -->对象中的每个类型创建一个 XML 映射元素。在本教程中，我们仅将 <em>CourseRepo</em>设置为根类型。</p>
+<p>现在，让我们为上下文设置实现映射，以指定<em>CourseRepo</em>接口的代理类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;?&gt;,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">beanImplementationMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="n">beanImplementationMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">CourseRepoImpl</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;CourseRepo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">context</span><span class="o">.</span><span class="na">setBeanImplementationMap</span><span class="o">(</span><span class="n">beanImplementationMap</span><span class="o">);</span>
+</span></span></code></pre></div><p>Aegis 上下文的最后一个配置是告诉它在相应的 XML 文档中设置<em>xsi:type</em> 属性。此属性携带相关 Java 对象的实际类型名称，除非被映射文件覆盖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">context</span><span class="o">.</span><span class="na">setWriteXsiTypes</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span></code></pre></div><p>我们的<em>AegisContext</em>实例现在可以初始化了：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">context</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+</span></span></code></pre></div><p>为了保持代码干净，我们将本小节中的所有代码片段收集到一个辅助方法中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">initializeContext</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h3 id="52-简单的数据设置"><strong>5.2. 简单的数据设置</strong></h3>
+<p>由于本教程的简单性，我们直接在内存中生成示例数据，而不是依赖于持久解决方案。让我们使用以下设置逻辑填充课程存储库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">CourseRepoImpl</span> <span class="nf">initCourseRepo</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Course</span> <span class="n">restCourse</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Course</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">restCourse</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">restCourse</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;REST with Spring&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">restCourse</span><span class="o">.</span><span class="na">setInstructor</span><span class="o">(</span><span class="s">&#34;Eugen&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">restCourse</span><span class="o">.</span><span class="na">setEnrolmentDate</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">1234567890000L</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">Course</span> <span class="n">securityCourse</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Course</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">securityCourse</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">securityCourse</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Learn Spring Security&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">securityCourse</span><span class="o">.</span><span class="na">setInstructor</span><span class="o">(</span><span class="s">&#34;Eugen&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">securityCourse</span><span class="o">.</span><span class="na">setEnrolmentDate</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">1456789000000L</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">CourseRepoImpl</span> <span class="n">courseRepo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CourseRepoImpl</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">courseRepo</span><span class="o">.</span><span class="na">setGreeting</span><span class="o">(</span><span class="s">&#34;Welcome to Beldung!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">courseRepo</span><span class="o">.</span><span class="na">addCourse</span><span class="o">(</span><span class="n">restCourse</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">courseRepo</span><span class="o">.</span><span class="na">addCourse</span><span class="o">(</span><span class="n">securityCourse</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">courseRepo</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="53-绑定-java-对象和-xml-元素"><strong>5.3. 绑定 Java 对象和 XML 元素</strong></h3>
+<p>将 Java 对象编组为 XML 元素需要采取的步骤通过以下辅助方法进行说明：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">marshalCourseRepo</span><span class="o">(</span><span class="n">CourseRepo</span> <span class="n">courseRepo</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">AegisWriter</span><span class="o">&lt;</span><span class="n">XMLStreamWriter</span><span class="o">&gt;</span> <span class="n">writer</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">createXMLStreamWriter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">AegisType</span> <span class="n">aegisType</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getTypeMapping</span><span class="o">().</span><span class="na">getType</span><span class="o">(</span><span class="n">CourseRepo</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">XMLStreamWriter</span> <span class="n">xmlWriter</span> <span class="o">=</span> <span class="n">XMLOutputFactory</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">createXMLStreamWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">fileName</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">writer</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">courseRepo</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="n">QName</span><span class="o">(</span><span class="s">&#34;http://aegis.cxf.codingman.com&#34;</span><span class="o">,</span> <span class="s">&#34;codingman&#34;</span><span class="o">),</span> <span class="kc">false</span><span class="o">,</span> <span class="n">xmlWriter</span><span class="o">,</span> <span class="n">aegisType</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">xmlWriter</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们所见，<em>AegisWriter</em>和<em>AegisType</em>对象必须从<em>AegisContext</em>实例中创建。然后<em>AegisWriter</em>对象将给定的 Java 实例编组到指定的输出。</p>
+<p>在这种情况下，这是一个<em>XMLStreamWriter对象，它与以文件系统中**fileName</em>类级字段的值命名的文件相关联。</p>
+<p>以下方法将 XML 文档解组为给定类型的 Java 对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">CourseRepo</span> <span class="nf">unmarshalCourseRepo</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>       
+</span></span><span class="line"><span class="cl">    <span class="n">AegisReader</span><span class="o">&lt;</span><span class="n">XMLStreamReader</span><span class="o">&gt;</span> <span class="n">reader</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">createXMLStreamReader</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">XMLStreamReader</span> <span class="n">xmlReader</span> <span class="o">=</span> <span class="n">XMLInputFactory</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">createXMLStreamReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">fileName</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">CourseRepo</span> <span class="n">courseRepo</span> <span class="o">=</span> <span class="o">(</span><span class="n">CourseRepo</span><span class="o">)</span> <span class="n">reader</span><span class="o">.</span><span class="na">read</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">xmlReader</span><span class="o">,</span> <span class="n">context</span><span class="o">.</span><span class="na">getTypeMapping</span><span class="o">().</span><span class="na">getType</span><span class="o">(</span><span class="n">CourseRepo</span><span class="o">.</span><span class="na">class</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">xmlReader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">courseRepo</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，从<em>AegisContext实例生成一个**AegisReader</em>对象。然后，<em>AegisReader</em>对象根据提供的输入创建一个 Java 对象。在此示例中，该输入是一个<em>XMLStreamReader对象，该对象由我们在上面描述的**marshalCourseRepo</em>方法中生成的文件支持。</p>
+<h3 id="54-测试"><strong>5.4. 测试</strong></h3>
+<p>现在，是时候将前面小节中定义的所有辅助方法组合成一个测试方法了：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenMarshalingAndUnmarshalingCourseRepo_thenCorrect</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">initializeContext</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CourseRepo</span> <span class="n">inputRepo</span> <span class="o">=</span> <span class="n">initCourseRepo</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">marshalCourseRepo</span><span class="o">(</span><span class="n">inputRepo</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CourseRepo</span> <span class="n">outputRepo</span> <span class="o">=</span> <span class="n">unmarshalCourseRepo</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Course</span> <span class="n">restCourse</span> <span class="o">=</span> <span class="n">outputRepo</span><span class="o">.</span><span class="na">getCourses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Course</span> <span class="n">securityCourse</span> <span class="o">=</span> <span class="n">outputRepo</span><span class="o">.</span><span class="na">getCourses</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// JUnit assertions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>我们首先创建一个<em>CourseRepo</em>实例，然后将其编组为 XML 文档，最后解组该文档以重新创建原始对象。让我们验证重新创建的对象是否符合我们的预期：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Welcome to Beldung!&#34;</span><span class="o">,</span> <span class="n">outputRepo</span><span class="o">.</span><span class="na">getGreeting</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;REST with Spring&#34;</span><span class="o">,</span> <span class="n">restCourse</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">1234567890000L</span><span class="o">),</span> <span class="n">restCourse</span><span class="o">.</span><span class="na">getEnrolmentDate</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertNull</span><span class="o">(</span><span class="n">restCourse</span><span class="o">.</span><span class="na">getInstructor</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Learn Spring Security&#34;</span><span class="o">,</span> <span class="n">securityCourse</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">1456789000000L</span><span class="o">),</span> <span class="n">securityCourse</span><span class="o">.</span><span class="na">getEnrolmentDate</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertNull</span><span class="o">(</span><span class="n">securityCourse</span><span class="o">.</span><span class="na">getInstructor</span><span class="o">());</span>
+</span></span></code></pre></div><p>很明显，除了<em>讲师</em>属性之外，所有其他属性的值都已恢复，包括值类型为<em>Date的**enrolmentDate</em>属性。这正是我们所期望的，因为我们已指示 Aegis在编组<em>Course</em>对象时忽略<em>讲师属性。</em></p>
+<h3 id="55-输出-xml-文档"><strong>5.5. 输出 XML 文档</strong></h3>
+<p>为了使 Aegis 映射文件的效果更加明确，我们在下面展示了没有自定义的 XML 文档：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;ns1:codingman</span> <span class="na">xmlns:ns1=</span><span class="s">&#34;http://aegis.cxf.codingman.com&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">xsi:type=</span><span class="s">&#34;ns1:CourseRepo&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;ns1:courses&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;ns2:entry</span> <span class="na">xmlns:ns2=</span><span class="s">&#34;urn:org.apache.cxf.aegis.types&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;ns2:key&gt;</span>1<span class="nt">&lt;/ns2:key&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;ns2:value</span> <span class="na">xsi:type=</span><span class="s">&#34;ns1:Course&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:enrolmentDate&gt;</span>2009-02-14T06:31:30+07:00
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/ns1:enrolmentDate&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:id&gt;</span>1<span class="nt">&lt;/ns1:id&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:instructor&gt;</span>Eugen<span class="nt">&lt;/ns1:instructor&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:name&gt;</span>REST with Spring<span class="nt">&lt;/ns1:name&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/ns2:value&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/ns2:entry&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;ns2:entry</span> <span class="na">xmlns:ns2=</span><span class="s">&#34;urn:org.apache.cxf.aegis.types&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;ns2:key&gt;</span>2<span class="nt">&lt;/ns2:key&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;ns2:value</span> <span class="na">xsi:type=</span><span class="s">&#34;ns1:Course&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:enrolmentDate&gt;</span>2016-03-01T06:36:40+07:00
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/ns1:enrolmentDate&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:id&gt;</span>2<span class="nt">&lt;/ns1:id&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:instructor&gt;</span>Eugen<span class="nt">&lt;/ns1:instructor&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:name&gt;</span>Learn Spring Security<span class="nt">&lt;/ns1:name&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/ns2:value&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/ns2:entry&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/ns1:courses&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;ns1:greeting&gt;</span>Welcome to Beldung!<span class="nt">&lt;/ns1:greeting&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/ns1:codingman&gt;</span>
+</span></span></code></pre></div><p>将此与 Aegis 自定义映射运行时的情况进行比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;ns1:codingman</span> <span class="na">xmlns:ns1=</span><span class="s">&#34;http://aegis.cxf.codingman.com&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">xmlns:ns=</span><span class="s">&#34;http://courserepo.codingman.com&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="na">xsi:type=</span><span class="s">&#34;ns:Codingman&#34;</span> <span class="na">greeting=</span><span class="s">&#34;Welcome to Beldung!&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;ns:courses&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;ns2:entry</span> <span class="na">xmlns:ns2=</span><span class="s">&#34;urn:org.apache.cxf.aegis.types&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;ns2:key&gt;</span>1<span class="nt">&lt;/ns2:key&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;ns2:value</span> <span class="na">xsi:type=</span><span class="s">&#34;ns1:Course&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:enrolmentDate&gt;</span>2009-02-14T06:31:30+07:00
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/ns1:enrolmentDate&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:id&gt;</span>1<span class="nt">&lt;/ns1:id&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:name&gt;</span>REST with Spring<span class="nt">&lt;/ns1:name&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/ns2:value&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/ns2:entry&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;ns2:entry</span> <span class="na">xmlns:ns2=</span><span class="s">&#34;urn:org.apache.cxf.aegis.types&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;ns2:key&gt;</span>2<span class="nt">&lt;/ns2:key&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;ns2:value</span> <span class="na">xsi:type=</span><span class="s">&#34;ns1:Course&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:enrolmentDate&gt;</span>2016-03-01T06:36:40+07:00
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/ns1:enrolmentDate&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:id&gt;</span>2<span class="nt">&lt;/ns1:id&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;ns1:name&gt;</span>Learn Spring Security<span class="nt">&lt;/ns1:name&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/ns2:value&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/ns2:entry&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/ns:courses&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/ns1:codingman&gt;</span>
+</span></span></code></pre></div><p>运行本节中定义的测试后，您可以在项目主目录中的<em>codingman.xml</em>中找到这个 XML 结构。</p>
+<p>您会看到<em>CourseRepo</em>对象对应的 XML 元素的<em>type</em>属性和命名空间会根据我们在<em>CourseRepo.aegis.xml</em>文件中设置的内容发生变化。<em>greeting</em>属性也转化为一个属性，<em>Course</em>对象的<em>instructor</em>属性如预期般消失了。</p>
+<p>值得注意的是，默认情况下，Aegis 将基本 Java 类型转换为最匹配的模式类型，例如从<em>Date</em>对象转换为<em>xsd:dateTime</em> 元素，如本教程所示。但是，我们可以通过在相应的映射文件中设置配置来更改该特定绑定。</p>
+<p>如果您想了解更多信息，请导航至<a href="https://cxf.apache.org/docs/aegis-21.html" target="_blank" rel="noopener noreffer">Aegis 主页。</a>
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/" data-title="Apache CXF Aegis 数据绑定简介" data-hashtags="Apache CXF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/" data-hashtag="Apache CXF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/" data-title="Apache CXF Aegis 数据绑定简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/" data-title="Apache CXF Aegis 数据绑定简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/" data-title="Apache CXF Aegis 数据绑定简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/apache-cxf/">Apache CXF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/adding_shutdown_hooks_for_jvm_applications/" class="prev" rel="prev" title="为 JVM 应用程序添加关闭挂钩"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>为 JVM 应用程序添加关闭挂钩</a>
+            <a href="/ahead_of_time_compilation/" class="next" rel="next" title="提前编译 (AoT)">提前编译 (AoT)<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

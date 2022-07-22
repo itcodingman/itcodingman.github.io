@@ -52,35 +52,35 @@
     <description><![CDATA[]]></description>
 </item>
 <item>
-    <title>Spring Security</title>
-    <link>http://itcodingman.github.io/categories/spring-security/</link>
-    <pubDate>Wed, 01 Apr 2020 00:00:00 &#43;0000</pubDate>
+    <title>DevOps</title>
+    <link>http://itcodingman.github.io/categories/devops/</link>
+    <pubDate>Sat, 14 Apr 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/categories/spring-security/</guid>
+    <guid>http://itcodingman.github.io/categories/devops/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Gradle</title>
+    <link>http://itcodingman.github.io/categories/gradle/</link>
+    <pubDate>Sat, 14 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/categories/gradle/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Maven</title>
+    <link>http://itcodingman.github.io/categories/maven/</link>
+    <pubDate>Sat, 14 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/categories/maven/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>REST</title>
     <link>http://itcodingman.github.io/categories/rest/</link>
-    <pubDate>Wed, 25 Mar 2020 00:00:00 &#43;0000</pubDate>
+    <pubDate>Fri, 13 Apr 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/categories/rest/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Spring Boot</title>
-    <link>http://itcodingman.github.io/categories/spring-boot/</link>
-    <pubDate>Wed, 18 Mar 2020 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/categories/spring-boot/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Persistence</title>
-    <link>http://itcodingman.github.io/categories/persistence/</link>
-    <pubDate>Wed, 19 Feb 2020 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/categories/persistence/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>

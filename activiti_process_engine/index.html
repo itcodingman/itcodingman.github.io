@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Activiti 中的 ProcessEngine 配置 - Coding Man</title><meta name="Description" content="在这个快速教程中，我们重点介绍了在 Activiti中创建ProcessEngine的几种不同方法。"><meta property="og:title" content="Activiti 中的 ProcessEngine 配置" />
+<meta property="og:description" content="在这个快速教程中，我们重点介绍了在 Activiti中创建ProcessEngine的几种不同方法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/activiti_process_engine/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Activiti 中的 ProcessEngine 配置"/>
+<meta name="twitter:description" content="在这个快速教程中，我们重点介绍了在 Activiti中创建ProcessEngine的几种不同方法。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/activiti_process_engine/" /><link rel="prev" href="http://itcodingman.github.io/activiti_kickstart_and_rest_apps/" /><link rel="next" href="http://itcodingman.github.io/activiti_spring_security/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Activiti 中的 ProcessEngine 配置",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/activiti_process_engine\/"
+        },"genre": "posts","keywords": "Activiti","wordcount":  1725 ,
+        "url": "http:\/\/itcodingman.github.io\/activiti_process_engine\/","datePublished": "2018-04-01T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在这个快速教程中，我们重点介绍了在 Activiti中创建ProcessEngine的几种不同方法。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Activiti 中的 ProcessEngine 配置</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a>&nbsp;<a href="/categories/programming/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Programming</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-01">2018-04-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1725 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-获取processengine实例"><strong>2. 获取<em>ProcessEngine</em>实例</strong></a></li>
+    <li><a href="#3-使用processengines类获取processengine"><strong>3. 使用<em>ProcessEngines</em>类获取<em>ProcessEngine</em></strong></a></li>
+    <li><a href="#4-使用processengineconfiguration获取processengine-">**4. 使用<em>ProcessEngineConfiguration</em>获取<em>ProcessEngine</em> **</a></li>
+    <li><a href="#5-数据库设置"><strong>5. 数据库设置</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在我们之前的<a href="/java-activiti" rel="">Activiti with Java</a>介绍文章中，我们看到了<em>ProcessEngine</em>的重要性，并通过框架提供的默认静态 API 创建了一个。</p>
+<p>除了默认设置之外，还有其他创建<em>ProcessEngine</em>的方法——我们将在这里探讨。</p>
+<h2 id="2-获取processengine实例"><strong>2. 获取<em>ProcessEngine</em>实例</strong></h2>
+<p>有两种获取<em>ProcessEngine</em>实例的方法：</p>
+<ol>
+<li>使用<em>ProcessEngines</em>类</li>
+<li>以编程方式，通过<em>ProcessEngineConfiguration</em></li>
+</ol>
+<p>让我们仔细看看这两种方法的示例。</p>
+<h2 id="3-使用processengines类获取processengine"><strong>3. 使用<em>ProcessEngines</em>类获取<em>ProcessEngine</em></strong></h2>
+<p>通常，<em>ProcessEngine</em>是使用名为<em>activiti.cfg.xml</em>的 XML 文件配置的，默认创建过程也将使用该文件。</p>
+<p>这是此配置的外观的快速示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">&#34;...&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;processEngineConfiguration&#34;</span> <span class="na">class=</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;jdbcUrl&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="err">vasentence</span> <span class="err">you</span> <span class="err">have</span> <span class="err">mentioned</span> <span class="err">and</span> <span class="err">also</span> <span class="err">changed</span> <span class="na">thelue=</span><span class="s">&#34;jdbc:h2:mem:activiti;DB_CLOSE_DELAY=1000&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;jdbcDriver&#34;</span> <span class="na">value=</span><span class="s">&#34;org.h2.Driver&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;jdbcUsername&#34;</span> <span class="na">value=</span><span class="s">&#34;root&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;jdbcPassword&#34;</span> <span class="na">value=</span><span class="s">&#34;&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;databaseSchemaUpdate&#34;</span> <span class="na">value=</span><span class="s">&#34;true&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/bean&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/beans&gt;</span>
+</span></span></code></pre></div><p>注意这里是如何配置引擎的持久性方面的。</p>
+<p>现在，我们可以获得<em>ProcessEngine</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ProcessEngine</span> <span class="n">processEngine</span> <span class="o">=</span> <span class="n">ProcessEngines</span><span class="o">.</span><span class="na">getDefaultProcessEngine</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="4-使用processengineconfiguration获取processengine-">**4. 使用<em>ProcessEngineConfiguration</em>获取<em>ProcessEngine</em> **</h2>
+<p>超越获取引擎的默认路径——有两种创建<em>ProcessEngineConfiguration</em>的方法：</p>
+<ol>
+<li>使用 XML 配置</li>
+<li>使用 Java 配置</li>
+</ol>
+<p>让我们从 XML 配置开始。</p>
+<p>如第 2.1 节所述。– 我们可以以编程方式定义<em>ProcessEngineConfiguration</em> ，并使用该实例构建<em>ProcessEngine</em> ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span> 
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenXMLConfig_whenCreateDefaultConfiguration_thenGotProcessEngine</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngineConfiguration</span> <span class="n">processEngineConfiguration</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">ProcessEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">createProcessEngineConfigurationFromResourceDefault</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngine</span> <span class="n">processEngine</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">processEngineConfiguration</span><span class="o">.</span><span class="na">buildProcessEngine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">processEngine</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;root&#34;</span><span class="o">,</span> <span class="n">processEngine</span><span class="o">.</span><span class="na">getProcessEngineConfiguration</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getJdbcUsername</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>createProcessEngineConfigurationFromResourceDefault()<em>方法也会查找</em>activiti.cfg.xml</em>文件，现在我们只需要调用<em>buildProcessEngine()</em> API。</p>
+<p>在这种情况下，它查找的默认 bean 名称是<em>processEngineConfiguration</em>。如果我们想更改配置文件名或 bean 名称，我们可以使用其他可用的方法来创建<em>ProcessEngineConfiguration</em>。</p>
+<p>让我们看几个例子。</p>
+<p>首先，我们将更改配置文件名并要求 API 使用我们的自定义文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span> 
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenDifferentNameXMLConfig_whenGetProcessEngineConfig_thenGotResult</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngineConfiguration</span> <span class="n">processEngineConfiguration</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">ProcessEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">createProcessEngineConfigurationFromResource</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="s">&#34;my.activiti.cfg.xml&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngine</span> <span class="n">processEngine</span> <span class="o">=</span> <span class="n">processEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">buildProcessEngine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">processEngine</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;codingman&#34;</span><span class="o">,</span> <span class="n">processEngine</span><span class="o">.</span><span class="na">getProcessEngineConfiguration</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getJdbcUsername</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们也更改 bean 名称：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span> 
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenDifferentBeanNameInXMLConfig_whenGetProcessEngineConfig_thenGotResult</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngineConfiguration</span> <span class="n">processEngineConfiguration</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">ProcessEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">createProcessEngineConfigurationFromResource</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="s">&#34;my.activiti.cfg.xml&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">          <span class="s">&#34;myProcessEngineConfiguration&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngine</span> <span class="n">processEngine</span> <span class="o">=</span> <span class="n">processEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">buildProcessEngine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">processEngine</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;codingman&#34;</span><span class="o">,</span> <span class="n">processEngine</span><span class="o">.</span><span class="na">getProcessEngineConfiguration</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getJdbcUsername</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当然，既然配置需要不同的名称，我们需要更改文件名（和 bean 名称）以匹配 - 在运行测试之前。</p>
+<p>创建引擎的其他可用选项是<em>createProcessEngineConfigurationFromInputStream(InputStream inputStream)</em>、</p>
+<p><em>createProcessEngineConfigurationFromInputStream(InputStream inputStream, String beanName)</em>。</p>
+<p>如果我们不想使用 XML 配置，<strong>我们也可以仅使用 Java 配置进行设置</strong>。</p>
+<p>我们将使用四个不同的类；每一个都代表不同的环境：</p>
+<ol>
+<li><em>org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration –</em> <em>ProcessEngine</em>以独立的方式使用，由数据库支持</li>
+<li>*org.activiti.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration –*默认情况下，使用 H2 内存数据库。数据库在引擎启动和关闭时创建和删除——因此，这种配置风格可用于测试</li>
+<li>*org.activiti.spring.SpringProcessEngineConfiguration –*在 Spring 环境中使用</li>
+<li>*org.activiti.engine.impl.cfg.JtaProcessEngineConfiguration –*引擎以独立模式运行，带有 JTA 事务</li>
+</ol>
+<p><strong>让我们看几个例子。</strong></p>
+<p>这是一个用于创建独立流程引擎配置的 JUnit 测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span> 
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenNoXMLConfig_whenCreateProcessEngineConfig_thenCreated</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngineConfiguration</span> <span class="n">processEngineConfiguration</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">ProcessEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">createStandaloneProcessEngineConfiguration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngine</span> <span class="n">processEngine</span> <span class="o">=</span> <span class="n">processEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">setDatabaseSchemaUpdate</span><span class="o">(</span><span class="n">ProcessEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">DB_SCHEMA_UPDATE_TRUE</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">setJdbcUrl</span><span class="o">(</span><span class="s">&#34;jdbc:h2:mem:my-own-db;DB_CLOSE_DELAY=1000&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">buildProcessEngine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">processEngine</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;sa&#34;</span><span class="o">,</span> <span class="n">processEngine</span><span class="o">.</span><span class="na">getProcessEngineConfiguration</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getJdbcUsername</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>同样，我们将编写一个 JUnit 测试用例，用于使用内存数据库创建独立流程引擎配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span> 
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenNoXMLConfig_whenCreateInMemProcessEngineConfig_thenCreated</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngineConfiguration</span> <span class="n">processEngineConfiguration</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">ProcessEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">createStandaloneInMemProcessEngineConfiguration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ProcessEngine</span> <span class="n">processEngine</span> <span class="o">=</span> <span class="n">processEngineConfiguration</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">buildProcessEngine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">processEngine</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;sa&#34;</span><span class="o">,</span> <span class="n">processEngine</span><span class="o">.</span><span class="na">getProcessEngineConfiguration</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getJdbcUsername</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-数据库设置"><strong>5. 数据库设置</strong></h2>
+<p>默认情况下，Activiti API 将使用 H2 内存数据库，数据库名称为“activiti”，用户名为“sa”。</p>
+<p>如果我们需要使用任何其他数据库，我们必须明确设置——使用两个主要属性。</p>
+<p><em>databaseType</em> – 有效值为<em>h2、mysql、oracle、postgres、mssql、db2</em>。这也可以从数据库配置中找出，但如果自动检测失败，这将很有用。</p>
+<p>*databaseSchemaUpdate –*此属性允许我们定义引擎启动或关闭时数据库发生的情况。它可以有以下三个值：</p>
+<ol>
+<li><em>false</em>（默认）– 此选项根据库验证数据库模式的版本。如果它们不匹配，引擎将抛出异常</li>
+<li><em>true</em> – 构建流程引擎配置时，将对数据库执行检查。数据库将相应地创建/更新 create-drop</li>
+<li>“ <em>-</em> ” - 这将在创建流程引擎时创建数据库模式，并在流程引擎关闭时将其删除。</li>
+</ol>
+<p>我们可以将 DB 配置定义为 JDBC 属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;jdbcUrl&#34;</span> <span class="na">value=</span><span class="s">&#34;jdbc:h2:mem:activiti;DB_CLOSE_DELAY=1000&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;jdbcDriver&#34;</span> <span class="na">value=</span><span class="s">&#34;org.h2.Driver&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;jdbcUsername&#34;</span> <span class="na">value=</span><span class="s">&#34;sa&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;jdbcPassword&#34;</span> <span class="na">value=</span><span class="s">&#34;&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;databaseType&#34;</span> <span class="na">value=</span><span class="s">&#34;mysql&#34;</span> <span class="nt">/&gt;</span>
+</span></span></code></pre></div><p>或者，如果我们使用<em>DataSource</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;dataSource&#34;</span> <span class="na">class=</span><span class="s">&#34;org.apache.commons.dbcp.BasicDataSource&#34;</span> <span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;driverClassName&#34;</span> <span class="na">value=</span><span class="s">&#34;com.mysql.jdbc.Driver&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;url&#34;</span> <span class="na">value=</span><span class="s">&#34;jdbc:mysql://localhost:3306/activiti&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;username&#34;</span> <span class="na">value=</span><span class="s">&#34;activiti&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;password&#34;</span> <span class="na">value=</span><span class="s">&#34;activiti&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;defaultAutoCommit&#34;</span> <span class="na">value=</span><span class="s">&#34;false&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;databaseType&#34;</span> <span class="na">value=</span><span class="s">&#34;mysql&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/bean&gt;</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/activiti_process_engine/" data-title="Activiti 中的 ProcessEngine 配置" data-hashtags="Activiti"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/activiti_process_engine/" data-hashtag="Activiti"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/activiti_process_engine/" data-title="Activiti 中的 ProcessEngine 配置"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/activiti_process_engine/" data-title="Activiti 中的 ProcessEngine 配置"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/activiti_process_engine/" data-title="Activiti 中的 ProcessEngine 配置"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/activiti/">Activiti</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/activiti_kickstart_and_rest_apps/" class="prev" rel="prev" title="Activiti Kickstart App 和 Activiti Rest Webapp"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Activiti Kickstart App 和 Activiti Rest Webapp</a>
+            <a href="/activiti_spring_security/" class="next" rel="next" title="带有 Spring Security 的 Activiti">带有 Spring Security 的 Activiti<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

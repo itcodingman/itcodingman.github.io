@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>OAuth New Stack - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/oauth-new-stack/</link>
+        <description>OAuth New Stack - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 14 Jan 2016 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/oauth-new-stack/" rel="self" type="application/rss+xml" /><item>
+    <title>Spring REST API &#43; OAuth2 &#43; Angular</title>
+    <link>http://itcodingman.github.io/securing_a_restful_web_service_with_spring_security/</link>
+    <pubDate>Thu, 14 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/securing_a_restful_web_service_with_spring_security/</guid>
+    <description><![CDATA[1、概述 在本教程中，我们将使用 OAuth2 保护 REST API，并从一个简单的 Angular 客户端使用它。 我们要构建的应用程序将包含三个独立的模块： 授权服务器 资源服务器 UI]]></description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>ActiveJDBC 简介 - Coding Man</title><meta name="Description" content="在这个快速教程中，我们专注于并探索了 ActiveJDBC 的基础知识。"><meta property="og:title" content="ActiveJDBC 简介" />
+<meta property="og:description" content="在这个快速教程中，我们专注于并探索了 ActiveJDBC 的基础知识。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/active_jdbc/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-03-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ActiveJDBC 简介"/>
+<meta name="twitter:description" content="在这个快速教程中，我们专注于并探索了 ActiveJDBC 的基础知识。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/active_jdbc/" /><link rel="prev" href="http://itcodingman.github.io/a_guide_to_java_sockets/" /><link rel="next" href="http://itcodingman.github.io/activeweb/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "ActiveJDBC 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/active_jdbc\/"
+        },"genre": "posts","wordcount":  1490 ,
+        "url": "http:\/\/itcodingman.github.io\/active_jdbc\/","datePublished": "2018-03-29T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在这个快速教程中，我们专注于并探索了 ActiveJDBC 的基础知识。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">ActiveJDBC 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/persistence/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Persistence</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-03-29">2018-03-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1490 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#51-模型">5.1 模型</a></li>
+        <li><a href="#52-连接到数据库">5.2 连接到数据库</a></li>
+        <li><a href="#53-插入记录">5.3. 插入记录</a></li>
+        <li><a href="#54-更新记录">5.4. 更新记录</a></li>
+        <li><a href="#55-删除记录">5.5. 删除记录</a></li>
+        <li><a href="#56-获取记录">5.6. 获取记录</a></li>
+      </ul>
+    </li>
+    <li><a href="#6交易支持">6.交易支持</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>简介</li>
+</ol>
+<hr>
+<p>ActiveJDBC 是一个轻量级的 ORM，它遵循<em>ActiveRecord</em>的核心思想，它是 Ruby on Rails 的主要 ORM。</p>
+<p>它侧重于**通过删除典型持久性管理器的额外层来简化与数据库的交互，**并侧重于 SQL 的使用，而不是创建新的查询语言。</p>
+<p><em>此外，它通过DBSpec</em>类为数据库交互提供了自己的编写单元测试的方式。</p>
+<p>让我们看看这个库与其他流行的 Java ORM 有何不同以及如何使用它。</p>
+<ol start="2">
+<li>ActiveJDBC 与其他 ORM</li>
+</ol>
+<hr>
+<p>与大多数其他 Java ORM 相比，ActiveJDBC 有明显的不同。<strong>它从数据库中推断出 DB 模式参数，从而无需将实体映射到基础表。</strong></p>
+<p><strong>没有会话，没有持久性管理器</strong>，不需要学习新的查询语言，没有 getter/setter。库本身在大小和依赖数量方面很轻。</p>
+<p>该实现鼓励使用在执行测试后由框架清理的测试数据库，从而降低维护测试数据库的成本。</p>
+<p>但是，每当我们创建或更新模型时，都需要一些额外的<a href="http://javalite.io/instrumentation" target="_blank" rel="noopener noreffer">检测步骤。</a>我们将在接下来的部分讨论这个问题。</p>
+<ol start="3">
+<li>设计原则</li>
+</ol>
+<hr>
+<ul>
+<li>从数据库推断元数据</li>
+<li>基于约定的配置</li>
+<li>没有会话，没有“附加，重新附加”</li>
+<li>轻量级模型，简单 POJO</li>
+<li>无代理</li>
+<li>避免Anemic域模型</li>
+<li>不需要 DAO 和 DTO</li>
+</ul>
+<ol start="4">
+<li>设置java包</li>
+</ol>
+<hr>
+<p>使用 MySQL 数据库的典型 Maven 设置包括：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.javalite<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>activejdbc<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.4.13<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>mysql<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>mysql-connector-java<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>5.1.34<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>可以在 Maven 中央存储库中找到最新版本的<a href="https://search.maven.org/classic/#search%7cgav%7c1%7cg%3A%22org.javalite%22%20AND%20a%3A%22activejdbc%22" target="_blank" rel="noopener noreffer">activejdbc</a>和<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22mysql%22%20AND%20a%3A%22mysql-connector-java%22" target="_blank" rel="noopener noreffer">mysql 连接器工件。</a></p>
+<p><strong><a href="http://javalite.io/instrumentation" target="_blank" rel="noopener noreffer">Instrumentation</a>是简化的代价，在处理 ActiveJDBC 项目时需要。</strong></p>
+<p>有一个仪器插件需要在项目中配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.javalite<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>activejdbc-instrumentation<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.4.13<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;phase&gt;</span>process-classes<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>instrument<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>最新的<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.javalite%22%20AND%20a%3A%22activejdbc-instrumentation%22" target="_blank" rel="noopener noreffer">activejdbc-instrumentation</a>插件也可以在 Maven Central 中找到。</p>
+<p>现在，我们可以通过执行以下两个命令之一来处理检测：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">mvn process-classes
+</span></span><span class="line"><span class="cl">mvn activejdbc-instrumentation:instrument
+</span></span></code></pre></div><ol start="5">
+<li>使用 ActiveJDBC</li>
+</ol>
+<hr>
+<h3 id="51-模型">5.1 模型</h3>
+<p>我们可以只用一行代码创建一个简单的模型——它涉及扩展<em>Model</em>类。</p>
+<p>该库使用<a href="http://javalite.io/english_inflections" target="_blank" rel="noopener noreffer">反射</a>来实现名词的复数和单数形式的转换。这可以使用*@Table*注释覆盖。</p>
+<p>让我们看看一个简单的模型是什么样子的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">org.javalite.activejdbc.Model</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Employee</span> <span class="kd">extends</span> <span class="n">Model</span> <span class="o">{}</span>
+</span></span></code></pre></div><h3 id="52-连接到数据库">5.2 连接到数据库</h3>
+<p>提供了两个类——<em>Base</em>和<em>DB</em>——来连接数据库。</p>
+<p>连接数据库的最简单方法是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Base</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="s">&#34;com.mysql.jdbc.Driver&#34;</span><span class="o">,</span> <span class="s">&#34;jdbc:mysql://host/organization&#34;</span><span class="o">,</span> <span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;xxxxx&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>当模型在运行时，它们利用在当前线程中找到的连接。在任何 DB 操作之前，此连接由<em>Base</em>或<em>DB</em>类放在本地线程上。</p>
+<p>上述方法允许使用更简洁的 API，无需像其他 Java ORM 中那样使用 DB Session 或 Persistence 管理器。</p>
+<p>让我们看看如何使用<em>DB</em>类连接到数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">new</span> <span class="n">DB</span><span class="o">(</span><span class="s">&#34;default&#34;</span><span class="o">).</span><span class="na">open</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;com.mysql.jdbc.Driver&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;jdbc:mysql://localhost/dbname&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;root&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;XXXXXX&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>如果我们看看<em>Base</em>和<em>DB</em>用于连接数据库的不同之处，它有助于我们得出结论，如果在单个数据库上操作应该使用<em>Base</em> ，而<em>DB</em>应该与多个数据库一起使用。</p>
+<h3 id="53-插入记录">5.3. 插入记录</h3>
+<p>向数据库中添加记录非常简单。如前所述，不需要 setter 和 getter：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Employee</span> <span class="n">e</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Employee</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;first_name&#34;</span><span class="o">,</span> <span class="s">&#34;Hugo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;last_name&#34;</span><span class="o">,</span> <span class="s">&#34;Choi&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span><span class="o">.</span><span class="na">saveIt</span><span class="o">();</span>
+</span></span></code></pre></div><p>或者，我们可以通过这种方式添加相同的记录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Employee</span> <span class="n">employee</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Employee</span><span class="o">(</span><span class="s">&#34;Hugo&#34;</span><span class="o">,</span><span class="s">&#34;Choi&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">employee</span><span class="o">.</span><span class="na">saveIt</span><span class="o">();</span>
+</span></span></code></pre></div><p>甚至，流利地：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">new</span> <span class="n">Employee</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"> <span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;first_name&#34;</span><span class="o">,</span> <span class="s">&#34;Hugo&#34;</span><span class="o">,</span> <span class="s">&#34;last_name&#34;</span><span class="o">,</span> <span class="s">&#34;Choi&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="o">.</span><span class="na">saveIt</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="54-更新记录">5.4. 更新记录</h3>
+<p>下面的代码片段显示了如何更新记录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Employee</span> <span class="n">employee</span> <span class="o">=</span> <span class="n">Employee</span><span class="o">.</span><span class="na">findFirst</span><span class="o">(</span><span class="s">&#34;first_name = ?&#34;</span><span class="o">,</span> <span class="s">&#34;Hugo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">employee</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;last_name&#34;</span><span class="o">,</span><span class="s">&#34;Choi&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">saveIt</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="55-删除记录">5.5. 删除记录</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Employee</span> <span class="n">e</span> <span class="o">=</span> <span class="n">Employee</span><span class="o">.</span><span class="na">findFirst</span><span class="o">(</span><span class="s">&#34;first_name = ?&#34;</span><span class="o">,</span> <span class="s">&#34;Hugo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">e</span><span class="o">.</span><span class="na">delete</span><span class="o">();</span>
+</span></span></code></pre></div><p>如果需要删除所有记录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Employee</span><span class="o">.</span><span class="na">deleteAll</span><span class="o">();</span>
+</span></span></code></pre></div><p>如果我们想从级联到子表的主表中删除一条记录，请使用<em>deleteCascade</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Employee</span> <span class="n">employee</span> <span class="o">=</span> <span class="n">Employee</span><span class="o">.</span><span class="na">findFirst</span><span class="o">(</span><span class="s">&#34;first_name = ?&#34;</span><span class="o">,</span><span class="s">&#34;Hugo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">employee</span><span class="o">.</span><span class="na">deleteCascade</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="56-获取记录">5.6. 获取记录</h3>
+<p>让我们从数据库中获取一条记录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Employee</span> <span class="n">e</span> <span class="o">=</span> <span class="n">Employee</span><span class="o">.</span><span class="na">findFirst</span><span class="o">(</span><span class="s">&#34;first_name = ?&#34;</span><span class="o">,</span> <span class="s">&#34;Hugo&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>如果我们想获取多条记录，我们可以使用<em>where</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Employee</span><span class="o">&gt;</span> <span class="n">employees</span> <span class="o">=</span> <span class="n">Employee</span><span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="s">&#34;first_name = ?&#34;</span><span class="o">,</span> <span class="s">&#34;Hugo&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="6交易支持">6.交易支持</h2>
+<p>在 Java ORM 中，存在显式连接或管理器对象（JPA 中的 EntityManager、Hibernate 中的 SessionManager 等）。ActiveJDBC 中没有这样的东西。</p>
+<p>调用*Base.open()<em>打开一个连接，将其附加到当前线程，因此所有模型的所有后续方法都重用此连接。调用</em>Base.close()*关闭连接并将其从当前线程中删除。</p>
+<p>为了管理事务，有几个方便的调用：</p>
+<p>开始交易：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Base</span><span class="o">.</span><span class="na">openTransaction</span><span class="o">();</span>
+</span></span></code></pre></div><p>提交事务：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Base</span><span class="o">.</span><span class="na">commitTransaction</span><span class="o">();</span>
+</span></span></code></pre></div><p>回滚事务：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Base</span><span class="o">.</span><span class="na">rollbackTransaction</span><span class="o">();</span>
+</span></span></code></pre></div><ol start="7">
+<li>支持的数据库</li>
+</ol>
+<hr>
+<p>最新版本支持 SQLServer、MySQL、Oracle、PostgreSQL、H2、SQLite3、DB2 等数据库。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/active_jdbc/" data-title="ActiveJDBC 简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/active_jdbc/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/active_jdbc/" data-title="ActiveJDBC 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/active_jdbc/" data-title="ActiveJDBC 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/active_jdbc/" data-title="ActiveJDBC 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/a_guide_to_java_sockets/" class="prev" rel="prev" title="Java 套接字指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Java 套接字指南</a>
+            <a href="/activeweb/" class="next" rel="next" title="ActiveWeb 简介">ActiveWeb 简介<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

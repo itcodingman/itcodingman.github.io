@@ -3,10 +3,18 @@
         <title>Spring Boot - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/spring-boot/</link>
         <description>Spring Boot - Category - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 18 Mar 2020 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/spring-boot/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 21 Jan 2016 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/spring-boot/" rel="self" type="application/rss+xml" /><item>
+    <title>Spring 中的 @Component 与 @Repository 和 @Service</title>
+    <link>http://itcodingman.github.io/spring_component_repository_service/</link>
+    <pubDate>Thu, 21 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_component_repository_service/</guid>
+    <description><![CDATA[1. 简介 在本快速教程中，我们将了解Spring Framework 中*@Component*、@Repository和*@Service*注释之间的区别。 2. Sp]]></description>
+</item>
+<item>
     <title>Spring 和 Spring Boot 的属性</title>
     <link>http://itcodingman.github.io/properties_with_spring/</link>
-    <pubDate>Wed, 18 Mar 2020 00:00:00 &#43;0000</pubDate>
+    <pubDate>Tue, 12 Jan 2016 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/properties_with_spring/</guid>
     <description><![CDATA[1. 概述 本教程将展示如何通过Java配置和*@PropertySource*在 Spring 中设置和使用属性。 我们还将看到属性在 Spring Boot 中是如何工作的。 2. 通过]]></description>

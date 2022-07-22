@@ -3,21 +3,37 @@
         <title>JPA - Tag - Coding Man</title>
         <link>http://itcodingman.github.io/tags/jpa/</link>
         <description>JPA - Tag - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 23 Dec 2020 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/jpa/" rel="self" type="application/rss+xml" /><item>
-    <title>Spring 和 JPA 的事务配置</title>
-    <link>http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/</link>
-    <pubDate>Wed, 23 Dec 2020 00:00:00 &#43;0000</pubDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 19 Feb 2016 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/jpa/" rel="self" type="application/rss+xml" /><item>
+    <title>在 Spring 中使用 Thymeleaf</title>
+    <link>http://itcodingman.github.io/thymeleaf_in_spring_mvc/</link>
+    <pubDate>Fri, 19 Feb 2016 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/</guid>
-    <description><![CDATA[1. 概述 本教程将讨论配置 Spring Transactions 的正确方法、如何使用*@Transactional*注解以及常见的陷阱。 有关核心持久性配置的更深入讨论，请查看Sp]]></description>
+    <guid>http://itcodingman.github.io/thymeleaf_in_spring_mvc/</guid>
+    <description><![CDATA[1. 概述 Thymeleaf是一个 Java 模板引擎，用于处理和创建 HTML、XML、JavaScript、CSS 和文本。 在本教程中，我们将讨论如何在 Spring]]></description>
 </item>
 <item>
     <title>Spring Data JPA 简介</title>
     <link>http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/</link>
-    <pubDate>Wed, 09 Dec 2020 00:00:00 &#43;0000</pubDate>
+    <pubDate>Thu, 18 Feb 2016 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/</guid>
     <description><![CDATA[1. 概述 本教程将重点**介绍将 Spring Data JPA 引入 Spring 项目，**并全面配置持久层。有关使用基于 Java 的配置和项目的基本 Maven pom 设置 Spring 上下文的分步介绍，请参阅本文。]]></description>
+</item>
+<item>
+    <title>了解 Spring 中的 getBean()</title>
+    <link>http://itcodingman.github.io/spring_getbean/</link>
+    <pubDate>Thu, 28 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_getbean/</guid>
+    <description><![CDATA[1. 简介 在本教程中，我们将介绍*BeanFactory.getBean()*方法的不同变体。 简单地说，正如该方法的名称所暗示的，它负责从 Spring 容器]]></description>
+</item>
+<item>
+    <title>Spring Data Cassandra简介</title>
+    <link>http://itcodingman.github.io/spring_data_cassandra_tutorial/</link>
+    <pubDate>Tue, 26 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_data_cassandra_tutorial/</guid>
+    <description><![CDATA[1. 概述 本文是使用 Spring Data 使用 Cassandra 的实用介绍。 我们将从基础开始，通过配置和编码，最终构建一个完整的 Spring Data Cassandra 模块。 2. Maven依赖 让我们首先使用 Mave]]></description>
 </item>
 </channel>
 </rss>

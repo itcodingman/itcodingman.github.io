@@ -1,0 +1,87 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Spring Annotations - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/spring-annotations/</link>
+        <description>Spring Annotations - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 13 Feb 2016 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/spring-annotations/" rel="self" type="application/rss+xml" /><item>
+    <title>使用带有默认值的 Spring @Value</title>
+    <link>http://itcodingman.github.io/spring_value_defaults/</link>
+    <pubDate>Sat, 13 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_value_defaults/</guid>
+    <description><![CDATA[1. 概述 Spring 的*@Value*注解提供了一种将属性值注入组件的便捷方式。为可能不存在属性的情况提供合理的默认值也非常有用。 这就是我们将在本教程中]]></description>
+</item>
+<item>
+    <title>Spring 的 @RequestBody 和 @ResponseBody 注解</title>
+    <link>http://itcodingman.github.io/spring_request_response_body/</link>
+    <pubDate>Wed, 10 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_request_response_body/</guid>
+    <description><![CDATA[1. 简介 在这个快速教程中，我们简要概述了 Spring @RequestBody和*@ResponseBody*注释。 2. @RequestBody 简单地说，@RequestBody]]></description>
+</item>
+<item>
+    <title>Spring @RequestParam 注解</title>
+    <link>http://itcodingman.github.io/spring_request_param/</link>
+    <pubDate>Tue, 09 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_request_param/</guid>
+    <description><![CDATA[1. 概述 在这个快速教程中，我们将探索 Spring 的*@RequestParam*注解及其属性。 简单来说，我们可以使用@RequestParam*从请求中]]></description>
+</item>
+<item>
+    <title>Spring请求映射</title>
+    <link>http://itcodingman.github.io/spring_requestmapping/</link>
+    <pubDate>Mon, 08 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_requestmapping/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将关注Spring MVC 中的主要注解之一：@RequestMapping。 简单来说，注解就是用来将 web 请求映射到 Spring Controller 方法上的]]></description>
+</item>
+<item>
+    <title>Spring MVC 中的表单入门</title>
+    <link>http://itcodingman.github.io/spring_mvc_form_tutorial/</link>
+    <pubDate>Tue, 02 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_mvc_form_tutorial/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将讨论 Spring 表单和与控制器的数据绑定。此外，我们将看看Spring MVC中的主要注释之一，即*@ModelAttribute]]></description>
+</item>
+<item>
+    <title>Spring Web 注释</title>
+    <link>http://itcodingman.github.io/spring_mvc_annotations/</link>
+    <pubDate>Mon, 01 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_mvc_annotations/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将探索org.springframework.web.bind.annotation包中的 Spring Web 注释。 2. @RequestMapping 简单地说，@R]]></description>
+</item>
+<item>
+    <title>JPA 和 Spring 的 DAO</title>
+    <link>http://itcodingman.github.io/spring_dao_jpa/</link>
+    <pubDate>Sun, 24 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_dao_jpa/</guid>
+    <description><![CDATA[1. 概述 本文将展示如何使用 Spring 和 JPA 实现 DAO。有关核心 JPA 配置，请参阅有关 JPA with Spring 的文章。 2. 不再有 Spring 模板 从 Spring 3.1 开始，已弃用JpaTemplate和相]]></description>
+</item>
+<item>
+    <title>Spring 核心注解</title>
+    <link>http://itcodingman.github.io/spring_core_annotations/</link>
+    <pubDate>Sat, 23 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_core_annotations/</guid>
+    <description><![CDATA[1. 概述 我们可以使用org.springframework.beans.factory.annotation 和 org.springframew]]></description>
+</item>
+<item>
+    <title>Spring @Controller 和 @RestController 注解</title>
+    <link>http://itcodingman.github.io/spring_controller_vs_restcontroller/</link>
+    <pubDate>Fri, 22 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_controller_vs_restcontroller/</guid>
+    <description><![CDATA[1. 概述 在这个简短的教程中，我们将讨论Spring MVC 中*@Controller和@RestController*注解之间的区别。 我们可以将第一]]></description>
+</item>
+<item>
+    <title>Spring Bean 范围快速指南</title>
+    <link>http://itcodingman.github.io/spring_bean_scopes/</link>
+    <pubDate>Tue, 19 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_bean_scopes/</guid>
+    <description><![CDATA[1. 概述 在这个快速教程中，我们将了解 Spring 框架中不同类型的 bean 作用域。bean 的范围定义了该 bean 在我们使用它的上下文中的生命周期和可见性。最新版本的 Spring]]></description>
+</item>
+</channel>
+</rss>

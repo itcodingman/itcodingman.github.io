@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Spring Data REST - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/spring-data-rest/</link>
+        <description>Spring Data REST - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 13 Apr 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/spring-data-rest/" rel="self" type="application/rss+xml" /><item>
+    <title>带有 Spring Data REST 的 AngularJS CRUD 应用程序</title>
+    <link>http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/</link>
+    <pubDate>Fri, 13 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将创建一个简单的 CRUD 应用程序示例，使用 AngularJS 作为前端，使用 Spring Data REST 作为后端。 2. 创建 REST 数据服务 为了创建对持久性的支持，我们将使用]]></description>
+</item>
+</channel>
+</rss>

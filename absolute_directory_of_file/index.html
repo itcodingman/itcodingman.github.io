@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>在 Linux 中获取文件的绝对目录 - Coding Man</title><meta name="Description" content="在本教程中，我们查看了readlink和dirname命令以及如何使用它们分别获取相对路径的绝对路径和包含路径的目录。"><meta property="og:title" content="在 Linux 中获取文件的绝对目录" />
+<meta property="og:description" content="在本教程中，我们查看了readlink和dirname命令以及如何使用它们分别获取相对路径的绝对路径和包含路径的目录。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/absolute_directory_of_file/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2016-02-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在 Linux 中获取文件的绝对目录"/>
+<meta name="twitter:description" content="在本教程中，我们查看了readlink和dirname命令以及如何使用它们分别获取相对路径的绝对路径和包含路径的目录。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/absolute_directory_of_file/" /><link rel="prev" href="http://itcodingman.github.io/aborting_shell_script/" /><link rel="next" href="http://itcodingman.github.io/add_column_of_numbers/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "在 Linux 中获取文件的绝对目录",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/absolute_directory_of_file\/"
+        },"genre": "posts","keywords": "dirname, readlink","wordcount":  1295 ,
+        "url": "http:\/\/itcodingman.github.io\/absolute_directory_of_file\/","datePublished": "2016-02-23T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们查看了readlink和dirname命令以及如何使用它们分别获取相对路径的绝对路径和包含路径的目录。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">在 Linux 中获取文件的绝对目录</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/files/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Files</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2016-02-23">2016-02-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1295 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#2先决条件">2.先决条件</a>
+      <ul>
+        <li><a href="#21-readlink">2.1 <em>readlink</em></a></li>
+        <li><a href="#22-dirname">2.2 <em>dirname</em></a></li>
+      </ul>
+    </li>
+    <li><a href="#3文件的绝对目录">3.文件的绝对目录</a>
+      <ul>
+        <li><a href="#31-xargs">3.1 <em>xargs</em></a></li>
+        <li><a href="#32-命令替换">3.2 命令替换</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>简介</li>
+</ol>
+<hr>
+<p>在本教程中，我们将了解如何使用两种常见的 Linux 文件系统工具获取给定文件的绝对目录。</p>
+<h2 id="2先决条件">2.先决条件</h2>
+<p>不幸的是，目前没有一个命令可以获取文件的绝对目录。相反，我们必须将操作分成两部分，使用一个命令的输出作为另一个命令的输入。</p>
+<h3 id="21-readlink">2.1 <em>readlink</em></h3>
+<p>要获取文件的完整路径，我们使用<a href="https://linux.die.net/man/1/readlink" target="_blank" rel="noopener noreffer"><em>readlink</em></a>命令。<em>readlink</em>打印符号链接的绝对路径，但作为副作用，<strong>它还打印相对路径的绝对路径</strong>。</p>
+<p>例如，假设我们有以下目录结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">/
+</span></span><span class="line"><span class="cl">└── home/
+</span></span><span class="line"><span class="cl">    └── example/
+</span></span><span class="line"><span class="cl">        ├── foo/
+</span></span><span class="line"><span class="cl">        |   └── file.txt
+</span></span><span class="line"><span class="cl">        └── link -&gt; foo/
+</span></span></code></pre></div><p>我们使用*-f<em>标志来规范化相对路径或符号链接的路径。因此，如果我们将目录更改为</em>/home/example/*，我们可以执行以下任何命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">readlink -f foo/file.txt
+</span></span><span class="line"><span class="cl">readlink -f link/file.txt
+</span></span><span class="line"><span class="cl">readlink -f ./foo/file.txt
+</span></span><span class="line"><span class="cl">readlink -f ../example/foo/file.txt
+</span></span></code></pre></div><p>这些命令将输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/home/example/foo/file.txt
+</span></span></code></pre></div><p>对于第一个命令，<em>readlink</em>将*foo/<em>的相对路径解析为</em>/home/example/foo/*的绝对路径。</p>
+<p>在第二种情况下，<em>readlink</em>将*link/*的符号链接解析为相同的绝对路径。</p>
+<p>对于最后两个命令，<em>readlink</em>将相对路径规范化并解析为与前面示例相同的绝对路径。</p>
+<p>请注意，<em>-f</em>标志要求除了提供的路径中的最后一个组件（在我们的例子中为<em>file.txt</em>）之外的所有组件都必须存在。如果路径不存在，则不返回任何输出。例如，执行<em>readlink -f bar/file.txt</em>将不会产生任何输出，因为<em>bar/<em>目录不存在。相反，执行</em>readlink -f foo/other.txt</em>将返回*/home/example/foo/other.txt*，因为除了最终组件之外的所有组件都存在。</p>
+<p>相反，如果我们不关心提供的路径中是否存在任何组件，我们可以使用*-m标志。<em>同样，如果我们希望提供的路径中的所有组件都存在，我们可以使用</em>-e标志。*</p>
+<h3 id="22-dirname">2.2 <em>dirname</em></h3>
+<p>第二个先决条件是<a href="https://linux.die.net/man/1/dirname" target="_blank" rel="noopener noreffer"><em>dirname</em></a>命令，它打印包含提供的路径的目录。</p>
+<p>如果我们提供一个目录，<em>dirname</em>会输出包含该目录的路径。例如，我们可以执行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dirname /home/example/foo/
+</span></span></code></pre></div><p>这将产生：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/home/example
+</span></span></code></pre></div><p>请注意，<em>dirname</em>会打印绝对目录，因为我们提供了绝对路径。如果我们将目录更改为*/home/<em>并执行</em>dirname example/foo/<em>，<em>dirname</em>将输出</em>example*。通常，<strong>如果提供了相对路径，则<em>dirname</em>将输出一个相对目录，如果提供了绝对路径，则<em>dirname</em>将输出一个绝对目录</strong>。</p>
+<p>提供文件时，<em>dirname</em>输出包含该文件的路径。例如，我们可以执行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dirname foo/file.txt
+</span></span></code></pre></div><p>这将产生：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">foo
+</span></span></code></pre></div><h2 id="3文件的绝对目录">3.文件的绝对目录</h2>
+<p>要获取文件的绝对目录，我们结合使用<em>readlink</em>和<em>dirname</em>命令。我们可以通过以下两种方式之一来做到这一点。</p>
+<h3 id="31-xargs">3.1 <em>xargs</em></h3>
+<p>首先，我们可以使用<a href="https://linux.die.net/man/1/xargs" target="_blank" rel="noopener noreffer"><em>xargs</em></a>命令，它将输入转换为所提供命令的参数。通过将<em>readlink</em>的输出传送到<em>xargs</em>并将命令<em>dirname</em>作为参数提供给<em>xargs</em>，我们可以获得这个所需的绝对目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">readlink -f foo/file.txt <span class="p">|</span> xargs dirname
+</span></span></code></pre></div><p>这导致：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">/home/example/foo
+</span></span></code></pre></div><h3 id="32-命令替换">3.2 命令替换</h3>
+<p>类似地，我们可以使用<a href="https://www.gnu.org/software/bash/manual/html_node/Command-Substitution.html" target="_blank" rel="noopener noreffer">命令替换</a>- <em>$(command)</em> - 在子 shell 中执行命令，并且该命令的输出替换它的调用。因此，我们可以执行以下操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dirname <span class="k">$(</span>readlink -f foo/file.txt<span class="k">)</span>
+</span></span></code></pre></div><p>此命令导致：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">/home/example/foo
+</span></span></code></pre></div><p>等效地，我们也可以执行以下命令，并且输出将保持不变：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dirname <span class="sb">`</span>readlink -f foo/file.txt<span class="sb">`</span>
+</span></span></code></pre></div><p>请注意，<strong>命令替换适用于 bash，但不一定适用于其他 shell。</strong>
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/absolute_directory_of_file/" data-title="在 Linux 中获取文件的绝对目录" data-hashtags="dirname,readlink"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/absolute_directory_of_file/" data-hashtag="dirname"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/absolute_directory_of_file/" data-title="在 Linux 中获取文件的绝对目录"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/absolute_directory_of_file/" data-title="在 Linux 中获取文件的绝对目录"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/absolute_directory_of_file/" data-title="在 Linux 中获取文件的绝对目录"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/dirname/">dirname</a>,&nbsp;<a href="/tags/readlink/">readlink</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/aborting_shell_script/" class="prev" rel="prev" title="如果任何命令失败则中止 Shell 脚本"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>如果任何命令失败则中止 Shell 脚本</a>
+            <a href="/add_column_of_numbers/" class="next" rel="next" title="如何在 Bash 中添加一列数字">如何在 Bash 中添加一列数字<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

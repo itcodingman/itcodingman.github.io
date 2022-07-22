@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Apache CXF - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/apache-cxf/</link>
+        <description>Apache CXF - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 04 Apr 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/apache-cxf/" rel="self" type="application/rss+xml" /><item>
+    <title>Apache CXF Aegis 数据绑定简介</title>
+    <link>http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/</link>
+    <pubDate>Wed, 04 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/</guid>
+    <description><![CDATA[1. 概述 本教程介绍了Aegis数据绑定，这是一个可以在 Java 对象和 XML 模式描述的 XML 文档之间映射的子系统。Aegis 允许对映射过程进行详细控制，同时将]]></description>
+</item>
+</channel>
+</rss>

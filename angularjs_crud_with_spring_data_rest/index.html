@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>带有 Spring Data REST 的 AngularJS CRUD 应用程序 - Coding Man</title><meta name="Description" content="在本教程中，我们展示了如何使用*AngularJS*和*Spring Data REST*规范创建 CRUD 应用程序。"><meta property="og:title" content="带有 Spring Data REST 的 AngularJS CRUD 应用程序" />
+<meta property="og:description" content="在本教程中，我们展示了如何使用*AngularJS*和*Spring Data REST*规范创建 CRUD 应用程序。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="带有 Spring Data REST 的 AngularJS CRUD 应用程序"/>
+<meta name="twitter:description" content="在本教程中，我们展示了如何使用*AngularJS*和*Spring Data REST*规范创建 CRUD 应用程序。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/" /><link rel="prev" href="http://itcodingman.github.io/angular_js_rest_api/" /><link rel="next" href="http://itcodingman.github.io/ant_maven_gradle/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "带有 Spring Data REST 的 AngularJS CRUD 应用程序",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/angularjs_crud_with_spring_data_rest\/"
+        },"genre": "posts","keywords": "Spring Data REST","wordcount":  2548 ,
+        "url": "http:\/\/itcodingman.github.io\/angularjs_crud_with_spring_data_rest\/","datePublished": "2018-04-13T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们展示了如何使用*AngularJS*和*Spring Data REST*规范创建 CRUD 应用程序。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">带有 Spring Data REST 的 AngularJS CRUD 应用程序</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/rest/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>REST</a>&nbsp;<a href="/categories/spring-data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-13">2018-04-13</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2548 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-创建-rest-数据服务"><strong>2. 创建 REST 数据服务</strong></a>
+      <ul>
+        <li><a href="#21-collection资源"><strong>2.1 Collection资源</strong></a></li>
+        <li><a href="#22-item资源"><strong>2.2. Item资源</strong></a></li>
+        <li><a href="#23-mvc-配置"><strong>2.3. MVC 配置</strong></a></li>
+        <li><a href="#24-允许跨域请求"><strong>2.4. 允许跨域请求</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-创建-angularjs-客户端"><strong>3. 创建 AngularJS 客户端</strong></a>
+      <ul>
+        <li><a href="#31-angular服务"><strong>3.1 Angular服务</strong></a></li>
+        <li><a href="#32-angular控制器"><strong>3.2. Angular控制器</strong></a></li>
+        <li><a href="#33-网页"><strong>3.3. 网页</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本教程中，我们将创建一个简单的 CRUD 应用程序示例，使用 AngularJS 作为前端，使用 Spring Data REST 作为后端。</p>
+<h2 id="2-创建-rest-数据服务"><strong>2. 创建 REST 数据服务</strong></h2>
+<p>为了创建对持久性的支持，我们将使用 Spring Data REST 规范，该规范将使我们能够对数据模型执行 CRUD 操作。</p>
+<p><a href="/spring-data-rest-intro" rel="">您可以在Spring Data REST 简介</a>中找到有关如何设置 REST 端点的所有必要信息。在本文中，我们将重用我们为介绍教程设置的现有项目。</p>
+<p>对于持久性，我们将使用内存数据库中的<em>H2</em>。</p>
+<p>作为数据模型，上一篇文章定义了一个<em>WebsiteUser</em>类，具有<em>id</em>、<em>name</em>和<em>email</em>属性以及一个名为<em>UserRepository</em>的存储库接口。</p>
+<p>定义此接口指示 Spring 创建对公开 REST 集合资源和项目资源的支持。现在让我们仔细看看我们稍后将从<em>AngularJS</em>调用的端点。</p>
+<h3 id="21-collection资源"><strong>2.1 Collection资源</strong></h3>
+<p>我们将在端点*/users*处获得所有用户的列表。可以使用 GET 方法调用此 URL，并将返回以下形式的 JSON 对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;_embedded&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;users&#34;</span> <span class="o">:</span> <span class="o">[</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;name&#34;</span> <span class="o">:</span> <span class="s">&#34;Bryan&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;age&#34;</span> <span class="o">:</span> <span class="n">20</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;_links&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;self&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s">&#34;href&#34;</span> <span class="o">:</span> <span class="s">&#34;http://localhost:8080/users/1&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">},</span>
+</span></span><span class="line"><span class="cl">        <span class="s">&#34;User&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s">&#34;href&#34;</span> <span class="o">:</span> <span class="s">&#34;http://localhost:8080/users/1&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">},</span> 
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span><span class="line"><span class="cl">    <span class="o">]</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="22-item资源"><strong>2.2. Item资源</strong></h3>
+<p>可以通过使用不同的 HTTP 方法和请求有效负载访问*/users/{userID}<em>形式的 URL 来操作单个</em>WebsiteUser对象。*</p>
+<p>为了检索<em>WebsiteUser</em>对象，我们可以使用GET 方法访问*/users/{userID} 。*这将返回以下形式的 JSON 对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;name&#34;</span> <span class="o">:</span> <span class="s">&#34;Bryan&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;email&#34;</span> <span class="o">:</span> <span class="s">&#34;[[email protected]](cdn-cgi/l/email-protection)&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;_links&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;self&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;href&#34;</span> <span class="o">:</span> <span class="s">&#34;http://localhost:8080/users/1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">},</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;User&#34;</span> <span class="o">:</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;href&#34;</span> <span class="o">:</span> <span class="s">&#34;http://localhost:8080/users/1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>要添加新的<em>WebsiteUser</em>，我们需要使用 POST 方法调用*/users* 。新的<em>WebsiteUser</em>记录的属性将作为 JSON 对象添加到请求正文中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">script</span> <span class="n">data</span><span class="o">-</span><span class="n">cfasync</span><span class="o">=</span><span class="s">&#34;false&#34;</span> <span class="n">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span><span class="n">name</span><span class="o">:</span> <span class="s">&#34;Bryan&#34;</span><span class="o">,</span> <span class="n">email</span><span class="o">:</span> <span class="s">&#34;[[email protected]](cdn-cgi/l/email-protection)&#34;</span><span class="o">}</span>
+</span></span></code></pre></div><p>如果没有错误，此 URL 将返回状态代码 201 CREATED。</p>
+<p>如果我们想更新<em>WebsiteUser</em>记录的属性，我们需要使用 PATCH 方法和包含新值的请求正文调用 URL <em>/users/{UserID} ：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">{</span><span class="n">name</span><span class="o">:</span> <span class="s">&#34;Bryan&#34;</span><span class="o">,</span> <span class="n">email</span><span class="o">:</span> <span class="s">&#34;[[email protected]](cdn-cgi/l/email-protection)&#34;</span><span class="o">}</span>
+</span></span></code></pre></div><p>要删除<em>WebsiteUser</em>记录，我们可以使用 DELETE 方法调用 URL */users/{UserID} 。*如果没有错误，则返回状态码 204 NO CONTENT。</p>
+<h3 id="23-mvc-配置"><strong>2.3. MVC 配置</strong></h3>
+<p>我们还将添加一个基本的 MVC 配置以在我们的应用程序中显示 html 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@EnableWebMvc</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MvcConfig</span> <span class="kd">implements</span> <span class="n">WebMvcConfigurer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MvcConfig</span><span class="o">(){</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">super</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureDefaultServletHandling</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">DefaultServletHandlerConfigurer</span> <span class="n">configurer</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">configurer</span><span class="o">.</span><span class="na">enable</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl">   <span class="n">WebServerFactoryCustomizer</span><span class="o">&lt;</span><span class="n">ConfigurableServletWebServerFactory</span><span class="o">&gt;</span> <span class="nf">enableDefaultServlet</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="o">(</span><span class="n">factory</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">factory</span><span class="o">.</span><span class="na">setRegisterDefaultServlet</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">   <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="24-允许跨域请求"><strong>2.4. 允许跨域请求</strong></h3>
+<p>如果我们想将<em>AngularJS</em>前端应用程序与 REST API 分开部署——那么我们需要启用跨域请求。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">data-cfasync</span><span class="o">=</span><span class="s">&#34;false&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text/javascript&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>Spring Data REST 从版本 1.5.0.RELEASE 开始添加了对此的支持。要允许来自不同域的请求，您只需将*@CrossOrigin*注释添加到存储库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@CrossOrigin</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@RepositoryRestResource</span><span class="o">(</span><span class="n">collectionResourceRel</span> <span class="o">=</span> <span class="s">&#34;users&#34;</span><span class="o">,</span> <span class="n">path</span> <span class="o">=</span> <span class="s">&#34;users&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="n">CrudRepository</span><span class="o">&lt;</span><span class="n">WebsiteUser</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{}</span>
+</span></span></code></pre></div><p>因此，在来自 REST 端点的每个响应中，都会添加一个<em>Access-Control-Allow-Origin标头。</em></p>
+<h2 id="3-创建-angularjs-客户端"><strong>3. 创建 AngularJS 客户端</strong></h2>
+<p>为了创建我们的 CRUD 应用程序的前端，我们将使用*AngularJS——*一个众所周知的 JavaScript 框架，它简化了前端应用程序的创建。</p>
+<p>为了使用<em>AngularJS</em>，我们首先需要在我们的 html 页面中包含<em>angular.min.js</em>文件，该文件将被称为<em>users.html</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> 
+</span></span><span class="line"><span class="cl">  <span class="na">src</span><span class="o">=</span><span class="s">&#34;https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>接下来，我们需要创建一个 Angular 模块、控制器和服务，它们将调用 REST 端点并显示返回的数据。</p>
+<p>这些将被放置在一个名为<em>app.js</em>的 JavaScript 文件中，该文件也需要包含在<em>users.html</em>页面中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;view/app.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="31-angular服务"><strong>3.1 Angular服务</strong></h3>
+<p>首先，让我们创建一个名为<em>UserCRUDService</em>的 Angular 服务，它将利用注入的<em>AngularJS</em>  <em>$http</em>服务来调用服务器。每个调用都将放在一个单独的方法中。</p>
+<p>让我们看一下使用*/users/{userID}*端点定义通过 id 检索用户的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">app</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">&#39;UserCRUDService&#39;</span><span class="p">,</span> <span class="p">[</span> <span class="s1">&#39;$http&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="nx">getUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">getUser</span><span class="p">(</span><span class="nx">userId</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nx">$http</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">method</span> <span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">url</span> <span class="o">:</span> <span class="s1">&#39;users/&#39;</span> <span class="o">+</span> <span class="nx">userId</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="p">]);</span>
+</span></span></code></pre></div><p>接下来，让我们定义<em>addUser方法，该方法向**/users</em> URL 发出POST 请求，并在<em>data</em>属性中发送用户值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="k">this</span><span class="p">.</span><span class="nx">addUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">addUser</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">$http</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">method</span> <span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">url</span> <span class="o">:</span> <span class="s1">&#39;users&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">data</span> <span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">name</span> <span class="o">:</span> <span class="nx">name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">email</span><span class="o">:</span> <span class="nx">email</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p><em>updateUser</em>方法与上面的方法类似，不同之处在于它将有一个<em>id</em>参数并发出 PATCH 请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="k">this</span><span class="p">.</span><span class="nx">updateUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">updateUser</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">email</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">$http</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">method</span> <span class="o">:</span> <span class="s1">&#39;PATCH&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">url</span> <span class="o">:</span> <span class="s1">&#39;users/&#39;</span> <span class="o">+</span> <span class="nx">id</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">data</span> <span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">name</span> <span class="o">:</span> <span class="nx">name</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">email</span><span class="o">:</span> <span class="nx">email</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>删除<em>WebsiteUser</em>记录的方法会发出 DELETE 请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="k">this</span><span class="p">.</span><span class="nx">deleteUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">deleteUser</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">$http</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">method</span> <span class="o">:</span> <span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">url</span> <span class="o">:</span> <span class="s1">&#39;users/&#39;</span> <span class="o">+</span> <span class="nx">id</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>最后，让我们看一下检索整个用户列表的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="k">this</span><span class="p">.</span><span class="nx">getAllUsers</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">getAllUsers</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">$http</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">method</span> <span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">url</span> <span class="o">:</span> <span class="s1">&#39;users&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>所有这些服务方法都将由<em>AngularJS</em>控制器调用。</p>
+<h3 id="32-angular控制器"><strong>3.2. Angular控制器</strong></h3>
+<p>我们将创建一个<em>UserCRUDCtrl</em>  <em>AngularJS</em>控制器，该控制器将注入一个<em>UserCRUDService</em>并使用服务方法从服务器获取响应，处理<em>成功</em>和<em>错误</em>情况，并设置包含响应数据的*$scope*变量以在 HTML 页面中显示它.</p>
+<p>我们看一下调用<em>getUser(userId)服务函数的getUser(</em> <em>)<em>函数，定义了成功和错误的两个回调方法。如果服务器请求成功，则将响应保存在</em>用户</em>变量中；否则，将处理错误消息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">app</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;UserCRUDCtrl&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span><span class="s1">&#39;UserCRUDService&#39;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">function</span> <span class="p">(</span><span class="nx">$scope</span><span class="p">,</span><span class="nx">UserCRUDService</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">$scope</span><span class="p">.</span><span class="nx">getUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">UserCRUDService</span><span class="p">.</span><span class="nx">getUser</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="nx">success</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">id</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    	    <span class="kd">function</span> <span class="nx">error</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">404</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;User not found!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s2">&#34;Error getting user!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">});</span>
+</span></span><span class="line"><span class="cl">      <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">}]);</span>
+</span></span></code></pre></div><p>*addUser()*函数将调用相应的服务函数并处理响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">$scope</span><span class="p">.</span><span class="nx">addUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">UserCRUDService</span><span class="p">.</span><span class="nx">addUser</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">          <span class="p">.</span><span class="nx">then</span> <span class="p">(</span><span class="kd">function</span> <span class="nx">success</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;User added!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="p">},</span>
+</span></span><span class="line"><span class="cl">          <span class="kd">function</span> <span class="nx">error</span><span class="p">(</span><span class="nx">response</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;Error adding user!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">              <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;Please enter a name!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>*updateUser()<em>和</em>deleteUser()*函数与上面的函数类似：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">$scope</span><span class="p">.</span><span class="nx">updateUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">UserCRUDService</span><span class="p">.</span><span class="nx">updateUser</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">email</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="nx">success</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;User data updated!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">function</span> <span class="nx">error</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;Error updating user!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">$scope</span><span class="p">.</span><span class="nx">deleteUser</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">UserCRUDService</span><span class="p">.</span><span class="nx">deleteUser</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">      <span class="p">.</span><span class="nx">then</span> <span class="p">(</span><span class="kd">function</span> <span class="nx">success</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="s1">&#39;User deleted!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">User</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">function</span> <span class="nx">error</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;Error deleting user!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>最后，让我们定义检索用户列表并将其存储在<em>users</em>变量中的函数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">$scope</span><span class="p">.</span><span class="nx">getAllUsers</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">UserCRUDService</span><span class="p">.</span><span class="nx">getAllUsers</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="nx">success</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">users</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">_embedded</span><span class="p">.</span><span class="nx">users</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">function</span> <span class="nx">error</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">message</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">          <span class="nx">$scope</span><span class="p">.</span><span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">&#39;Error getting users!&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="33-网页"><strong>3.3. 网页</strong></h3>
+<p>users.html页面将使用上一节中定义的控制器函数和存储的变量*。*</p>
+<p>首先，为了使用 Angular 模块，我们需要设置<em>ng-app</em>属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">ng-app</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>然后，为了避免每次使用控制器的函数时都输入<em>UserCRUDCtrl.getUser()</em>，我们可以将 HTML 元素包装在一个带有<em>ng-controller</em>属性集的<em>div中：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">ng-controller</span><span class="o">=</span><span class="s">&#34;UserCRUDCtrl&#34;</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>让我们创建一个表单来输入和显示我们想要操作的<em>WebiteUser对象的值。<em>其中每一个都有一个</em>ng-model</em>属性集，它将它绑定到属性的值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">td</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;100&#34;</span><span class="p">&gt;</span>ID:<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;id&#34;</span> <span class="na">ng-model</span><span class="o">=</span><span class="s">&#34;user.id&#34;</span> <span class="p">/&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">td</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;100&#34;</span><span class="p">&gt;</span>Name:<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;name&#34;</span> <span class="na">ng-model</span><span class="o">=</span><span class="s">&#34;user.name&#34;</span> <span class="p">/&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">td</span> <span class="na">width</span><span class="o">=</span><span class="s">&#34;100&#34;</span><span class="p">&gt;</span>Age:<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;text&#34;</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;age&#34;</span> <span class="na">ng-model</span><span class="o">=</span><span class="s">&#34;user.email&#34;</span> <span class="p">/&gt;&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>例如，将<em>id</em>输入绑定到<em>user.id</em>变量意味着每当输入的值发生更改时，都会在<em>user.id</em>变量中设置该值，反之亦然。</p>
+<p>接下来，让我们使用<em>ng-click</em>属性来定义将触发调用定义的每个 CRUD 控制器函数的链接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">ng-click</span><span class="o">=</span><span class="s">&#34;getUser(user.id)&#34;</span><span class="p">&gt;</span>Get User<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">ng-click</span><span class="o">=</span><span class="s">&#34;updateUser(user.id,user.name,user.email)&#34;</span><span class="p">&gt;</span>Update User<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">ng-click</span><span class="o">=</span><span class="s">&#34;addUser(user.name,user.email)&#34;</span><span class="p">&gt;</span>Add User<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">ng-click</span><span class="o">=</span><span class="s">&#34;deleteUser(user.id)&#34;</span><span class="p">&gt;</span>Delete User<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>最后，让我们按名称完整显示用户列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">ng-click</span><span class="o">=</span><span class="s">&#34;getAllUsers()&#34;</span><span class="p">&gt;</span>Get all Users<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">ng-repeat</span><span class="o">=</span><span class="s">&#34;usr in users&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">{{usr.name}} {{usr.email}}
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/" data-title="带有 Spring Data REST 的 AngularJS CRUD 应用程序" data-hashtags="Spring Data REST"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/" data-hashtag="Spring Data REST"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/" data-title="带有 Spring Data REST 的 AngularJS CRUD 应用程序"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/" data-title="带有 Spring Data REST 的 AngularJS CRUD 应用程序"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/" data-title="带有 Spring Data REST 的 AngularJS CRUD 应用程序"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/spring-data-rest/">Spring Data REST</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/angular_js_rest_api/" class="prev" rel="prev" title="用于 REST API 的简单 AngularJS 前端"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>用于 REST API 的简单 AngularJS 前端</a>
+            <a href="/ant_maven_gradle/" class="next" rel="next" title="Ant vs Maven vs Gradle">Ant vs Maven vs Gradle<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -1,0 +1,87 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Spring MVC Basics - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/spring-mvc-basics/</link>
+        <description>Spring MVC Basics - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 20 Feb 2016 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/spring-mvc-basics/" rel="self" type="application/rss+xml" /><item>
+    <title>Spring 和 JPA 的事务配置</title>
+    <link>http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/</link>
+    <pubDate>Sat, 20 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/transaction_configuration_with_jpa_and_spring/</guid>
+    <description><![CDATA[1. 概述 本教程将讨论配置 Spring Transactions 的正确方法、如何使用*@Transactional*注解以及常见的陷阱。 有关核心持久性配置的更深入讨论，请查看Sp]]></description>
+</item>
+<item>
+    <title>使用 Maven 的 Spring 安全性</title>
+    <link>http://itcodingman.github.io/spring_security_with_maven/</link>
+    <pubDate>Thu, 11 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_security_with_maven/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将解释如何**使用 Maven 设置 Spring Security，**并介绍使用 Spring Security 依赖项的特定用例。您可以在 Maven Central 上找到最新的 Spring Security 版本。 这是上]]></description>
+</item>
+<item>
+    <title>Spring 的 @RequestBody 和 @ResponseBody 注解</title>
+    <link>http://itcodingman.github.io/spring_request_response_body/</link>
+    <pubDate>Wed, 10 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_request_response_body/</guid>
+    <description><![CDATA[1. 简介 在这个快速教程中，我们简要概述了 Spring @RequestBody和*@ResponseBody*注释。 2. @RequestBody 简单地说，@RequestBody]]></description>
+</item>
+<item>
+    <title>Spring请求映射</title>
+    <link>http://itcodingman.github.io/spring_requestmapping/</link>
+    <pubDate>Mon, 08 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_requestmapping/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将关注Spring MVC 中的主要注解之一：@RequestMapping。 简单来说，注解就是用来将 web 请求映射到 Spring Controller 方法上的]]></description>
+</item>
+<item>
+    <title>Spring 中的 Profiles</title>
+    <link>http://itcodingman.github.io/spring_profiles/</link>
+    <pubDate>Sat, 06 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_profiles/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将重点介绍 Spring 中的 Profiles。 配置文件是框架的核心特性——允许我们将 bean 映射到不同的配置文件——例如dev、test]]></description>
+</item>
+<item>
+    <title>Spring MVC 中的 ViewResolver 指南</title>
+    <link>http://itcodingman.github.io/spring_mvc_view_resolver_tutorial/</link>
+    <pubDate>Fri, 05 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_mvc_view_resolver_tutorial/</guid>
+    <description><![CDATA[1. 概述 所有 MVC 框架都提供了一种处理视图的方法。 Spring 通过视图解析器做到这一点，这使您能够在浏览器中呈现模型，而无需将实现绑定到特定的视图技术。 Vi]]></description>
+</item>
+<item>
+    <title>Spring MVC 教程</title>
+    <link>http://itcodingman.github.io/spring_mvc_tutorial/</link>
+    <pubDate>Thu, 04 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_mvc_tutorial/</guid>
+    <description><![CDATA[1. 概述 这是一个简单的Spring MVC 教程，展示了如何使用基于 Java 的配置以及 XML 配置来设置 Spring MVC 项目。 Spring MVC 项目的 Maven 依赖项在Spring MVC 依赖项文章中有]]></description>
+</item>
+<item>
+    <title>Spring MVC 中的 Model、ModelMap 和 ModelAndView</title>
+    <link>http://itcodingman.github.io/spring_mvc_model_model_map_model_view/</link>
+    <pubDate>Wed, 03 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_mvc_model_model_map_model_view/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将了解Spring MVC 提供的核心org.springframework.ui.Model、org.springframew]]></description>
+</item>
+<item>
+    <title>Spring MVC 中的表单入门</title>
+    <link>http://itcodingman.github.io/spring_mvc_form_tutorial/</link>
+    <pubDate>Tue, 02 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_mvc_form_tutorial/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将讨论 Spring 表单和与控制器的数据绑定。此外，我们将看看Spring MVC中的主要注释之一，即*@ModelAttribute]]></description>
+</item>
+<item>
+    <title>Spring Web 注释</title>
+    <link>http://itcodingman.github.io/spring_mvc_annotations/</link>
+    <pubDate>Mon, 01 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_mvc_annotations/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将探索org.springframework.web.bind.annotation包中的 Spring Web 注释。 2. @RequestMapping 简单地说，@R]]></description>
+</item>
+</channel>
+</rss>

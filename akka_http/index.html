@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Akka HTTP 简介 - Coding Man</title><meta name="Description" content="在本文中，我们通过一个示例了解了 Akka HTTP 的基础知识，该示例展示了如何设置 HTTP 服务器并公开端点以创建和加载资源，类似于 REST API。"><meta property="og:title" content="Akka HTTP 简介" />
+<meta property="og:description" content="在本文中，我们通过一个示例了解了 Akka HTTP 的基础知识，该示例展示了如何设置 HTTP 服务器并公开端点以创建和加载资源，类似于 REST API。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/akka_http/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Akka HTTP 简介"/>
+<meta name="twitter:description" content="在本文中，我们通过一个示例了解了 Akka HTTP 的基础知识，该示例展示了如何设置 HTTP 服务器并公开端点以创建和加载资源，类似于 REST API。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/akka_http/" /><link rel="prev" href="http://itcodingman.github.io/akka_actors_java/" /><link rel="next" href="http://itcodingman.github.io/akka_play_websockets/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Akka HTTP 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/akka_http\/"
+        },"genre": "posts","keywords": "Akka","wordcount":  1700 ,
+        "url": "http:\/\/itcodingman.github.io\/akka_http\/","datePublished": "2018-04-07T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们通过一个示例了解了 Akka HTTP 的基础知识，该示例展示了如何设置 HTTP 服务器并公开端点以创建和加载资源，类似于 REST API。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Akka HTTP 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/reactive/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Reactive</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-07">2018-04-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1700 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#2maven依赖">2.Maven依赖</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>概述</li>
+</ol>
+<hr>
+<p>在本教程中，借助 Akka 的<a href="/akka-actors-java" rel="">Actor</a>和<a href="/akka-streams" rel="">Stream</a>模型，我们将学习如何设置 Akka 以创建提供基本 CRUD 操作的 HTTP API。</p>
+<h2 id="2maven依赖">2.Maven依赖</h2>
+<p>首先，让我们看一下开始使用 Akka HTTP 所需的依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.typesafe.akka<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>akka-http_2.12<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>10.0.11<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.typesafe.akka<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>akka-stream_2.12<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.5.11<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.typesafe.akka<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>akka-http-jackson_2.12<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>10.0.11<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.typesafe.akka<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>akka-http-testkit_2.12<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>10.0.11<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>当然，我们可以在<a href="https://search.maven.org/search?q=com.typesafe.akka" target="_blank" rel="noopener noreffer">Maven Central</a>上找到这些 Akka 库的最新版本。</p>
+<ol start="3">
+<li>创建一个Actor</li>
+</ol>
+<hr>
+<p>例如，我们将构建一个允许我们管理用户资源的 HTTP API。API 将支持两种操作：</p>
+<ul>
+<li>创建新用户</li>
+<li>加载现有用户</li>
+</ul>
+<p>在我们提供 HTTP API 之前，<strong>我们需要实现一个提供我们需要的操作的 actor：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">UserActor</span> <span class="kd">extends</span> <span class="n">AbstractActor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">UserService</span> <span class="n">userService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UserService</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">static</span> <span class="n">Props</span> <span class="nf">props</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Props</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">UserActor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Receive</span> <span class="nf">createReceive</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">receiveBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">match</span><span class="o">(</span><span class="n">CreateUserMessage</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">handleCreateUser</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">match</span><span class="o">(</span><span class="n">GetUserMessage</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">handleGetUser</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">FI</span><span class="o">.</span><span class="na">UnitApply</span><span class="o">&lt;</span><span class="n">CreateUserMessage</span><span class="o">&gt;</span> <span class="nf">handleCreateUser</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">createUserMessage</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">userService</span><span class="o">.</span><span class="na">createUser</span><span class="o">(</span><span class="n">createUserMessage</span><span class="o">.</span><span class="na">getUser</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">      <span class="n">sender</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">tell</span><span class="o">(</span><span class="k">new</span> <span class="n">ActionPerformed</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">           <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;User %s created.&#34;</span><span class="o">,</span> <span class="n">createUserMessage</span><span class="o">.</span><span class="na">getUser</span><span class="o">().</span><span class="na">getName</span><span class="o">())),</span> <span class="n">getSelf</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">FI</span><span class="o">.</span><span class="na">UnitApply</span><span class="o">&lt;</span><span class="n">GetUserMessage</span><span class="o">&gt;</span> <span class="nf">handleGetUser</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">getUserMessage</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">sender</span><span class="o">().</span><span class="na">tell</span><span class="o">(</span><span class="n">userService</span><span class="o">.</span><span class="na">getUser</span><span class="o">(</span><span class="n">getUserMessage</span><span class="o">.</span><span class="na">getUserId</span><span class="o">()),</span> <span class="n">getSelf</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">};</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>基本上，我们正在扩展<em>AbstractActor</em>类并实现它的*createReceive()*方法。</p>
+<p>在*createReceive()*中，我们<strong>将传入消息类型映射</strong>到处理相应类型消息的方法。</p>
+<p><strong>消息类型是简单的可序列化容器类，其中包含一些描述特定操作的字段</strong>。<em>GetUserMessage</em>并具有单个字段<em>userId</em> 来标识要加载的用户。<em>CreateUserMessage</em>包含一个<em>User</em>对象，其中包含我们创建新用户所需的用户数据。</p>
+<p>稍后，我们将看到如何将传入的 HTTP 请求转换为这些消息。</p>
+<p>最终，我们将所有消息委托给一个<em>UserService</em>实例，该实例提供了管理持久用户对象所需的业务逻辑。</p>
+<p>另外，请注意 *props()<em>方法。**虽然</em>props()<em>方法对于扩展*<strong><strong>AbstractActor</strong>不是必需的，但稍后在创建</strong>ActorSystem</em>时会派上用场 。</p>
+<p>有关演员的更深入讨论，请查看我们<a href="/akka-actors-java" rel="">对 Akka Actors 的介绍</a>。</p>
+<ol start="4">
+<li>定义 HTTP 路由</li>
+</ol>
+<hr>
+<p>有了一个为我们做实际工作的参与者，<strong>我们剩下要做的就是提供一个 HTTP API，将传入的 HTTP 请求委托给我们的参与者。</strong></p>
+<p>Akka 使用路由的概念来描述 HTTP API。<strong>对于每个操作，我们都需要一条路线。</strong></p>
+<p>为了创建一个 HTTP 服务器，我们扩展了框架类<em>HttpApp</em>并实现了<em>routes</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">UserServer</span> <span class="kd">extends</span> <span class="n">HttpApp</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="kd">final</span> <span class="n">ActorRef</span> <span class="n">userActor</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">Timeout</span> <span class="n">timeout</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Timeout</span><span class="o">(</span><span class="n">Duration</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="n">UserServer</span><span class="o">(</span><span class="n">ActorRef</span> <span class="n">userActor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">userActor</span> <span class="o">=</span> <span class="n">userActor</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">Route</span> <span class="nf">routes</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">path</span><span class="o">(</span><span class="s">&#34;users&#34;</span><span class="o">,</span> <span class="k">this</span><span class="o">::</span><span class="n">postUser</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="n">path</span><span class="o">(</span><span class="n">segment</span><span class="o">(</span><span class="s">&#34;users&#34;</span><span class="o">).</span><span class="na">slash</span><span class="o">(</span><span class="n">longSegment</span><span class="o">()),</span> <span class="n">id</span> <span class="o">-&gt;</span> <span class="n">route</span><span class="o">(</span><span class="n">getUser</span><span class="o">(</span><span class="n">id</span><span class="o">))));</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">Route</span> <span class="nf">getUser</span><span class="o">(</span><span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">get</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">CompletionStage</span><span class="o">&lt;</span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;&gt;</span> <span class="n">user</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">PatternsCS</span><span class="o">.</span><span class="na">ask</span><span class="o">(</span><span class="n">userActor</span><span class="o">,</span> <span class="k">new</span> <span class="n">GetUserMessage</span><span class="o">(</span><span class="n">id</span><span class="o">),</span> <span class="n">timeout</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">thenApply</span><span class="o">(</span><span class="n">obj</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;)</span> <span class="n">obj</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">onSuccess</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">user</span><span class="o">,</span> <span class="n">performed</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">performed</span><span class="o">.</span><span class="na">isPresent</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="n">complete</span><span class="o">(</span><span class="n">StatusCodes</span><span class="o">.</span><span class="na">OK</span><span class="o">,</span> <span class="n">performed</span><span class="o">.</span><span class="na">get</span><span class="o">(),</span> <span class="n">Jackson</span><span class="o">.</span><span class="na">marshaller</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="n">complete</span><span class="o">(</span><span class="n">StatusCodes</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">});</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kd">private</span> <span class="n">Route</span> <span class="nf">postUser</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">route</span><span class="o">(</span><span class="n">post</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">entity</span><span class="o">(</span><span class="n">Jackson</span><span class="o">.</span><span class="na">unmarshaller</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">),</span> <span class="n">user</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">CompletionStage</span><span class="o">&lt;</span><span class="n">ActionPerformed</span><span class="o">&gt;</span> <span class="n">userCreated</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">PatternsCS</span><span class="o">.</span><span class="na">ask</span><span class="o">(</span><span class="n">userActor</span><span class="o">,</span> <span class="k">new</span> <span class="n">CreateUserMessage</span><span class="o">(</span><span class="n">user</span><span class="o">),</span> <span class="n">timeout</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">thenApply</span><span class="o">(</span><span class="n">obj</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">ActionPerformed</span><span class="o">)</span> <span class="n">obj</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">onSuccess</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">userCreated</span><span class="o">,</span> <span class="n">performed</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">complete</span><span class="o">(</span><span class="n">StatusCodes</span><span class="o">.</span><span class="na">CREATED</span><span class="o">,</span> <span class="n">performed</span><span class="o">,</span> <span class="n">Jackson</span><span class="o">.</span><span class="na">marshaller</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">      <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">})));</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，这里有相当多的样板，但请注意，我们遵循与之前映射操作相同的模式**，这次是路由。**让我们分解一下。</p>
+<p>在<em>getUser()<em>中，我们只需将传入的用户 ID 包装在</em>GetUserMessage</em>类型的消息中，然后将该消息转发给我们的<em>userActor</em>。</p>
+<p>一旦参与者处理完消息，就会调用<em>onSuccess</em>处理程序，在该处理程序中，我们通过发送具有特定 HTTP 状态和特定 JSON 正文的响应来*完成HTTP 请求。*我们使用<a href="/jackson-object-mapper-tutorial" rel="">Jackson</a> marshaller 将 actor 给出的答案序列化为 JSON 字符串。</p>
+<p>在<em>postUser()<em>中，我们做的事情有点不同，因为我们期望 HTTP 请求中有一个 JSON 正文。我们使用</em>entity()<em>方法将传入的 JSON 主体映射到</em>User</em>对象中，然后将其包装到<em>CreateUserMessage</em>中并将其传递给我们的actor。同样，我们使用 Jackson 在 Java 和 JSON 之间进行映射，反之亦然。</p>
+<p><strong>由于<em>HttpApp</em>期望我们提供单个*Route对象，因此我们在</strong>routes<em>方法中将两个路由合并为一个。**在这里，我们使用</em>path*指令最终提供我们的 API 应该可用的 URL 路径。</p>
+<p>我们将<em>postUser()<em>提供的路由绑定到路径 <em>/users</em>。如果传入的请求不是 POST 请求，Akka 将自动进入</em>orElse</em>分支并期望路径为*/users/<!-- raw HTML omitted -->*并且 HTTP 方法为 GET。</p>
+<p>如果 HTTP 方法是 GET，请求将被转发到<em>getUser()</em> 路由。如果用户不存在，Akka 将返回 HTTP 状态 404（未找到）。如果方法既不是 POST 也不是 GET，Akka 将返回 HTTP 状态 405（不允许方法）。</p>
+<p>有关如何使用 Akka 定义 HTTP 路由的更多信息，请查看<a href="https://doc.akka.io/docs/akka-http/current/routing-dsl/routes.html" target="_blank" rel="noopener noreffer">Akka 文档</a>。</p>
+<ol start="5">
+<li>启动服务器</li>
+</ol>
+<hr>
+<p>一旦我们像上面那样创建了一个<em>HttpApp</em>实现，我们可以用几行代码启动我们的 HTTP 服务器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ActorSystem</span> <span class="n">system</span> <span class="o">=</span> <span class="n">ActorSystem</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="s">&#34;userServer&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ActorRef</span> <span class="n">userActor</span> <span class="o">=</span> <span class="n">system</span><span class="o">.</span><span class="na">actorOf</span><span class="o">(</span><span class="n">UserActor</span><span class="o">.</span><span class="na">props</span><span class="o">(),</span> <span class="s">&#34;userActor&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">UserServer</span> <span class="n">server</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UserServer</span><span class="o">(</span><span class="n">userActor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">server</span><span class="o">.</span><span class="na">startServer</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="n">8080</span><span class="o">,</span> <span class="n">system</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>我们只需创建一个具有<em>UserActor</em>类型的单个 Actor 的*ActorSystem并在</strong>localhost*上启动服务器。**
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/akka_http/" data-title="Akka HTTP 简介" data-hashtags="Akka"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/akka_http/" data-hashtag="Akka"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/akka_http/" data-title="Akka HTTP 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/akka_http/" data-title="Akka HTTP 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/akka_http/" data-title="Akka HTTP 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/akka/">Akka</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/akka_actors_java/" class="prev" rel="prev" title="Java 中的 Akka Actor 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Java 中的 Akka Actor 简介</a>
+            <a href="/akka_play_websockets/" class="next" rel="next" title="带有 Play 框架和 Akka 的 WebSockets">带有 Play 框架和 Akka 的 WebSockets<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

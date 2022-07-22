@@ -1,0 +1,39 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Spring Persistence - Category - Coding Man</title>
+        <link>http://itcodingman.github.io/categories/spring-persistence/</link>
+        <description>Spring Persistence - Category - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 18 Feb 2016 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/spring-persistence/" rel="self" type="application/rss+xml" /><item>
+    <title>Spring Data JPA 简介</title>
+    <link>http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/</link>
+    <pubDate>Thu, 18 Feb 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/</guid>
+    <description><![CDATA[1. 概述 本教程将重点**介绍将 Spring Data JPA 引入 Spring 项目，**并全面配置持久层。有关使用基于 Java 的配置和项目的基本 Maven pom 设置 Spring 上下文的分步介绍，请参阅本文。]]></description>
+</item>
+<item>
+    <title>Spring Maven 存储库</title>
+    <link>http://itcodingman.github.io/spring_maven_repository/</link>
+    <pubDate>Sat, 30 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_maven_repository/</guid>
+    <description><![CDATA[1. 概述 本文将展示在项目中使用 Spring 工件时要使用的 Maven 存储库 - 请参阅Spring wiki上存储库的完整列表。以前的 SpringSource 工件管理基础设施是maven.s]]></description>
+</item>
+<item>
+    <title>Spring Data Cassandra简介</title>
+    <link>http://itcodingman.github.io/spring_data_cassandra_tutorial/</link>
+    <pubDate>Tue, 26 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/spring_data_cassandra_tutorial/</guid>
+    <description><![CDATA[1. 概述 本文是使用 Spring Data 使用 Cassandra 的实用介绍。 我们将从基础开始，通过配置和编码，最终构建一个完整的 Spring Data Cassandra 模块。 2. Maven依赖 让我们首先使用 Mave]]></description>
+</item>
+<item>
+    <title>在 Spring 中使用 Hibernate 5</title>
+    <link>http://itcodingman.github.io/hibernate_5_spring/</link>
+    <pubDate>Fri, 08 Jan 2016 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/hibernate_5_spring/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将讨论如何使用 Spring 引导 Hibernate 5，同时使用 Java 和 XML 配置。 文章 Spring Boot with Hibernate 描述了如何在 Spring Boot 中使用 Hibernate。 2. Spring集成 使]]></description>
+</item>
+</channel>
+</rss>

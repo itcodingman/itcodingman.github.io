@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>用 Java 解决 2048 游戏 - Coding Man</title><meta name="Description" content="在这里，我们构建了一个玩游戏 2048 的框架。然后，我们在其中编写了一个求解器，以便我们可以玩更好的游戏。"><meta property="og:title" content="用 Java 解决 2048 游戏" />
+<meta property="og:description" content="在这里，我们构建了一个玩游戏 2048 的框架。然后，我们在其中编写了一个求解器，以便我们可以玩更好的游戏。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/2048_java_solver/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-03-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-22T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="用 Java 解决 2048 游戏"/>
+<meta name="twitter:description" content="在这里，我们构建了一个玩游戏 2048 的框架。然后，我们在其中编写了一个求解器，以便我们可以玩更好的游戏。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/2048_java_solver/" /><link rel="prev" href="http://itcodingman.github.io/anonymous_named_pipes/" /><link rel="next" href="http://itcodingman.github.io/a_guide_to_java_enums/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "用 Java 解决 2048 游戏",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/2048_java_solver\/"
+        },"genre": "posts","wordcount":  4389 ,
+        "url": "http:\/\/itcodingman.github.io\/2048_java_solver\/","datePublished": "2018-03-26T00:00:00+00:00","dateModified": "2022-07-22T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在这里，我们构建了一个玩游戏 2048 的框架。然后，我们在其中编写了一个求解器，以便我们可以玩更好的游戏。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">用 Java 解决 2048 游戏</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/algorithms/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Algorithms</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-03-26">2018-03-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4389 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
+    <li><a href="#2-初始设置"><strong>2. 初始设置</strong></a>
+      <ul>
+        <li><a href="#21-游戏板"><strong>2.1 游戏板</strong></a></li>
+        <li><a href="#22-电脑选手和放置图块"><strong>2.2 电脑选手和放置图块</strong></a></li>
+        <li><a href="#22-一个人类玩家和移动图块"><strong>2.2 一个“人类”玩家和移动图块</strong></a></li>
+        <li><a href="#23-玩游戏"><strong>2.3. 玩游戏</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-实现-2048-玩家"><strong>3. 实现 2048 玩家</strong></a>
+      <ul>
+        <li><a href="#31-模拟动作"><strong>3.1 模拟动作</strong></a></li>
+        <li><a href="#32-计分决赛板"><strong>3.2 计分决赛板</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-算法改进"><strong>4. 算法改进</strong></a>
+      <ul>
+        <li><a href="#41-并行处理"><strong>4.1 并行处理</strong></a></li>
+        <li><a href="#42-修剪不可游戏的分支"><strong>4.2 修剪不可游戏的分支</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
+<p>**最近，我们研究了<a href="/cs/2048-algorithm" rel="">解决游戏 2048 的算法</a>。**我们从理论的角度讨论了这个问题，而不是背后的任何真实代码。</p>
+<p>**在这里，我们将用 Java 编写一个实现。**这将扮演人类和计算机玩家的角色，展示如何玩出更优化的游戏。</p>
+<h2 id="2-初始设置"><strong>2. 初始设置</strong></h2>
+<p><strong>我们需要的第一件事是一个设置，我们可以在其中玩游戏并查看进展情况。</strong></p>
+<p>这将为我们提供玩游戏所需的所有构造，并完全实现计算机播放器——无论如何它只会放置随机图块。这为我们提供了实现“人类”玩家玩游戏的空间。</p>
+<h3 id="21-游戏板"><strong>2.1 游戏板</strong></h3>
+<p>首先，我们需要一个游戏板。这是一个可以放置数字单元格。</p>
+<p>为了让一些事情更容易处理，<strong>让我们从一个简单的单元格位置表示开始</strong>。这实际上只是一对坐标的包装：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cell</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">x</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">y</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// constructor, getters, and toString
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p><strong>我们现在可以编写一个类来表示网格本身</strong>。这会将值存储在一个简单的二维数组中，但允许我们通过上面的<em>Cell</em>类访问它们：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Board</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">board</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">score</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Board</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">board</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">size</span><span class="o">][];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">score</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="o">++</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="o">.</span><span class="na">board</span><span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="o">++</span><span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">board</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getSize</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">board</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getScore</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">score</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getCell</span><span class="o">(</span><span class="n">Cell</span> <span class="n">cell</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">board</span><span class="o">[</span><span class="n">cell</span><span class="o">.</span><span class="na">getX</span><span class="o">()][</span><span class="n">cell</span><span class="o">.</span><span class="na">getY</span><span class="o">()];</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isEmpty</span><span class="o">(</span><span class="n">Cell</span> <span class="n">cell</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">getCell</span><span class="o">(</span><span class="n">cell</span><span class="o">)</span> <span class="o">==</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Cell</span><span class="o">&gt;</span> <span class="nf">emptyCells</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">Cell</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">[</span><span class="n">x</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Cell</span> <span class="n">cell</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Cell</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">isEmpty</span><span class="o">(</span><span class="n">cell</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">cell</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**这是一个代表棋盘的不可变类，让我们查询它以找出当前状态。**它还跟踪当前的分数，我们稍后会谈到。</p>
+<h3 id="22-电脑选手和放置图块"><strong>2.2 电脑选手和放置图块</strong></h3>
+<p>现在我们有了一个游戏板，我们希望能够玩它。<strong>我们想要的第一件事是电脑选手，因为这是一个纯粹的随机选手，以后会完全按照需要。</strong></p>
+<p>电脑玩家只不过是在一个单元格中放置了一个棋子，所以我们需要一些方法来在我们的棋盘上实现这一点。我们希望保持它是不可变的，因此放置一个图块将在新状态下生成一个全新的棋盘。</p>
+<p>首先，<strong>我们需要一个构造函数来获取实际的棋盘状态</strong>，而不是我们之前构造一个空白棋盘的构造函数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="nf">Board</span><span class="o">(</span><span class="kt">int</span><span class="o">[][]</span> <span class="n">board</span><span class="o">,</span> <span class="kt">int</span> <span class="n">score</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">score</span> <span class="o">=</span> <span class="n">score</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">board</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">board</span><span class="o">.</span><span class="na">length</span><span class="o">][];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">board</span><span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">board</span><span class="o">[</span><span class="n">x</span><span class="o">],</span> <span class="n">board</span><span class="o">[</span><span class="n">x</span><span class="o">].</span><span class="na">length</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是<em>私有</em>的，因此它只能被同一类中的其他方法使用。这有助于我们封装游戏板。</p>
+<p>**接下来，我们将添加一个放置图块的方法。**这将返回一个与当前板相同的全新板，只是它在给定单元格中具有给定编号：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Board</span> <span class="nf">placeTile</span><span class="o">(</span><span class="n">Cell</span> <span class="n">cell</span><span class="o">,</span> <span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(!</span><span class="n">isEmpty</span><span class="o">(</span><span class="n">cell</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&#34;That cell is not empty&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Board</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Board</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">board</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">score</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span><span class="o">.</span><span class="na">board</span><span class="o">[</span><span class="n">cell</span><span class="o">.</span><span class="na">getX</span><span class="o">()][</span><span class="n">cell</span><span class="o">.</span><span class="na">getY</span><span class="o">()]</span> <span class="o">=</span> <span class="n">number</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，**我们将编写一个代表计算机选手的新类。**这将有一个方法可以获取当前板并返回新板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Computer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">SecureRandom</span> <span class="n">rng</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SecureRandom</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Board</span> <span class="nf">makeMove</span><span class="o">(</span><span class="n">Board</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">Cell</span><span class="o">&gt;</span> <span class="n">emptyCells</span> <span class="o">=</span> <span class="n">input</span><span class="o">.</span><span class="na">emptyCells</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">numberToPlace</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="na">nextDouble</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">indexToPlace</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="n">emptyCells</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Cell</span> <span class="n">cellToPlace</span> <span class="o">=</span> <span class="n">emptyCells</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">indexToPlace</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">input</span><span class="o">.</span><span class="na">placeTile</span><span class="o">(</span><span class="n">cellToPlace</span><span class="o">,</span> <span class="n">numberToPlace</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">.</span><span class="na">9</span> <span class="o">?</span> <span class="n">4</span> <span class="o">:</span> <span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**这会从板上获取每个空单元格的列表，随机选择一个，然后将一个数字放入其中。**我们将随机决定在 10% 的情况下将“4”放入单元格，在其他 90% 的情况下放入“2”。</p>
+<h3 id="22-一个人类玩家和移动图块"><strong>2.2 一个“人类”玩家和移动图块</strong></h3>
+<p>接下来我们需要的是一个“人类”玩家。**这不是最终目标，而是一个纯粹随机的玩家，每次移动时都会选择一个随机方向来移动图块。**然后，这将成为我们可以建立最佳玩家的地方。</p>
+<p>首先，我们需要定义可以进行的可能移动的枚举：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">enum</span> <span class="n">Move</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UP</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DOWN</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LEFT</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">RIGHT</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**接下来，我们需要增加<em>Board</em>类以支持通过在这些方向之一上移动图块来进行移动。**为了降低这里的复杂性，我们想要旋转棋盘，这样我们总是在同一个方向移动瓷砖。</p>
+<p>这意味着我们需要一种转置和反转板的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="nf">transpose</span><span class="o">(</span><span class="kt">int</span><span class="o">[][]</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span><span class="o">[][]</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">][];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span><span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">input</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">length</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">input</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="n">y</span><span class="o">][</span><span class="n">x</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="nf">reverse</span><span class="o">(</span><span class="kt">int</span><span class="o">[][]</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span><span class="o">[][]</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">][];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span><span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">input</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">length</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">input</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">input</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="n">y</span> <span class="o">-</span> <span class="n">1</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>转置板将交换所有行和列，使得顶部边缘变为左侧边缘。反转板只是镜像它，使左边缘变成右边缘。</p>
+<p><strong>接下来，我们向<em>Board</em>添加一个方法，以在给定方向上移动，并以新的状态返回一个新的<em>Board</em>。</strong></p>
+<p>我们首先制作Board状态的副本，然后我们可以使用它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Board</span> <span class="nf">move</span><span class="o">(</span><span class="n">Move</span> <span class="n">move</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">newScore</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Clone the board
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span><span class="o">[][]</span> <span class="n">tiles</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="k">this</span><span class="o">.</span><span class="na">board</span><span class="o">.</span><span class="na">length</span><span class="o">][];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="k">this</span><span class="o">.</span><span class="na">board</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tiles</span><span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">board</span><span class="o">[</span><span class="n">x</span><span class="o">],</span> <span class="k">this</span><span class="o">.</span><span class="na">board</span><span class="o">[</span><span class="n">x</span><span class="o">].</span><span class="na">length</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们操纵我们的副本，以便我们总是向上移动瓷砖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">move</span> <span class="o">==</span> <span class="n">Move</span><span class="o">.</span><span class="na">LEFT</span> <span class="o">||</span> <span class="n">move</span> <span class="o">==</span> <span class="n">Move</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tiles</span> <span class="o">=</span> <span class="n">transpose</span><span class="o">(</span><span class="n">tiles</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">move</span> <span class="o">==</span> <span class="n">Move</span><span class="o">.</span><span class="na">DOWN</span> <span class="o">||</span> <span class="n">move</span> <span class="o">==</span> <span class="n">Move</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tiles</span> <span class="o">=</span> <span class="n">reverse</span><span class="o">(</span><span class="n">tiles</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们还需要另一组图块——这次是我们将构建最终结果的图块——以及一个用于跟踪此次移动获得的新分数的跟踪器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">[][]</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">tiles</span><span class="o">.</span><span class="na">length</span><span class="o">][];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">newScore</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span></code></pre></div><p>现在我们已经准备好开始移动图块了，并且我们已经操纵了一些东西，以便我们始终朝着同一个方向工作，我们可以开始了。</p>
+<p>**我们可以独立于其他列移动每一列。**我们只需要遍历列并重复，从构建我们正在移动的图块的另一个副本开始。</p>
+<p>这次我们将它们构建到<em>LinkedList</em>中，因为我们希望能够轻松地从中弹出值。我们也只添加具有数字的实际图块并跳过空图块。</p>
+<p>这实现了我们的平移，但还没有实现图块的合并：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">tiles</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">thisRow</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">tiles</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">tiles</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">thisRow</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tiles</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们需要合并图块。<strong>我们需要与上述分开执行此操作；否则，我们可能会多次合并同一个图块。</strong></p>
+<p>这是通过从上面构建另一个图块的<em>LinkedList</em>来实现的，但这次我们合并：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">newRow</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="n">thisRow</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;=</span> <span class="n">2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">first</span> <span class="o">=</span> <span class="n">thisRow</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">second</span> <span class="o">=</span> <span class="n">thisRow</span><span class="o">.</span><span class="na">peek</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">second</span> <span class="o">==</span> <span class="n">first</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">newNumber</span> <span class="o">=</span> <span class="n">first</span> <span class="o">*</span> <span class="n">2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newRow</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">newNumber</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newScore</span> <span class="o">+=</span> <span class="n">newNumber</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">thisRow</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newRow</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">first</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">newRow</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">thisRow</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们还计算了这一举动的新分数。这是由于合并而创建的图块的总和。</p>
+<p>我们现在可以将其构建到结果数组中。一旦我们用完列表中的图块，其余部分将填充值“0”以表示它们是空白的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="n">result</span><span class="o">[</span><span class="n">x</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">tiles</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">length</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">tiles</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="o">++</span><span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">newRow</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span> <span class="o">=</span> <span class="n">newRow</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>一旦我们完成了图块的移动，我们需要再次将它们操作回正确的旋转。这与我们之前所做的完全相反：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">move</span> <span class="o">==</span> <span class="n">Move</span><span class="o">.</span><span class="na">DOWN</span> <span class="o">||</span> <span class="n">move</span> <span class="o">==</span> <span class="n">Move</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="n">reverse</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">move</span> <span class="o">==</span> <span class="n">Move</span><span class="o">.</span><span class="na">LEFT</span> <span class="o">||</span> <span class="n">move</span> <span class="o">==</span> <span class="n">Move</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="n">transpose</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，我们可以用这组新的图块和新计算的分数构建并返回一个新的棋盘：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">Board</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">score</span> <span class="o">+</span> <span class="n">newScore</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**我们现在可以编写随机的“人类”玩家。**这只不过是生成一个随机移动并调用上述方法来移动：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Human</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">SecureRandom</span> <span class="n">rng</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SecureRandom</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Board</span> <span class="nf">makeMove</span><span class="o">(</span><span class="n">Board</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Move</span> <span class="n">move</span> <span class="o">=</span> <span class="n">Move</span><span class="o">.</span><span class="na">values</span><span class="o">()[</span><span class="n">rng</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="n">4</span><span class="o">)];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">input</span><span class="o">.</span><span class="na">move</span><span class="o">(</span><span class="n">move</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="23-玩游戏"><strong>2.3. 玩游戏</strong></h3>
+<p>**我们有足够的组件来玩这个游戏，虽然不是很成功。**但是，很快我们将改进<em>Human</em>类的游戏方式，这将使我们能够轻松地看到差异。</p>
+<p>首先，我们需要一种打印游戏板的方法。</p>
+<p>对于这个例子，我们只是要打印到控制台，所以<em>System.out.print</em>已经足够好了。对于一个真正的游戏，我们想要做更好的图形：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printBoard</span><span class="o">(</span><span class="n">Board</span> <span class="n">board</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StringBuilder</span> <span class="n">topLines</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StringBuilder</span> <span class="n">midLines</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="na">getSize</span><span class="o">();</span> <span class="o">++</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">topLines</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;+--------&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">midLines</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;|        &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">topLines</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;+&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">midLines</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;|&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="na">getSize</span><span class="o">();</span> <span class="o">++</span><span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">topLines</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">midLines</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="na">getSize</span><span class="o">();</span> <span class="o">++</span><span class="n">x</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Cell</span> <span class="n">cell</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Cell</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">&#34;|&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">board</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">cell</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">&#34;        &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">StringBuilder</span> <span class="n">output</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">board</span><span class="o">.</span><span class="na">getCell</span><span class="o">(</span><span class="n">cell</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">                <span class="k">while</span> <span class="o">(</span><span class="n">output</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">8</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">output</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34; &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="o">(</span><span class="n">output</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">8</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">output</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="s">&#34; &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">output</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;|&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">midLines</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">topLines</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Score: &#34;</span> <span class="o">+</span> <span class="n">board</span><span class="o">.</span><span class="na">getScore</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们差不多准备好了。我们只需要进行设置。</p>
+<p>这意味着创建棋盘、两名玩家，并让计算机进行两个初始动作——即在棋盘上放置两个随机数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Board</span> <span class="n">board</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Board</span><span class="o">(</span><span class="n">4</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Computer</span> <span class="n">computer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Computer</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Human</span> <span class="n">human</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Human</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">2</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">board</span> <span class="o">=</span> <span class="n">computer</span><span class="o">.</span><span class="na">makeMove</span><span class="o">(</span><span class="n">board</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们有了实际的游戏循环。<strong>这将是人类和计算机玩家轮流进行的重复，只有在没有空单元格时才停止：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">printBoard</span><span class="o">(</span><span class="n">board</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Human move&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;==========&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">board</span> <span class="o">=</span> <span class="n">human</span><span class="o">.</span><span class="na">makeMove</span><span class="o">(</span><span class="n">board</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printBoard</span><span class="o">(</span><span class="n">board</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Computer move&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;=============&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">board</span> <span class="o">=</span> <span class="n">computer</span><span class="o">.</span><span class="na">makeMove</span><span class="o">(</span><span class="n">board</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">printBoard</span><span class="o">(</span><span class="n">board</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">while</span> <span class="o">(!</span><span class="n">board</span><span class="o">.</span><span class="na">emptyCells</span><span class="o">().</span><span class="na">isEmpty</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Final Score: &#34;</span> <span class="o">+</span> <span class="n">board</span><span class="o">.</span><span class="na">getScore</span><span class="o">());</span>
+</span></span></code></pre></div><p>此时，如果我们要运行该程序，我们会看到正在玩 2048 的随机游戏。</p>
+<h2 id="3-实现-2048-玩家"><strong>3. 实现 2048 玩家</strong></h2>
+<p>一旦我们有了玩游戏的基础，我们就可以开始实现“人类”玩家并玩更好的游戏，而不仅仅是选择随机方向。</p>
+<h3 id="31-模拟动作"><strong>3.1 模拟动作</strong></h3>
+<p>我们在这里实现的算法是基于<a href="https://en.wikipedia.org/wiki/Expectiminimax" target="_blank" rel="noopener noreffer">Expectimax</a>算法的。因此，<strong>算法的核心是模拟每一个可能的动作，为每一个动作分配一个分数，然后选择一个做得最好的动作。</strong></p>
+<p>我们将大量使用<a href="/java-streams" rel="">Java 8 Streams</a>来帮助构建此代码，原因我们稍后会看到。</p>
+<p>我们将从在<em>Human</em>类中*重写 makeMove()*方法开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Board</span> <span class="nf">makeMove</span><span class="o">(</span><span class="n">Board</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">Move</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">input</span><span class="o">::</span><span class="n">move</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparingInt</span><span class="o">(</span><span class="n">board</span> <span class="o">-&gt;</span> <span class="n">generateScore</span><span class="o">(</span><span class="n">board</span><span class="o">,</span> <span class="n">0</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>对于我们可以移动的每一个可能的方向，我们生成新的棋盘，然后开始评分算法</strong>——通过这个棋盘，深度为 0。然后我们选择得分最高的棋步。</p>
+<p>然后，我们的*generateScore()*方法模拟每一个可能的计算机移动——也就是说，将“2”或“4”放入每个空单元格——然后看看接下来会发生什么：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">generateScore</span><span class="o">(</span><span class="n">Board</span> <span class="n">board</span><span class="o">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">depth</span> <span class="o">&gt;=</span> <span class="n">3</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">calculateFinalScore</span><span class="o">(</span><span class="n">board</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">board</span><span class="o">.</span><span class="na">emptyCells</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">cell</span> <span class="o">-&gt;</span> <span class="n">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="k">new</span> <span class="n">Pair</span><span class="o">&lt;&gt;(</span><span class="n">cell</span><span class="o">,</span> <span class="n">2</span><span class="o">),</span> <span class="k">new</span> <span class="n">Pair</span><span class="o">&lt;&gt;(</span><span class="n">cell</span><span class="o">,</span> <span class="n">4</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">move</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">Board</span> <span class="n">newBoard</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="na">placeTile</span><span class="o">(</span><span class="n">move</span><span class="o">.</span><span class="na">getFirst</span><span class="o">(),</span> <span class="n">move</span><span class="o">.</span><span class="na">getSecond</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">          <span class="kt">int</span> <span class="n">boardScore</span> <span class="o">=</span> <span class="n">calculateScore</span><span class="o">(</span><span class="n">newBoard</span><span class="o">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">boardScore</span> <span class="o">*</span> <span class="o">(</span><span class="n">move</span><span class="o">.</span><span class="na">getSecond</span><span class="o">()</span> <span class="o">==</span> <span class="n">2</span> <span class="o">?</span> <span class="n">0</span><span class="o">.</span><span class="na">9</span> <span class="o">:</span> <span class="n">0</span><span class="o">.</span><span class="na">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">      <span class="o">})</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>如果我们达到了我们的深度限制，那么我们将立即停下来计算这个板有多好的最终分数；否则，我们继续我们的模拟。</strong></p>
+<p>然后，我们的*calculateScore()*方法是我们模拟的延续，运行等式的人类移动方面。</p>
+<p>*这与上面的makeMove()*方法非常相似，但我们返回的是正在进行的分数而不是实际的棋盘：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">calculateScore</span><span class="o">(</span><span class="n">Board</span> <span class="n">board</span><span class="o">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">Move</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">board</span><span class="o">::</span><span class="n">move</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">newBoard</span> <span class="o">-&gt;</span> <span class="n">generateScore</span><span class="o">(</span><span class="n">newBoard</span><span class="o">,</span> <span class="n">depth</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">max</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="32-计分决赛板"><strong>3.2 计分决赛板</strong></h3>
+<p>我们现在处于可以模拟人类和计算机玩家来回移动的情况，当我们模拟足够多时停止。<strong>我们需要能够为每个模拟分支中的最终板生成一个分数，以便我们可以看到哪个分支是我们想要追求的分支。</strong></p>
+<p>我们的评分是多个因素的组合，我们将把每个因素应用到板上的每一行和每一列。这些都加在一起，然后返回总数。</p>
+<p>因此，我们需要生成要评分的行和列列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">rowsToScore</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="na">getSize</span><span class="o">();</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">row</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">col</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="na">getSize</span><span class="o">();</span> <span class="o">++</span><span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">row</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">board</span><span class="o">.</span><span class="na">getCell</span><span class="o">(</span><span class="k">new</span> <span class="n">Cell</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">col</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">board</span><span class="o">.</span><span class="na">getCell</span><span class="o">(</span><span class="k">new</span> <span class="n">Cell</span><span class="o">(</span><span class="n">j</span><span class="o">,</span> <span class="n">i</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">rowsToScore</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">row</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rowsToScore</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">col</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后我们取出我们建立的列表，对每个列表进行评分，然后将分数相加。这是我们即将填写的占位符：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">return</span> <span class="n">rowsToScore</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">row</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">score</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">score</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">})</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+</span></span></code></pre></div><p>最后，我们实际上需要生成我们的分数。<strong>这进入了上面的 lambda，并且是几个不同的因素都有助于</strong>：</p>
+<ul>
+<li>每行的固定分数</li>
+<li>行中每个数字的总和</li>
+<li>行中可能的每个合并</li>
+<li>行中的每个空单元格</li>
+<li>行的单调性。这表示该行按数字升序排列的数量。</li>
+</ul>
+<p>在计算分数之前，我们需要构建一些额外的数据。</p>
+<p>首先，我们想要一个删除了空白单元格的数字列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">preMerged</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span></span></code></pre></div><p>然后我们可以从这个新列表中进行一些计数，给出具有相同数字的相邻单元格的数量，数字严格递增，数字严格递减：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">numMerges</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">monotonicityLeft</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">monotonicityRight</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">preMerged</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Integer</span> <span class="n">first</span> <span class="o">=</span> <span class="n">preMerged</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Integer</span> <span class="n">second</span> <span class="o">=</span> <span class="n">preMerged</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">first</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">second</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="o">++</span><span class="n">numMerges</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">first</span> <span class="o">&gt;</span> <span class="n">second</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">monotonicityLeft</span> <span class="o">+=</span> <span class="n">first</span> <span class="o">-</span> <span class="n">second</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">monotonicityRight</span> <span class="o">+=</span> <span class="n">second</span> <span class="o">-</span> <span class="n">first</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>现在我们可以计算这一行的分数：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">score</span> <span class="o">=</span> <span class="n">1000</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">score</span> <span class="o">+=</span> <span class="n">250</span> <span class="o">*</span> <span class="n">row</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="n">value</span> <span class="o">==</span> <span class="n">0</span><span class="o">).</span><span class="na">count</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">score</span> <span class="o">+=</span> <span class="n">750</span> <span class="o">*</span> <span class="n">numMerges</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">score</span> <span class="o">-=</span> <span class="n">10</span> <span class="o">*</span> <span class="n">row</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="n">value</span><span class="o">).</span><span class="na">sum</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">score</span> <span class="o">-=</span> <span class="n">50</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">monotonicityLeft</span><span class="o">,</span> <span class="n">monotonicityRight</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="n">score</span><span class="o">;</span>
+</span></span></code></pre></div><p>这里选择的数字是比较随意的。不同的数字将对游戏的表现产生影响，在我们的游戏方式中优先考虑不同的因素。</p>
+<h2 id="4-算法改进"><strong>4. 算法改进</strong></h2>
+<p>**到目前为止，我们所拥有的东西是有效的，我们可以看到它玩得很好，但是速度很慢。**每个人的移动大约需要 1 分钟。我们可以做得比这更好。</p>
+<h3 id="41-并行处理"><strong>4.1 并行处理</strong></h3>
+<p>**我们可以做的显而易见的事情是并行工作。**这是使用 Java Streams 的巨大好处——我们可以通过向每个流添加单个语句来并行工作。</p>
+<p>仅此更改就可以将我们的每次移动时间缩短到 20 秒左右。</p>
+<h3 id="42-修剪不可游戏的分支"><strong>4.2 修剪不可游戏的分支</strong></h3>
+<p>**接下来我们可以做的就是修剪掉所有无法游戏的分支。**也就是说，任何时候人类移动都会导致棋盘不变。几乎可以肯定，这些分支会导致更糟糕的结果——它们有效地让计算机自由移动——但它们花费了我们处理它们的时间。</p>
+<p>为此，我们需要在<em>Board</em>上实现一个 equals 方法，以便我们可以比较它们：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">getClass</span><span class="o">()</span> <span class="o">!=</span> <span class="n">o</span><span class="o">.</span><span class="na">getClass</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Board</span> <span class="n">board1</span> <span class="o">=</span> <span class="o">(</span><span class="n">Board</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">deepEquals</span><span class="o">(</span><span class="n">board</span><span class="o">,</span> <span class="n">board1</span><span class="o">.</span><span class="na">board</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>然后，我们可以向我们的流管道添加一些过滤器，以停止处理任何未更改的内容。</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">Move</span><span class="o">.</span><span class="na">values</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">parallel</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">board</span><span class="o">::</span><span class="n">move</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">moved</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">moved</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">board</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">........</span>
+</span></span></code></pre></div><p>这对游戏的早期部分影响很小——当填充的单元格很少时，可以修剪的动作也很少。然而，后来，这开始产生更大的影响，将移动时间减少到只有几秒钟。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-22</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/2048_java_solver/" data-title="用 Java 解决 2048 游戏"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/2048_java_solver/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/2048_java_solver/" data-title="用 Java 解决 2048 游戏"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/2048_java_solver/" data-title="用 Java 解决 2048 游戏"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/2048_java_solver/" data-title="用 Java 解决 2048 游戏"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/anonymous_named_pipes/" class="prev" rel="prev" title="Linux 中的匿名和命名管道"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Linux 中的匿名和命名管道</a>
+            <a href="/a_guide_to_java_enums/" class="next" rel="next" title="Java 枚举指南">Java 枚举指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>
