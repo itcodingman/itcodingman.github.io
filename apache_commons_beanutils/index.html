@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Commons BeanUtils - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons BeanUtils" />
+<meta property="og:description" content="1. 概述 Apache Commons BeansUtils 包含使用 Java bean 所需的所有工具。 简单地说，bean 是一个简单的 Java 类，包含字段、getter/setter 和无参数构造函数。 Java 提供反射" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_commons_beanutils/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Commons BeanUtils"/>
+<meta name="twitter:description" content="1. 概述 Apache Commons BeansUtils 包含使用 Java bean 所需的所有工具。 简单地说，bean 是一个简单的 Java 类，包含字段、getter/setter 和无参数构造函数。 Java 提供反射"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_commons_beanutils/" /><link rel="prev" href="http://itcodingman.github.io/apache_commons_bag/" /><link rel="next" href="http://itcodingman.github.io/apache_commons_chain/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Commons BeanUtils",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_commons_beanutils\/"
+        },"genre": "posts","wordcount":  1474 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_beanutils\/","datePublished": "2018-04-23T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons BeanUtils</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-23">2018-04-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1474 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#3-创建一个-java-bean"><strong>3. 创建一个 Java Bean</strong></a></li>
+    <li><a href="#4-物业准入"><strong>4. 物业准入</strong></a>
+      <ul>
+        <li><a href="#41简单属性"><strong>4.1。简单属性</strong></a></li>
+        <li><a href="#42-索引属性"><strong>4.2. 索引属性</strong></a></li>
+        <li><a href="#43-映射属性"><strong>4.3. 映射属性</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-嵌套属性访问"><strong>5. 嵌套属性访问</strong></a></li>
+    <li><a href="#6复制bean属性"><strong>6.复制Bean属性</strong></a></li>
+    <li><a href="#7-结论"><strong>7. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>Apache Commons BeansUtils 包含使用 Java bean 所需的所有工具。</p>
+<p>简单地说，bean 是一个简单的 Java 类，包含字段、getter/setter 和无参数构造函数。</p>
+<p>Java 提供反射和自省功能来识别 getter-setter 方法并动态调用它们。但是，这些 API 可能很难学习，并且可能需要开发人员编写样板代码来执行最简单的操作。</p>
+<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<p>这是在使用它之前需要在 POM 文件中包含的 Maven 依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>commons-beanutils<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-beanutils<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.9.3<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>最新版本可以在<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22commons-beanutils%22%20AND%20a%3A%22commons-beanutils%22" target="_blank" rel="noopener noreffer">这里</a>找到。</p>
+<h2 id="3-创建一个-java-bean"><strong>3. 创建一个 Java Bean</strong></h2>
+<p>让我们使用典型的 getter 和 setter 方法创建两个 bean 类<em>Course</em>和<em>Student 。</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Course</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">codes</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Student</span><span class="o">&gt;</span> <span class="n">enrolledStudent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//  standard getters/setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//  standard getters/setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>我们有一个具有课程名称、课程代码和多个注册学生的*课程类。*注册学生由唯一的注册 ID 标识。<em>课程类在**Map</em>对象中维护注册学生，其中注册 ID 是键，学生对象将是值。</p>
+<h2 id="4-物业准入"><strong>4. 物业准入</strong></h2>
+<p>Bean 的属性可以分为三类。</p>
+<h3 id="41简单属性"><strong>4.1。简单属性</strong></h3>
+<p>单值属性也称为简单或标量。</p>
+<p>它们的值可能是原始类型（例如 int、float）或复杂类型对象。BeanUtils 有一个<em>PropertyUtils</em>类，它允许我们修改 Java Bean 中的简单属性。</p>
+<p>这是设置属性的示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Course</span> <span class="n">course</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Course</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&#34;Computer Science&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">codes</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;CS&#34;</span><span class="o">,</span> <span class="s">&#34;CS01&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">PropertyUtils</span><span class="o">.</span><span class="na">setSimpleProperty</span><span class="o">(</span><span class="n">course</span><span class="o">,</span> <span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">PropertyUtils</span><span class="o">.</span><span class="na">setSimpleProperty</span><span class="o">(</span><span class="n">course</span><span class="o">,</span> <span class="s">&#34;codes&#34;</span><span class="o">,</span> <span class="n">codes</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="42-索引属性"><strong>4.2. 索引属性</strong></h3>
+<p>索引属性有一个集合作为可以使用索引号单独访问的值。作为 JavaBean 的扩展，BeanUtils 也将<em>java.util.List</em>类型值视为索引。</p>
+<p>我们可以使用<em>PropertyUtils 的</em> <em>setIndexedProperty</em>方法修改索引属性的单个值。</p>
+<p>这是修改索引属性的示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PropertyUtils</span><span class="o">.</span><span class="na">setIndexedProperty</span><span class="o">(</span><span class="n">course</span><span class="o">,</span> <span class="s">&#34;codes[1]&#34;</span><span class="o">,</span> <span class="s">&#34;CS02&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="43-映射属性"><strong>4.3. 映射属性</strong></h3>
+<p>任何以<em>java.util.Map</em>作为基础类型的属性都称为映射属性。<em>BeanUtils 允许我们使用字符串值</em>键更新映射中的单个值。</p>
+<p>这是修改映射属性中的值的示例代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Student</span> <span class="n">student</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Student</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">studentName</span> <span class="o">=</span> <span class="s">&#34;Joe&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">student</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="n">studentName</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">PropertyUtils</span><span class="o">.</span><span class="na">setMappedProperty</span><span class="o">(</span><span class="n">course</span><span class="o">,</span> <span class="s">&#34;enrolledStudent(ST-1)&#34;</span><span class="o">,</span> <span class="n">student</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="5-嵌套属性访问"><strong>5. 嵌套属性访问</strong></h2>
+<p>如果一个属性值是一个对象并且我们需要访问该对象内部的一个属性值——那将是访问一个嵌套属性。<em>PropertyUtils</em>也允许我们访问和<strong>修改嵌套属性</strong>。</p>
+<p>假设我们想通过<em>Course</em>对象访问<em>Student</em>类的 name 属性。我们可能会写：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">course</span><span class="o">.</span><span class="na">getEnrolledStudent</span><span class="o">(</span><span class="s">&#34;ST-1&#34;</span><span class="o">).</span><span class="na">getName</span><span class="o">();</span>
+</span></span></code></pre></div><p>我们可以使用<em>getNestedProperty访问嵌套属性值，并使用 PropertyUtils 中的**setNestedProperty</em>方法修改嵌套<em>属性</em>。这是代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Student</span> <span class="n">student</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Student</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">studentName</span> <span class="o">=</span> <span class="s">&#34;Joe&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">student</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="n">studentName</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">nameValue</span> 
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">PropertyUtils</span><span class="o">.</span><span class="na">getNestedProperty</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">course</span><span class="o">,</span> <span class="s">&#34;enrolledStudent(ST-1).name&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="6复制bean属性"><strong>6.复制Bean属性</strong></h2>
+<p>将一个对象的属性复制到另一个对象对于开发人员来说通常是乏味且容易出错的。<em><em><em>BeanUtils</em>类提供了一个</em>copyProperties</em>方法，该方法将源对象的属性复制到**两个对象中属性名称相同的目标对象。</p>
+<p>让我们创建另一个 bean 类，作为我们在上面创建的<em>Course</em>具有相同的属性，除了它不会有<em>registeredStudent</em>属性而是属性名称将是<em>students</em>。让我们将该类命名为<em>CourseEntity</em>。该类将如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CourseEntity</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">codes</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Student</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//  standard getters/setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们将<em>Course</em>对象的属性复制到<em>CourseEntity</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Course</span> <span class="n">course</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Course</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">course</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Computer Science&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">course</span><span class="o">.</span><span class="na">setCodes</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;CS&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">course</span><span class="o">.</span><span class="na">setEnrolledStudent</span><span class="o">(</span><span class="s">&#34;ST-1&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">Student</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">CourseEntity</span> <span class="n">courseEntity</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CourseEntity</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">BeanUtils</span><span class="o">.</span><span class="na">copyProperties</span><span class="o">(</span><span class="n">courseEntity</span><span class="o">,</span> <span class="n">course</span><span class="o">);</span>
+</span></span></code></pre></div><p>请记住，这将仅复制具有相同名称的属性。因此，它不会复制<em>Course类中的属性<strong>registeredStudent，因为 CourseEntity</strong>类</em>中没有同名的属性。</p>
+<h2 id="7-结论"><strong>7. 结论</strong></h2>
+<p><em>在这篇快速文章中，我们介绍了BeanUtils</em>提供的实用程序类。我们还研究了不同类型的属性以及我们如何访问和修改它们的值。</p>
+<p>最后，我们研究了访问嵌套属性值并将一个对象的属性复制到另一个对象。</p>
+<p>当然，Java SDK 中的反射和自省功能也允许我们动态访问属性，但它可能很难学习并且需要一些样板代码。<em>BeanUtils</em>允许我们通过单个方法调用访问和修改这些值。</p>
+<p>通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_beanutils/" data-title="Apache Commons BeanUtils"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_beanutils/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_beanutils/" data-title="Apache Commons BeanUtils"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_beanutils/" data-title="Apache Commons BeanUtils"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_beanutils/" data-title="Apache Commons BeanUtils"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_commons_bag/" class="prev" rel="prev" title="Apache Commons 收藏包"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons 收藏包</a>
+            <a href="/apache_commons_chain/" class="next" rel="next" title="阿帕奇共享链">阿帕奇共享链<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

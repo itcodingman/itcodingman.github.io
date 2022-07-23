@@ -1,0 +1,55 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Excel - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/excel/</link>
+        <description>Excel - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 31 May 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/excel/" rel="self" type="application/rss+xml" /><item>
+    <title>使用 Apache POI 的 Excel 单元格中的多行文本</title>
+    <link>http://itcodingman.github.io/apache_poi_write_multiline_text/</link>
+    <pubDate>Thu, 31 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_poi_write_multiline_text/</guid>
+    <description><![CDATA[简介 我们可以使用 Apache POI 在 Microsoft Excel 电子表格中以编程方式创建多行文本。但是，它不会显示为多行。这是因为使用代码向单元格添加文本不会自动调整单元格高度并]]></description>
+</item>
+<item>
+    <title>使用 Apache POI 读取 Excel 单元格值而不是公式</title>
+    <link>http://itcodingman.github.io/apache_poi_read_cell_value_formula/</link>
+    <pubDate>Tue, 29 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_poi_read_cell_value_formula/</guid>
+    <description><![CDATA[简介 在 Java 中读取 Excel 文件时，我们通常希望读取单元格的值以执行一些计算或生成报告。但是，我们可能会遇到一个或多个包含公式而不是原始数据值的单元格。]]></description>
+</item>
+<item>
+    <title>使用 POI 的数字格式</title>
+    <link>http://itcodingman.github.io/apache_poi_numeric_format/</link>
+    <pubDate>Mon, 28 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_poi_numeric_format/</guid>
+    <description><![CDATA[概述 在本快速教程中，我们将演示如何使用 Apache POI 在 Excel 中格式化数字单元格。 2.阿帕奇POI Apache POI是一个开源的纯 Java 项目。它提供了用于读取和写入 Microsoft Office 格]]></description>
+</item>
+<item>
+    <title>使用 Apache POI 更改单元格字体样式</title>
+    <link>http://itcodingman.github.io/apache_poi_change_cell_font/</link>
+    <pubDate>Sat, 26 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_poi_change_cell_font/</guid>
+    <description><![CDATA[简介 Apache POI是一个开源库，供软件开发人员创建和操作 Microsoft Office 文档。除其他功能外，它还允许开发人员以编程方式更改文档格式。 在本文中，我们将讨论在使用]]></description>
+</item>
+<item>
+    <title>使用 Apache POI 设置单元格的背景颜色</title>
+    <link>http://itcodingman.github.io/apache_poi_background_color/</link>
+    <pubDate>Fri, 25 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_poi_background_color/</guid>
+    <description><![CDATA[概述 在 Excel 工作表上，当我们通过更改表头的背景颜色来突出显示表头时，它总是看起来很优雅。本文介绍如何使用Apache POI更改单元格背景颜色。 此]]></description>
+</item>
+<item>
+    <title>使用 Apache POI 为 Excel 单元格添加边框</title>
+    <link>http://itcodingman.github.io/apache_poi_add_borders/</link>
+    <pubDate>Thu, 24 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_poi_add_borders/</guid>
+    <description><![CDATA[概述 在本教程中，我们将学习如何使用Apache POI Java 库为 Excel 工作表添加边框。 有关 excel 处理的更多基础知识，我们可以从使用 Java 中的 Microsoft Excel开始。 2.]]></description>
+</item>
+</channel>
+</rss>

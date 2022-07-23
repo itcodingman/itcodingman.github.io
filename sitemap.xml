@@ -3,14 +3,14 @@
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
             <loc>http://itcodingman.github.io/20_mins_tomcat/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/java/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/posts/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/java/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/posts/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/categories/youtube/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/categories/bilibili/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/categories/python/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/spring/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/spring/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/vscode_spring_boot_install_introduce/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/pygame_sokoban/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/10_mins_java_log/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -21,7 +21,7 @@
             <loc>http://itcodingman.github.io/tags/log4j2/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/tags/logback/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/tags/slf4j/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/1_hour_servlet/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/conda_install_introduce/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/pygame_minesweeper/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -102,30 +102,112 @@
             <loc>http://itcodingman.github.io/1_hour_python_flask/</loc><lastmod>2021-06-01T12:37:50&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/1_hour_flask/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://itcodingman.github.io/1_hour_python_opencv/</loc><lastmod>2022-06-08T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_velocity/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/jakarta-ee/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/security/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_tomcat_sso/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/data/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_tika/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_thrift/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_tapestry/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_storm/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/architecture/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_spark/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/devops/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/spark/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/lucene/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/nosql/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_solrj/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_shiro_access_control/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_shiro/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/messaging/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/spring-boot/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_rocketmq_spring_boot/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_pulsar/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/excel/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_poi_write_multiline_text/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_poi_slideshow/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_poi_read_cell_value_formula/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_poi_numeric_format/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_poi_change_cell_font/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_poi_background_color/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_poi_add_borders/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/algorithms/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_open_nlp/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_mesos/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/rest/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_meecrowave/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/kafka/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_kafka_data_modeling/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_ignite_spring_data/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/spring-data/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/spring-persistence/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_ignite/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/persistence/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/apache-httpclient/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_httpclient_vs_closeablehttpclient/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/http-client-side/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_httpclient_tls/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_httpclient_parameters/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_httpclient_expand_url/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_httpclient_enable_logging/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_geode/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_flink/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_druid_event_driven_data/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/apache-cxf/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_cxf_with_spring/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_cxf_rest_api/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_curator/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/cloud/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_crunch/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_setutils/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/java-collections/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/java-set/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_ordered_map/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/java-map/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_multi_valued_map/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_math/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/math/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_map_utils/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_io/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/java-io/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_frequency/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_dbutils/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_csv/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_collections_vs_guava/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/guava/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_collection_utils/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/pattern/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_chain/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_beanutils/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_commons_bag/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_cayenne_query/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_cayenne_orm/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/apache-camel/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_camel_spring_boot/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_camel_intro/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_bval/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_beam/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/apache_activemq_vs_kafka/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/ant_maven_gradle/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/devops/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/categories/gradle/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/categories/maven/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/rest/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/spring-data/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/spring-data-rest/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/angular_js_rest_api/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/categories/sorting/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/algorithm_quicksort/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/akka/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/reactive/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/akka/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/reactive/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/akka_with_spring/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/akka_streams/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/data/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/play/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/websockets/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/akka_play_websockets/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/akka_streams/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/play/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/websockets/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/akka_play_websockets/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/akka_http/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/akka_actors_java/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/categories/programming/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/ahead_of_time_compilation/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/apache-cxf/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/aegis_data_binding_in_apache_cxf/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/categories/xml/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/jvm/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
@@ -137,12 +219,9 @@
             <loc>http://itcodingman.github.io/activiti_kickstart_and_rest_apps/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/activeweb/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/active_jdbc/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/persistence/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/java-io/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/a_guide_to_java_sockets/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/core-java/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/a_guide_to_java_enums/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/algorithms/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/2048_java_solver/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/anonymous_named_pipes/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/netstat/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
@@ -151,27 +230,26 @@
             <loc>http://itcodingman.github.io/allowed_characters_variable_names/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/printenv/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/all_serial_devices/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/alias/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/scripting/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/alias_run_shadowed_command/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/chmod/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/file-permissions/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/files/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/advanced_file_permissions/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/security/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/awk/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/alias/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/scripting/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/alias_run_shadowed_command/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/chmod/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/file-permissions/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/categories/files/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/advanced_file_permissions/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/awk/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/echo/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/file/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/categories/file-editing/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/perl/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/sed/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/sed/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/add_string_line_end/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/printf/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/tr/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/tr/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/add_newline_variable_bash/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/expr/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/tags/paste/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/add_column_of_numbers/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/expr/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/tags/paste/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://itcodingman.github.io/add_column_of_numbers/</loc><lastmod>2022-07-23T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/dirname/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/readlink/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/absolute_directory_of_file/</loc><lastmod>2022-07-22T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
@@ -186,7 +264,6 @@
             <loc>http://itcodingman.github.io/tags/jpa/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/thymeleaf_in_spring_mvc/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/the_persistence_layer_with_spring_data_jpa/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/spring-persistence/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/spring-core-basics/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/spring-di/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/the_persistence_layer_with_spring_and_jpa/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
@@ -215,14 +292,12 @@
             <loc>http://itcodingman.github.io/spring_jdbc_jdbctemplate/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_getbean/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/tags/cassandra/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/nosql/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_data_jpa_multiple_databases/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_data_cassandra_tutorial/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_data_cassandratemplate_cqltemplate/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_dao_jpa/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_core_annotations/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_controller_vs_restcontroller/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://itcodingman.github.io/categories/spring-boot/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_component_repository_service/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_boot_max_http_header_size/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>http://itcodingman.github.io/spring_bean_scopes/</loc><lastmod>2022-07-20T00:00:00&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>

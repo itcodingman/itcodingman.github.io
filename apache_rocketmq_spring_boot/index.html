@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>带有 Spring Boot 的 Apache RocketMQ - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="带有 Spring Boot 的 Apache RocketMQ" />
+<meta property="og:description" content="简介 在本教程中，我们将使用 Spring Boot 和开源分布式消息传递和流数据平台 Apache RocketMQ 创建消息生产者和消费者。 依赖 对于 Maven 项目，我们需要添加RocketMQ Spring Boot S" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_rocketmq_spring_boot/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-06-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="带有 Spring Boot 的 Apache RocketMQ"/>
+<meta name="twitter:description" content="简介 在本教程中，我们将使用 Spring Boot 和开源分布式消息传递和流数据平台 Apache RocketMQ 创建消息生产者和消费者。 依赖 对于 Maven 项目，我们需要添加RocketMQ Spring Boot S"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_rocketmq_spring_boot/" /><link rel="prev" href="http://itcodingman.github.io/apache_pulsar/" /><link rel="next" href="http://itcodingman.github.io/apache_shiro/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "带有 Spring Boot 的 Apache RocketMQ",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_rocketmq_spring_boot\/"
+        },"genre": "posts","keywords": "Messaging","wordcount":  1932 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_rocketmq_spring_boot\/","datePublished": "2018-06-02T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">带有 Spring Boot 的 Apache RocketMQ</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a>&nbsp;<a href="/categories/spring-boot/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring Boot</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-02">2018-06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1932 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#4消息消费者">4.消息消费者</a></li>
+    <li><a href="#5同步和异步传输">5.同步和异步传输</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>简介</li>
+</ol>
+<hr>
+<p>在本教程中，我们将使用 Spring Boot 和开源分布式消息传递和流数据平台 Apache RocketMQ 创建消息生产者和消费者。</p>
+<ol start="2">
+<li>依赖</li>
+</ol>
+<hr>
+<p>对于 Maven 项目，我们需要添加<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.rocketmq%22%20AND%20a%3A%22rocketmq-spring-boot-starter%22" target="_blank" rel="noopener noreffer">RocketMQ Spring Boot Starter</a>依赖：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">    &lt;groupId&gt;org.apache.rocketmq&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">    &lt;artifactId&gt;rocketmq-spring-boot-starter&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">    &lt;version&gt;2.0.4&lt;/version&gt;
+</span></span><span class="line"><span class="cl">&lt;/dependency&gt;
+</span></span></code></pre></div><ol start="3">
+<li>产生消息</li>
+</ol>
+<hr>
+<p>对于我们的示例，我们将创建一个基本的消息生产者，每当用户在购物车中添加或删除商品时，它都会发送事件。</p>
+<p><em>首先，让我们在application.properties</em>中设置我们的服务器位置和组名：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">rocketmq.name-server=127.0.0.1:9876
+</span></span><span class="line"><span class="cl">rocketmq.producer.group=cart-producer-group
+</span></span></code></pre></div><p>请注意，如果我们有多个名称服务器，我们可以将它们列出为 <em>host:port;host:port</em>。</p>
+<p>现在，为了简单起见，我们将创建一个<em>CommandLineRunner</em>应用程序并在应用程序启动期间生成一些事件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootApplication</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CartEventProducer</span> <span class="kd">implements</span> <span class="n">CommandLineRunner</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Autowired</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">RocketMQTemplate</span> <span class="n">rocketMQTemplate</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">CartEventProducer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="n">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rocketMQTemplate</span><span class="o">.</span><span class="na">convertAndSend</span><span class="o">(</span><span class="s">&#34;cart-item-add-topic&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">CartItemEvent</span><span class="o">(</span><span class="s">&#34;bike&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rocketMQTemplate</span><span class="o">.</span><span class="na">convertAndSend</span><span class="o">(</span><span class="s">&#34;cart-item-add-topic&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">CartItemEvent</span><span class="o">(</span><span class="s">&#34;computer&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rocketMQTemplate</span><span class="o">.</span><span class="na">convertAndSend</span><span class="o">(</span><span class="s">&#34;cart-item-removed-topic&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">CartItemEvent</span><span class="o">(</span><span class="s">&#34;bike&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>CartItemEvent<em>仅</em>包含两个属性——商品的 id 和数量：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">CartItemEvent</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">itemId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">quantity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// constructor, getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>在上面的例子中，我们使用了<em>convertAndSend()<em>方法，一个由</em>AbstractMessageSendingTemplate</em>抽象类定义的通用方法，来发送我们的购物车事件。它有两个参数：一个目的地，在我们的例子中是一个主题名称，以及一个消息负载。</p>
+<h2 id="4消息消费者">4.消息消费者</h2>
+<p>使用 RocketMQ 消息就像创建一个带有*@RocketMQMessageListener<em>注解的 Spring 组件并实现</em>RocketMQListener*接口一样简单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootApplication</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CartEventConsumer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">CartEventConsumer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Service</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@RocketMQMessageListener</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">topic</span> <span class="o">=</span> <span class="s">&#34;cart-item-add-topic&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">consumerGroup</span> <span class="o">=</span> <span class="s">&#34;cart-consumer_cart-item-add-topic&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CardItemAddConsumer</span> <span class="kd">implements</span> <span class="n">RocketMQListener</span><span class="o">&lt;</span><span class="n">CartItemEvent</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onMessage</span><span class="o">(</span><span class="n">CartItemEvent</span> <span class="n">addItemEvent</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Adding item: {}&#34;</span><span class="o">,</span> <span class="n">addItemEvent</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// additional logic
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Service</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@RocketMQMessageListener</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">topic</span> <span class="o">=</span> <span class="s">&#34;cart-item-removed-topic&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">consumerGroup</span> <span class="o">=</span> <span class="s">&#34;cart-consumer_cart-item-removed-topic&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CardItemRemoveConsumer</span> <span class="kd">implements</span> <span class="n">RocketMQListener</span><span class="o">&lt;</span><span class="n">CartItemEvent</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onMessage</span><span class="o">(</span><span class="n">CartItemEvent</span> <span class="n">removeItemEvent</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Removing item: {}&#34;</span><span class="o">,</span> <span class="n">removeItemEvent</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// additional logic
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们需要为我们正在监听的每个消息主题创建一个单独的组件。在每一个监听器中，我们通过@RocketMQMessageListener 注解定义主题名称和消费<em>组</em>名称*。*</p>
+<h2 id="5同步和异步传输">5.同步和异步传输</h2>
+<p>在前面的示例中，我们使用了<em>convertAndSend</em>方法来发送我们的消息。不过，我们还有其他一些选择。</p>
+<p>例如，我们可以调用<em>与 convertAndSend</em>不同的<em>syncSend</em> ，因为它返回<em>SendResult</em>对象。</p>
+<p>例如，它可以用来验证我们的消息是否成功发送或获取它的 id：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="n">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">SendResult</span> <span class="n">addBikeResult</span> <span class="o">=</span> <span class="n">rocketMQTemplate</span><span class="o">.</span><span class="na">syncSend</span><span class="o">(</span><span class="s">&#34;cart-item-add-topic&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="n">CartItemEvent</span><span class="o">(</span><span class="s">&#34;bike&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">));</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">SendResult</span> <span class="n">addComputerResult</span> <span class="o">=</span> <span class="n">rocketMQTemplate</span><span class="o">.</span><span class="na">syncSend</span><span class="o">(</span><span class="s">&#34;cart-item-add-topic&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="n">CartItemEvent</span><span class="o">(</span><span class="s">&#34;computer&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">));</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">SendResult</span> <span class="n">removeBikeResult</span> <span class="o">=</span> <span class="n">rocketMQTemplate</span><span class="o">.</span><span class="na">syncSend</span><span class="o">(</span><span class="s">&#34;cart-item-removed-topic&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="n">CartItemEvent</span><span class="o">(</span><span class="s">&#34;bike&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">));</span> 
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>与*convertAndSend 一样，*此方法仅在发送过程完成时返回。</p>
+<p>在需要高可靠性的情况下，比如重要的通知消息或短信通知，我们应该使用同步传输。</p>
+<p>另一方面，我们可能希望异步发送消息并在发送完成时收到通知。</p>
+<p>我们可以使用 <em>asyncSend</em>来做到这一点，它接受一个 <em>SendCallback</em>作为参数并立即返回：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">rocketMQTemplate</span><span class="o">.</span><span class="na">asyncSend</span><span class="o">(</span><span class="s">&#34;cart-item-add-topic&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">CartItemEvent</span><span class="o">(</span><span class="s">&#34;bike&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span> <span class="k">new</span> <span class="n">SendCallback</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onSuccess</span><span class="o">(</span><span class="n">SendResult</span> <span class="n">sendResult</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Successfully sent cart item&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onException</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">throwable</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Exception during cart item sending&#34;</span><span class="o">,</span> <span class="n">throwable</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">});</span>
+</span></span></code></pre></div><p>我们在需要高吞吐量的情况下使用异步传输。</p>
+<p>最后，对于吞吐量要求非常高的场景，我们可以使用<em>sendOneWay</em>代替<em>asyncSend</em>。 <em>sendOneWay 与**asyncSend</em>的不同之处在于它不保证消息会被发送。</p>
+<p>单向传输也可以用于普通的可靠性情况，例如收集日志。</p>
+<ol start="6">
+<li>在事务中发送消息</li>
+</ol>
+<hr>
+<p>RocketMQ 为我们提供了在事务中发送消息的能力。我们可以使用*sendInTransaction()*方法来做到这一点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MessageBuilder</span><span class="o">.</span><span class="na">withPayload</span><span class="o">(</span><span class="k">new</span> <span class="n">CartItemEvent</span><span class="o">(</span><span class="s">&#34;bike&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">)).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">rocketMQTemplate</span><span class="o">.</span><span class="na">sendMessageInTransaction</span><span class="o">(</span><span class="s">&#34;test-transaction&#34;</span><span class="o">,</span> <span class="s">&#34;topic-name&#34;</span><span class="o">,</span> <span class="n">msg</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</span></span></code></pre></div><p>另外，我们必须实现一个<em>RocketMQLocalTransactionListener</em>接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@RocketMQTransactionListener</span><span class="o">(</span><span class="n">txProducerGroup</span><span class="o">=</span><span class="s">&#34;test-transaction&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">TransactionListenerImpl</span> <span class="kd">implements</span> <span class="n">RocketMQLocalTransactionListener</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">public</span> <span class="n">RocketMQLocalTransactionState</span> <span class="nf">executeLocalTransaction</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">,</span> <span class="n">Object</span> <span class="n">arg</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// ... local transaction process, return ROLLBACK, COMMIT or UNKNOWN
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="k">return</span> <span class="n">RocketMQLocalTransactionState</span><span class="o">.</span><span class="na">UNKNOWN</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">public</span> <span class="n">RocketMQLocalTransactionState</span> <span class="nf">checkLocalTransaction</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">// ... check transaction status and return ROLLBACK, COMMIT or UNKNOWN
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="k">return</span> <span class="n">RocketMQLocalTransactionState</span><span class="o">.</span><span class="na">COMMIT</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在<em>sendMessageInTransaction()<em>中，第一个参数是事务名称。它必须与</em>@RocketMQTransactionListener</em>的成员字段<em>txProducerGroup 相同。</em></p>
+<ol start="7">
+<li>消息生产者配置</li>
+</ol>
+<hr>
+<p>我们还可以配置消息生产者本身的各个方面：</p>
+<ul>
+<li><em>Rocketmq.producer.send-message-timeout</em>：消息发送超时时间，以毫秒为单位——默认值为 3000</li>
+<li><em>RocketMQ.producer.compress-message-body-threshold</em>：超过该阈值，RocketMQ 将压缩消息 - 默认值为 1024。</li>
+<li><em>Rocketmq.producer.max-message-size</em>：最大消息大小（以字节为单位）——默认值为 4096。</li>
+<li><em>Rocketmq.producer.retry-times-when-send-async-failed</em>：发送失败前在异步模式下内部执行的最大重试次数——默认值为 2。</li>
+<li><em>Rocketmq.producer.retry-next-server</em>：指示是否在内部发送失败时重试另一个代理 - 默认值为<em>false</em>。</li>
+<li><em>Rocketmq.producer.retry-times-when-send-failed</em>：发送失败前在异步模式下内部执行的最大重试次数——默认值为 2。</li>
+</ul>
+<ol start="8">
+<li>结论</li>
+</ol>
+<hr>
+<p>通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_rocketmq_spring_boot/" data-title="带有 Spring Boot 的 Apache RocketMQ" data-hashtags="Messaging"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_rocketmq_spring_boot/" data-hashtag="Messaging"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_rocketmq_spring_boot/" data-title="带有 Spring Boot 的 Apache RocketMQ"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_rocketmq_spring_boot/" data-title="带有 Spring Boot 的 Apache RocketMQ"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_rocketmq_spring_boot/" data-title="带有 Spring Boot 的 Apache RocketMQ"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/messaging/">Messaging</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_pulsar/" class="prev" rel="prev" title="Apache Pulsar 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Pulsar 简介</a>
+            <a href="/apache_shiro/" class="next" rel="next" title="Apache Shiro 简介">Apache Shiro 简介<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Apache Shiro 的基于权限的访问控制 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache Shiro 的基于权限的访问控制" />
+<meta property="og:description" content="1. 简介 在本教程中，我们将了解如何使用Apache Shiro Java 安全框架实现细粒度的基于权限的访问控制。 2. 设置 我们将使用与 Shiro 介绍相同的设置——也就是说，" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_shiro_access_control/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-06-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Apache Shiro 的基于权限的访问控制"/>
+<meta name="twitter:description" content="1. 简介 在本教程中，我们将了解如何使用Apache Shiro Java 安全框架实现细粒度的基于权限的访问控制。 2. 设置 我们将使用与 Shiro 介绍相同的设置——也就是说，"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_shiro_access_control/" /><link rel="prev" href="http://itcodingman.github.io/apache_shiro/" /><link rel="next" href="http://itcodingman.github.io/apache_solrj/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Apache Shiro 的基于权限的访问控制",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_shiro_access_control\/"
+        },"genre": "posts","wordcount":  2417 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_shiro_access_control\/","datePublished": "2018-06-04T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache Shiro 的基于权限的访问控制</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/security/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Security</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-04">2018-06-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2417 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
+    <li><a href="#2-设置"><strong>2. 设置</strong></a></li>
+    <li><a href="#3-角色和权限"><strong>3. 角色和权限</strong></a>
+      <ul>
+        <li><a href="#31权限"><strong>3.1。权限</strong></a></li>
+        <li><a href="#32-将权限与用户关联"><strong>3.2. 将权限与用户关联</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-通配符权限"><strong>4. 通配符权限</strong></a>
+      <ul>
+        <li><a href="#41权限含义和实例级粒度"><strong>4.1。权限含义和实例级粒度</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-自定义权限实现"><strong>5. 自定义权限实现</strong></a>
+      <ul>
+        <li><a href="#51编写权限实现"><strong>5.1。编写权限实现</strong></a></li>
+        <li><a href="#52-告诉-shiro-我们的实施"><strong>5.2. 告诉 Shiro 我们的实施</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#六结论"><strong>六，结论</strong></a>
+      <ul>
+        <li><a href="#我刚刚宣布了新的learn-spring-security课程包括专注于-spring-security-5-中新的-oauth2-堆栈的完整材料"><strong>我刚刚宣布了新的<em>Learn Spring Security</em>课程，包括专注于 Spring Security 5 中新的 OAuth2 堆栈的完整材料：</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
+<p>在本教程中，我们将了解如何使用<a href="apache-shiro" rel="">Apache Shiro</a> Java 安全框架实现<strong>细粒度的基于权限的访问控制。</strong></p>
+<h2 id="2-设置"><strong>2. 设置</strong></h2>
+<p>我们将使用与 Shiro 介绍相同的设置——也就是说，我们只会将<a href="https://search.maven.org/search?q=g:org.apache.shiro%20AND%20a:shiro-core&amp;core=gav" target="_blank" rel="noopener noreffer"><em>shiro-core</em></a>模块添加到我们的依赖项中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.shiro<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>shiro-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.4.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>此外，出于测试目的，我们将通过将以下<em>shiro.ini</em>文件放在类路径的根目录中来使用简单的 INI 领域：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[users]
+</span></span><span class="line"><span class="cl">jane.admin = password, admin
+</span></span><span class="line"><span class="cl">john.editor = password2, editor
+</span></span><span class="line"><span class="cl">zoe.author = password3, author
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[roles]
+</span></span><span class="line"><span class="cl">admin = *
+</span></span><span class="line"><span class="cl">editor = articles:*
+</span></span><span class="line"><span class="cl">author = articles:create, articles:edit
+</span></span></code></pre></div><p>然后，我们将使用上述领域初始化 Shiro：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IniRealm</span> <span class="n">iniRealm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IniRealm</span><span class="o">(</span><span class="s">&#34;classpath:shiro.ini&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">SecurityManager</span> <span class="n">securityManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSecurityManager</span><span class="o">(</span><span class="n">iniRealm</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">SecurityUtils</span><span class="o">.</span><span class="na">setSecurityManager</span><span class="o">(</span><span class="n">securityManager</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="3-角色和权限"><strong>3. 角色和权限</strong></h2>
+<p>通常，当我们谈论身份验证和授权时，我们会以用户和角色的概念为中心。</p>
+<p>特别是，**角色是应用程序或服务的用户的横切类别。**因此，所有具有特定角色的用户都可以访问某些资源和操作，并且可能对应用程序或服务的其他部分具有受限访问权限。</p>
+<p>角色集通常是预先设计的，很少更改以适应新的业务需求。但是，角色也可以动态定义——例如，由管理员定义。</p>
+<p>使用 Shiro，我们有多种测试用户是否具有特定角色的方法。最直接的方法是使用<em>hasRole</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Subject</span> <span class="n">subject</span> <span class="o">=</span> <span class="n">SecurityUtils</span><span class="o">.</span><span class="na">getSubject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">subject</span><span class="o">.</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;admin&#34;</span><span class="o">))</span> <span class="o">{</span>       
+</span></span><span class="line"><span class="cl">    <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Welcome Admin&#34;</span><span class="o">);</span>              
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="31权限"><strong>3.1。权限</strong></h3>
+<p>但是，如果我们通过测试用户是否具有特定角色来检查授权，则会出现问题。事实上，**我们正在硬编码角色和权限之间的关系。**换句话说，当我们想要授予或撤销对资源的访问权限时，我们将不得不更改源代码。当然，这也意味着重建和重新部署。</p>
+<p>我们可以做得更好；这就是为什么我们现在要介绍权限的概念。<strong>权限代表</strong>我们可以授权或拒绝的软件可以做什么，而**不是谁可以做。**例如，“编辑当前用户的个人资料”、“批准文档”或“创建新文章”。</p>
+<p>Shiro 对权限的假设很少。在最简单的情况下，权限是纯字符串：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Subject</span> <span class="n">subject</span> <span class="o">=</span> <span class="n">SecurityUtils</span><span class="o">.</span><span class="na">getSubject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">subject</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:create&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//Create a new article
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，<strong>权限的使用在 Shiro 中完全是可选的。</strong></p>
+<h3 id="32-将权限与用户关联"><strong>3.2. 将权限与用户关联</strong></h3>
+<p>Shiro 具有将权限与角色或单个用户关联的灵活模型。但是，典型领域，包括我们在本教程中使用的简单 INI 领域，仅将权限与角色相关联。</p>
+<p>因此，由<em>Principal</em>标识的用户具有多个角色，并且每个角色具有多个 <em>Permission</em>。</p>
+<p>例如，我们可以看到在我们的 INI 文件中，用户<em>zoe.author</em>具有<em>作者</em>角色，这赋予了他们<em>文章：创建</em>和 <em>文章：编辑</em>权限：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[users]
+</span></span><span class="line"><span class="cl">zoe.author = password3, author
+</span></span><span class="line"><span class="cl">#Other users...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[roles]
+</span></span><span class="line"><span class="cl">author = articles:create, articles:edit
+</span></span><span class="line"><span class="cl">#Other roles...
+</span></span></code></pre></div><p>类似地，其他领域类型（例如内置的 JDBC 领域）可以配置为将权限与角色相关联。</p>
+<h2 id="4-通配符权限"><strong>4. 通配符权限</strong></h2>
+<p>**Shiro 中权限的默认实现是通配符权限，**是各种权限方案的灵活表示。</p>
+<p>我们在 Shiro 中用字符串表示通配符权限。权限字符串由一个或多个以冒号分隔的组件组成，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">articles:edit:1
+</span></span></code></pre></div><p>字符串每个部分的含义取决于应用程序，因为 Shiro 不强制执行任何规则。但是，在上面的示例中，我们可以很清楚地将字符串解释为层次结构：</p>
+<ol>
+<li>我们公开的资源类别（文章）</li>
+<li>对此类资源的操作（编辑）</li>
+<li>我们要允许或拒绝操作的特定资源的 id</li>
+</ol>
+<p>这种三层结构的 resource:action:id 是 Shiro 应用程序中的一种常见模式，因为它既简单又有效地代表了许多不同的场景。</p>
+<p>因此，我们可以重新访问我们之前的示例以遵循此方案：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Subject</span> <span class="n">subject</span> <span class="o">=</span> <span class="n">SecurityUtils</span><span class="o">.</span><span class="na">getSubject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">subject</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:edit:123&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//Edit article with id 123
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，<strong>通配符权限字符串中的组件数不必是三个，即使通常情况下三个组件也是如此。</strong></p>
+<h3 id="41权限含义和实例级粒度"><strong>4.1。权限含义和实例级粒度</strong></h3>
+<p>当我们将通配符权限与 Shiro 权限的另一个特性（隐含）结合使用时，通配符权限就会大放异彩。</p>
+<p>**当我们测试角色时，我们会测试确切的成员资格：**一个<em>Subject</em>有一个特定的角色，或者没有。换句话说，Shiro 测试角色的平等性。</p>
+<p>另一方面，**当我们测试权限时，我们会测试含义：**<em>Subject</em>的权限是否暗示我们正在测试它的权限？</p>
+<p>具体含义取决于权限的实现。事实上，对于通配符权限，其含义是部分字符串匹配，顾名思义，可能存在通配符。</p>
+<p>因此，假设我们为<em>作者</em>角色分配了以下权限：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[roles]
+</span></span><span class="line"><span class="cl">author = articles:*
+</span></span></code></pre></div><p>然后，每个具有<em>作者</em>角色的人都将被允许对文章进行所有可能的操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Subject</span> <span class="n">subject</span> <span class="o">=</span> <span class="n">SecurityUtils</span><span class="o">.</span><span class="na">getSubject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">subject</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:create&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//Create a new article
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>也就是说，字符串<em>articles:*<em>将匹配第一个组件是</em>articles 的任何通配符权限。</em></p>
+<p>使用这个方案，我们既可以分配非常具体的权限——对具有给定 id 的特定资源的特定操作——也可以分配广泛的权限，例如编辑任何文章或对任何文章执行任何操作。</p>
+<p>当然，出于性能原因，由于这不是简单的相等比较，<strong>我们应该始终针对最具体的权限进行测试</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">subject</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:edit:1&#34;</span><span class="o">))</span> <span class="o">{</span> <span class="c1">//Better than &#34;articles:*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//Edit article
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-自定义权限实现"><strong>5. 自定义权限实现</strong></h2>
+<p>让我们简要介绍一下权限自定义。尽管通配符权限涵盖了广泛的场景，但我们可能希望用为我们的应用程序定制的解决方案来替换它们。</p>
+<p>假设我们需要对路径的权限进行建模，以便路径上的权限<em>意味着</em>对所有子路径的权限。实际上，我们可以对任务使用通配符权限，但让我们忽略它。</p>
+<p>那么，我们需要什么？</p>
+<ol>
+<li><em>权限</em>实现_</li>
+<li>告诉四郎这件事</li>
+</ol>
+<p>让我们看看如何实现这两点。</p>
+<h3 id="51编写权限实现"><strong>5.1。编写权限实现</strong></h3>
+<p><strong><em>Permission</em>实现是一个只有一个方法的类——<em>意味着</em>：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PathPermission</span> <span class="kd">implements</span> <span class="n">Permission</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Path</span> <span class="n">path</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">PathPermission</span><span class="o">(</span><span class="n">Path</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">path</span> <span class="o">=</span> <span class="n">path</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">implies</span><span class="o">(</span><span class="n">Permission</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="o">(</span><span class="n">p</span> <span class="k">instanceof</span> <span class="n">PathPermission</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="o">((</span><span class="n">PathPermission</span><span class="o">)</span> <span class="n">p</span><span class="o">).</span><span class="na">path</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果 <em>这</em>意味着另一个权限对象，则该方法返回<em>true ，否则返回**false</em>。</p>
+<h3 id="52-告诉-shiro-我们的实施"><strong>5.2. 告诉 Shiro 我们的实施</strong></h3>
+<p>然后，有多种方法可以将<em>Permission</em>实现集成到 Shiro 中，但最直接的方法是<strong>将自定义<em>PermissionResolver</em>注入我们的<em>Realm</em>：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IniRealm</span> <span class="n">realm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IniRealm</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Ini</span> <span class="n">ini</span> <span class="o">=</span> <span class="n">Ini</span><span class="o">.</span><span class="na">fromResourcePath</span><span class="o">(</span><span class="n">Main</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getResource</span><span class="o">(</span><span class="s">&#34;/com/.../shiro.ini&#34;</span><span class="o">).</span><span class="na">getPath</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">realm</span><span class="o">.</span><span class="na">setIni</span><span class="o">(</span><span class="n">ini</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">realm</span><span class="o">.</span><span class="na">setPermissionResolver</span><span class="o">(</span><span class="k">new</span> <span class="n">PathPermissionResolver</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">realm</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">SecurityManager</span> <span class="n">securityManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSecurityManager</span><span class="o">(</span><span class="n">realm</span><span class="o">);</span>
+</span></span></code></pre></div><p><strong><em>PermissionResolver</em>负责将</strong><strong>我们权限的字符串表示形式转换为实际的</strong>**Permission<em><strong><strong>对象</strong></strong></em>：**</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PathPermissionResolver</span> <span class="kd">implements</span> <span class="n">PermissionResolver</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Permission</span> <span class="nf">resolvePermission</span><span class="o">(</span><span class="n">String</span> <span class="n">permissionString</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">PathPermission</span><span class="o">(</span><span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">permissionString</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们必须使用基于路径的权限修改我们之前的<em>shiro.ini ：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[roles]
+</span></span><span class="line"><span class="cl">admin = /
+</span></span><span class="line"><span class="cl">editor = /articles
+</span></span><span class="line"><span class="cl">author = /articles/drafts
+</span></span></code></pre></div><p>然后，我们将能够检查路径的权限：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;/articles/drafts/new-article&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;You can access articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，这里我们以编程方式配置一个简单的领域。在典型的应用程序中，我们将使用<em>shiro.ini</em>文件或 Spring 等其他方式来配置 Shiro 和领域。一个真实的 <em>shiro.ini</em>文件可能包含：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[main]
+</span></span><span class="line"><span class="cl">permissionResolver = com.codingman.shiro.permissions.custom.PathPermissionResolver
+</span></span><span class="line"><span class="cl">dataSource = org.apache.shiro.jndi.JndiObjectFactory
+</span></span><span class="line"><span class="cl">dataSource.resourceName = java://app/jdbc/myDataSource
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">jdbcRealm = org.apache.shiro.realm.jdbc.JdbcRealm
+</span></span><span class="line"><span class="cl">jdbcRealm.dataSource = $dataSource 
+</span></span><span class="line"><span class="cl">jdbcRealm.permissionResolver = $permissionResolver
+</span></span></code></pre></div><h2 id="六结论"><strong>六，结论</strong></h2>
+<p>在本文中，我们回顾了 Apache Shiro 如何实现基于权限的访问控制。</p>
+<p>安全底</p>
+<h3 id="我刚刚宣布了新的learn-spring-security课程包括专注于-spring-security-5-中新的-oauth2-堆栈的完整材料"><strong>我刚刚宣布了新的<em>Learn Spring Security</em>课程，包括专注于 Spring Security 5 中新的 OAuth2 堆栈的完整材料：</strong></h3>
+<p><strong><a href="lss-course#table" rel="">&raquo; 查看课程</a></strong></p>
+<p>安全页脚横幅</p>
+<p>学习使用 Spring 保护 REST API 的基础知识
+<a href="security-video-guide" rel="">访问视频课程</a></p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_shiro_access_control/" data-title="使用 Apache Shiro 的基于权限的访问控制"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_shiro_access_control/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_shiro_access_control/" data-title="使用 Apache Shiro 的基于权限的访问控制"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_shiro_access_control/" data-title="使用 Apache Shiro 的基于权限的访问控制"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_shiro_access_control/" data-title="使用 Apache Shiro 的基于权限的访问控制"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_shiro/" class="prev" rel="prev" title="Apache Shiro 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Shiro 简介</a>
+            <a href="/apache_solrj/" class="next" rel="next" title="使用 Apache SolrJ 在 Java 中使用 Solr 指南">使用 Apache SolrJ 在 Java 中使用 Solr 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

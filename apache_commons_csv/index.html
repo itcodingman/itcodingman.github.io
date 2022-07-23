@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Commons CSV 简介 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons CSV 简介" />
+<meta property="og:description" content="1. 概述 Apache Commons CSV 库具有许多用于创建和读取 CSV 文件的有用功能。 在这个快速教程中，我们将通过一个简单的例子来了解如何使用这个库。 2.Maven依赖 首先" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_commons_csv/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Commons CSV 简介"/>
+<meta name="twitter:description" content="1. 概述 Apache Commons CSV 库具有许多用于创建和读取 CSV 文件的有用功能。 在这个快速教程中，我们将通过一个简单的例子来了解如何使用这个库。 2.Maven依赖 首先"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_commons_csv/" /><link rel="prev" href="http://itcodingman.github.io/apache_commons_collections_vs_guava/" /><link rel="next" href="http://itcodingman.github.io/apache_commons_dbutils/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Commons CSV 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_commons_csv\/"
+        },"genre": "posts","wordcount":  810 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_csv\/","datePublished": "2018-04-27T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons CSV 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-27">2018-04-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;810 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#3-读取-csv-文件"><strong>3. 读取 CSV 文件</strong></a></li>
+    <li><a href="#4-创建-csv-文件"><strong>4. 创建 CSV 文件</strong></a></li>
+    <li><a href="#5-标题和阅读栏"><strong>5. 标题和阅读栏</strong></a>
+      <ul>
+        <li><a href="#51按索引访问列"><strong>5.1。按索引访问列</strong></a></li>
+        <li><a href="#52-通过预定义的标题访问列"><strong>5.2. 通过预定义的标题访问列</strong></a></li>
+        <li><a href="#53-使用枚举作为标题"><strong>5.3. 使用枚举作为标题</strong></a></li>
+        <li><a href="#54-跳过标题行"><strong>5.4. 跳过标题行</strong></a></li>
+        <li><a href="#55-创建带有标题的文件"><strong>5.5. 创建带有标题的文件</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#六结论"><strong>六，结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p><a href="https://commons.apache.org/proper/commons-csv/" target="_blank" rel="noopener noreffer">Apache Commons CSV 库</a>具有许多用于创建和读取 CSV 文件的有用功能。</p>
+<p>在这个快速教程中，我们将通过一个简单的例子来了解如何使用这个库。</p>
+<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<p>首先，我们将使用 Maven 导入该库的最新版本：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-csv<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.4<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>要检查这个库的最新版本——<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.commons%22%20AND%20a%3A%22commons-csv%22" target="_blank" rel="noopener noreffer">去这里</a>。</p>
+<h2 id="3-读取-csv-文件"><strong>3. 读取 CSV 文件</strong></h2>
+<p>考虑以下名为 book.csv 的 CSV 文件，其中包含一本书的属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">author,title
+</span></span><span class="line"><span class="cl">Dan Simmons,Hyperion
+</span></span><span class="line"><span class="cl">Douglas Adams,The Hitchhiker&#39;s Guide to the Galaxy
+</span></span></code></pre></div><p>让我们看看如何阅读它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">AUTHOR_BOOK_MAP</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">put</span><span class="o">(</span><span class="s">&#34;Dan Simmons&#34;</span><span class="o">,</span> <span class="s">&#34;Hyperion&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">put</span><span class="o">(</span><span class="s">&#34;Douglas Adams&#34;</span><span class="o">,</span> <span class="s">&#34;The Hitchhiker&#39;s Guide to the Galaxy&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">});</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span><span class="o">[]</span> <span class="n">HEADERS</span> <span class="o">=</span> <span class="o">{</span> <span class="s">&#34;author&#34;</span><span class="o">,</span> <span class="s">&#34;title&#34;</span><span class="o">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenCSVFile_whenRead_thenContentsAsExpected</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Reader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="s">&#34;book.csv&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">CSVRecord</span><span class="o">&gt;</span> <span class="n">records</span> <span class="o">=</span> <span class="n">CSVFormat</span><span class="o">.</span><span class="na">DEFAULT</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">withHeader</span><span class="o">(</span><span class="n">HEADERS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">withFirstRecordAsHeader</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="n">CSVRecord</span> <span class="n">record</span> <span class="o">:</span> <span class="n">records</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">author</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">title</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;title&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertEquals</span><span class="o">(</span><span class="n">AUTHOR_BOOK_MAP</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">author</span><span class="o">),</span> <span class="n">title</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们在跳过第一行后读取 CSV 文件的记录，因为它是标题。</p>
+<p>有不同类型的<em>CSVFormat</em>指定 CSV 文件的格式，您可以在下一段中看到一个示例。</p>
+<h2 id="4-创建-csv-文件"><strong>4. 创建 CSV 文件</strong></h2>
+<p>让我们看看如何创建与上面相同的 CSV 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">createCSVFile</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FileWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="s">&#34;book_new.csv&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">(</span><span class="n">CSVPrinter</span> <span class="n">printer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CSVPrinter</span><span class="o">(</span><span class="n">out</span><span class="o">,</span> <span class="n">CSVFormat</span><span class="o">.</span><span class="na">DEFAULT</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">withHeader</span><span class="o">(</span><span class="n">HEADERS</span><span class="o">)))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">AUTHOR_BOOK_MAP</span><span class="o">.</span><span class="na">forEach</span><span class="o">((</span><span class="n">author</span><span class="o">,</span> <span class="n">title</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">printer</span><span class="o">.</span><span class="na">printRecord</span><span class="o">(</span><span class="n">author</span><span class="o">,</span> <span class="n">title</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>将使用适当的标题创建新的 CSV 文件，因为我们已经在<em>CSVFormat</em>声明中指定了它们。</p>
+<h2 id="5-标题和阅读栏"><strong>5. 标题和阅读栏</strong></h2>
+<p>有不同的方法来读取和写入标头。同样，读取列值也有不同的方法。</p>
+<p>让我们一一介绍：</p>
+<h3 id="51按索引访问列"><strong>5.1。按索引访问列</strong></h3>
+<p>这是读取列值的最基本方法。当 CSV 文件的标题未知时，可以使用此方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Reader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="s">&#34;book.csv&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">CSVRecord</span><span class="o">&gt;</span> <span class="n">records</span> <span class="o">=</span> <span class="n">CSVFormat</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">CSVRecord</span> <span class="n">record</span> <span class="o">:</span> <span class="n">records</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">columnOne</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">columnTwo</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="52-通过预定义的标题访问列"><strong>5.2. 通过预定义的标题访问列</strong></h3>
+<p>与通过索引访问相比，这是一种更直观的访问列的方式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">CSVRecord</span><span class="o">&gt;</span> <span class="n">records</span> <span class="o">=</span> <span class="n">CSVFormat</span><span class="o">.</span><span class="na">DEFAULT</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">withHeader</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">,</span> <span class="s">&#34;title&#34;</span><span class="o">).</span><span class="na">parse</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">CSVRecord</span> <span class="n">record</span> <span class="o">:</span> <span class="n">records</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">author</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">title</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;title&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="53-使用枚举作为标题"><strong>5.3. 使用枚举作为标题</strong></h3>
+<p>使用<em>字符串</em>访问列值可能容易出错。使用 Enums 而不是 Strings 将使代码更加标准化和易于理解：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">enum</span> <span class="n">BookHeaders</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span><span class="o">,</span> <span class="n">title</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">CSVRecord</span><span class="o">&gt;</span> <span class="n">records</span> <span class="o">=</span> <span class="n">CSVFormat</span><span class="o">.</span><span class="na">DEFAULT</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">withHeader</span><span class="o">(</span><span class="n">BookHeaders</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">parse</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">CSVRecord</span> <span class="n">record</span> <span class="o">:</span> <span class="n">records</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">author</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">BookHeaders</span><span class="o">.</span><span class="na">author</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">title</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">BookHeaders</span><span class="o">.</span><span class="na">title</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="54-跳过标题行"><strong>5.4. 跳过标题行</strong></h3>
+<p>通常，CSV 文件在第一行包含标题。因此，在大多数情况下，跳过它并从第二行开始读取是安全的。</p>
+<p>这将自动检测标题访问列值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">CSVRecord</span><span class="o">&gt;</span> <span class="n">records</span> <span class="o">=</span> <span class="n">CSVFormat</span><span class="o">.</span><span class="na">DEFAULT</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">withFirstRowAsHeader</span><span class="o">().</span><span class="na">parse</span><span class="o">(</span><span class="n">in</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">CSVRecord</span> <span class="n">record</span> <span class="o">:</span> <span class="n">records</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">author</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">title</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;title&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="55-创建带有标题的文件"><strong>5.5. 创建带有标题的文件</strong></h3>
+<p>同样，我们可以创建一个 CSV 文件，其中第一行包含标题：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">FileWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="s">&#34;book_new.csv&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">CSVPrinter</span> <span class="n">printer</span> <span class="o">=</span> <span class="n">CSVFormat</span><span class="o">.</span><span class="na">DEFAULT</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">withHeader</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">,</span> <span class="s">&#34;title&#34;</span><span class="o">).</span><span class="na">print</span><span class="o">(</span><span class="n">out</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="六结论"><strong>六，结论</strong></h2>
+<p>我们通过一个简单的例子介绍了 Apache 的 Commons CSV 库的使用。<a href="https://commons.apache.org/proper/commons-csv/user-guide.html" target="_blank" rel="noopener noreffer">您可以在此处</a>阅读有关该库的更多信息。</p>
+<p>通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_csv/" data-title="Apache Commons CSV 简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_csv/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_csv/" data-title="Apache Commons CSV 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_csv/" data-title="Apache Commons CSV 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_csv/" data-title="Apache Commons CSV 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_commons_collections_vs_guava/" class="prev" rel="prev" title="Apache Commons Collections 与 Google Guava"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons Collections 与 Google Guava</a>
+            <a href="/apache_commons_dbutils/" class="next" rel="next" title="Apache Commons DbUtils 指南">Apache Commons DbUtils 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

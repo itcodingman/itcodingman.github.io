@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>具有 Apache Commons 频率的直方图 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="具有 Apache Commons 频率的直方图" />
+<meta property="og:description" content="概述 在本教程中，我们将了解如何借助 Apache Commons Frequency类在直方图上呈现数据。 Frequency 类是本文探讨的 Apache Commons Math 库的一部分。 直方图是连接条形图，显示数据" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_commons_frequency/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="具有 Apache Commons 频率的直方图"/>
+<meta name="twitter:description" content="概述 在本教程中，我们将了解如何借助 Apache Commons Frequency类在直方图上呈现数据。 Frequency 类是本文探讨的 Apache Commons Math 库的一部分。 直方图是连接条形图，显示数据"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_commons_frequency/" /><link rel="prev" href="http://itcodingman.github.io/apache_commons_dbutils/" /><link rel="next" href="http://itcodingman.github.io/apache_commons_io/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "具有 Apache Commons 频率的直方图",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_commons_frequency\/"
+        },"genre": "posts","wordcount":  1085 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_frequency\/","datePublished": "2018-04-29T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">具有 Apache Commons 频率的直方图</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/algorithms/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Algorithms</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-29">2018-04-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1085 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#2项目依赖">2.项目依赖</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p> </p>
+<ol>
+<li>概述</li>
+</ol>
+<hr>
+<p>在本教程中，我们将了解如何借助 Apache Commons <a href="https://commons.apache.org/proper/commons-math/userguide/stat.html#a1.3_Frequency_distributions" target="_blank" rel="noopener noreffer">Frequency</a>类在直方图上呈现数据。</p>
+<p><em>Frequency 类是</em><a href="apache-commons-math" rel="">本文</a>探讨的 Apache Commons Math 库的一部分。</p>
+<p>直方图是连接条形图，显示数据集中一系列数据的出现。它与条形图的不同之处在于它用于显示连续的定量变量的分布，而条形图用于显示分类数据。</p>
+<h2 id="2项目依赖">2.项目依赖</h2>
+<p>在本文中，我们将使用具有以下依赖项的 Maven 项目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-math3<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.6.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.knowm.xchart<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>xchart<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.5.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><em>commons-math3</em>库包含 我们将用来确定数据集中变量出现的 *频率 类。*我们将使用 xchart 库在 GUI 中显示直方图 <em>。</em></p>
+<p>最新版本的<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22commons-math3%22%20g%3A%22org.apache.commons%22" target="_blank" rel="noopener noreffer">commons-math3</a>和<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22xchart%22%20g%3A%22org.knowm.xchart%22" target="_blank" rel="noopener noreffer">xchart</a> 可以在 Maven Central 上找到。</p>
+<ol start="3">
+<li>计算变量的频率</li>
+</ol>
+<hr>
+<p>在本教程中，我们将使用包含特定学校学生年龄的数据集。我们希望看到不同年龄组的频率并在直方图上观察它们的分布。</p>
+<p>让我们用 <em>List</em>集合来表示数据集，并使用它来填充 <em>Frequency</em>类的实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">datasetList</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">36</span><span class="o">,</span> <span class="n">25</span><span class="o">,</span> <span class="n">38</span><span class="o">,</span> <span class="n">46</span><span class="o">,</span> <span class="n">55</span><span class="o">,</span> <span class="n">68</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">72</span><span class="o">,</span> <span class="n">55</span><span class="o">,</span> <span class="n">36</span><span class="o">,</span> <span class="n">38</span><span class="o">,</span> <span class="n">67</span><span class="o">,</span> <span class="n">45</span><span class="o">,</span> <span class="n">22</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">48</span><span class="o">,</span> <span class="n">91</span><span class="o">,</span> <span class="n">46</span><span class="o">,</span> <span class="n">52</span><span class="o">,</span> <span class="n">61</span><span class="o">,</span> <span class="n">58</span><span class="o">,</span> <span class="n">55</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Frequency</span> <span class="n">frequency</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Frequency</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">datasetList</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">d</span> <span class="o">-&gt;</span> <span class="n">frequency</span><span class="o">.</span><span class="na">addValue</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">parseDouble</span><span class="o">(</span><span class="n">d</span><span class="o">.</span><span class="na">toString</span><span class="o">())));</span>
+</span></span></code></pre></div><p><strong>现在我们已经填充了 <em>Frequency</em>类的实例，我们将获取 bin 中每个年龄的计数并将其相加，以便我们可以获得特定年龄组中年龄的总频率</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">datasetList</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">d</span> <span class="o">-&gt;</span> <span class="n">Double</span><span class="o">.</span><span class="na">parseDouble</span><span class="o">(</span><span class="n">d</span><span class="o">.</span><span class="na">toString</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">distinct</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">observation</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">long</span> <span class="n">observationFrequency</span> <span class="o">=</span> <span class="n">frequency</span><span class="o">.</span><span class="na">getCount</span><span class="o">(</span><span class="n">observation</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">int</span> <span class="n">upperBoundary</span> <span class="o">=</span> <span class="o">(</span><span class="n">observation</span> <span class="o">&gt;</span> <span class="n">classWidth</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">?</span> <span class="n">Math</span><span class="o">.</span><span class="na">multiplyExact</span><span class="o">(</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">Math</span><span class="o">.</span><span class="na">ceil</span><span class="o">(</span><span class="n">observation</span> <span class="o">/</span> <span class="n">classWidth</span><span class="o">),</span> <span class="n">classWidth</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">:</span> <span class="n">classWidth</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">int</span> <span class="n">lowerBoundary</span> <span class="o">=</span> <span class="o">(</span><span class="n">upperBoundary</span> <span class="o">&gt;</span> <span class="n">classWidth</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">?</span> <span class="n">Math</span><span class="o">.</span><span class="na">subtractExact</span><span class="o">(</span><span class="n">upperBoundary</span><span class="o">,</span> <span class="n">classWidth</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">:</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">      <span class="n">String</span> <span class="n">bin</span> <span class="o">=</span> <span class="n">lowerBoundary</span> <span class="o">+</span> <span class="s">&#34;-&#34;</span> <span class="o">+</span> <span class="n">upperBoundary</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      <span class="n">updateDistributionMap</span><span class="o">(</span><span class="n">lowerBoundary</span><span class="o">,</span> <span class="n">bin</span><span class="o">,</span> <span class="n">observationFrequency</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="o">});</span>
+</span></span></code></pre></div><p>从上面的代码片段中，我们首先 使用 <em>Frequency类的<strong>getCount()确定</strong>观察</em>的 频率。<em><strong>该方法返回观察</strong></em><strong>的发生总数</strong>*。*</p>
+<p>使用当前<em>观察，<em>我们通过计算其相对于类宽度的上下边界（即 10 ）来动态确定它所属的组</em>。</em></p>
+<p>上下边界连接起来形成一个 bin， 使用<em>updateDistributionMap()将其与**观察</em>频率一起存储在<em>distributionMap</em>中。</p>
+<p>如果 <em>bin</em>已经存在，我们更新频率，否则我们将其添加为键并将当前<em>观察</em>的频率设置为其值。请注意，我们会跟踪处理后的观察结果以避免重复。</p>
+<p><em>频率</em>类还具有确定数据集中变量的百分比和累积百分比的方法。 </p>
+<ol start="4">
+<li>绘制直方图</li>
+</ol>
+<hr>
+<p>现在我们已经将原始数据集处理为年龄组及其各自频率的地图，我们可以使用 <em>xchart</em>库在直方图中显示数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CategoryChart</span> <span class="n">chart</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CategoryChartBuilder</span><span class="o">().</span><span class="na">width</span><span class="o">(</span><span class="n">800</span><span class="o">).</span><span class="na">height</span><span class="o">(</span><span class="n">600</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">title</span><span class="o">(</span><span class="s">&#34;Age Distribution&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">xAxisTitle</span><span class="o">(</span><span class="s">&#34;Age Group&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">yAxisTitle</span><span class="o">(</span><span class="s">&#34;Frequency&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">chart</span><span class="o">.</span><span class="na">getStyler</span><span class="o">().</span><span class="na">setLegendPosition</span><span class="o">(</span><span class="n">Styler</span><span class="o">.</span><span class="na">LegendPosition</span><span class="o">.</span><span class="na">InsideNW</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">chart</span><span class="o">.</span><span class="na">getStyler</span><span class="o">().</span><span class="na">setAvailableSpaceFill</span><span class="o">(</span><span class="n">0</span><span class="o">.</span><span class="na">99</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">chart</span><span class="o">.</span><span class="na">getStyler</span><span class="o">().</span><span class="na">setOverlapped</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">List</span> <span class="n">yData</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">yData</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">distributionMap</span><span class="o">.</span><span class="na">values</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span> <span class="n">xData</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">distributionMap</span><span class="o">.</span><span class="na">keySet</span><span class="o">().</span><span class="na">toArray</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">chart</span><span class="o">.</span><span class="na">addSeries</span><span class="o">(</span><span class="s">&#34;age group&#34;</span><span class="o">,</span> <span class="n">xData</span><span class="o">,</span> <span class="n">yData</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">new</span> <span class="n">SwingWrapper</span><span class="o">&lt;&gt;(</span><span class="n">chart</span><span class="o">).</span><span class="na">displayChart</span><span class="o">();</span>
+</span></span></code></pre></div><p>我们使用图表构建器创建了一个 <em>CategoryChart</em>实例，然后我们对其进行配置并使用 x 和 y 轴的数据填充它。</p>
+<p><em>最后，我们使用SwingWrapper</em>在 GUI 中显示图表 ：</p>
+<p><a href="wp-content/uploads/2018/06/22112_xchart_histogram.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2018/06/22112_xchart_histogram-300x226.png"
+        data-srcset="wp-content/uploads/2018/06/22112_xchart_histogram-300x226.png, wp-content/uploads/2018/06/22112_xchart_histogram-300x226.png 1.5x, wp-content/uploads/2018/06/22112_xchart_histogram-300x226.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2018/06/22112_xchart_histogram-300x226.png"
+        title="xchart直方图" /></a>
+从上面的直方图可以看出，80-90 岁的学生没有，而 50-60 岁的学生占主导地位。这很可能是博士生或博士后。</p>
+<p>我们也可以说直方图具有正态分布。</p>
+<ol start="5">
+<li>结论</li>
+</ol>
+<hr>
+<p>在本文中，我们研究了如何利用 Apache <em>commons-math3</em>库的<em>Frequency</em>类的强大功能。</p>
+<p>库中还有其他有趣的统计、几何、遗传算法和其他类。它的文档可以在<a href="https://commons.apache.org/proper/commons-math/userguide/index.html" target="_blank" rel="noopener noreffer">这里</a>找到。</p>
+<p> </p>
+<p>通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_frequency/" data-title="具有 Apache Commons 频率的直方图"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_frequency/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_frequency/" data-title="具有 Apache Commons 频率的直方图"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_frequency/" data-title="具有 Apache Commons 频率的直方图"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_frequency/" data-title="具有 Apache Commons 频率的直方图"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_commons_dbutils/" class="prev" rel="prev" title="Apache Commons DbUtils 指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons DbUtils 指南</a>
+            <a href="/apache_commons_io/" class="next" rel="next" title="Apache Commons IO">Apache Commons IO<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

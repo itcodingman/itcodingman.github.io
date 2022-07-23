@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Apache HttpClient 展开缩短的 URL - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache HttpClient 展开缩短的 URL" />
+<meta property="og:description" content="1. 概述 在本文中，我们将展示如何使用HttpClient扩展 URL 。 一个简单的例子是原始 URL 被缩短了一次- 被诸如bit.ly之类的服务所缩短。 一个更" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_httpclient_expand_url/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Apache HttpClient 展开缩短的 URL"/>
+<meta name="twitter:description" content="1. 概述 在本文中，我们将展示如何使用HttpClient扩展 URL 。 一个简单的例子是原始 URL 被缩短了一次- 被诸如bit.ly之类的服务所缩短。 一个更"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_httpclient_expand_url/" /><link rel="prev" href="http://itcodingman.github.io/apache_httpclient_enable_logging/" /><link rel="next" href="http://itcodingman.github.io/apache_httpclient_parameters/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Apache HttpClient 展开缩短的 URL",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_httpclient_expand_url\/"
+        },"genre": "posts","keywords": "Apache HttpClient","wordcount":  1228 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_httpclient_expand_url\/","datePublished": "2018-05-14T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache HttpClient 展开缩短的 URL</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/http-client-side/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>HTTP Client-Side</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-14">2018-05-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1228 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-展开-url-一次"><strong>2. 展开 URL 一次</strong></a></li>
+    <li><a href="#3-处理多个-url-级别"><strong>3. 处理多个 URL 级别</strong></a></li>
+    <li><a href="#4-检测重定向循环"><strong>4. 检测重定向循环</strong></a></li>
+    <li><a href="#5-结论"><strong>5. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将展示如何使用<em>HttpClient</em><strong>扩展 URL</strong> 。</p>
+<p>一个简单的例子是<strong>原始 URL 被缩短了一次</strong>- 被诸如<em>bit.ly</em>之类的服务所缩短。</p>
+<p>一个更复杂的例子是，当<strong>URL 被不同的此类服务多次缩短</strong>时，需要多次传递才能到达原始的完整 URL。</p>
+<p>如果您想更深入地挖掘并学习可以使用 HttpClient 做的其他很酷的事情 - 前往**<a href="httpclient-guide" title="你可以用 HttpClient 4 做一些很酷的基本和更高级的事情" rel="">主要的 HttpClient 教程</a>**。</p>
+<h2 id="2-展开-url-一次"><strong>2. 展开 URL 一次</strong></h2>
+<p>让我们从简单的开始，扩展一个仅通过一次缩短 URL 服务的 URL。</p>
+<p>我们首先需要的是一个<strong>不会自动跟随重定向</strong>的 HTTP 客户端：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CloseableHttpClient</span> <span class="n">client</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">HttpClientBuilder</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">disableRedirectHandling</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><p>这是必要的，因为我们需要手动拦截重定向响应并从中提取信息。</p>
+<p>我们首先向缩短的 URL 发送请求——我们得到的响应将是<em>301 Moved Permanently</em>。</p>
+<p>然后，我们需要<strong>提取</strong>指向下一个的<em><strong>Location</strong></em><strong>标头，在本例中是最终 URL：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">expandSingleLevel</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HttpHead</span> <span class="n">request</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpHead</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HttpResponse</span> <span class="n">httpResponse</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">statusCode</span> <span class="o">=</span> <span class="n">httpResponse</span><span class="o">.</span><span class="na">getStatusLine</span><span class="o">().</span><span class="na">getStatusCode</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">statusCode</span> <span class="o">!=</span> <span class="n">301</span> <span class="o">&amp;&amp;</span> <span class="n">statusCode</span> <span class="o">!=</span> <span class="n">302</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">url</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Header</span><span class="o">[]</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">httpResponse</span><span class="o">.</span><span class="na">getHeaders</span><span class="o">(</span><span class="n">HttpHeaders</span><span class="o">.</span><span class="na">LOCATION</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Preconditions</span><span class="o">.</span><span class="na">checkState</span><span class="o">(</span><span class="n">headers</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">newUrl</span> <span class="o">=</span> <span class="n">headers</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">getValue</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">newUrl</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IllegalArgumentException</span> <span class="n">uriEx</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">url</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">request</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">request</span><span class="o">.</span><span class="na">releaseConnection</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，使用“未缩短”的 URL 进行简单的实时测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">givenShortenedOnce_whenUrlIsExpanded_thenCorrectResult</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">final</span> <span class="n">String</span> <span class="n">expectedResult</span> <span class="o">=</span> <span class="s">&#34;https://www.codingman.com/rest-versioning&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">final</span> <span class="n">String</span> <span class="n">actualResult</span> <span class="o">=</span> <span class="n">expandSingleLevel</span><span class="o">(</span><span class="s">&#34;http://bit.ly/3LScTri&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">actualResult</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="n">expectedResult</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="3-处理多个-url-级别"><strong>3. 处理多个 URL 级别</strong></h2>
+<p>短 URL 的问题在于，它们可能会被完全不同的服务**多次缩短。**扩展这样的 URL 需要多次传递才能到达原始 URL。</p>
+<p>我们将应用之前定义的<em>expandSingleLevel</em>原始操作来简单地<strong>遍历所有中间 URL 并到达最终目标</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">expand</span><span class="o">(</span><span class="n">String</span> <span class="n">urlArg</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">originalUrl</span> <span class="o">=</span> <span class="n">urlArg</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">newUrl</span> <span class="o">=</span> <span class="n">expandSingleLevel</span><span class="o">(</span><span class="n">originalUrl</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(!</span><span class="n">originalUrl</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">newUrl</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">originalUrl</span> <span class="o">=</span> <span class="n">newUrl</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newUrl</span> <span class="o">=</span> <span class="n">expandSingleLevel</span><span class="o">(</span><span class="n">originalUrl</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">newUrl</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，通过扩展多级 URL 的新机制，让我们定义一个测试并使其工作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">givenShortenedMultiple_whenUrlIsExpanded_thenCorrectResult</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">final</span> <span class="n">String</span> <span class="n">expectedResult</span> <span class="o">=</span> <span class="s">&#34;https://www.codingman.com/rest-versioning&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">final</span> <span class="n">String</span> <span class="n">actualResult</span> <span class="o">=</span> <span class="n">expand</span><span class="o">(</span><span class="s">&#34;http://t.co/e4rDDbnzmk&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">actualResult</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="n">expectedResult</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这一次，短 URL—— <em>http</em> ://t.co/e4rDDbnzmk——实际上被缩短了两次——一次通过<em>bit.ly</em>，第二次通过<em>t.co</em>服务——被正确地扩展为原始 URL。</p>
+<h2 id="4-检测重定向循环"><strong>4. 检测重定向循环</strong></h2>
+<p>最后，某些 URL 无法扩展，因为它们形成了重定向循环。这种类型的问题会被<em>HttpClient</em>检测到，但是由于我们关闭了重定向的自动跟踪，它不再这样做了。</p>
+<p>URL 扩展机制的最后一步是检测重定向循环，并在发生此类循环时快速失败。</p>
+<p>为了使其生效，我们需要从之前定义的<em>expandSingleLevel</em>方法中获取一些附加信息——主要是，我们还需要返回响应的状态码以及 URL。</p>
+<p>由于 java 不支持多个返回值，我们将把<strong>信息包装在<em>org.apache.commons.lang3.tuple.Pair</em>对象</strong>中——该方法的新签名现在将是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Pair</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="nf">expandSingleLevelSafe</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span></code></pre></div><p>最后，让我们在主扩展机制中包含重定向循环检测：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">expandSafe</span><span class="o">(</span><span class="n">String</span> <span class="n">urlArg</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">originalUrl</span> <span class="o">=</span> <span class="n">urlArg</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">newUrl</span> <span class="o">=</span> <span class="n">expandSingleLevelSafe</span><span class="o">(</span><span class="n">originalUrl</span><span class="o">).</span><span class="na">getRight</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">alreadyVisited</span> <span class="o">=</span> <span class="n">Lists</span><span class="o">.</span><span class="na">newArrayList</span><span class="o">(</span><span class="n">originalUrl</span><span class="o">,</span> <span class="n">newUrl</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(!</span><span class="n">originalUrl</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">newUrl</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">originalUrl</span> <span class="o">=</span> <span class="n">newUrl</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Pair</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">statusAndUrl</span> <span class="o">=</span> <span class="n">expandSingleLevelSafe</span><span class="o">(</span><span class="n">originalUrl</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newUrl</span> <span class="o">=</span> <span class="n">statusAndUrl</span><span class="o">.</span><span class="na">getRight</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">boolean</span> <span class="n">isRedirect</span> <span class="o">=</span> <span class="n">statusAndUrl</span><span class="o">.</span><span class="na">getLeft</span><span class="o">()</span> <span class="o">==</span> <span class="n">301</span> <span class="o">||</span> <span class="n">statusAndUrl</span><span class="o">.</span><span class="na">getLeft</span><span class="o">()</span> <span class="o">==</span> <span class="n">302</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">isRedirect</span> <span class="o">&amp;&amp;</span> <span class="n">alreadyVisited</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">newUrl</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="s">&#34;Likely a redirect loop&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alreadyVisited</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">newUrl</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">newUrl</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>就是这样*——expandSafe*机制能够通过任意数量的 URL 缩短服务扩展 URL，同时在重定向循环中快速正确地失败。</p>
+<h2 id="5-结论"><strong>5. 结论</strong></h2>
+<p>本教程讨论了如何**在 java 中扩展短 URL——**使用 Apache <em>HttpClient</em>。</p>
+<p>我们从一个仅缩短一次 URL 的简单用例开始，然后实现了一个更通用的机制，能够处理多个级别的重定向并检测过程中的重定向循环。</p>
+<p>HTTP 客户端底部</p>
+<p>HTTPClient 页脚</p>
+<p>充分利用 Apache HTTP 客户端</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_httpclient_expand_url/" data-title="使用 Apache HttpClient 展开缩短的 URL" data-hashtags="Apache HttpClient"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_httpclient_expand_url/" data-hashtag="Apache HttpClient"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_httpclient_expand_url/" data-title="使用 Apache HttpClient 展开缩短的 URL"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_httpclient_expand_url/" data-title="使用 Apache HttpClient 展开缩短的 URL"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_httpclient_expand_url/" data-title="使用 Apache HttpClient 展开缩短的 URL"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/apache-httpclient/">Apache HttpClient</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_httpclient_enable_logging/" class="prev" rel="prev" title="为 Apache HttpClient 启用日志记录"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>为 Apache HttpClient 启用日志记录</a>
+            <a href="/apache_httpclient_parameters/" class="next" rel="next" title="向 Apache HttpClient 请求添加参数">向 Apache HttpClient 请求添加参数<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

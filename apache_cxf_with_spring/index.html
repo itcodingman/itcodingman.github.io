@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Spring 的 Apache CXF 指南 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Spring 的 Apache CXF 指南" />
+<meta property="og:description" content="1. 概述 本教程的重点是配置和使用Apache CXF框架以及 Spring - 使用 Java 或 XML 配置。 这是 Apache CXF 系列的第二篇；第一个侧重于将 CXF 的基础知识作为 JAX-WS 标准 API 的实" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_cxf_with_spring/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Spring 的 Apache CXF 指南"/>
+<meta name="twitter:description" content="1. 概述 本教程的重点是配置和使用Apache CXF框架以及 Spring - 使用 Java 或 XML 配置。 这是 Apache CXF 系列的第二篇；第一个侧重于将 CXF 的基础知识作为 JAX-WS 标准 API 的实"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_cxf_with_spring/" /><link rel="prev" href="http://itcodingman.github.io/apache_cxf_rest_api/" /><link rel="next" href="http://itcodingman.github.io/apache_druid_event_driven_data/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Spring 的 Apache CXF 指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_cxf_with_spring\/"
+        },"genre": "posts","keywords": "Apache CXF","wordcount":  2842 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_cxf_with_spring\/","datePublished": "2018-05-09T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Spring 的 Apache CXF 指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-09">2018-05-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2842 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#3-服务器端组件"><strong>3. 服务器端组件</strong></a>
+      <ul>
+        <li><a href="#31webapplicationinitilizer接口"><strong>3.1。<em>WebApplicationInitilizer</em>接口</strong></a></li>
+        <li><a href="#32-好旧的webxml"><strong>3.2. 好旧的<em>web.xml</em></strong></a></li>
+        <li><a href="#33-服务配置类"><strong>3.3. <em>服务配置</em>类</strong></a></li>
+        <li><a href="#34-类型定义"><strong>3.4. 类型定义</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-客户端-bean"><strong>4. 客户端 Bean</strong></a></li>
+    <li><a href="#5-测试用例"><strong>5. 测试用例</strong></a></li>
+    <li><a href="#6-集成测试"><strong>6. 集成测试</strong></a></li>
+    <li><a href="#7-结论"><strong>7. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>本教程的重点是配置和<strong>使用<a href="https://cxf.apache.org/" target="_blank" rel="noopener noreffer">Apache CXF</a>框架以及 Spring</strong> - 使用 Java 或 XML 配置。</p>
+<p>这是 Apache CXF 系列的第二篇；<a href="introduction-to-apache-cxf" rel="">第一个</a>侧重于将 CXF 的基础知识作为 JAX-WS 标准 API 的实现。</p>
+<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<p>与上一个教程类似，需要包含以下两个依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.cxf<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cxf-rt-frontend-jaxws<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.1.6<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.cxf<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cxf-rt-transports-http<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.1.6<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>有关最新版本的 Apache CXF 工件，请查看<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.cxf%22" target="_blank" rel="noopener noreffer">apache-cxf</a>。</p>
+<p>此外，支持 Spring 还需要以下依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-context<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.3.1.RELEASE<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-webmvc<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.3.1.RELEASE<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>可以在<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.springframework%22" target="_blank" rel="noopener noreffer">此处</a>找到最新版本的 Spring 工件。</p>
+<p>最后，因为我们将使用 Java Servlet 3.0+ API 而不是传统的<em>web.xml</em>部署描述符以编程方式配置应用程序，所以我们需要以下工件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>javax.servlet<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>javax.servlet-api<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22javax.servlet%22%20AND%20a%3A%22javax.servlet-api%22" target="_blank" rel="noopener noreffer">在</a>这里我们可以找到最新版本的 Servlet API。</p>
+<h2 id="3-服务器端组件"><strong>3. 服务器端组件</strong></h2>
+<p>现在让我们看一下为了发布 Web 服务端点而需要在服务器端出现的组件。</p>
+<h3 id="31webapplicationinitilizer接口"><strong>3.1。<em>WebApplicationInitilizer</em>接口</strong></h3>
+<p><em>WebApplicationInitializer</em>接口被实现为以编程方式为应用程序配置ServletContext<em>接口</em>。当出现在类路径上时，它的<em>onStartup</em>方法由 servlet 容器自动调用，然后<em>ServletContext</em>被实例化和初始化。</p>
+<p>下面是如何定义一个类来实现<em>WebApplicationInitializer</em>接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppInitializer</span> <span class="kd">implements</span> <span class="n">WebApplicationInitializer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStartup</span><span class="o">(</span><span class="n">ServletContext</span> <span class="n">container</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Method implementation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>onStartup *()*方法是使用如下所示的代码片段实现的。</p>
+<p>首先，创建并配置 Spring 应用程序上下文以注册包含配置元数据的类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">AnnotationConfigWebApplicationContext</span> <span class="n">context</span> 
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="k">new</span> <span class="n">AnnotationConfigWebApplicationContext</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">context</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">ServiceConfiguration</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span></code></pre></div><p><em>ServiceConfiguration</em>类使用@Configuration<em>注解</em>进行注解，以提供 bean 定义。这个类将在下一小节中讨论。</p>
+<p>以下片段显示了如何将 Spring 应用程序上下文添加到 servlet 上下文中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">container</span><span class="o">.</span><span class="na">addListener</span><span class="o">(</span><span class="k">new</span> <span class="n">ContextLoaderListener</span><span class="o">(</span><span class="n">context</span><span class="o">));</span>
+</span></span></code></pre></div><p>由 Apache CXF 定义的<em>CXFServlet</em>类被生成并注册以处理传入的请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ServletRegistration</span><span class="o">.</span><span class="na">Dynamic</span> <span class="n">dispatcher</span> 
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="na">addServlet</span><span class="o">(</span><span class="s">&#34;dispatcher&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">CXFServlet</span><span class="o">());</span>
+</span></span></code></pre></div><p>应用程序上下文加载配置文件中定义的 Spring 元素。在这种情况下，servlet 的名称是<em>cxf</em> ，因此默认情况下，上下文会在名为<em>cxf-servlet.xml的文件中查找这些元素。</em></p>
+<p>最后，CXF servlet 被映射到一个相对 URL：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">dispatcher</span><span class="o">.</span><span class="na">addMapping</span><span class="o">(</span><span class="s">&#34;/services&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="32-好旧的webxml"><strong>3.2. 好旧的<em>web.xml</em></strong></h3>
+<p>或者，如果我们想使用（有点过时的）部署描述符而不是<em>WebApplicationInitilizer</em>接口，则相应的<em>web.xml</em>文件应该包含以下 servlet 定义：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;servlet&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet-name&gt;</span>cxf<span class="nt">&lt;/servlet-name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet-class&gt;</span>org.apache.cxf.transport.servlet.CXFServlet<span class="nt">&lt;/servlet-class&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;load-on-startup&gt;</span>1<span class="nt">&lt;/load-on-startup&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/servlet&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet-mapping&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet-name&gt;</span>cxf<span class="nt">&lt;/servlet-name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;url-pattern&gt;</span>/services/*<span class="nt">&lt;/url-pattern&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/servlet-mapping&gt;</span>
+</span></span></code></pre></div><h3 id="33-服务配置类"><strong>3.3. <em>服务配置</em>类</strong></h3>
+<p>现在让我们看一下服务配置——首先是一个包含 Web 服务端点的 bean 定义的基本框架：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServiceConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Bean definitions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>第一个需要的 bean 是*SpringBus——*它为 Apache CXF 提供扩展以与 Spring 框架一起工作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">SpringBus</span> <span class="nf">springBus</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">SpringBus</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>还需要使用SpringBus <em>bean</em>和 Web 服务<em>实现器来创建**EnpointImpl</em> bean 。此 bean 用于在给定的 HTTP 地址发布端点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Endpoint</span> <span class="nf">endpoint</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EndpointImpl</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EndpointImpl</span><span class="o">(</span><span class="n">springBus</span><span class="o">(),</span> <span class="k">new</span> <span class="n">DemoImpl</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">endpoint</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="s">&#34;http://localhost:8080/services/demo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">endpoint</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>DemoImpl<em>类</em>用于实现 Web 服务接口。其定义在下一小节中给出。</p>
+<p>或者，我们也可以在 XML 配置文件中声明服务器端点。具体来说，下面的<em>cxf-servlet.xml</em>文件与 3.1 小节中定义的<em>web.xml</em>部署描述符一起使用，并描述了完全相同的端点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;jaxws:endpoint</span>
+</span></span><span class="line"><span class="cl">  <span class="na">id=</span><span class="s">&#34;demo&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">implementor=</span><span class="s">&#34;com.codingman.cxf.spring.DemoImpl&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">address=</span><span class="s">&#34;http://localhost:8080/services/demo&#34;</span> <span class="nt">/&gt;</span>
+</span></span></code></pre></div><p>请注意，XML 配置文件以部署描述符中定义的 servlet 名称命名，即<em>cxf</em>。</p>
+<h3 id="34-类型定义"><strong>3.4. 类型定义</strong></h3>
+<p>接下来——这里是前面小节中已经提到的<em>实现者的定义：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@WebService</span><span class="o">(</span><span class="n">endpointInterface</span> <span class="o">=</span> <span class="s">&#34;com.codingman.cxf.spring.demo&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoImpl</span> <span class="kd">implements</span> <span class="n">Demo</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">counter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">hello</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;Hello &#34;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#34;!&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">register</span><span class="o">(</span><span class="n">Student</span> <span class="n">student</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">counter</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">student</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; is registered student number &#34;</span> <span class="o">+</span> <span class="n">counter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此类为Apache CXF 将包含在已发布的 WSDL 元数据中的<em>Demo端点接口提供了一个实现：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@WebService</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Demo</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">hello</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="nf">register</span><span class="o">(</span><span class="n">Student</span> <span class="n">student</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>端点接口和<em>实现</em>者都使用<em>Student</em>类，定义如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// constructors, getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4-客户端-bean"><strong>4. 客户端 Bean</strong></h2>
+<p>为了利用 Spring 框架，我们在*@Configuration*注解的类中声明一个 bean：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClientConfiguration</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Bean definitions
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>定义了一个名为<em>client</em>的 bean ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;client&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Object</span> <span class="nf">generateProxy</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">proxyFactoryBean</span><span class="o">().</span><span class="na">create</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>客户端</em>bean 代表Web 服务的代理。它是通过调用<em>JaxWsProxyFactoryBean bean 上的**create</em>方法创建的，这是一个用于创建 JAX-WS 代理的工厂。</p>
+<p>JaxWsProxyFactoryBean对象<em>通过</em>以下方法创建和配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">JaxWsProxyFactoryBean</span> <span class="nf">proxyFactoryBean</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">JaxWsProxyFactoryBean</span> <span class="n">proxyFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JaxWsProxyFactoryBean</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">proxyFactory</span><span class="o">.</span><span class="na">setServiceClass</span><span class="o">(</span><span class="n">Demo</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">proxyFactory</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="s">&#34;http://localhost:8080/services/demo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">proxyFactory</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>工厂的<em>serviceClass</em>属性表示 Web 服务接口，而<em>address</em>属性表示代理进行远程调用的 URL 地址。</p>
+<p>此外，对于客户端的 Spring bean，可以恢复为 XML 配置文件。以下元素声明了与我们上面以编程方式配置的相同的 bean：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;client&#34;</span> <span class="na">factory-bean=</span><span class="s">&#34;clientFactory&#34;</span> <span class="na">factory-method=</span><span class="s">&#34;create&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&#34;clientFactory&#34;</span> <span class="na">class=</span><span class="s">&#34;org.apache.cxf.jaxws.JaxWsProxyFactoryBean&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;serviceClass&#34;</span> <span class="na">value=</span><span class="s">&#34;com.codingman.cxf.spring.demo&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#34;address&#34;</span> <span class="na">value=</span><span class="s">&#34;http://localhost:8080/services/demo&#34;</span> <span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/bean&gt;</span>
+</span></span></code></pre></div><h2 id="5-测试用例"><strong>5. 测试用例</strong></h2>
+<p>本节描述用于说明 Apache CXF 对 Spring 的支持的测试用例。测试用例在名为<em>StudentTest</em>的类中定义。</p>
+<p>首先，我们需要从前面提到的<em>ServiceConfiguration</em>配置类中加载一个 Spring 应用上下文，并将其缓存在<em>context</em>字段中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">ApplicationContext</span> <span class="n">context</span> 
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="k">new</span> <span class="n">AnnotationConfigApplicationContext</span><span class="o">(</span><span class="n">ClientConfiguration</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span></code></pre></div><p>接下来，声明服务端点接口的代理并从应用程序上下文加载：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Demo</span> <span class="n">demoProxy</span> <span class="o">=</span> <span class="o">(</span><span class="n">Demo</span><span class="o">)</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="s">&#34;client&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>这个<em>Demo</em>代理将用于下面描述的测试用例。</p>
+<p>在第一个测试用例中，我们证明当在代理上本地调用<em>hello方法时，响应与端点**实现</em>者从远程 Web 服务返回的响应完全相同：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUsingHelloMethod_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">response</span> <span class="o">=</span> <span class="n">demoProxy</span><span class="o">.</span><span class="na">hello</span><span class="o">(</span><span class="s">&#34;John Bob&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Hello John Bob!&#34;</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在第二个测试用例中，学生通过在本地调用代理上的<em>register</em>方法注册课程，代理反过来又调用 Web 服务。然后，该远程服务将计算学生人数并将其返回给呼叫者。以下代码片段证实了我们的预期：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUsingRegisterMethod_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Student</span> <span class="n">student1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Student</span><span class="o">(</span><span class="s">&#34;Adam&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Student</span> <span class="n">student2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Student</span><span class="o">(</span><span class="s">&#34;Eve&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">student1Response</span> <span class="o">=</span> <span class="n">demoProxy</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">student1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">student2Response</span> <span class="o">=</span> <span class="n">demoProxy</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">student2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Adam is registered student number 1&#34;</span><span class="o">,</span> <span class="n">student1Response</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Eve is registered student number 2&#34;</span><span class="o">,</span> <span class="n">student2Response</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-集成测试"><strong>6. 集成测试</strong></h2>
+<p>为了在服务器上部署为 Web 应用程序，需要先将本教程中的代码片段打包到 WAR 文件中。这可以通过在 POM 文件中声明<em>包装属性来实现：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;packaging&gt;</span>war<span class="nt">&lt;/packaging&gt;</span>
+</span></span></code></pre></div><p>打包作业由 Maven WAR 插件实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>maven-war-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.6<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;failOnMissingWebXml&gt;</span>false<span class="nt">&lt;/failOnMissingWebXml&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>该插件将编译后的源代码打包成 WAR 文件。由于我们使用 Java 代码配置 servlet 上下文，因此不需要存在传统的<em>web.xml部署描述符。<em>因此，<em>failOnMissingWebXml</em>属性必须设置为</em>false</em>以避免在执行插件时失败。</p>
+<p>我们可以通过<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.maven.plugins%22%20AND%20a%3A%22maven-war-plugin%22" target="_blank" rel="noopener noreffer">此链接</a>获取最新版本的 Maven WAR 插件。</p>
+<p>为了说明 Web 服务的操作，我们创建了一个集成测试。该测试首先生成 WAR 文件并启动嵌入式服务器，然后让客户端调用 Web 服务，验证后续响应并最终停止服务器。</p>
+<p>以下插件需要包含在 Maven POM 文件中。有关更多详细信息，请查看<a href="apache-cxf-with-spring" rel="">此集成测试教程</a>。</p>
+<p>这是 Maven Surefire 插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.22.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;excludes&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;exclude&gt;</span>StudentTest.java<span class="nt">&lt;/exclude&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/excludes&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>这个插件的最新版本可以在<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.maven.plugins%22%20AND%20a%3A%22maven-surefire-plugin%22" target="_blank" rel="noopener noreffer">这里</a>找到。</p>
+<p>声明了一个带有<em>integration</em> <em>id</em>的<em>配置文件</em>部分以方便集成测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;profiles&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;profile&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;id&gt;</span>integration<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;build&gt;</span>
+</span></span><span class="line"><span class="cl">         <span class="nt">&lt;plugins&gt;</span>
+</span></span><span class="line"><span class="cl">            ...
+</span></span><span class="line"><span class="cl">         <span class="nt">&lt;/plugins&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&lt;/build&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="nt">&lt;/profile&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/profiles&gt;</span>
+</span></span></code></pre></div><p>Maven Cargo 插件包含在<em>集成</em>配置文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.codehaus.cargo<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cargo-maven2-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.5.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;container&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;containerId&gt;</span>jetty9x<span class="nt">&lt;/containerId&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;type&gt;</span>embedded<span class="nt">&lt;/type&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/container&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;properties&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;cargo.hostname&gt;</span>localhost<span class="nt">&lt;/cargo.hostname&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;cargo.servlet.port&gt;</span>8080<span class="nt">&lt;/cargo.servlet.port&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/properties&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;id&gt;</span>start-server<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;phase&gt;</span>pre-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>start<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;id&gt;</span>stop-server<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;phase&gt;</span>post-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>stop<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>请注意，为了清楚起见，仅包含<em>cargo.hostname</em>和*cargo.servlet.port配置属性。*这些配置属性可以省略而不会对应用程序产生任何影响，因为它们的值与默认值相同。该插件启动服务器，等待连接，最后停止服务器以释放系统资源。</p>
+<p><a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.maven.plugins%22%20AND%20a%3A%22maven-war-plugin%22" target="_blank" rel="noopener noreffer">这个链接</a>允许我们查看最新版本的 Maven Cargo 插件。</p>
+<p>Maven Surefire 插件在<em>集成</em>配置文件中再次声明，以覆盖其在主<em>构建</em>部分中的配置并执行上一节中描述的测试用例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.22.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;executions&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;execution&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;phase&gt;</span>integration-test<span class="nt">&lt;/phase&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;goals&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;goal&gt;</span>test<span class="nt">&lt;/goal&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/goals&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;excludes&gt;</span>
+</span></span><span class="line"><span class="cl">                    <span class="nt">&lt;exclude&gt;</span>none<span class="nt">&lt;/exclude&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&lt;/excludes&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>现在整个过程可以通过命令运行：<em>mvn -Pintegration clean install</em>。</p>
+<h2 id="7-结论"><strong>7. 结论</strong></h2>
+<p>本教程说明了 Apache CXF 对 Spring 的支持。特别是，它展示了如何使用 Spring 配置文件发布 Web 服务，以及客户端如何通过 Apache CXF 代理工厂创建的代理与该服务交互，该代理工厂在另一个配置文件中声明。</p>
+<p>弹簧底</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_cxf_with_spring/" data-title="使用 Spring 的 Apache CXF 指南" data-hashtags="Apache CXF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_cxf_with_spring/" data-hashtag="Apache CXF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_cxf_with_spring/" data-title="使用 Spring 的 Apache CXF 指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_cxf_with_spring/" data-title="使用 Spring 的 Apache CXF 指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_cxf_with_spring/" data-title="使用 Spring 的 Apache CXF 指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/apache-cxf/">Apache CXF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_cxf_rest_api/" class="prev" rel="prev" title="Apache CXF 对 RESTful Web 服务的支持"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache CXF 对 RESTful Web 服务的支持</a>
+            <a href="/apache_druid_event_driven_data/" class="next" rel="next" title="使用 Apache Druid 的事件驱动数据">使用 Apache Druid 的事件驱动数据<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

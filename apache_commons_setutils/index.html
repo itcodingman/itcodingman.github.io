@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Commons 集合 SetUtils - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons 集合 SetUtils" />
+<meta property="og:description" content="本文是系列文章的一部分： • Apache Commons 收藏包 • Apache Commons Collections SetUtils （当前文章）• Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 在本文中，我们将探索" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_commons_setutils/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Commons 集合 SetUtils"/>
+<meta name="twitter:description" content="本文是系列文章的一部分： • Apache Commons 收藏包 • Apache Commons Collections SetUtils （当前文章）• Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 在本文中，我们将探索"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_commons_setutils/" /><link rel="prev" href="http://itcodingman.github.io/apache_commons_ordered_map/" /><link rel="next" href="http://itcodingman.github.io/apache_crunch/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Commons 集合 SetUtils",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_commons_setutils\/"
+        },"genre": "posts","keywords": "Java Set","wordcount":  2472 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_setutils\/","datePublished": "2018-05-05T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons 集合 SetUtils</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-05">2018-05-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2472 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2依赖安装"><strong>2.依赖安装</strong></a></li>
+    <li><a href="#3谓词集"><strong>3.谓词集</strong></a></li>
+    <li><a href="#4-集合的并集差集和交集"><strong>4. 集合的并集、差集和交集</strong></a></li>
+    <li><a href="#5-转换集合元素"><strong>5. 转换集合元素</strong></a></li>
+    <li><a href="#6设置析取">6.设置析取</a></li>
+    <li><a href="#7-setutils库中的其他方法"><strong>7. <em>SetUtils</em>库中的其他方法</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><a href="javascript:void%280%29;" rel="">本文是系列文章的一部分：</a>  <a href="apache-commons-bag" rel="">• Apache Commons 收藏包</a><br>
+• Apache Commons Collections SetUtils （当前文章）<a href="apache-commons-ordered-map" rel="">• Apache Commons Collections OrderedMap</a><br>
+<a href="commons-collections-bidi-map" rel="">• Apache Commons Collections BidiMap</a><br>
+<a href="apache-commons-collection-utils" rel="">• Apache Commons Collections CollectionUtils 指南</a><br>
+<a href="apache-commons-map-utils" rel="">• Apache Commons Collections MapUtils</a><br>
+<a href="commons-circular-fifo-queue" rel="">• Apache Commons CircularFifoQueue 指南</a></p>
+<h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将探索 Apache Commons Collections 库的<em>SetUtils</em> API。简而言之，这些实用程序可用于对Java 中的<em>Set数据结构执行某些操作。</em></p>
+<h2 id="2依赖安装"><strong>2.依赖安装</strong></h2>
+<p>为了让我们在项目中使用<em>SetUtils</em>库，我们需要在项目的<em>pom.xml</em>文件中添加以下依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-collections4<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>或者，如果我们的项目是基于 Gradle 的，我们应该将依赖项添加到项目的<em>build.gradle</em>文件中。此外，我们需要将<em>mavenCentral()添加到**build.gradle</em>文件的存储库部分：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">compile</span> <span class="s1">&#39;org.apache.commons:commons-collections4:4.1&#39;</span>
+</span></span></code></pre></div><h2 id="3谓词集"><strong>3.谓词集</strong></h2>
+<p><em>SetUtils</em>库的<em>predicatedSet()<em>方法允许定义要插入到集合中的所有元素应满足的条件。它接受一个源</em>Set</em>对象和一个谓词。</p>
+<p>我们可以使用它来轻松验证<em>Set</em>的所有元素是否满足特定条件，这在开发第三方库/API 时会很方便。</p>
+<p>如果任何元素的验证失败，将抛出<em>IllegalArgumentException 。<em>下面的代码段<strong>防止将</strong> <strong>不以 &lsquo;L&rsquo; 开头的字符串</strong>添加到</em>sourceSet</em>或返回的<em>验证</em>集中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">validatingSet</span>
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">SetUtils</span><span class="o">.</span><span class="na">predicatedSet</span><span class="o">(</span><span class="n">sourceSet</span><span class="o">,</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">&#34;L&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><p>该库还具有<em>predicatedSortedSet()<em>和</em>predicatedNavigableSet()<em>分别用于处理</em>SortedSet</em>和<em>NavigableSet</em>。</p>
+<h2 id="4-集合的并集差集和交集"><strong>4. 集合的并集、差集和交集</strong></h2>
+<p>该库具有可以计算<em>集合</em>元素的并集、差集和交集的方法。</p>
+<p><em>difference()<em>方法接受两个</em>Set</em>对象并返回一个不可变的SetUtils <em>。**设置视图</em>对象。返回的<em>SetUtils。**SetView</em>包含在 set <em>a</em>但不在 set <em>b</em>中的元素：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">5</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">SetUtils</span><span class="o">.</span><span class="na">SetView</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">SetUtils</span><span class="o">.</span><span class="na">difference</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertTrue</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="n">1</span> <span class="o">&amp;&amp;</span> <span class="n">result</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">5</span><span class="o">));</span>
+</span></span></code></pre></div><p>请注意，<strong>尝试在返回的SetUtils 上执行写操作，如<em>add()<em>或</em>addAll()</em> <em>。**SetView</em>将抛出<em>UnsupportedOperationException</em>。</strong></p>
+<p>要修改返回的结果，我们需要调用返回的SetUtils的<em>toSet()<em>方法</em>。**SetView</em>获取一个可写的<em>Set</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">mutableSet</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">toSet</span><span class="o">();</span>
+</span></span></code></pre></div><p><em>SetUtils</em>库的<em>union</em>方法完全符合它的意思——它返回集合<em>a</em>和<em>b</em>的所有元素。<em>union</em>方法还返回一个不可变的<em>SetUtil.SetView</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">expected</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">5</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">SetUtils</span><span class="o">.</span><span class="na">SetView</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">union</span> <span class="o">=</span> <span class="n">SetUtils</span><span class="o">.</span><span class="na">union</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertTrue</span><span class="o">(</span><span class="n">SetUtils</span><span class="o">.</span><span class="na">isEqualSet</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">union</span><span class="o">));</span>
+</span></span></code></pre></div><p><strong>注意</strong>assert 语句中使用的*<em><em>isEqualSet()*****方法。**它是</em>SetUtils</em>库的一个方便的静态方法，可以有效地检查两个集合是否相等。</p>
+<p><em>要获得集合的交集，即集合a</em>和集合<em>b</em>中都存在的元素，我们将使用<em>SetUtils。**交集（）<em>方法。此方法还返回一个</em>SetUtil.SetView</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">expected</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">SetUtils</span><span class="o">.</span><span class="na">SetView</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">intersect</span> <span class="o">=</span> <span class="n">SetUtils</span><span class="o">.</span><span class="na">intersection</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertTrue</span><span class="o">(</span><span class="n">SetUtils</span><span class="o">.</span><span class="na">isEqualSet</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">intersect</span><span class="o">));</span>
+</span></span></code></pre></div><h2 id="5-转换集合元素"><strong>5. 转换集合元素</strong></h2>
+<p>让我们看看另一个令人兴奋的方法*——SetUtils。<strong>转换集（）<em>。此方法接受一个</em>Set<em>对象和一个</em>Transformer<em>接口。在源集合的支持下，它使用</em>Transformer接口的</strong>transform()*方法来转换集合的每个元素。</p>
+<p>转换逻辑在*Transformer接口的**transform()*方法中定义，该方法应用于添加到集合中的每个元素。下面的代码片段将添加到集合中的每个元素乘以 2：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">SetUtils</span><span class="o">.</span><span class="na">transformedSet</span><span class="o">(</span><span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(),</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span> <span class="o">*</span> <span class="n">2</span>  <span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">toArray</span><span class="o">()[</span><span class="n">0</span><span class="o">],</span> <span class="n">4</span><span class="o">);</span>
+</span></span></code></pre></div><p>*transformSet()*方法非常方便——它们甚至可以用来转换集合的元素——比如从字符串到整数。只要确保输出的类型是输入的子类型。</p>
+<p>假设我们正在使用<em>SortedSet</em>或<em>NavigableSet</em>而不是<em>HashSet，<em>我们可以分别使用</em>transformedSortedSet()<em>或</em>transformedNavigableSet()</em>。</p>
+<p>请注意，将一个新的<em>HashSet</em>实例传递给<em>transformSet()<em>方法。在将现有的非空</em>Set</em>传递给方法的情况下，不会转换预先存在的元素。</p>
+<p>如果我们想要转换预先存在的元素（以及之后添加的元素），我们需要使用*org.apache.commons.collections4.set.TransformedSet的**transformSet()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">source</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">newSet</span> <span class="o">=</span> <span class="n">TransformedSet</span><span class="o">.</span><span class="na">transformedSet</span><span class="o">(</span><span class="n">source</span><span class="o">,</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span> <span class="o">*</span> <span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">newSet</span><span class="o">.</span><span class="na">toArray</span><span class="o">()[</span><span class="n">0</span><span class="o">],</span> <span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">source</span><span class="o">.</span><span class="na">toArray</span><span class="o">()[</span><span class="n">0</span><span class="o">],</span> <span class="n">2</span><span class="o">);</span>
+</span></span></code></pre></div><p>请注意，源集中的元素被转换，结果被复制到返回的<em>newSet。</em></p>
+<h2 id="6设置析取">6.设置析取</h2>
+<p>SetUtils库提供了一个静态方法，可用于查找集合析取*。<em>集合 a 和集合 b的析取是集合</em>a<em>和集合</em>b*唯一的所有元素。</p>
+<p>让我们看看如何使用<em>SetUtils</em>库的*disjunction()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">5</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">SetUtils</span><span class="o">.</span><span class="na">SetView</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">SetUtils</span><span class="o">.</span><span class="na">disjunction</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertTrue</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">result</span><span class="o">.</span><span class="na">toSet</span><span class="o">().</span><span class="na">contains</span><span class="o">(</span><span class="n">5</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">result</span><span class="o">.</span><span class="na">toSet</span><span class="o">().</span><span class="na">contains</span><span class="o">(</span><span class="n">3</span><span class="o">));</span>
+</span></span></code></pre></div><h2 id="7-setutils库中的其他方法"><strong>7. <em>SetUtils</em>库中的其他方法</strong></h2>
+<p><em>SetUtils</em>库中还有其他方法可以轻松处理集合数据：</p>
+<ul>
+<li>我们可以使用<em>synchronizedSet()<em>或</em>synchronizedSortedSet()<em>来获得一个线程安全的</em>Set</em>。但是，如文档中所述，我们<strong>必须手动同步</strong>返回集的迭代器以避免非确定性行为</li>
+<li>我们可以使用<em>SetUtils.unmodifiableSet()<em>来获取只读集。请注意，尝试将元素添加到返回的</em>Set</em>对象将引发<em>UnsupportedOperationException</em></li>
+<li>还有一个*SetUtils.emptySet()*方法，它返回一个类型安全、不可变的空集</li>
+<li>SetUtils.emptyIfNull <em>()<em>方法接受一个可为空的</em>Set</em>对象。如果提供的<em>Set</em>为空，则返回一个空的只读 S <em>et</em>；否则，它返回提供的<em>Set</em></li>
+<li><em>SetUtils.orderedSet()<em>将返回一个</em>Set</em>对象，该对象维护添加元素的顺序</li>
+<li>*SetUtils.hashCodeForSet()*可以为一个集合生成一个哈希码——这样两个相同元素的集合将具有相同的哈希码</li>
+<li><em>SetUtils.newIdentityHashSet()<em>将返回一个使用</em>==<em>而不是</em>equals()<em>方法来匹配元素的</em>HashSet 。</em><a href="https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/SetUtils.html#newIdentityHashSet--" target="_blank" rel="noopener noreffer">请在此处</a>阅读其注意事项</li>
+</ul>
+<ol start="8">
+<li>结论</li>
+</ol>
+<hr>
+<p>在本文中，我们探讨了<em>SetUtils</em>库的本质。实用程序类提供了静态方法，使使用一组数据结构变得简单而令人兴奋。它还提高了生产力。</p>
+<p><em>SetUtils</em> API的官方文档可以<a href="https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/SetUtils.html" target="_blank" rel="noopener noreffer">在这里找到</a>。</p>
+<p>下一个**»<strong><a href="apache-commons-ordered-map" rel="">Apache Commons 集合 OrderedMap</a></strong>«**上一页<a href="apache-commons-bag" rel="">Apache Commons 收藏包</a>
+Generic bottom</p>
+<p>Generic footer banner</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons 集合 SetUtils" data-hashtags="Java Set"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-hashtag="Java Set"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons 集合 SetUtils"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons 集合 SetUtils"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons 集合 SetUtils"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-set/">Java Set</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_commons_ordered_map/" class="prev" rel="prev" title="Apache Commons 集合 OrderedMap"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons 集合 OrderedMap</a>
+            <a href="/apache_crunch/" class="next" rel="next" title="Apache Crunch 指南">Apache Crunch 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

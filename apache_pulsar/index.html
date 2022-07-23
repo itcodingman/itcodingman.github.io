@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Pulsar 简介 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Pulsar 简介" />
+<meta property="og:description" content="简介 Apache Pulsar是 Yahoo 开发的基于分布式开源发布/订阅的消息传递系统。 它的创建是为了支持 Yahoo 的关键应用程序，如 Yahoo Mail、Yahoo Financ" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_pulsar/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-06-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Pulsar 简介"/>
+<meta name="twitter:description" content="简介 Apache Pulsar是 Yahoo 开发的基于分布式开源发布/订阅的消息传递系统。 它的创建是为了支持 Yahoo 的关键应用程序，如 Yahoo Mail、Yahoo Financ"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_pulsar/" /><link rel="prev" href="http://itcodingman.github.io/apache_poi_write_multiline_text/" /><link rel="next" href="http://itcodingman.github.io/apache_rocketmq_spring_boot/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Pulsar 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_pulsar\/"
+        },"genre": "posts","keywords": "Messaging","wordcount":  1995 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_pulsar\/","datePublished": "2018-06-01T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Pulsar 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/architecture/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Architecture</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-01">2018-06-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1995 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#3-主要特点"><a href="wp-content/uploads/2018/10/pulsar-system-architecture.png"><img src="wp-content/uploads/2018/10/pulsar-system-architecture-1024x677.png" alt="脉冲星系统架构"></a>
+3. 主要特点</a>
+      <ul>
+        <li><a href="#31消息模型">3.1。消息模型</a></li>
+        <li><a href="#32-部署模式">3.2. 部署模式</a></li>
+        <li><a href="#33-异地复制">3.3. 异地复制</a></li>
+        <li><a href="#34-持久性">3.4. 持久性</a></li>
+        <li><a href="#41安装">4.1。安装</a></li>
+        <li><a href="#42-启动实例">4.2. 启动实例</a></li>
+      </ul>
+    </li>
+    <li><a href="#5java客户端">5.Java客户端</a>
+      <ul>
+        <li><a href="#51设置项目">5.1。设置项目</a></li>
+        <li><a href="#52-制片人">5.2. 制片人</a></li>
+        <li><a href="#53-消费者">5.3. 消费者</a></li>
+        <li><a href="#54-消费者订阅类型">5.4. 消费者订阅类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#六结论"><a href="wp-content/uploads/2018/10/pulsar-subscription-modes.png"><img src="wp-content/uploads/2018/10/pulsar-subscription-modes-1024x753.png" alt="脉冲星订阅模式"></a>
+六，结论</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>简介</li>
+</ol>
+<hr>
+<p><strong><a href="https://pulsar.apache.org/" target="_blank" rel="noopener noreffer">Apache Pulsar</a>是 Yahoo 开发的基于分布式开源发布/订阅的消息传递系统</strong>。</p>
+<p>它的创建是为了支持 Yahoo 的关键应用程序，如 Yahoo Mail、Yahoo Finance、Yahoo Sports 等。然后，在 2016 年，它在 Apache 软件基金会下开源。</p>
+<ol start="2">
+<li>建筑</li>
+</ol>
+<hr>
+<p><strong>Pulsar 是一种用于服务器到服务器消息传递的多租户、高性能解决方案</strong>。它由一组代理和 bookie 以及用于配置和管理的内置<a href="https://zookeeper.apache.org/" target="_blank" rel="noopener noreffer"><em>Apache ZooKeeper组成。</em></a>bookie来自*<a href="https://bookkeeper.apache.org/" target="_blank" rel="noopener noreffer">Apache BookKeeper</a>*  ，它为消息提供存储，直到它们被使用。</p>
+<p>在一个集群中，我们将拥有：</p>
+<ul>
+<li>多个集群代理处理来自生产者的传入消息并将消息分发给消费者</li>
+<li>Apache BookKeeper 支持消息持久化</li>
+<li>Apache ZooKeeper 存储集群配置</li>
+</ul>
+<p>为了更好地理解这一点，让我们看一下<a href="https://pulsar.apache.org/docs/en/concepts-architecture-overview/" target="_blank" rel="noopener noreffer">文档</a>中的架构图：</p>
+<h2 id="3-主要特点"><a href="wp-content/uploads/2018/10/pulsar-system-architecture.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2018/10/pulsar-system-architecture-1024x677.png"
+        data-srcset="wp-content/uploads/2018/10/pulsar-system-architecture-1024x677.png, wp-content/uploads/2018/10/pulsar-system-architecture-1024x677.png 1.5x, wp-content/uploads/2018/10/pulsar-system-architecture-1024x677.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2018/10/pulsar-system-architecture-1024x677.png"
+        title="脉冲星系统架构" /></a>
+3. 主要特点</h2>
+<p>让我们从快速浏览一些关键特性开始：</p>
+<ul>
+<li>对多个集群的内置支持</li>
+<li>支持跨多个集群的消息地理复制</li>
+<li>多种订阅模式</li>
+<li>可扩展到数百万个主题</li>
+<li>使用 Apache BookKeeper 来保证消息传递。</li>
+<li>低延迟</li>
+</ul>
+<p>现在，让我们详细讨论一些关键功能。</p>
+<h3 id="31消息模型">3.1。消息模型</h3>
+<p>该框架提供了一个灵活的消息传递模型。一般来说，消息传递架构有两种消息传递模型，即队列和发布者/订阅者。发布者/订阅者是一个广播消息系统，其中消息被发送给所有消费者。另一方面，排队是点对点通信。</p>
+<p><strong>Pulsar 将这两个概念结合在一个通用 API</strong>中。发布者将消息发布到不同的主题。然后这些消息被广播到所有订阅者。</p>
+<p>消费者订阅以获取消息。该库允许消费者选择不同的方式来消费同一订阅中的消息，包括独占、共享和故障转移。我们将在后面的部分详细讨论这些订阅类型。</p>
+<h3 id="32-部署模式">3.2. 部署模式</h3>
+<p><strong>Pulsar 内置了对不同环境中部署的支持</strong>。这意味着我们可以在标准的本地机器上使用它，或者将它部署在 Kubernetes 集群、谷歌或 AWS 云中。</p>
+<p>它可以作为单个节点执行以用于开发和测试目的。在这种情况下，所有组件（代理、BookKeeper 和 ZooKeeper）都在单个进程中运行。</p>
+<h3 id="33-异地复制">3.3. 异地复制</h3>
+<p><strong>该库为数据的异地复制提供了开箱即用的支持。</strong> 我们可以通过配置不同的地理区域来启用多个集群之间的消息复制。</p>
+<p>消息数据近乎实时地复制。如果跨集群发生网络故障，数据始终是安全的并存储在 BookKeeper 中。复制系统会继续重试，直到复制成功。</p>
+<p><strong>地理复制功能还允许组织跨不同的云提供商部署 Pulsar 并复制数据</strong>。这有助于他们避免使用专有的云提供商 API。</p>
+<h3 id="34-持久性">3.4. 持久性</h3>
+<p><strong>Pulsar 读取并确认数据后，保证数据不丢失</strong>。数据持久性与配置为存储数据的磁盘数量有关。</p>
+<p>Pulsar 通过使用在存储节点中运行的 bookies（Apache BookKeeper 实例）来确保持久性。每当 bookie 收到消息时，它都会在内存中保存一份副本，并将数据写入 WAL（预写日志）。此日志的工作方式与数据库 WAL 相同。Bookies 操作数据库事务原理，确保即使机器发生故障也不会丢失数据。</p>
+<p>除此之外，Pulsar 还可以承受多个节点故障。库将数据复制到多个 bookie，然后向生产者发送确认消息。这种机制即使在多个硬件故障的情况下也能保证零数据丢失。</p>
+<ol start="4">
+<li>单节点设置</li>
+</ol>
+<hr>
+<p>现在让我们看看如何搭建 Apache Pulsar 的单节点集群。</p>
+<p><strong>Apache 还提供了一个简单的 <a href="https://pulsar.apache.org/docs/en/concepts-clients/" target="_blank" rel="noopener noreffer">客户端 API</a>  ，其中包含 Java、Python 和 C++ 的绑定</strong>。稍后我们将创建一个简单的 Java 生产者和订阅示例。</p>
+<h3 id="41安装">4.1。安装</h3>
+<p>Apache Pulsar 以二进制发行版的形式提供。让我们从下载它开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wget https://archive.apache.org/dist/incubator/pulsar/pulsar-2.1.1-incubating/apache-pulsar-2.1.1-incubating-bin.tar.gz
+</span></span></code></pre></div><p>下载完成后，我们可以解压缩 zip 文件。未归档的发行版将包含<em>bin、conf、example、licenses</em> 和<em>lib</em>文件夹。</p>
+<p>之后，我们需要下载内置的连接器。这些现在作为一个单独的包发货：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wget https://archive.apache.org/dist/incubator/pulsar/pulsar-2.1.1-incubating/apache-pulsar-io-connectors-2.1.1-incubating-bin.tar.gz
+</span></span></code></pre></div><p>让我们解压连接器并将<em>连接器</em>文件夹复制到 Pulsar 文件夹中。</p>
+<h3 id="42-启动实例">4.2. 启动实例</h3>
+<p>要启动一个独立实例，我们可以执行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">bin/pulsar standalone
+</span></span></code></pre></div><h2 id="5java客户端">5.Java客户端</h2>
+<p>现在我们将创建一个 Java 项目来生成和使用消息。我们还将为不同的订阅类型创建示例。</p>
+<h3 id="51设置项目">5.1。设置项目</h3>
+<p>我们首先将<a href="https://search.maven.org/search?q=a:pulsar-client%20AND%20g:org.apache.pulsar" target="_blank" rel="noopener noreffer">pulsar-client</a>依赖项添加到我们的项目中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.pulsar<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>pulsar-client<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.1.1-incubating<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h3 id="52-制片人">5.2. 制片人</h3>
+<p>让我们继续创建一个<em>Producer</em>示例。在这里，我们将创建一个主题和一个生产者。</p>
+<p><strong>首先，我们需要创建一个 <em>PulsarClient</em></strong> ，它将使用自己的协议**连接到特定主机和端口上的 Pulsar 服务 。**许多生产者和消费者可以共享一个客户端对象。</p>
+<p>现在，我们将创建一个 具有特定主题名称的<em>Producer ：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">SERVICE_URL</span> <span class="o">=</span> <span class="s">&#34;pulsar://localhost:6650&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">TOPIC_NAME</span> <span class="o">=</span> <span class="s">&#34;test-topic&#34;</span><span class="o">;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PulsarClient</span> <span class="n">client</span> <span class="o">=</span> <span class="n">PulsarClient</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">serviceUrl</span><span class="o">(</span><span class="n">SERVICE_URL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Producer</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">[]&gt;</span> <span class="n">producer</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newProducer</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">topic</span><span class="o">(</span><span class="n">TOPIC_NAME</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">compressionType</span><span class="o">(</span><span class="n">CompressionType</span><span class="o">.</span><span class="na">LZ4</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">create</span><span class="o">();</span>
+</span></span></code></pre></div><p>生产者将发送 5 条消息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IntStream</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">5</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">content</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;hi-pulsar-%d&#34;</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Message</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">[]&gt;</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">MessageBuilder</span><span class="o">.</span><span class="na">create</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">content</span><span class="o">.</span><span class="na">getBytes</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MessageId</span> <span class="n">msgId</span> <span class="o">=</span> <span class="n">producer</span><span class="o">.</span><span class="na">send</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">});</span>
+</span></span></code></pre></div><h3 id="53-消费者">5.3. 消费者</h3>
+<p>接下来，我们将创建消费者以获取生产者创建的消息。消费者也需要相同的<em>PulsarClient</em>  来连接我们的服务器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Consumer</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">[]&gt;</span> <span class="n">consumer</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">newConsumer</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">topic</span><span class="o">(</span><span class="n">TOPIC_NAME</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">subscriptionType</span><span class="o">(</span><span class="n">SubscriptionType</span><span class="o">.</span><span class="na">Shared</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">subscriptionName</span><span class="o">(</span><span class="n">SUBSCRIPTION_NAME</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">subscribe</span><span class="o">();</span>
+</span></span></code></pre></div><p>在这里，我们创建了具有 <em>共享</em>订阅类型的客户端*。*这允许多个消费者附加到同一个订阅并获取消息。</p>
+<h3 id="54-消费者订阅类型">5.4. 消费者订阅类型</h3>
+<p>在上面的消费者示例中，<strong>我们创建了一个<em>共享</em>类型的订阅。我们还可以创建 <em>独占</em>和<em>故障转移</em>订阅。</strong></p>
+<p><em>独占</em> 订阅只允许订阅一个消费者。</p>
+<p>另一方面，af <em>ailover 订阅</em> 允许用户定义后备消费者，以防一个消费者失败，如下面的 Apache 图表所示：</p>
+<h2 id="六结论"><a href="wp-content/uploads/2018/10/pulsar-subscription-modes.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2018/10/pulsar-subscription-modes-1024x753.png"
+        data-srcset="wp-content/uploads/2018/10/pulsar-subscription-modes-1024x753.png, wp-content/uploads/2018/10/pulsar-subscription-modes-1024x753.png 1.5x, wp-content/uploads/2018/10/pulsar-subscription-modes-1024x753.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2018/10/pulsar-subscription-modes-1024x753.png"
+        title="脉冲星订阅模式" /></a>
+六，结论</h2>
+<p>在本文中，我们重点介绍了 Pulsar 消息传递系统的特性，例如消息传递模型、地理复制和强大的持久性保证。</p>
+<p>我们还学习了如何设置单个节点以及如何使用 Java 客户端。</p>
+<p>Java底层</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_pulsar/" data-title="Apache Pulsar 简介" data-hashtags="Messaging"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_pulsar/" data-hashtag="Messaging"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_pulsar/" data-title="Apache Pulsar 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_pulsar/" data-title="Apache Pulsar 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_pulsar/" data-title="Apache Pulsar 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/messaging/">Messaging</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_poi_write_multiline_text/" class="prev" rel="prev" title="使用 Apache POI 的 Excel 单元格中的多行文本"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Apache POI 的 Excel 单元格中的多行文本</a>
+            <a href="/apache_rocketmq_spring_boot/" class="next" rel="next" title="带有 Spring Boot 的 Apache RocketMQ">带有 Spring Boot 的 Apache RocketMQ<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

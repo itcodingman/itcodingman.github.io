@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Apache Druid 的事件驱动数据 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache Druid 的事件驱动数据" />
+<meta property="og:description" content="简介 在本教程中，我们将了解如何使用事件数据和Apache Druid。我们将介绍事件数据和 Druid 架构的基础知识。作为其中的一部分，我们将创建一个简" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_druid_event_driven_data/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Apache Druid 的事件驱动数据"/>
+<meta name="twitter:description" content="简介 在本教程中，我们将了解如何使用事件数据和Apache Druid。我们将介绍事件数据和 Druid 架构的基础知识。作为其中的一部分，我们将创建一个简"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_druid_event_driven_data/" /><link rel="prev" href="http://itcodingman.github.io/apache_cxf_with_spring/" /><link rel="next" href="http://itcodingman.github.io/apache_flink/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Apache Druid 的事件驱动数据",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_druid_event_driven_data\/"
+        },"genre": "posts","wordcount":  6467 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_druid_event_driven_data\/","datePublished": "2018-05-10T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache Druid 的事件驱动数据</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-10">2018-05-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;6467 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;13 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#二基本概念">二、基本概念</a>
+      <ul>
+        <li><a href="#21什么是事件数据">2.1。什么是事件数据？</a></li>
+        <li><a href="#22-什么是阿帕奇德鲁伊">2.2. 什么是阿帕奇德鲁伊？</a></li>
+      </ul>
+    </li>
+    <li><a href="#3德鲁伊架构">3.德鲁伊架构</a>
+      <ul>
+        <li><a href="#31数据存储设计">3.1。数据存储设计</a></li>
+        <li><a href="#32-德鲁伊进程">3.2. 德鲁伊进程</a></li>
+        <li><a href="#33-外部依赖">3.3. 外部依赖</a></li>
+      </ul>
+    </li>
+    <li><a href="#4德鲁伊设置">4.德鲁伊设置</a>
+      <ul>
+        <li><a href="#51数据模型">5.1。数据模型</a></li>
+        <li><a href="#52-摄取方法">5.2. 摄取方法</a></li>
+        <li><a href="#53-定义任务规范">5.3. 定义任务规范</a></li>
+        <li><a href="#54-提交任务规范">5.4. 提交任务规范</a></li>
+        <li><a href="#55-高级摄取概念">5.5. 高级摄取概念</a></li>
+      </ul>
+    </li>
+    <li><a href="#6查询数据">6.查询数据</a>
+      <ul>
+        <li><a href="#61本机查询">6.1。本机查询</a></li>
+        <li><a href="#62-德鲁伊-sql">6.2. 德鲁伊 SQL</a></li>
+        <li><a href="#63-查询类型">6.3. 查询类型</a></li>
+        <li><a href="#64-高级查询概念">6.4. 高级查询概念</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>简介</li>
+</ol>
+<hr>
+<p>在本教程中，我们将了解如何使用事件数据和<a href="https://druid.apache.org/" target="_blank" rel="noopener noreffer">Apache Druid</a>。我们将介绍事件数据和 Druid 架构的基础知识。作为其中的一部分，我们将创建一个简单的数据管道，利用 Druid 的各种功能，涵盖各种数据摄取模式和查询准备数据的不同方式。</p>
+<h2 id="二基本概念">二、基本概念</h2>
+<p>在深入了解 Apache Druid 的操作细节之前，我们先来了解一些基本概念。我们感兴趣的领域是大规模事件数据的实时分析。</p>
+<p>因此，必须了解我们所说的事件数据的含义以及大规模实时分析它们需要什么。</p>
+<h3 id="21什么是事件数据">2.1。什么是事件数据？</h3>
+<p>事件数据是指<strong>关于在特定时间点发生的变化的一条信息</strong>。事件数据在当今的应用程序中几乎无处不在。从经典的应用程序日志到由事物生成的现代传感器数据，它几乎无处不在。这些通常以大规模生成的机器可读信息为特征。</p>
+<p>它们为预测、自动化、通信和集成等多种功能提供支持，仅举几例。此外，它们在事件驱动架构中也很重要。</p>
+<h3 id="22-什么是阿帕奇德鲁伊">2.2. 什么是阿帕奇德鲁伊？</h3>
+<p>Apache Druid 是<strong>一个实时分析数据库，旨在对面向事件的数据进行快速分析</strong>。Druid 于 2011 年启动，2012 年在 GPL 许可下开源，并于 2015 年迁移到 Apache 许可。它由 Apache 基金会管理，社区贡献了多个组织。它提供实时摄取、快速查询性能和高可用性。</p>
+<p>Druid 这个名字指的是它的架构可以转变来解决不同类型的数据问题。它通常用于商业智能应用程序以分析大量实时和历史数据。</p>
+<h2 id="3德鲁伊架构">3.德鲁伊架构</h2>
+<p>Druid 是<strong>一个用 Java 编写的面向列的分布式数据源</strong>。它能够摄取大量事件数据并在这些数据之上提供低延迟查询。此外，它提供了任意切片和切块数据的可能性。</p>
+<p>了解 Druid 架构如何支持这些特性非常有趣。在本节中，我们将介绍 Druid 架构的一些重要部分。</p>
+<h3 id="31数据存储设计">3.1。数据存储设计</h3>
+<p>了解 Druid 如何构建和存储其数据非常重要，这允许分区和分布。Druid<strong>在处理过程中默认对数据进行分区，并将它们存储到块</strong>和段中：</p>
+<p><a href="wp-content/uploads/2020/06/Druid-Data-Storage.jpg" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2020/06/Druid-Data-Storage.jpg"
+        data-srcset="wp-content/uploads/2020/06/Druid-Data-Storage.jpg, wp-content/uploads/2020/06/Druid-Data-Storage.jpg 1.5x, wp-content/uploads/2020/06/Druid-Data-Storage.jpg 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2020/06/Druid-Data-Storage.jpg"
+        title="wp-content/uploads/2020/06/Druid-Data-Storage.jpg" /></a>
+Druid**将数据存储在我们所知的“数据源”**中，这在逻辑上类似于关系数据库中的表。一个 Druid 集群可以并行处理多个数据源，从各种来源摄取。</p>
+<p>每个数据源都是分区的——默认情况下基于时间，如果配置了其他属性，则进一步基于其他属性。数据的<strong>时间范围称为“块”</strong> ——例如，如果数据按小时分区，则为一小时的数据。</p>
+<p>每个<strong>块进一步划分为一个或多个“段”</strong>，这些“段”是由多行数据组成的单个文件。一个数据源可能有从几个段到数百万个段的任何地方。</p>
+<h3 id="32-德鲁伊进程">3.2. 德鲁伊进程</h3>
+<p>Druid 具有<strong>多进程和分布式架构</strong>。因此，每个过程都可以独立扩展，从而使我们能够创建灵活的集群。让我们了解作为 Druid 一部分的重要过程：</p>
+<p><a href="wp-content/uploads/2020/06/Druid-Processes.jpg" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2020/06/Druid-Processes.jpg"
+        data-srcset="wp-content/uploads/2020/06/Druid-Processes.jpg, wp-content/uploads/2020/06/Druid-Processes.jpg 1.5x, wp-content/uploads/2020/06/Druid-Processes.jpg 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2020/06/Druid-Processes.jpg"
+        title="wp-content/uploads/2020/06/Druid-Processes.jpg" /></a></p>
+<ul>
+<li><strong>Coordinator</strong>：该进程主要负责段管理和分发，并与历史进程通信，根据配置加载或删除段</li>
+<li><strong>Overlord</strong>：这是负责接受任务、协调任务分发、围绕任务创建锁以及向调用者返回状态的主要进程</li>
+<li><strong>Broker</strong>：这是所有查询都发送到分布式集群中执行的进程；它从 Zookeeper 收集元数据并将查询路由到具有正确段的进程</li>
+<li><strong>路由器</strong>：这是一个可选进程，可用于将查询路由到不同的代理进程，从而为更重要数据的查询提供查询隔离</li>
+<li><strong>历史</strong>：这些是存储可查询数据的进程；他们与 Zookeeper 保持持续的联系，并监视他们必须加载和服务的分段信息</li>
+<li><strong>MiddleManager</strong>：这些是执行提交任务的工作进程；他们将任务转发给在不同 JVM 中运行的 Peons，从而提供资源和日志隔离</li>
+</ul>
+<h3 id="33-外部依赖">3.3. 外部依赖</h3>
+<p>除了核心进程之外，Druid 还<strong>依赖于几个外部依赖项才能使其集群按预期运行</strong>。</p>
+<p>让我们看看Druid集群是如何与核心进程和外部依赖一起形成的：</p>
+<p><a href="wp-content/uploads/2020/06/Druid-Cluster.jpg" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2020/06/Druid-Cluster.jpg"
+        data-srcset="wp-content/uploads/2020/06/Druid-Cluster.jpg, wp-content/uploads/2020/06/Druid-Cluster.jpg 1.5x, wp-content/uploads/2020/06/Druid-Cluster.jpg 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2020/06/Druid-Cluster.jpg"
+        title="wp-content/uploads/2020/06/Druid-Cluster.jpg" /></a>
+Druid 使用<strong>深度存储来存储已摄取</strong>到系统中的任何数据。这些不用于响应查询，而是用作数据备份和在进程之间传输数据。这些可以是从本地文件系统到分布式对象存储（如 S3 和 HDFS）的任何内容。</p>
+<p>元<strong>数据存储用于保存共享系统元数据</strong>，如段使用信息和任务信息。但是，它从未用于存储实际数据。它是一个关系数据库，如 Apache Derby、PostgreSQL 或 MySQL。</p>
+<p>Druid 使用 Apache <strong>Zookeeper 来管理当前的集群状态</strong>。它促进了 Druid 集群中的许多操作，例如协调者/霸主领导者选举、段发布协议和段加载/删除协议。</p>
+<h2 id="4德鲁伊设置">4.德鲁伊设置</h2>
+<p>Druid 旨在部署为可扩展的容错集群。但是，<strong>建立生产级 Druid 集群并非易事</strong>。正如我们之前看到的，有许多流程和外部依赖项需要设置和配置。由于可以以灵活的方式创建集群，因此我们必须注意我们的要求，以适当地设置各个流程。</p>
+<p>此外，Druid<strong>仅在类 Unix 环境中受支持，而不在 Windows 上受支持</strong>。此外，运行 Druid 进程需要 Java 8 或更高版本。有几种单服务器配置可用于在单台机器上设置 Druid 以运行教程和示例。但是，为了运行生产工作负载，建议设置一个具有多台机器的成熟 Druid 集群。</p>
+<p>出于本教程的目的，我们将借助<a href="https://hub.docker.com/r/apache/druid" target="_blank" rel="noopener noreffer">Docker Hub 上</a>发布<strong>的官方 Docker 镜像在单台机器上设置 Druid</strong>。这使我们也可以在 Windows 上运行 Druid，正如我们之前讨论的那样，它不受其他支持。有一个<a href="https://github.com/apache/druid/blob/master/distribution/docker/docker-compose.yml" target="_blank" rel="noopener noreffer">Docker compose 文件</a>可用，它为每个 Druid 进程及其外部依赖项创建一个容器。</p>
+<p>我们必须将<strong>配置值作为环境变量提供给 Druid</strong>。实现这一点的最简单方法是在与 Docker compose 文件相同的目录中提供<a href="https://github.com/apache/druid/blob/master/distribution/docker/environment" target="_blank" rel="noopener noreffer">一个名为“environment”的文件。</a></p>
+<p>一旦我们有了 Docker compose 和环境文件，启动 Druid 就像在同一目录中运行命令一样简单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">docker-compose</span> <span class="n">up</span>
+</span></span></code></pre></div><p>这将调出单机 Druid 设置所需的所有容器。我们必须小心为 Docker 机器提供足够的内存，因为 Druid 会消耗大量资源。</p>
+<ol start="5">
+<li>摄取数据</li>
+</ol>
+<hr>
+<p>使用 Druid 构建数据管道的第一步是将数据加载到 Druid 中。这个<strong>过程在 Druid 架构中称为数据摄取或索引</strong>。我们必须找到合适的数据集才能继续本教程。</p>
+<p>现在，正如我们迄今为止所收集的那样，我们必须收集<strong>事件数据并具有一些时间性质</strong>，以充分利用 Druid 基础设施。</p>
+<p>Druid 的官方指南使用简单而优雅<a href="https://github.com/apache/druid/blob/master/examples/quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz" target="_blank" rel="noopener noreffer">的数据，其中包含特定日期的 Wikipedia 页面编辑</a>。我们将继续在此处的教程中使用它。</p>
+<h3 id="51数据模型">5.1。数据模型</h3>
+<p>让我们首先检查我们拥有的数据的结构。我们创建的大多数数据管道对数据异常非常敏感，因此有必要尽可能地清理数据。</p>
+<p>尽管执行数据分析有复杂的方法和工具，但我们将从目视检查开始。快速分析表明，<strong>输入数据具有以 JSON 格式捕获的事件，其中单个事件包含典型属性</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;time&#34;: &#34;2015-09-12T02:10:26.679Z&#34;,
+</span></span><span class="line"><span class="cl">  &#34;channel&#34;: &#34;#pt.wikipedia&#34;,
+</span></span><span class="line"><span class="cl">  &#34;cityName&#34;: null,
+</span></span><span class="line"><span class="cl">  &#34;comment&#34;: &#34;Houveram problemas na última edição e tive de refazê-las, junto com as atualizações da página.&#34;,
+</span></span><span class="line"><span class="cl">  &#34;countryIsoCode&#34;: &#34;BR&#34;,
+</span></span><span class="line"><span class="cl">  &#34;countryName&#34;: &#34;Brazil&#34;,
+</span></span><span class="line"><span class="cl">  &#34;isAnonymous&#34;: true,
+</span></span><span class="line"><span class="cl">  &#34;isMinor&#34;: false,
+</span></span><span class="line"><span class="cl">  &#34;isNew&#34;: false,
+</span></span><span class="line"><span class="cl">  &#34;isRobot&#34;: false,
+</span></span><span class="line"><span class="cl">  &#34;isUnpatrolled&#34;: true,
+</span></span><span class="line"><span class="cl">  &#34;metroCode&#34;: null,
+</span></span><span class="line"><span class="cl">  &#34;namespace&#34;: &#34;Main&#34;,
+</span></span><span class="line"><span class="cl">  &#34;page&#34;: &#34;Catarina Muniz&#34;,
+</span></span><span class="line"><span class="cl">  &#34;regionIsoCode&#34;: null,
+</span></span><span class="line"><span class="cl">  &#34;regionName&#34;: null,
+</span></span><span class="line"><span class="cl">  &#34;user&#34;: &#34;181.213.37.148&#34;,
+</span></span><span class="line"><span class="cl">  &#34;delta&#34;: 197,
+</span></span><span class="line"><span class="cl">  &#34;added&#34;: 197,
+</span></span><span class="line"><span class="cl">  &#34;deleted&#34;: 0
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>虽然定义此事件的属性有很多，但在使用 Druid 时，有一些是我们特别感兴趣的：</p>
+<ul>
+<li>时间戳</li>
+<li>方面</li>
+<li>指标</li>
+</ul>
+<p>Druid 需要<strong>一个特定的属性来标识为时间戳列</strong>。在大多数情况下，Druid 的数据解析器能够自动检测出最佳候选者。但是我们总是有选择的余地，特别是如果我们的数据中没有合适的属性。</p>
+<p><strong>维度是 Druid 按原样存储的属性</strong>。我们可以将它们用于任何目的，例如分组、过滤或应用聚合器。我们可以在摄取规范中选择维度，我们将在本教程中进一步讨论。</p>
+<p>与维度不同，指标是默认**以聚合形式存储的属性。**我们可以为 Druid 选择一个聚合函数，以便在摄取期间应用到这些属性。与启用汇总一起，这些可以导致紧凑的数据表示。</p>
+<h3 id="52-摄取方法">5.2. 摄取方法</h3>
+<p>现在，我们将讨论在 Druid 中执行数据摄取的各种方法。通常，事件驱动的数据本质上是流式传输的，这意味着它们会随着时间的推移以不同的速度生成，就像维基百科的编辑一样。</p>
+<p>但是，我们可能会在一段时间内对数据进行批处理，其中数据本质上更加静态，就像去年发生的所有 Wikipedia 编辑一样。</p>
+<p>我们可能还需要解决不同的数据用例，而 Druid 对其中的大多数都提供了出色的支持。让我们回顾一下在数据管道中使用 Druid 的两种最常见的方式：</p>
+<ul>
+<li>流式摄取</li>
+<li>批量摄取</li>
+</ul>
+<p>在 Druid 中摄取数据的<strong>最常见方式是通过 Apache Streaming 服务</strong>，Druid 可以直接从 Kafka 读取数据。Druid 也支持 Kinesis 等其他平台。我们必须在 Overload 进程上启动主管，该进程创建和管理 Kafka 索引任务。我们可以通过 Overload 进程的 HTTP POST 命令提交作为 JSON 文件的主管规范来启动主管。</p>
+<p>或者，我们可以<strong>批量摄取数据——例如，从本地或远程文件</strong>。它为基于 Hadoop 的批量摄取提供了一种选择，用于从 Hadoop 文件系统中以 Hadoop 文件格式摄取数据。更常见的是，我们可以选择顺序或并行的原生批量摄取。这是一种更方便、更简单的方法，因为它没有任何外部依赖项。</p>
+<h3 id="53-定义任务规范">5.3. 定义任务规范</h3>
+<p>在本教程中，我们将为我们拥有<strong>的输入数据设置一个本机批量摄取任务</strong>。我们可以选择从 Druid 控制台配置任务，这为我们提供了直观的图形界面。或者，我们可以将任务规范定义为 JSON 文件，并使用脚本或命令行将<strong>其提交给霸主进程。</strong></p>
+<p>让我们首先定义一个简单的任务规范，用于在名为<em>wikipedia-index.json</em>的文件中摄取我们的数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;type&#34; : &#34;index_parallel&#34;,
+</span></span><span class="line"><span class="cl">  &#34;spec&#34; : {
+</span></span><span class="line"><span class="cl">    &#34;dataSchema&#34; : {
+</span></span><span class="line"><span class="cl">      &#34;dataSource&#34; : &#34;wikipedia&#34;,
+</span></span><span class="line"><span class="cl">      &#34;dimensionsSpec&#34; : {
+</span></span><span class="line"><span class="cl">        &#34;dimensions&#34; : [
+</span></span><span class="line"><span class="cl">          &#34;channel&#34;,
+</span></span><span class="line"><span class="cl">          &#34;cityName&#34;,
+</span></span><span class="line"><span class="cl">          &#34;comment&#34;,
+</span></span><span class="line"><span class="cl">          &#34;countryIsoCode&#34;,
+</span></span><span class="line"><span class="cl">          &#34;countryName&#34;,
+</span></span><span class="line"><span class="cl">          &#34;isAnonymous&#34;,
+</span></span><span class="line"><span class="cl">          &#34;isMinor&#34;,
+</span></span><span class="line"><span class="cl">          &#34;isNew&#34;,
+</span></span><span class="line"><span class="cl">          &#34;isRobot&#34;,
+</span></span><span class="line"><span class="cl">          &#34;isUnpatrolled&#34;,
+</span></span><span class="line"><span class="cl">          &#34;metroCode&#34;,
+</span></span><span class="line"><span class="cl">          &#34;namespace&#34;,
+</span></span><span class="line"><span class="cl">          &#34;page&#34;,
+</span></span><span class="line"><span class="cl">          &#34;regionIsoCode&#34;,
+</span></span><span class="line"><span class="cl">          &#34;regionName&#34;,
+</span></span><span class="line"><span class="cl">          &#34;user&#34;,
+</span></span><span class="line"><span class="cl">          { &#34;name&#34;: &#34;added&#34;, &#34;type&#34;: &#34;long&#34; },
+</span></span><span class="line"><span class="cl">          { &#34;name&#34;: &#34;deleted&#34;, &#34;type&#34;: &#34;long&#34; },
+</span></span><span class="line"><span class="cl">          { &#34;name&#34;: &#34;delta&#34;, &#34;type&#34;: &#34;long&#34; }
+</span></span><span class="line"><span class="cl">        ]
+</span></span><span class="line"><span class="cl">      },
+</span></span><span class="line"><span class="cl">      &#34;timestampSpec&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;column&#34;: &#34;time&#34;,
+</span></span><span class="line"><span class="cl">        &#34;format&#34;: &#34;iso&#34;
+</span></span><span class="line"><span class="cl">      },
+</span></span><span class="line"><span class="cl">      &#34;metricsSpec&#34; : [],
+</span></span><span class="line"><span class="cl">      &#34;granularitySpec&#34; : {
+</span></span><span class="line"><span class="cl">        &#34;type&#34; : &#34;uniform&#34;,
+</span></span><span class="line"><span class="cl">        &#34;segmentGranularity&#34; : &#34;day&#34;,
+</span></span><span class="line"><span class="cl">        &#34;queryGranularity&#34; : &#34;none&#34;,
+</span></span><span class="line"><span class="cl">        &#34;intervals&#34; : [&#34;2015-09-12/2015-09-13&#34;],
+</span></span><span class="line"><span class="cl">        &#34;rollup&#34; : false
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;ioConfig&#34; : {
+</span></span><span class="line"><span class="cl">      &#34;type&#34; : &#34;index_parallel&#34;,
+</span></span><span class="line"><span class="cl">      &#34;inputSource&#34; : {
+</span></span><span class="line"><span class="cl">        &#34;type&#34; : &#34;local&#34;,
+</span></span><span class="line"><span class="cl">        &#34;baseDir&#34; : &#34;quickstart/tutorial/&#34;,
+</span></span><span class="line"><span class="cl">        &#34;filter&#34; : &#34;wikiticker-2015-09-12-sampled.json.gz&#34;
+</span></span><span class="line"><span class="cl">      },
+</span></span><span class="line"><span class="cl">      &#34;inputFormat&#34; : {
+</span></span><span class="line"><span class="cl">        &#34;type&#34;: &#34;json&#34;
+</span></span><span class="line"><span class="cl">      },
+</span></span><span class="line"><span class="cl">      &#34;appendToExisting&#34; : false
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;tuningConfig&#34; : {
+</span></span><span class="line"><span class="cl">      &#34;type&#34; : &#34;index_parallel&#34;,
+</span></span><span class="line"><span class="cl">      &#34;maxRowsPerSegment&#34; : 5000000,
+</span></span><span class="line"><span class="cl">      &#34;maxRowsInMemory&#34; : 25000
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>让我们根据我们在前面的小节中介绍的基础知识来理解这个任务规范：</p>
+<ul>
+<li>我们选择了<em>index_parallel</em>任务，它为我们提供了并行的本地批量摄取</li>
+<li>我们将在此任务中使用的数据源名称为“ <em>wikipedia”</em></li>
+<li>我们数据的时间戳来自属性“时间”</li>
+<li>我们正在添加许多数据属性作为维度</li>
+<li>在当前任务中，我们没有为我们的数据使用任何指标</li>
+<li>此任务应禁用默认启用的汇总</li>
+<li>该任务的输入源是一个名为<em>wikiticker-2015-09-12-sampled.json.gz的本地文件</em></li>
+<li>我们没有使用任何辅助分区，我们可以在<em>tuneConfig中定义</em></li>
+</ul>
+<p>此任务规范<strong>假设我们已下载数据文件</strong> <em>wikiticker-2015-09-12-sampled.json.gz</em>并将其保存在运行 Druid 的本地计算机上。当我们将 Druid 作为 Docker 容器运行时，这可能会更棘手。幸运的是，Druid在<em>quickstart/tutorial</em>位置<strong>默认提供了这个示例数据</strong>。</p>
+<h3 id="54-提交任务规范">5.4. 提交任务规范</h3>
+<p><em>最后，我们可以使用curl</em>之类的工具通过命令行将此任务规范提交给霸主进程：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">curl </span><span class="n">-X</span> <span class="s1">&#39;POST&#39;</span> <span class="n">-H</span> <span class="s1">&#39;Content-Type:application/json&#39;</span> <span class="n">-d</span> <span class="nv">@wikipedia</span><span class="n">-index</span><span class="p">.</span><span class="n">json</span> <span class="n">http</span><span class="err">:</span><span class="p">//</span><span class="n">localhost</span><span class="err">:</span><span class="n">8081</span><span class="p">/</span><span class="n">druid</span><span class="p">/</span><span class="n">indexer</span><span class="p">/</span><span class="n">v1</span><span class="p">/</span><span class="n">task</span>
+</span></span></code></pre></div><p>通常，如果提交成功，**上述命令会返回任务的 ID 。**我们可以通过 Druid 控制台或执行查询来验证我们的摄取任务的状态，我们将在下一节中介绍。</p>
+<h3 id="55-高级摄取概念">5.5. 高级摄取概念</h3>
+<p>Druid 最适合我们需要处理大量数据的情况——当然不是我们在本教程中看到的那种数据！现在，要大规模启用功能，Druid 架构必须提供合适的工具和技巧。</p>
+<p>虽然我们不会在本教程中使用它们，但让我们快速讨论汇总和分区。</p>
+<p>事件数据很快就会增长到海量，这会影响我们可以实现的查询性能。在许多情况下，我们可能会<strong>随着时间的推移汇总数据</strong>。这就是我们在 Druid 中所熟知的 roll-up。启用汇总后，Druid 会在摄取期间努力<strong>汇总具有相同维度和时间戳的行</strong>。虽然它可以节省空间，但roll-up确实会导致查询精度的损失，因此我们必须合理使用它。</p>
+<p>面对不断增长的数据量，实现更好性能的另一种潜在方法是分配数据，从而分配工作负载。默认情况下，Druid<strong>根据时间戳将数据划分为</strong>包含一个或多个段的时间块。此外，我们可以决定使用自然维度进行二次分区以提高数据局部性。此外，Druid 首先按时间戳对每个段内的数据进行排序，然后按我们配置的其他维度进行排序。</p>
+<h2 id="6查询数据">6.查询数据</h2>
+<p>一旦我们成功地执行了数据摄取，它应该可以供我们查询了。在 Druid 中有多种查询数据的方法。在 Druid 中执行查询的<strong>最简单方法是通过 Druid 控制台</strong>。但是，我们也可以通过发送 HTTP 命令或使用命令行工具来执行查询。</p>
+<p>在 Druid 中构造查询的两种突出方式是原生查询和类似 SQL 的查询。我们将以<strong>这两种方式构建一些基本查询，并</strong>使用<em>curl</em>通过 HTTP 发送它们。让我们看看如何对我们之前在 Druid 中摄取的数据创建一些简单的查询。</p>
+<h3 id="61本机查询">6.1。本机查询</h3>
+<p>Druid 中的原生查询<strong>使用 JSON 对象，我们可以将其发送到代理或路由器进行处理</strong>。我们可以通过 HTTP POST 命令发送查询，以及其他方式来执行相同的操作。</p>
+<p>让我们创建一个名为<em>simple_query_native.json</em>的 JSON 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;queryType&#34; : &#34;topN&#34;,
+</span></span><span class="line"><span class="cl">  &#34;dataSource&#34; : &#34;wikipedia&#34;,
+</span></span><span class="line"><span class="cl">  &#34;intervals&#34; : [&#34;2015-09-12/2015-09-13&#34;],
+</span></span><span class="line"><span class="cl">  &#34;granularity&#34; : &#34;all&#34;,
+</span></span><span class="line"><span class="cl">  &#34;dimension&#34; : &#34;page&#34;,
+</span></span><span class="line"><span class="cl">  &#34;metric&#34; : &#34;count&#34;,
+</span></span><span class="line"><span class="cl">  &#34;threshold&#34; : 10,
+</span></span><span class="line"><span class="cl">  &#34;aggregations&#34; : [
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">      &#34;type&#34; : &#34;count&#34;,
+</span></span><span class="line"><span class="cl">      &#34;name&#34; : &#34;count&#34;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">  ]
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>这是一个简单的查询，用于获取 2019 年 9 月 12 日至 13 日期间页面编辑次数最多的前十个页面。</p>
+<p>让我们使用<em>curl</em>通过 HTTP 发布：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">curl </span><span class="n">-X</span> <span class="s1">&#39;POST&#39;</span> <span class="n">-H</span> <span class="s1">&#39;Content-Type:application/json&#39;</span> <span class="n">-d</span> <span class="nv">@simple_query_native</span><span class="p">.</span><span class="n">json</span> <span class="n">http</span><span class="err">:</span><span class="p">//</span><span class="n">localhost</span><span class="err">:</span><span class="n">8888</span><span class="p">/</span><span class="n">druid</span><span class="p">/</span><span class="n">v2</span><span class="k">?</span><span class="n">pretty</span>
+</span></span></code></pre></div><p>此响应包含 JSON 格式的前十页的详细信息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">[ {
+</span></span><span class="line"><span class="cl">  &#34;timestamp&#34; : &#34;2015-09-12T00:46:58.771Z&#34;,
+</span></span><span class="line"><span class="cl">  &#34;result&#34; : [ {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 33,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;Wikipedia:Vandalismusmeldung&#34;
+</span></span><span class="line"><span class="cl">  }, {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 28,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;User:Cyde/List of candidates for speedy deletion/Subpage&#34;
+</span></span><span class="line"><span class="cl">  }, {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 27,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;Jeremy Corbyn&#34;
+</span></span><span class="line"><span class="cl">  }, {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 21,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;Wikipedia:Administrators&#39; noticeboard/Incidents&#34;
+</span></span><span class="line"><span class="cl">  }, {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 20,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;Flavia Pennetta&#34;
+</span></span><span class="line"><span class="cl">  }, {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 18,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;Total Drama Presents: The Ridonculous Race&#34;
+</span></span><span class="line"><span class="cl">  }, {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 18,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;User talk:Dudeperson176123&#34;
+</span></span><span class="line"><span class="cl">  }, {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 18,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;Wikipédia:Le Bistro/12 septembre 2015&#34;
+</span></span><span class="line"><span class="cl">  }, {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 17,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;Wikipedia:In the news/Candidates&#34;
+</span></span><span class="line"><span class="cl">  }, {
+</span></span><span class="line"><span class="cl">    &#34;count&#34; : 17,
+</span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;Wikipedia:Requests for page protection&#34;
+</span></span><span class="line"><span class="cl">  } ]
+</span></span><span class="line"><span class="cl">} ]
+</span></span></code></pre></div><h3 id="62-德鲁伊-sql">6.2. 德鲁伊 SQL</h3>
+<p>Druid 有一个<strong>内置的 SQL 层，它为我们提供了以熟悉的类似 SQL 的结构构建查询的自由</strong>。它利用 Apache Calcite 来解析和规划查询。但是，Druid SQL 将 SQL 查询转换为查询代理上的本机查询，然后再将它们发送到数据进程。</p>
+<p>让我们看看如何创建与以前相同的查询，但使用 Druid SQL。和以前一样，我们将创建一个名为<em>simple_query_sql.json</em>的 JSON 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;query&#34;:&#34;SELECT page, COUNT(*) AS counts /
+</span></span><span class="line"><span class="cl">    FROM wikipedia WHERE \&#34;__time\&#34; /
+</span></span><span class="line"><span class="cl">    BETWEEN TIMESTAMP &#39;2015-09-12 00:00:00&#39; AND TIMESTAMP &#39;2015-09-13 00:00:00&#39; /
+</span></span><span class="line"><span class="cl">    GROUP BY page ORDER BY Edits DESC LIMIT 10&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></div><p>请注意，为了便于阅读，查询已分成多行，但它应该出现在单行上。同样，和以前一样，我们将通过 HTTP 发布此查询，但发送到不同的端点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">curl </span><span class="n">-X</span> <span class="s1">&#39;POST&#39;</span> <span class="n">-H</span> <span class="s1">&#39;Content-Type:application/json&#39;</span> <span class="n">-d</span> <span class="nv">@simple_query_sql</span><span class="p">.</span><span class="n">json</span> <span class="n">http</span><span class="err">:</span><span class="p">//</span><span class="n">localhost</span><span class="err">:</span><span class="n">8888</span><span class="p">/</span><span class="n">druid</span><span class="p">/</span><span class="n">v2</span><span class="p">/</span><span class="n">sql</span>
+</span></span></code></pre></div><p>输出应该与我们之前使用本机查询实现的非常相似。</p>
+<h3 id="63-查询类型">6.3. 查询类型</h3>
+<p>在前面的部分中，我们看到<strong>了一种查询类型，我们根据间隔获取度量“计数”的前十个结果</strong>。这只是 Druid 支持的一种查询类型，称为<em>TopN</em>查询。当然，我们可以通过使用过滤器和聚合使这个简单的<em>TopN</em>查询更有趣。但这不在本教程的范围内。但是，我们可能会对 Druid 中的其他几个查询感兴趣。</p>
+<p><strong>一些流行的包括 Timeseries 和 GroupBy。</strong></p>
+<p><em>时间序列</em>查询返回一个 JSON 对象数组，其中每个对象表示时间序列查询中描述的一个值——例如，过去一个月的一个维度的每日平均值。</p>
+<p><em>GroupBy</em>查询返回一个 JSON 对象数组，其中每个对象代表一个分组，如 group-by 查询中所述。例如，我们可以查询一个维度在过去一个月中按另一个维度分组的日平均值。</p>
+<p>还有其他几种查询类型，包括<em>Scan</em>、<em>Search</em>、<em>TimeBoundary</em>、<em>SegmentMetadata</em>和<em>DatasourceMetadata</em>。</p>
+<h3 id="64-高级查询概念">6.4. 高级查询概念</h3>
+<p>Druid 提供了一些<strong>复杂的方法来创建复杂的查询，以创建有趣的数据应用程序</strong>。这些包括各种对数据进行切片和切块的方法，同时仍然能够提供令人难以置信的查询性能。</p>
+<p>虽然对它们的详细讨论超出了本教程的范围，但让我们讨论<strong>一些重要的，例如连接和查找、多租户和查询缓存</strong>。</p>
+<p>Druid 支持两种加入数据的方式。第一个是连接运算符，第二个是查询时查找。但是，为了获得更好的查询性能，建议避免查询时连接。</p>
+<p>多租户是指在同一个 Druid 基础设施上支持多个租户的特性，同时仍然为它们提供逻辑隔离。在 Druid 中，可以通过每个租户的单独数据源或租户的数据分区来实现这一点。</p>
+<p>最后，查询缓存是数据密集型应用程序性能的关键。Druid 支持分段和查询结果级别的查询结果缓存。此外，缓存数据可以驻留在内存中或外部持久存储中。</p>
+<ol start="7">
+<li>语言绑定</li>
+</ol>
+<hr>
+<p>尽管 Druid 对在 JSON 中创建摄取规范和定义查询具有出色的支持，但<strong>有时在 JSON 中定义这些查询可能很乏味</strong>，尤其是在查询变得复杂时。不幸的是，Druid 没有提供任何特定语言的客户端库来帮助我们在这方面。但是<strong>社区已经开发了相当多的语言绑定</strong>。一个这样的客户端库也可用于 Java。</p>
+<p>我们将快速了解如何使用 Java 中的这个客户端库构建我们之前使用的<em>TopN查询。</em></p>
+<p>让我们首先<a href="https://search.maven.org/artifact/in.zapr.druid/druidry/2.14/jar" target="_blank" rel="noopener noreffer">在 Maven 中定义所需的依赖项</a>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>in.zapr.druid<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>druidry<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.14<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>在此之后，我们应该能够使用客户端库并创建我们的<em>TopN</em>查询：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DateTime</span> <span class="n">startTime</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">2015</span><span class="o">,</span> <span class="n">9</span><span class="o">,</span> <span class="n">12</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">DateTimeZone</span><span class="o">.</span><span class="na">UTC</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DateTime</span> <span class="n">endTime</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DateTime</span><span class="o">(</span><span class="n">2015</span><span class="o">,</span> <span class="n">9</span><span class="o">,</span> <span class="n">13</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">DateTimeZone</span><span class="o">.</span><span class="na">UTC</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Interval</span> <span class="n">interval</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Interval</span><span class="o">(</span><span class="n">startTime</span><span class="o">,</span> <span class="n">endTime</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Granularity</span> <span class="n">granularity</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleGranularity</span><span class="o">(</span><span class="n">PredefinedGranularity</span><span class="o">.</span><span class="na">ALL</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DruidDimension</span> <span class="n">dimension</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleDimension</span><span class="o">(</span><span class="s">&#34;page&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">TopNMetric</span> <span class="n">metric</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleMetric</span><span class="o">(</span><span class="s">&#34;count&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DruidTopNQuery</span> <span class="n">query</span> <span class="o">=</span> <span class="n">DruidTopNQuery</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">dataSource</span><span class="o">(</span><span class="s">&#34;wikipedia&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">dimension</span><span class="o">(</span><span class="n">dimension</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">threshold</span><span class="o">(</span><span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">topNMetric</span><span class="o">(</span><span class="n">metric</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">granularity</span><span class="o">(</span><span class="n">granularity</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">filter</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">aggregators</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="k">new</span> <span class="n">LongSumAggregator</span><span class="o">(</span><span class="s">&#34;count&#34;</span><span class="o">,</span> <span class="s">&#34;count&#34;</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">intervals</span><span class="o">(</span><span class="n">Collections</span><span class="o">.</span><span class="na">singletonList</span><span class="o">(</span><span class="n">interval</span><span class="o">)).</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><p>在此之后，我们可以简单地生成所需的 JSON 结构，我们可以在 HTTP POST 调用中使用它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ObjectMapper</span> <span class="n">mapper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ObjectMapper</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">requiredJson</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="na">writeValueAsString</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+</span></span></code></pre></div><ol start="8">
+<li>结论</li>
+</ol>
+<hr>
+<p>在本教程中，我们了解了事件数据和 Apache Druid 架构的基础知识。</p>
+<p>此外，我们在本地机器上使用 Docker 容器建立了一个主 Druid 集群。然后，我们还使用本机批处理任务完成了在 Druid 中摄取样本数据集的过程。在此之后，我们看到了在 Druid 中查询数据的不同方式。最后，我们通过 Java 中的客户端库来构建 Druid 查询。</p>
+<p>我们刚刚触及了 Druid 必须提供的功能的皮毛。Druid 可以通过多种可能性帮助我们构建数据管道并创建数据应用程序。先进的摄取和查询功能显然是接下来要学习的步骤，以有效利用 Druid 的力量。</p>
+<p>此外，创建一个合适的 Druid 集群以根据需要扩展各个进程应该是最大化收益的目标。</p>
+<p>通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_druid_event_driven_data/" data-title="使用 Apache Druid 的事件驱动数据"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_druid_event_driven_data/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_druid_event_driven_data/" data-title="使用 Apache Druid 的事件驱动数据"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_druid_event_driven_data/" data-title="使用 Apache Druid 的事件驱动数据"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_druid_event_driven_data/" data-title="使用 Apache Druid 的事件驱动数据"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_cxf_with_spring/" class="prev" rel="prev" title="使用 Spring 的 Apache CXF 指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Spring 的 Apache CXF 指南</a>
+            <a href="/apache_flink/" class="next" rel="next" title="Apache Flink 与 Java 简介">Apache Flink 与 Java 简介<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

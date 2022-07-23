@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Commons 集合 OrderedMap - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons 集合 OrderedMap" />
+<meta property="og:description" content="本文是系列文章的一部分： • Apache Commons Collections 包 • Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap （当前文章）• Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 Apache Commons Collections 库提供了补充 Java Collections" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_commons_ordered_map/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Commons 集合 OrderedMap"/>
+<meta name="twitter:description" content="本文是系列文章的一部分： • Apache Commons Collections 包 • Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap （当前文章）• Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 Apache Commons Collections 库提供了补充 Java Collections"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_commons_ordered_map/" /><link rel="prev" href="http://itcodingman.github.io/apache_commons_multi_valued_map/" /><link rel="next" href="http://itcodingman.github.io/apache_commons_setutils/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Commons 集合 OrderedMap",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_commons_ordered_map\/"
+        },"genre": "posts","keywords": "Java Map","wordcount":  1481 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_ordered_map\/","datePublished": "2018-05-04T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons 集合 OrderedMap</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-04">2018-05-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1481 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#3-orderedmap属性"><strong>3. <em>OrderedMap</em>属性</strong></a></li>
+    <li><a href="#4-使用orderedmap"><strong>4. 使用<em>OrderedMap</em></strong></a>
+      <ul>
+        <li><a href="#41前向迭代"><strong>4.1。前向迭代</strong></a></li>
+        <li><a href="#42-向后迭代"><strong>4.2. 向后迭代</strong></a></li>
+        <li><a href="#43-mapiterator示例"><strong>4.3. <em>MapIterator</em>示例</strong></a></li>
+        <li><a href="#44-移除元素"><strong>4.4. 移除元素</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-提供的实现"><strong>5. 提供的实现</strong></a></li>
+    <li><a href="#六结论"><strong>六，结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><p><a href="javascript:void%280%29;" rel="">本文是系列文章的一部分：</a>  <a href="apache-commons-bag" rel="">• Apache Commons Collections 包</a><br>
+<a href="apache-commons-setutils" rel="">• Apache Commons Collections SetUtils</a><br>
+• Apache Commons Collections OrderedMap （当前文章）<a href="commons-collections-bidi-map" rel="">• Apache Commons Collections BidiMap</a><br>
+<a href="apache-commons-collection-utils" rel="">• Apache Commons Collections CollectionUtils 指南</a><br>
+<a href="apache-commons-map-utils" rel="">• Apache Commons Collections MapUtils</a><br>
+<a href="commons-circular-fifo-queue" rel="">• Apache Commons CircularFifoQueue 指南</a></p>
+<h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p><a href="https://commons.apache.org/proper/commons-collections/" target="_blank" rel="noopener noreffer">Apache Commons Collections 库</a>提供了补充 Java Collections Framework的有用类。</p>
+<p>在本文中，我们将回顾接口<a href="https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/OrderedMap.html" target="_blank" rel="noopener noreffer"><em>OrderedMap</em></a>，它扩展了<em>java.util.Map</em>。</p>
+<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<p>我们需要做的第一件事是在<em>pom.xml</em>中添加 Maven 依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-collections4<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.commons%22%20AND%20a%3A%22commons-collections4%22" target="_blank" rel="noopener noreffer">您可以在Maven 中央存储库</a>中找到该库的最新版本。</p>
+<h2 id="3-orderedmap属性"><strong>3. <em>OrderedMap</em>属性</strong></h2>
+<p>简单来说，一个实现了<em>OrderedMap</em>接口的地图：</p>
+<ul>
+<li>保持其键集的顺序，尽管该集未排序</li>
+<li>可以使用方法在两个方向上进行迭代：<em>firstKey()<em>和</em>nextKey()</em>，或<em>lastKey()<em>和</em>previousKey()</em></li>
+<li>可以用<em>MapIterator</em>遍历（也由库提供）</li>
+<li>提供查找、更改、删​​除或替换元素的方法</li>
+</ul>
+<h2 id="4-使用orderedmap"><strong>4. 使用<em>OrderedMap</em></strong></h2>
+<p>让我们在测试类中设置跑步者及其年龄的<em>OrderedMap 。<em>我们将使用</em>LinkedMap——<em>库中提供的</em>OrderedMap</em>实现之一。</p>
+<p>首先，让我们设置跑步者和年龄的数组，我们将使用它们来加载地图并验证值的顺序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderMapUnitTest</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span><span class="o">[]</span> <span class="n">names</span> <span class="o">=</span> <span class="o">{</span><span class="s">&#34;Emily&#34;</span><span class="o">,</span> <span class="s">&#34;Mathew&#34;</span><span class="o">,</span> <span class="s">&#34;Rose&#34;</span><span class="o">,</span> <span class="s">&#34;John&#34;</span><span class="o">,</span> <span class="s">&#34;Anna&#34;</span><span class="o">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Integer</span><span class="o">[]</span> <span class="n">ages</span> <span class="o">=</span> <span class="o">{</span><span class="n">37</span><span class="o">,</span> <span class="n">28</span><span class="o">,</span> <span class="n">40</span><span class="o">,</span> <span class="n">36</span><span class="o">,</span> <span class="n">21</span><span class="o">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">LinkedMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">runnersLinkedMap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们初始化我们的地图：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Before</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">createRunners</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">RUNNERS_COUNT</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">runners</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">names</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="k">this</span><span class="o">.</span><span class="na">ages</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="41前向迭代"><strong>4.1。前向迭代</strong></h3>
+<p>让我们看看如何使用前向迭代器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenALinkedMap_whenIteratedForwards_thenPreservesOrder</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span><span class="o">.</span><span class="na">firstKey</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">name</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertEquals</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">names</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">name</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span><span class="o">.</span><span class="na">nextKey</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>请注意，当我们到达最后一个键时，方法<em>nextKey()<em>将返回一个</em>空</em>值。</strong></p>
+<h3 id="42-向后迭代"><strong>4.2. 向后迭代</strong></h3>
+<p>现在让我们从最后一个键开始迭代：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenALinkedMap_whenIteratedBackwards_thenPreservesOrder</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span><span class="o">.</span><span class="na">lastKey</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">RUNNERS_COUNT</span> <span class="o">-</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">name</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertEquals</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">names</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">name</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span><span class="o">.</span><span class="na">previousKey</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span><span class="o">--;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**一旦我们到达第一个键，<em>previousKey()<em>方法将返回 null。</em></em></p>
+<h3 id="43-mapiterator示例"><strong>4.3. <em>MapIterator</em>示例</strong></h3>
+<p>现在让我们<strong>使用<em>mapIterator()<em>方法来获取</em>MapIterator</em></strong>，因为我们展示了它如何保留数组<em>names</em>和<em>age</em>中定义的跑步者的顺序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenALinkedMap_whenIteratedWithMapIterator_thenPreservesOrder</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">OrderedMapIterator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">runnersIterator</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span><span class="o">.</span><span class="na">mapIterator</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">runnersIterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">runnersIterator</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">assertEquals</span><span class="o">(</span><span class="n">runnersIterator</span><span class="o">.</span><span class="na">getKey</span><span class="o">(),</span> <span class="k">this</span><span class="o">.</span><span class="na">names</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertEquals</span><span class="o">(</span><span class="n">runnersIterator</span><span class="o">.</span><span class="na">getValue</span><span class="o">(),</span> <span class="k">this</span><span class="o">.</span><span class="na">ages</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="44-移除元素"><strong>4.4. 移除元素</strong></h3>
+<p>最后，让我们检查如何<strong>通过索引或对象删除元素</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenALinkedMap_whenElementRemoved_thenSizeDecrease</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LinkedMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">lmap</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="o">(</span><span class="n">LinkedMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;)</span> <span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">Integer</span> <span class="n">johnAge</span> <span class="o">=</span> <span class="n">lmap</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="s">&#34;John&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">johnAge</span><span class="o">,</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">36</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">lmap</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">RUNNERS_COUNT</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Integer</span> <span class="n">emilyAge</span> <span class="o">=</span> <span class="n">lmap</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">emilyAge</span><span class="o">,</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">37</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">lmap</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">RUNNERS_COUNT</span> <span class="o">-</span> <span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-提供的实现"><strong>5. 提供的实现</strong></h2>
+<p>目前，在库的 4.1 版本中，<em>OrderedMap</em>接口有两种实现*——ListOrderedMap<em>和</em>LinkedMap*。</p>
+<p><a href="https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/map/ListOrderedMap.html" target="_blank" rel="noopener noreffer"><em>ListOrderedMap</em></a><em>使用java.util.List</em>跟踪键集的顺序。它是<em>OrderedMap</em>的装饰器，可以使用静态方法<em>ListOrderedMap.decorate(Map map)从任何**Map</em>创建。</p>
+<p><a href="https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/map/LinkedMap.html" target="_blank" rel="noopener noreffer"><em>LinkedMap</em></a>基于<em>HashMap</em>并通过允许双向迭代和<em>OrderedMap</em>接口的其他方法对其进行了改进。</p>
+<p><strong><em>两种实现还提供了OrderedMap</em>接口之外的三个方法</strong>：</p>
+<ul>
+<li><em><strong>asList()</strong></em>  – 获取<em>List<!-- raw HTML omitted --><em>类型的列表（其中</em>K</em>是键的类型），保留映射的顺序</li>
+<li><em><strong>get(int index)</strong></em> – 获取位置<em>index</em>处的元素，而不是接口中提供的方法<em>get(Object o)</em></li>
+<li><em><strong>indexOf(Object o)</strong></em> – 获取对象<em>o</em>在有序映射中</li>
+</ul>
+<p>我们可以将<em>OrderedMap</em>转换为<em>LinkedMap</em>以使用*asList()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenALinkedMap_whenConvertedToList_thenMatchesKeySet</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LinkedMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">lmap</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="o">(</span><span class="n">LinkedMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;)</span> <span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">listKeys</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">listKeys</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span><span class="o">.</span><span class="na">keySet</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">linkedMap</span> <span class="o">=</span> <span class="n">lmap</span><span class="o">.</span><span class="na">asList</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">listKeys</span><span class="o">,</span> <span class="n">linkedMap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>然后我们可以检查LinkedMap</em>实现中方法*indexOf(Object o)<em>和</em>get(int index)*的功能：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenALinkedMap_whenSearchByIndexIsUsed_thenMatchesConstantArray</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LinkedMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">lmap</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="o">(</span><span class="n">LinkedMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;)</span> <span class="k">this</span><span class="o">.</span><span class="na">runnersLinkedMap</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">RUNNERS_COUNT</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">lmap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">assertEquals</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">names</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">assertEquals</span><span class="o">(</span><span class="n">lmap</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">names</span><span class="o">[</span><span class="n">i</span><span class="o">]),</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="六结论"><strong>六，结论</strong></h2>
+<p>在这个快速教程中，我们回顾了<em>OrderedMap</em>接口及其主要方法和实现。</p>
+<p>有关详细信息，请参阅<a href="https://commons.apache.org/proper/commons-collections/apidocs/index.html" target="_blank" rel="noopener noreffer">Apache Commons Collections 库的 JavaDoc</a>。</p>
+<p>下一个**»<strong><a href="commons-collections-bidi-map" rel="">Apache Commons Collections BidiMap</a></strong>«**上一页<a href="apache-commons-setutils" rel="">Apache Commons 集合 SetUtils</a>
+通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_ordered_map/" data-title="Apache Commons 集合 OrderedMap" data-hashtags="Java Map"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_ordered_map/" data-hashtag="Java Map"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_ordered_map/" data-title="Apache Commons 集合 OrderedMap"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_ordered_map/" data-title="Apache Commons 集合 OrderedMap"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_ordered_map/" data-title="Apache Commons 集合 OrderedMap"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-map/">Java Map</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_commons_multi_valued_map/" class="prev" rel="prev" title="Apache Commons MultiValuedMap 指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons MultiValuedMap 指南</a>
+            <a href="/apache_commons_setutils/" class="next" rel="next" title="Apache Commons 集合 SetUtils">Apache Commons 集合 SetUtils<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

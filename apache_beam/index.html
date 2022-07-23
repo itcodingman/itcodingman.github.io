@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Beam 简介 - Coding Man</title><meta name="Description" content="在本教程中，我们了解了 Apache Beam 是什么以及为什么它比替代品更受欢迎。我们还通过字数统计示例演示了 Apache Beam 的基本概念。"><meta property="og:title" content="Apache Beam 简介" />
+<meta property="og:description" content="在本教程中，我们了解了 Apache Beam 是什么以及为什么它比替代品更受欢迎。我们还通过字数统计示例演示了 Apache Beam 的基本概念。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_beam/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Beam 简介"/>
+<meta name="twitter:description" content="在本教程中，我们了解了 Apache Beam 是什么以及为什么它比替代品更受欢迎。我们还通过字数统计示例演示了 Apache Beam 的基本概念。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_beam/" /><link rel="prev" href="http://itcodingman.github.io/apache_activemq_vs_kafka/" /><link rel="next" href="http://itcodingman.github.io/apache_bval/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Beam 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_beam\/"
+        },"genre": "posts","wordcount":  1953 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_beam\/","datePublished": "2018-04-16T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们了解了 Apache Beam 是什么以及为什么它比替代品更受欢迎。我们还通过字数统计示例演示了 Apache Beam 的基本概念。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Beam 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-16">2018-04-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1953 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#51-构建beam管道">5.1 构建Beam管道</a></li>
+        <li><a href="#52-依赖项">5.2. 依赖项</a></li>
+        <li><a href="#53-执行">5.3. 执行</a></li>
+        <li><a href="#54-运行和测试">5.4. 运行和测试</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>概述</li>
+</ol>
+<hr>
+<p>在本教程中，我们将介绍 Apache Beam 并探索其基本概念。</p>
+<p>我们将首先展示使用 Apache Beam 的用例和好处，然后我们将介绍基本概念和术语。之后，我们将通过一个简单的示例来说明 Apache Beam 的所有重要方面。</p>
+<ol start="2">
+<li>什么是 Apache Beam？</li>
+</ol>
+<hr>
+<p>**Apache Beam (Batch + strEAM) 是用于批处理和流式数据处理作业的统一编程模型。**它提供了一个软件开发工具包来定义和构建数据处理管道以及执行它们的运行器。</p>
+<p>**Apache Beam 旨在提供可移植的编程层。**事实上，Beam Pipeline Runners 将数据处理管道转换为与用户选择的后端兼容的 API。目前，支持这些分布式处理后端：</p>
+<ul>
+<li>Apache Apex</li>
+<li>Apache Flink</li>
+<li>Apache Gearpump (incubating)</li>
+<li>Apache Samza</li>
+<li>Apache Spark</li>
+<li>Google Cloud Dataflow</li>
+<li>Hazelcast Jet</li>
+</ul>
+<ol start="3">
+<li>为什么选择 Apache Beam？</li>
+</ol>
+<hr>
+<p>**Apache Beam 融合了批处理和流式数据处理，而其他人通常通过单独的 API 来实现。**因此，很容易将流式流程更改为批处理流程，反之亦然，例如，随着需求的变化。</p>
+<p>**Apache Beam 提高了可移植性和灵活性。**我们专注于我们的逻辑而不是潜在的细节。此外，我们可以随时更改数据处理后端。</p>
+<p>有适用于 Apache Beam 的 Java、Python、Go 和 Scala SDK。事实上，团队中的每个人都可以使用他们选择的语言来使用它。</p>
+<ol start="4">
+<li>基本概念</li>
+</ol>
+<hr>
+<p>使用 Apache Beam，我们可以构建工作流图（管道）并执行它们。编程模型中的关键概念是：</p>
+<ul>
+<li><em>PCollection</em> – 表示可以是固定批次或数据流的数据集</li>
+<li><em>PTransform</em> – 一种数据处理操作，采用一个或多个<em>PCollection</em>并输出零个或多个<em>PCollection</em></li>
+<li><em>Pipeline</em> – 表示<em>PCollection</em> 和<em>PTransform</em>的有向无环图，因此封装了整个数据处理作业</li>
+<li><em>PipelineRunner</em> –在指定的分布式处理后端执行<em>Pipeline</em></li>
+</ul>
+<p>简单来说，一个<em>PipelineRunner</em>执行一个<em>Pipeline，</em> 一个<em>Pipeline</em>由<em>PCollection</em> 和<em>PTransform</em>组成。</p>
+<ol start="5">
+<li>字数统计示例</li>
+</ol>
+<hr>
+<p>现在我们已经了解了 Apache Beam 的基本概念，让我们设计和测试一个字数统计任务。</p>
+<h3 id="51-构建beam管道">5.1 构建Beam管道</h3>
+<p>设计工作流图是每个 Apache Beam 作业的第一步。让我们定义一个字数统计任务的步骤：</p>
+<ol>
+<li>从来源阅读文本。</li>
+<li>将文本拆分为单词列表。</li>
+<li>小写所有单词。</li>
+<li>修剪标点符号。</li>
+<li>过滤停用词。</li>
+<li>计算每个唯一的单词。</li>
+</ol>
+<p>为此，我们需要使用<em>PCollection</em>和<em>PTransform</em>抽象将上述步骤转换为单个<em>管道。</em></p>
+<h3 id="52-依赖项">5.2. 依赖项</h3>
+<p>在我们实现工作流图之前，我们应该将<a href="https://search.maven.org/artifact/org.apache.beam/beam-sdks-java-core" target="_blank" rel="noopener noreffer">Apache Beam 的核心依赖</a>添加到我们的项目中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.beam<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>beam-sdks-java-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${beam.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>Beam Pipeline Runners 依靠分布式处理后端来执行任务。让我们添加<a href="https://search.maven.org/artifact/org.apache.beam/beam-runners-direct-java" target="_blank" rel="noopener noreffer"><em>DirectRunner</em></a>作为运行时依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.beam<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>beam-runners-direct-java<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${beam.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>与其他 Pipeline Runners 不同，<em>DirectRunner</em>不需要任何额外的设置，这使其成为初学者的不错选择。</p>
+<h3 id="53-执行">5.3. 执行</h3>
+<p>Apache Beam 利用 Map-Reduce 编程范式（与<a href="java-8-streams-introduction" rel="">Java Streams</a>相同）。事实上，在我们继续之前，有一个<a href="java-stream-reduce" rel=""><em>reduce()</em></a>、<a href="java-stream-filter-lambda" rel=""><em>filter()</em></a>、<a href="java-stream-filter-count" rel=""><em>count()</em></a>、<a href="java-difference-map-and-flatmap" rel=""><em>map()<em>和</em>flatMap()的基本概念是个好主意。</em></a></p>
+<p>创建<em>管道</em>是我们要做的第一件事：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PipelineOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="n">PipelineOptionsFactory</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Pipeline</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">options</span><span class="o">);</span>
+</span></span></code></pre></div><p>现在我们应用我们的六步字数统计任务：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PCollection</span><span class="o">&lt;</span><span class="n">KV</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;&gt;</span> <span class="n">wordCount</span> <span class="o">=</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">&#34;(1) Read all lines&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">TextIO</span><span class="o">.</span><span class="na">read</span><span class="o">().</span><span class="na">from</span><span class="o">(</span><span class="n">inputFilePath</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">&#34;(2) Flatmap to a list of words&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">FlatMapElements</span><span class="o">.</span><span class="na">into</span><span class="o">(</span><span class="n">TypeDescriptors</span><span class="o">.</span><span class="na">strings</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">via</span><span class="o">(</span><span class="n">line</span> <span class="o">-&gt;</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">line</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;\\s&#34;</span><span class="o">))))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">&#34;(3) Lowercase all&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">MapElements</span><span class="o">.</span><span class="na">into</span><span class="o">(</span><span class="n">TypeDescriptors</span><span class="o">.</span><span class="na">strings</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">via</span><span class="o">(</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">word</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">&#34;(4) Trim punctuations&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">MapElements</span><span class="o">.</span><span class="na">into</span><span class="o">(</span><span class="n">TypeDescriptors</span><span class="o">.</span><span class="na">strings</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">via</span><span class="o">(</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">trim</span><span class="o">(</span><span class="n">word</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">&#34;(5) Filter stopwords&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">Filter</span><span class="o">.</span><span class="na">by</span><span class="o">(</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">isStopWord</span><span class="o">(</span><span class="n">word</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">&#34;(6) Count words&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">Count</span><span class="o">.</span><span class="na">perElement</span><span class="o">());</span>
+</span></span></code></pre></div><p><em>apply()<em>的第一个（可选）参数是一个</em>字符串</em>，它只是为了提高代码的可读性。以下是上述代码中每个<em>apply()的作用：</em></p>
+<ol>
+<li><em>首先，我们使用TextIO 逐行</em>读取输入文本文件。</li>
+<li>用空格分割每一行，我们将它平面映射到一个单词列表。</li>
+<li>字数不区分大小写，因此我们将所有单词小写。</li>
+<li>早些时候，我们用空格分割行，最后得到像“word！”这样的词。和“单词？”，所以我们删除了标点符号。</li>
+<li>“is”和“by”等停用词几乎在每个英文文本中都很常见，因此我们将它们删除。</li>
+<li>最后，我们使用内置函数*Count.perElement()*计算唯一词。</li>
+</ol>
+<p>如前所述，管道在分布式后端进行处理。不可能在内存中迭代<em>PCollection</em>，因为它分布在多个后端。相反，我们将结果写入外部数据库或文件。</p>
+<p>首先，我们将<em>PCollection</em>转换为<em>String</em>。然后，我们使用<em>TextIO</em>来编写输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">wordCount</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">MapElements</span><span class="o">.</span><span class="na">into</span><span class="o">(</span><span class="n">TypeDescriptors</span><span class="o">.</span><span class="na">strings</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">via</span><span class="o">(</span><span class="n">count</span> <span class="o">-&gt;</span> <span class="n">count</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; --&gt; &#34;</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="na">getValue</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">TextIO</span><span class="o">.</span><span class="na">write</span><span class="o">().</span><span class="na">to</span><span class="o">(</span><span class="n">outputFilePath</span><span class="o">));</span>
+</span></span></code></pre></div><p>现在我们的<em>Pipeline</em>定义已经完成，我们可以运行和测试它。</p>
+<h3 id="54-运行和测试">5.4. 运行和测试</h3>
+<p>到目前为止，我们已经为字数统计任务定义了一个<em>流水线。<em>此时，让我们运行</em>Pipeline</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">p</span><span class="o">.</span><span class="na">run</span><span class="o">().</span><span class="na">waitUntilFinish</span><span class="o">();</span>
+</span></span></code></pre></div><p>在这行代码中，Apache Beam 会将我们的任务发送到多个<em>DirectRunner</em>实例。因此，最后将生成几个输出文件。它们将包含以下内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">apache --&gt; 3
+</span></span><span class="line"><span class="cl">beam --&gt; 5
+</span></span><span class="line"><span class="cl">rocks --&gt; 2
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></div><p>在 Apache Beam 中定义和运行分布式作业就像这样简单而富有表现力。为了比较，<a href="/apache-spark" rel="">Apache Spark</a>、<a href="/apache-flink" rel="">Apache Flink</a>和<a href="/hazelcast-jet" rel="">Hazelcast Jet</a>上也提供了字数统计实现。</p>
+<ol start="6">
+<li>我们从这里走向何方？</li>
+</ol>
+<hr>
+<p>我们成功地计算了输入文件中的每个单词，但我们还没有最常见单词的报告。当然，对<em>PCollection</em>进行排序是我们下一步要解决的好问题。</p>
+<p>稍后，我们可以了解更多关于 Windowing、Triggers、Metrics 和更复杂的 Transforms 的知识。<a href="https://beam.apache.org/documentation/" target="_blank" rel="noopener noreffer">Apache Beam 文档</a>提供了深入的信息和参考资料。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_beam/" data-title="Apache Beam 简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_beam/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_beam/" data-title="Apache Beam 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_beam/" data-title="Apache Beam 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_beam/" data-title="Apache Beam 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_activemq_vs_kafka/" class="prev" rel="prev" title="Apache ActiveMQ 与 Kafka"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache ActiveMQ 与 Kafka</a>
+            <a href="/apache_bval/" class="next" rel="next" title="Apache BVal 简介">Apache BVal 简介<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

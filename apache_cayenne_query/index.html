@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Cayenne 中的高级查询 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Cayenne 中的高级查询" />
+<meta property="og:description" content="1. 概述 之前，我们专注于如何开始使用 Apache Cayenne。 在本文中，我们将介绍如何使用 ORM 编写简单和高级查询。 2. 设置 该设置类似于上一篇文章中使用的设" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_cayenne_query/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Cayenne 中的高级查询"/>
+<meta name="twitter:description" content="1. 概述 之前，我们专注于如何开始使用 Apache Cayenne。 在本文中，我们将介绍如何使用 ORM 编写简单和高级查询。 2. 设置 该设置类似于上一篇文章中使用的设"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_cayenne_query/" /><link rel="prev" href="http://itcodingman.github.io/apache_cayenne_orm/" /><link rel="next" href="http://itcodingman.github.io/apache_commons_bag/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Cayenne 中的高级查询",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_cayenne_query\/"
+        },"genre": "posts","wordcount":  2247 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_cayenne_query\/","datePublished": "2018-04-21T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Cayenne 中的高级查询</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/persistence/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Persistence</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-21">2018-04-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2247 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-设置"><strong>2. 设置</strong></a></li>
+    <li><a href="#3对象选择"><strong>3.<em>对象选择</em></strong></a></li>
+    <li><a href="#4选择查询"><strong>4.<em>选择查询</em></strong></a></li>
+    <li><a href="#5sql模板"><strong>5.SQL<em>模板</em></strong></a></li>
+    <li><a href="#6-ejbql查询"><strong>6. <em>EJBQL查询</em></strong></a></li>
+    <li><a href="#7sql执行"><strong>7.SQL<em>执行</em></strong></a></li>
+    <li><a href="#8-结论"><strong>8. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p><a href="apache-cayenne-orm" rel="">之前</a>，我们专注于如何开始使用 Apache Cayenne。</p>
+<p>在本文中，我们将介绍如何使用 ORM 编写简单和高级查询。</p>
+<h2 id="2-设置"><strong>2. 设置</strong></h2>
+<p>该设置类似于上一篇文章中使用的设置。</p>
+<p>此外，在每次测试之前，我们会保存三位作者，并在最后删除他们：</p>
+<ul>
+<li>保罗泽维尔</li>
+<li>保罗·史密斯</li>
+<li>维姬萨拉</li>
+</ul>
+<h2 id="3对象选择"><strong>3.<em>对象选择</em></strong></h2>
+<p>让我们从简单的开始，看看我们如何获取名字中包含“Paul”的所有作者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenContainsObjS_thenWeGetOneRecord</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，让我们看看如何在 Author&rsquo;s name 列上应用不区分大小写的 LIKE 类型的查询：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenLikeObjS_thenWeGetTwoAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">likeIgnoreCase</span><span class="o">(</span><span class="s">&#34;Paul%&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，*endsWith()*表达式将只返回一条记录，因为只有一位作者具有匹配的姓名：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenEndsWithObjS_thenWeGetOrderedAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">endsWith</span><span class="o">(</span><span class="s">&#34;Sarra&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">firstAuthor</span> <span class="o">=</span> <span class="n">authors</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">firstAuthor</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Vicky Sarra&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>更复杂的是查询名称在列表中的作者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenInObjS_thenWeGetAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span> <span class="n">names</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;Paul Xavier&#34;</span><span class="o">,</span> <span class="s">&#34;pAuL Smith&#34;</span><span class="o">,</span> <span class="s">&#34;Vicky Sarra&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">in</span><span class="o">(</span><span class="n">names</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>第九</em>个是相反的，这里只有“Vicky”会出现在结果中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenNinObjS_thenWeGetAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span> <span class="n">names</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;Paul Xavier&#34;</span><span class="o">,</span> <span class="s">&#34;pAuL Smith&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">nin</span><span class="o">(</span><span class="n">names</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">authors</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">author</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Vicky Sarra&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，以下两个代码是相同的，因为它们都将创建具有相同参数的相同类型的表达式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Expression</span> <span class="n">qualifier</span> <span class="o">=</span> <span class="n">ExpressionFactory</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">containsIgnoreCaseExp</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Paul&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">containsIgnoreCase</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>以下是*<a href="https://cayenne.apache.org/docs/4.0/api/org/apache/cayenne/exp/Expression.html" target="_blank" rel="noopener noreffer">Expression</a>* 和<a href="https://cayenne.apache.org/docs/4.0/api/org/apache/cayenne/exp/ExpressionFactory.html" target="_blank" rel="noopener noreffer"><em>ExpressionFactory</em></a>类中一些可用表达式的列表*：*</p>
+<ul>
+<li><em>likeExp</em> : 用于构建 LIKE 表达式</li>
+<li><em>likeIgnoreCaseExp</em>：用于构建 LIKE_IGNORE_CASE 表达式</li>
+<li><em>containsExp</em> : LIKE 查询的表达式，其模式匹配字符串中的任何位置</li>
+<li><em>containsIgnoreCaseExp ：与**containsExp</em>相同，但使用不区分大小写的方法</li>
+<li><em>startsWithExp</em>：模式应该匹配字符串的开头</li>
+<li><em>startsWithIgnoreCaseExp</em>：类似于<em>startsWithExp</em>但使用不区分大小写的方法</li>
+<li><em>endsWithExp</em> : 匹配字符串结尾的表达式</li>
+<li><em>endsWithIgnoreCaseExp</em>：使用不区分大小写的方法匹配字符串结尾的表达式</li>
+<li><em>expTrue</em> : 布尔<em>真</em>表达式</li>
+<li><em>expFalse</em> : 用于布尔<em>假</em>表达式</li>
+<li><em>andExp</em>：用于用<em>and</em>运算符链接两个表达式</li>
+<li><em>orExp</em> : 使用<em>or</em>运算符链接两个表达式</li>
+</ul>
+<h2 id="4选择查询"><strong>4.<em>选择查询</em></strong></h2>
+<p>它是用户应用程序中使用最广泛的查询类型。<em>SelectQuery</em>描述了一个简单而强大的 API，其行为类似于 SQL 语法，但仍然使用 Java 对象和方法，然后使用构建器模式来构造更复杂的表达式。</p>
+<p>在这里，我们谈论的是一种表达式语言，其中我们使用<em>Expression</em>（用于构建表达式）又名限定符和<em>Ordering</em>（用于对结果排序）类构建查询，这些类接下来由 ORM 转换为原生 SQL。</p>
+<p>为了看到这一点，我们汇总了一些测试，在实践中展示了如何构建一些表达式和对数据进行排序。</p>
+<p>让我们应用一个 LIKE 查询来获取名称为“Paul”的作者**：**</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenLikeSltQry_thenWeGetOneAuthor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Expression</span> <span class="n">qualifier</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">ExpressionFactory</span><span class="o">.</span><span class="na">likeExp</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Paul%&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SelectQuery</span> <span class="n">query</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="k">new</span> <span class="n">SelectQuery</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">qualifier</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authorsTwo</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">performQuery</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authorsTwo</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这意味着如果您不向查询 ( <em>SelectQuery</em> ) 提供任何表达式，则结果将是 Author 表的所有记录。</p>
+<p>可以使用<em>containsIgnoreCaseExp</em>表达式执行类似的查询，以获取姓名中包含 Paul 的所有作者，无论字母的大小写如何：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenCtnsIgnorCaseSltQry_thenWeGetTwoAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Expression</span> <span class="n">qualifier</span> <span class="o">=</span> <span class="n">ExpressionFactory</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">containsIgnoreCaseExp</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Paul&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SelectQuery</span> <span class="n">query</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="k">new</span> <span class="n">SelectQuery</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">qualifier</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">performQuery</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>类似地，让我们以不区分大小写的方式（<em>containsIgnoreCaseExp</em> ）获取名称包含“Paul”的作者，并以字母 h结尾的名称（<em>endsWithExp ）：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenCtnsIgnorCaseEndsWSltQry_thenWeGetTwoAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Expression</span> <span class="n">qualifier</span> <span class="o">=</span> <span class="n">ExpressionFactory</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">containsIgnoreCaseExp</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Paul&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">andExp</span><span class="o">(</span><span class="n">ExpressionFactory</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">endsWithExp</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;h&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SelectQuery</span> <span class="n">query</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SelectQuery</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">qualifier</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">performQuery</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">authors</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">author</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;pAuL Smith&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>可以使用<em>Ordering</em>类执行升序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenAscOrdering_thenWeGetOrderedAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SelectQuery</span> <span class="n">query</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SelectQuery</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">query</span><span class="o">.</span><span class="na">addOrdering</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">asc</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">firstAuthor</span> <span class="o">=</span> <span class="n">authors</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">firstAuthor</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Paul Xavier&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里不使用<em>query.addOrdering(Author.NAME.asc())，<em>我们也可以只使用</em>SortOrder</em>类来获取升序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">query</span><span class="o">.</span><span class="na">addOrdering</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">SortOrder</span><span class="o">.</span><span class="na">ASCENDING</span><span class="o">);</span>
+</span></span></code></pre></div><p>相对有降序排列：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenDescOrderingSltQry_thenWeGetOrderedAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SelectQuery</span> <span class="n">query</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SelectQuery</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">query</span><span class="o">.</span><span class="na">addOrdering</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">desc</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">firstAuthor</span> <span class="o">=</span> <span class="n">authors</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">firstAuthor</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;pAuL Smith&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们在前面的示例中看到的 - 设置此排序的另一种方法是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">query</span><span class="o">.</span><span class="na">addOrdering</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">SortOrder</span><span class="o">.</span><span class="na">DESCENDING</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="5sql模板"><strong>5.SQL<em>模板</em></strong></h2>
+<p><em>SQLTemplate</em>也是我们可以与 Cayenne 一起使用以不使用对象样式查询的一种替代方法。</p>
+<p><em>使用SQLTemplate</em>构建查询与使用某些参数编写本机 SQL 语句直接相关。让我们实现一些简单的例子。</p>
+<p>以下是我们在每次测试后删除所有作者的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@After</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">deleteAllAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SQLTemplate</span> <span class="n">deleteAuthors</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SQLTemplate</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;delete from author&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">performGenericQuery</span><span class="o">(</span><span class="n">deleteAuthors</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>要查找所有记录的作者，我们只需要应用 SQL 查询<em>select * from Author</em>，我们将直接看到结果是正确的，因为我们恰好保存了三个作者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">givenAuthors_whenFindAllSQLTmplt_thenWeGetThreeAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SQLTemplate</span> <span class="n">select</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SQLTemplate</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;select * from Author&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">performQuery</span><span class="o">(</span><span class="n">select</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，让我们获取名为“Vicky Sarra”的作者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">givenAuthors_whenFindByNameSQLTmplt_thenWeGetOneAuthor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SQLTemplate</span> <span class="n">select</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SQLTemplate</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;select * from Author where name = &#39;Vicky Sarra&#39;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">performQuery</span><span class="o">(</span><span class="n">select</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">authors</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">author</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Vicky Sarra&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-ejbql查询"><strong>6. <em>EJBQL查询</em></strong></h2>
+<p>接下来，让我们通过*EJBQLQuery 查询数据，*它是作为在 Cayenne 中采用 Java Persistence API 的实验的一部分而创建的。</p>
+<p>在这里，查询以参数化的对象样式应用；让我们看一些实际的例子。</p>
+<p>首先，所有已保存作者的搜索将如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">givenAuthors_whenFindAllEJBQL_thenWeGetThreeAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EJBQLQuery</span> <span class="n">query</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EJBQLQuery</span><span class="o">(</span><span class="s">&#34;select a FROM Author a&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">performQuery</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们再次使用名称“Vicky Sarra”搜索作者，但现在使用<em>EJBQLQuery</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">givenAuthors_whenFindByNameEJBQL_thenWeGetOneAuthor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EJBQLQuery</span> <span class="n">query</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EJBQLQuery</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;select a FROM Author a WHERE a.name = &#39;Vicky Sarra&#39;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">performQuery</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">authors</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">author</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Vicky Sarra&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>一个更好的例子是更新作者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenUpdadingByNameEJBQL_thenWeGetTheUpdatedAuthor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EJBQLQuery</span> <span class="n">query</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EJBQLQuery</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;UPDATE Author AS a SET a.name &#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="s">&#34;= &#39;Vicky Edison&#39; WHERE a.name = &#39;Vicky Sarra&#39;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">QueryResponse</span> <span class="n">queryResponse</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">performGenericQuery</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">EJBQLQuery</span> <span class="n">queryUpdatedAuthor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EJBQLQuery</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;select a FROM Author a WHERE a.name = &#39;Vicky Edison&#39;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">performQuery</span><span class="o">(</span><span class="n">queryUpdatedAuthor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">authors</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">author</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们只想选择一列，我们应该使用这个查询*“select a.name FROM Author a”*。</p>
+<h2 id="7sql执行"><strong>7.SQL<em>执行</em></strong></h2>
+<p><em>SQLExec</em>也是从 Cayenne M4 版本引入的一个新的 Fluent 查询 API。</p>
+<p>一个简单的插入看起来像这样：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenInsertingSQLExec_thenWeGetNewAuthor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">inserted</span> <span class="o">=</span> <span class="n">SQLExec</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="s">&#34;INSERT INTO Author (name) VALUES (&#39;codingman&#39;)&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">inserted</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们可以根据作者的姓名更新作者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">whenUpdatingSQLExec_thenItsUpdated</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">updated</span> <span class="o">=</span> <span class="n">SQLExec</span><span class="o">.</span><span class="na">query</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;UPDATE Author SET name = &#39;codingman&#39; &#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="s">&#34;WHERE name = &#39;Vicky Sarra&#39;&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">updated</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以从<a href="https://cayenne.apache.org/docs/4.0/index.html" target="_blank" rel="noopener noreffer">文档</a>中获得更多细节。</p>
+<h2 id="8-结论"><strong>8. 结论</strong></h2>
+<p>在本文中，我们研究了使用 Cayenne 编写简单和更高级查询的多种方法。</p>
+<p>坚持底 <strong>通过参考<em>学习 Spring Data JPA</em>课程开始使用 Spring Data JPA：</strong>
+<strong><a href="learn-spring-data-jpa-course/index.html#table" rel="">&raquo; 查看课程</a></strong>
+持久性页脚横幅</p>
+<p>使用 JPA 介绍 SPRING 数据、JPA<br>
+和事务语义详细信息使用 Spring 获得持久性</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_cayenne_query/" data-title="Apache Cayenne 中的高级查询"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_cayenne_query/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_cayenne_query/" data-title="Apache Cayenne 中的高级查询"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_cayenne_query/" data-title="Apache Cayenne 中的高级查询"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_cayenne_query/" data-title="Apache Cayenne 中的高级查询"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_cayenne_orm/" class="prev" rel="prev" title="Apache Cayenne ORM 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Cayenne ORM 简介</a>
+            <a href="/apache_commons_bag/" class="next" rel="next" title="Apache Commons 收藏包">Apache Commons 收藏包<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

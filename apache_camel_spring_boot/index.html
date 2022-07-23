@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>带有 Spring Boot 的 Apache Camel - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="带有 Spring Boot 的 Apache Camel" />
+<meta property="og:description" content="1. 概述 Apache Camel 的核心是一个集成引擎，简单地说，它可用于促进各种技术之间的交互。 这些服务和技术之间的桥梁被称为*路由。*路由在引擎（CamelCo" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_camel_spring_boot/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="带有 Spring Boot 的 Apache Camel"/>
+<meta name="twitter:description" content="1. 概述 Apache Camel 的核心是一个集成引擎，简单地说，它可用于促进各种技术之间的交互。 这些服务和技术之间的桥梁被称为*路由。*路由在引擎（CamelCo"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_camel_spring_boot/" /><link rel="prev" href="http://itcodingman.github.io/apache_camel_intro/" /><link rel="next" href="http://itcodingman.github.io/apache_cayenne_orm/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "带有 Spring Boot 的 Apache Camel",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_camel_spring_boot\/"
+        },"genre": "posts","keywords": "Apache Camel","wordcount":  2998 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_camel_spring_boot\/","datePublished": "2018-04-19T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">带有 Spring Boot 的 Apache Camel</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring-boot/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring Boot</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-19">2018-04-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2998 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#3主类"><strong>3.主类</strong></a></li>
+    <li><a href="#4-spring-boot-的-camel-配置"><strong>4. Spring Boot 的 Camel 配置</strong></a></li>
+    <li><a href="#5--设置-camel-servlet">5 <strong>. 设置 Camel Servlet</strong></a></li>
+    <li><a href="#6-建立路线"><strong>6. 建立路线</strong></a>
+      <ul>
+        <li><a href="#61restconfiguration-路由">**6.1。restConfiguration <em>()<em>路由</em></em></a></li>
+        <li><a href="#62-rest-路由"><strong>6.2. <em>rest(</em> )路由</strong></a></li>
+        <li><a href="#63-带有transform的from路由">**6.3. <em>带有transform()<em>的</em>from()<em>路由</em></em></a></li>
+        <li><a href="#64-简单的脚本语言"><strong>6.4. 简单的脚本语言</strong></a></li>
+        <li><a href="#65from路由与process"><strong>6.5。<em>from()<em>路由与</em>process()</em></strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-结论"><strong>7. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>Apache Camel 的核心是一个集成引擎，简单地说，它可用于促进各种技术之间的交互。</p>
+<p>这些服务和技术之间的桥梁被称为*路由。*路由在引擎（<em>CamelContext</em>）上实现，它们与所谓的“交换消息”进行通信。</p>
+<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<p>首先，我们需要包含 Spring Boot、Camel、带有 Swagger 和 JSON 的 Rest API 的依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependencies&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.camel.springboot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>camel-servlet-starter<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>3.15.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.camel.springboot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>camel-jackson-starter<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>3.15.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.camel.springboot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>camel-swagger-java-starter<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>3.15.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.apache.camel.springboot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>camel-spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;version&gt;</span>3.15.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>    
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependencies&gt;</span>
+</span></span></code></pre></div><p>可以在<a href="https://search.maven.org/search?q=g:org.apache.camel.springboot" target="_blank" rel="noopener noreffer">此处</a>找到最新版本的 Apache Camel 依赖项。</p>
+<h2 id="3主类"><strong>3.主类</strong></h2>
+<p>让我们首先创建一个 Spring Boot<em>应用程序</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@SpringBootApplication</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@ComponentScan</span><span class="o">(</span><span class="n">basePackages</span><span class="o">=</span><span class="s">&#34;com.codingman.camel&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">Application</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4-spring-boot-的-camel-配置"><strong>4. Spring Boot 的 Camel 配置</strong></h2>
+<p>现在让我们使用 Spring 配置我们的应用程序，从配置文件（属性）开始。</p>
+<p>例如，让我们在<em>src/main/resources的**application.properties</em>文件中为我们的应用程序配置一个日志：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">logging</span><span class="o">.</span><span class="na">config</span><span class="o">=</span><span class="n">classpath</span><span class="o">:</span><span class="n">logback</span><span class="o">.</span><span class="na">xml</span>
+</span></span><span class="line"><span class="cl"><span class="n">camel</span><span class="o">.</span><span class="na">springboot</span><span class="o">.</span><span class="na">name</span><span class="o">=</span><span class="n">MyCamel</span>
+</span></span><span class="line"><span class="cl"><span class="n">server</span><span class="o">.</span><span class="na">address</span><span class="o">=</span><span class="n">0</span><span class="o">.</span><span class="na">0</span><span class="o">.</span><span class="na">0</span><span class="o">.</span><span class="na">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">management</span><span class="o">.</span><span class="na">address</span><span class="o">=</span><span class="n">0</span><span class="o">.</span><span class="na">0</span><span class="o">.</span><span class="na">0</span><span class="o">.</span><span class="na">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">management</span><span class="o">.</span><span class="na">port</span><span class="o">=</span><span class="n">8081</span>
+</span></span><span class="line"><span class="cl"><span class="n">endpoints</span><span class="o">.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="n">endpoints</span><span class="o">.</span><span class="na">health</span><span class="o">.</span><span class="na">enabled</span> <span class="o">=</span> <span class="kc">true</span>
+</span></span></code></pre></div><p>此示例显示了一个<em>application.properties</em>文件，该文件还设置了 Logback 配置的路径。通过将 IP 设置为“0.0.0.0”，我们完全限制了 Spring Boot 提供的 Web 服务器上的<em>管理员</em>和<em>管理</em>访问。此外，我们还启用了对我们的应用程序端点以及健康检查端点的所需网络访问。</p>
+<p>另一个配置文件是<em>application.yml</em>。在其中，我们将添加一些属性来帮助我们将值注入我们的应用程序路由：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">server:
+</span></span><span class="line"><span class="cl">  port: <span class="m">8080</span>
+</span></span><span class="line"><span class="cl">camel:
+</span></span><span class="line"><span class="cl">  springboot:
+</span></span><span class="line"><span class="cl">    name: ServicesRest
+</span></span><span class="line"><span class="cl">management:
+</span></span><span class="line"><span class="cl">  port: <span class="m">8081</span>
+</span></span><span class="line"><span class="cl">endpoints:
+</span></span><span class="line"><span class="cl">  enabled: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">  health:
+</span></span><span class="line"><span class="cl">    enabled: <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">quickstart:
+</span></span><span class="line"><span class="cl">  generateOrderPeriod: 10s
+</span></span><span class="line"><span class="cl">  processOrderPeriod: 30s
+</span></span></code></pre></div><h2 id="5--设置-camel-servlet">5 <strong>. 设置 Camel Servlet</strong></h2>
+<p>开始使用 Camel 的一种方法是将其注册为 servlet，以便它可以拦截 HTTP 请求并将它们重定向到我们的应用程序。</p>
+<p>如前所述，盯着 Camel 的 2.18 及以下版本，我们可以利用我们的*application.yml——*通过为最终 URL 创建一个参数。稍后它将被注入到我们的 Java 代码中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">codingman:
+</span></span><span class="line"><span class="cl">  api:
+</span></span><span class="line"><span class="cl">    path: &#39;/camel&#39;
+</span></span></code></pre></div><p>回到我们的<em>Application</em>类，我们需要在上下文路径的根目录注册 Camel servlet，它将在<em>应用程序启动时从 application.yml 中的引用**codingman.api.path</em>注入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${codingman.api.path}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">contextPath</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="n">ServletRegistrationBean</span> <span class="nf">servletRegistrationBean</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ServletRegistrationBean</span> <span class="n">servlet</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServletRegistrationBean</span>
+</span></span><span class="line"><span class="cl">      <span class="o">(</span><span class="k">new</span> <span class="n">CamelHttpTransportServlet</span><span class="o">(),</span> <span class="n">contextPath</span><span class="o">+</span><span class="s">&#34;/*&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">servlet</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;CamelServlet&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">servlet</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>从 Camel 的 2.19 版开始，此配置已被删除，因为<em>CamelServlet</em>默认设置为*“/camel”*。</p>
+<h2 id="6-建立路线"><strong>6. 建立路线</strong></h2>
+<p><em>让我们通过从 Camel 扩展RouteBuilder</em>类开始创建路由，并将其设置为*@Component*以便组件扫描例程可以在 Web 服务器初始化期间找到它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Component</span>
+</span></span><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">RestApi</span> <span class="kd">extends</span> <span class="n">RouteBuilder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CamelContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultCamelContext</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">restConfiguration</span><span class="o">()...</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rest</span><span class="o">(</span><span class="s">&#34;/api/&#34;</span><span class="o">)...</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">from</span><span class="o">(</span><span class="s">&#34;direct:remoteService&#34;</span><span class="o">)...</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个类中，我们重写了Camel 的*RouteBuilder类的**configure()*方法。</p>
+<p><strong>Camel 总是需要一个<em>CamelContext</em>实例</strong>——保存传入和传出消息的核心组件。</p>
+<p>在这个简单的示例中，<em>DefaultCamelContext</em>就足够了，因为它只是将消息和路由绑定到其中，就像我们将要创建的 REST 服务一样。</p>
+<h3 id="61restconfiguration-路由">**6.1。restConfiguration <em>()<em>路由</em></em></h3>
+<p>接下来，我们为计划在*restConfiguration()*方法中创建的端点创建一个 REST 声明：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">restConfiguration</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">contextPath</span><span class="o">(</span><span class="n">contextPath</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">port</span><span class="o">(</span><span class="n">serverPort</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">enableCORS</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">apiContextPath</span><span class="o">(</span><span class="s">&#34;/api-doc&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">apiProperty</span><span class="o">(</span><span class="s">&#34;api.title&#34;</span><span class="o">,</span> <span class="s">&#34;Test REST API&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">apiProperty</span><span class="o">(</span><span class="s">&#34;api.version&#34;</span><span class="o">,</span> <span class="s">&#34;v1&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">apiContextRouteId</span><span class="o">(</span><span class="s">&#34;doc-api&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">component</span><span class="o">(</span><span class="s">&#34;servlet&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">bindingMode</span><span class="o">(</span><span class="n">RestBindingMode</span><span class="o">.</span><span class="na">json</span><span class="o">)</span>
+</span></span></code></pre></div><p>在这里，我们使用来自 YAML 文件的注入属性注册上下文路径。我们的应用程序的端口也应用了相同的逻辑。CORS 已启用，允许跨站点使用此 Web 服务。绑定模式允许并将参数转换为我们的 API。</p>
+<p>接下来，我们将 Swagger 文档添加到我们之前设置的 URI、标题和版本中。当我们为 REST Web 服务创建方法/端点时，Swagger 文档将自动更新。</p>
+<p>这个 Swagger 上下文本身就是一个 Camel 路由，在启动过程中我们可以在服务器日志中看到一些关于它的技术信息。我们的示例文档默认在<em>http://localhost:8080/camel/api-doc 提供。</em></p>
+<h3 id="62-rest-路由"><strong>6.2. <em>rest(</em> )路由</strong></h3>
+<p>现在，让我们从上面列出的*configure()方法中实现**rest()*方法调用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">rest</span><span class="o">(</span><span class="s">&#34;/api/&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">id</span><span class="o">(</span><span class="s">&#34;api-route&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">consumes</span><span class="o">(</span><span class="s">&#34;application/json&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">post</span><span class="o">(</span><span class="s">&#34;/bean&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">bindingMode</span><span class="o">(</span><span class="n">RestBindingMode</span><span class="o">.</span><span class="na">json_xml</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="n">MyBean</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="s">&#34;direct:remoteService&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>对于那些熟悉 API 的人来说，这种方法非常简单。<em>id</em>是<em>CamelContext</em>内部路由的标识。下一行定义 MIME 类型。这里定义了绑定模式，以表明我们可以在*restConfiguration()*上设置模式。</p>
+<p><em>post()<em>方法向API 添加一个操作，生成一个“ <em>POST /bean</em> ”端点，而</em>MyBean</em>（一个具有<em>整数 id</em>和<em>字符串名称</em>的常规 Java bean ）定义了预期的参数。</p>
+<p>类似地，GET、PUT 和 DELETE 等 HTTP 操作也都以<em>get()</em>、<em>put()</em>、*delete()*的形式可用。</p>
+<p>最后，*to()*方法创建了通往另一条路线的桥梁。在这里，它告诉 Camel 在其上下文/引擎中搜索我们将要创建的另一条路线——该路线由值/id “ *direct: &hellip; ”命名和检测，与**from()*方法中定义的路线相匹配。</p>
+<h3 id="63-带有transform的from路由">**6.3. <em>带有transform()<em>的</em>from()<em>路由</em></em></h3>
+<p>使用 Camel 时，路由接收参数，然后转换、转换和处理这些参数。之后，它将这些参数发送到另一个路由，该路由将结果转发到所需的输出（文件、数据库、SMTP 服务器或 REST API 响应）。</p>
+<p>在本文中，我们只在我们要覆盖的*configure()方法中创建另一个路由。<em>这将是我们最后一个</em>to()*路线的目的地路线：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">from</span><span class="o">(</span><span class="s">&#34;direct:remoteService&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">routeId</span><span class="o">(</span><span class="s">&#34;direct-route&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">tracing</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">&#34;&gt;&gt;&gt; ${body.id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">&#34;&gt;&gt;&gt; ${body.name}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">transform</span><span class="o">().</span><span class="na">simple</span><span class="o">(</span><span class="s">&#34;Hello ${in.body.name}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">setHeader</span><span class="o">(</span><span class="n">Exchange</span><span class="o">.</span><span class="na">HTTP_RESPONSE_CODE</span><span class="o">,</span> <span class="n">constant</span><span class="o">(</span><span class="n">200</span><span class="o">));</span>
+</span></span></code></pre></div><p>*from()<em>方法遵循相同的原则，并且与</em>rest()<em>方法有许多相同的方法，除了它从 Camel 上下文消息中消费。这就是参数“ <em>direct-route</em> ”的原因，它创建了指向上述方法</em>rest().to()*的链接。</p>
+<p><strong>许多其他转换是可用的</strong>，包括提取为 Java 原语（或对象）并将其发送到持久层。请注意，路由总是从传入消息中读取，因此链式路由将忽略传出消息。</p>
+<p>我们的例子已经准备好了，我们可以试试：</p>
+<ul>
+<li>运行提示命令：<em>mvn spring-boot:run</em></li>
+<li>使用标头参数向<em>http://localhost:8080/camel/api/bean</em>发出 POST 请求： <em>Content-Type: application/json</em>和有效负载*{“id”: 1,”name”: “World”}*</li>
+<li>我们应该会收到 201 的返回码和响应：<em>Hello, World</em></li>
+</ul>
+<h3 id="64-简单的脚本语言"><strong>6.4. 简单的脚本语言</strong></h3>
+<p>该示例使用*tracking()<em>方法输出日志记录。请注意，我们使用了</em>${}*占位符；这些是属于 Camel 的称为 SIMPLE 的脚本语言的一部分。它适用于通过路由交换的消息，例如消息中的正文。</p>
+<p>在我们的示例中，我们使用 SIMPLE 将 Camel 消息正文中的 bean 属性输出到日志中。</p>
+<p>我们也可以使用它来进行简单的转换，如*transform()*方法所示。</p>
+<h3 id="65from路由与process"><strong>6.5。<em>from()<em>路由与</em>process()</em></strong></h3>
+<p>让我们做一些更有意义的事情，比如调用一个服务层返回处理过的数据。SIMPLE 不适用于繁重的数据处理，因此让我们将*transform()<em>替换为</em>process()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">from</span><span class="o">(</span><span class="s">&#34;direct:remoteService&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">routeId</span><span class="o">(</span><span class="s">&#34;direct-route&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">tracing</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">&#34;&gt;&gt;&gt; ${body.id}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">&#34;&gt;&gt;&gt; ${body.name}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">process</span><span class="o">(</span><span class="k">new</span> <span class="n">Processor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">process</span><span class="o">(</span><span class="n">Exchange</span> <span class="n">exchange</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">MyBean</span> <span class="n">bodyIn</span> <span class="o">=</span> <span class="o">(</span><span class="n">MyBean</span><span class="o">)</span> <span class="n">exchange</span><span class="o">.</span><span class="na">getIn</span><span class="o">().</span><span class="na">getBody</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">          <span class="n">ExampleServices</span><span class="o">.</span><span class="na">example</span><span class="o">(</span><span class="n">bodyIn</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">          <span class="n">exchange</span><span class="o">.</span><span class="na">getIn</span><span class="o">().</span><span class="na">setBody</span><span class="o">(</span><span class="n">bodyIn</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">})</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">setHeader</span><span class="o">(</span><span class="n">Exchange</span><span class="o">.</span><span class="na">HTTP_RESPONSE_CODE</span><span class="o">,</span> <span class="n">constant</span><span class="o">(</span><span class="n">200</span><span class="o">));</span>
+</span></span></code></pre></div><p>这允许我们将数据提取到一个 bean 中，与之前在<em>type()<em>方法中定义的相同，并在我们的</em>ExampleServices</em>层中处理它。</p>
+<p>由于我们之前将<em>bindingMode()<em>设置为 JSON，因此响应已经是正确的 JSON 格式，基于我们的 POJO 生成。这意味着对于</em>ExampleServices</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExampleServices</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">example</span><span class="o">(</span><span class="n">MyBean</span> <span class="n">bodyIn</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bodyIn</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span> <span class="s">&#34;Hello, &#34;</span> <span class="o">+</span> <span class="n">bodyIn</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bodyIn</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">bodyIn</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">*</span> <span class="n">10</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，相同的 HTTP 请求返回响应代码 201 和正文：<em>{“id”：10，“name”：“Hello, World”}</em>。</p>
+<h2 id="7-结论"><strong>7. 结论</strong></h2>
+<p>通过几行代码，我们设法创建了一个相对完整的应用程序。所有依赖项都是通过一个命令自动构建、管理和运行的。此外，我们可以创建将各种技术结合在一起的 API。</p>
+<p>这种方法对容器也非常友好，从而形成了一个非常精简的服务器环境，可以根据需要轻松复制。额外的配置可能性可以很容易地合并到容器模板配置文件中。</p>
+<p>最后，除了<em>filter()</em>、<em>process()</em>、<em>transform()<em>和</em>marshall()</em> API 之外，Camel 中还有许多其他集成模式和数据操作：</p>
+<ul>
+<li><a href="https://camel.apache.org/enterprise-integration-patterns.html" target="_blank" rel="noopener noreffer">骆驼集成模式</a></li>
+<li><a href="https://camel.apache.org/user-guide.html" target="_blank" rel="noopener noreffer">骆驼用户指南</a></li>
+<li><a href="https://camel.apache.org/simple.html" target="_blank" rel="noopener noreffer">骆驼简单语言</a></li>
+</ul>
+<p>通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_camel_spring_boot/" data-title="带有 Spring Boot 的 Apache Camel" data-hashtags="Apache Camel"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_camel_spring_boot/" data-hashtag="Apache Camel"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_camel_spring_boot/" data-title="带有 Spring Boot 的 Apache Camel"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_camel_spring_boot/" data-title="带有 Spring Boot 的 Apache Camel"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_camel_spring_boot/" data-title="带有 Spring Boot 的 Apache Camel"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/apache-camel/">Apache Camel</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_camel_intro/" class="prev" rel="prev" title="Apache Camel 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Camel 简介</a>
+            <a href="/apache_cayenne_orm/" class="next" rel="next" title="Apache Cayenne ORM 简介">Apache Cayenne ORM 简介<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Geode 快速指南 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Geode 快速指南" />
+<meta property="og:description" content="1. 概述 Apache Geode是一个分布式内存数据网格，支持缓存和数据计算。 在本教程中，我们将介绍 Geode 的关键概念并使用其 Java 客户端运行一些代码示例。 2. 设置 首" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_geode/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Geode 快速指南"/>
+<meta name="twitter:description" content="1. 概述 Apache Geode是一个分布式内存数据网格，支持缓存和数据计算。 在本教程中，我们将介绍 Geode 的关键概念并使用其 Java 客户端运行一些代码示例。 2. 设置 首"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_geode/" /><link rel="prev" href="http://itcodingman.github.io/apache_flink/" /><link rel="next" href="http://itcodingman.github.io/apache_httpclient_enable_logging/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Geode 快速指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_geode\/"
+        },"genre": "posts","wordcount":  3171 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_geode\/","datePublished": "2018-05-12T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Geode 快速指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/persistence/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Persistence</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-12">2018-05-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3171 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-设置"><strong>2. 设置</strong></a>
+      <ul>
+        <li><a href="#21安装和配置"><strong>2.1。安装和配置</strong></a></li>
+        <li><a href="#22-确认"><strong>2.2. 确认</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-maven依赖"><strong>3. Maven依赖</strong></a></li>
+    <li><a href="#4简单的存储和检索"><strong>4.简单的存储和检索</strong></a>
+      <ul>
+        <li><a href="#41保存单个值"><strong>4.1。保存单个值</strong></a></li>
+        <li><a href="#42-一次保存多个值"><strong>4.2. 一次保存多个值</strong></a></li>
+        <li><a href="#43-保存自定义对象"><strong>4.3. 保存自定义对象</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5区域类型"><strong>5.区域类型</strong></a>
+      <ul>
+        <li><a href="#51复制区域"><strong>5.1。复制区域</strong></a></li>
+        <li><a href="#52-分区区域"><strong>5.2. 分区区域</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#6对象查询语言"><strong>6.对象查询语言</strong></a></li>
+    <li><a href="#七功能"><strong>七、功能</strong></a>
+      <ul>
+        <li><a href="#71定义函数"><strong>7.1。定义函数</strong></a></li>
+        <li><a href="#72-部署功能"><strong>7.2. 部署功能</strong></a></li>
+        <li><a href="#73-执行功能"><strong>7.3. 执行功能</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#8-结论"><strong>8. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p><a href="https://geode.apache.org/" target="_blank" rel="noopener noreffer">Apache Geode</a>是一个分布式内存数据网格，支持缓存和数据计算。</p>
+<p>在本教程中，我们将介绍 Geode 的关键概念并使用其 Java 客户端运行一些代码示例。</p>
+<h2 id="2-设置"><strong>2. 设置</strong></h2>
+<p>首先，我们需要下载并安装 Apache Geode 并设置<em>gfsh</em>环境。为此，我们可以按照<a href="https://geode.apache.org/docs/guide/16/getting_started/15_minute_quickstart_gfsh.html" target="_blank" rel="noopener noreffer">Geode 官方指南</a>中的说明进行操作。</p>
+<p>其次，本教程将创建一些文件系统工件。因此，我们可以通过创建一个临时目录并从那里启动东西来隔离它们。</p>
+<h3 id="21安装和配置"><strong>2.1。安装和配置</strong></h3>
+<p>从我们的临时目录中，我们需要启动一个<em>Locator</em>实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; start locator --name=locator --bind-address=localhost
+</span></span></code></pre></div><p>**<em>定位器</em> 负责 Geode <em>Cluster</em>的不同成员之间的协调，**我们可以通过 JMX 进一步管理它。</p>
+<p>接下来，让我们启动一个<em>Server</em>实例来托管一个或多个数据<em>Region</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gfsh&gt; start server --name<span class="o">=</span>server1 --server-port<span class="o">=</span><span class="m">0</span>
+</span></span></code></pre></div><p>我们将*&ndash;server-port<em>选项设置为 0，以便 Geode 选择任何可用端口。虽然如果我们忽略它，服务器将使用默认端口 40404。**服务器是</em>集群<em>的可配置成员，作为长期进程运行并负责管理数据</em>区域***。</p>
+<p>最后，我们需要一个 <em>Region</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; create region --name=demo --type=REPLICATE
+</span></span></code></pre></div><p><strong>该<em>区域</em>最终是我们存储数据的地方。</strong></p>
+<h3 id="22-确认"><strong>2.2. 确认</strong></h3>
+<p>在我们继续之前，让我们确保一切正常。</p>
+<p>首先，让我们检查一下我们是否有我们的 <em>Server</em>和我们的 <em>Locator</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gfsh&gt; list members
+</span></span><span class="line"><span class="cl"> Name   <span class="p">|</span> Id
+</span></span><span class="line"><span class="cl">------- <span class="p">|</span> ----------------------------------------------------------
+</span></span><span class="line"><span class="cl">server1 <span class="p">|</span> 192.168.0.105<span class="o">(</span>server1:6119<span class="o">)</span>&lt;v1&gt;:1024
+</span></span><span class="line"><span class="cl">locator <span class="p">|</span> 127.0.0.1<span class="o">(</span>locator:5996:locator<span class="o">)</span>&lt;ec&gt;&lt;v0&gt;:1024 <span class="o">[</span>Coordinator<span class="o">]</span>
+</span></span></code></pre></div><p>接下来，我们有我们的 <em>Region</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; describe region --name=demo
+</span></span><span class="line"><span class="cl">..........................................................
+</span></span><span class="line"><span class="cl">Name            : demo
+</span></span><span class="line"><span class="cl">Data Policy     : replicate
+</span></span><span class="line"><span class="cl">Hosting Members : server1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Non-Default Attributes Shared By Hosting Members  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> Type  |    Name     | Value
+</span></span><span class="line"><span class="cl">------ | ----------- | ---------------
+</span></span><span class="line"><span class="cl">Region | data-policy | REPLICATE
+</span></span><span class="line"><span class="cl">       | size        | 0
+</span></span><span class="line"><span class="cl">       | scope       | distributed-ack
+</span></span></code></pre></div><p>此外，我们的临时目录下的文件系统上应该有一些目录，称为“locator”和“server1”。</p>
+<p>有了这个输出，我们知道我们已经准备好继续前进了。</p>
+<h2 id="3-maven依赖"><strong>3. Maven依赖</strong></h2>
+<p>现在我们有了一个正在运行的 Geode，让我们开始查看客户端代码。</p>
+<p>要在我们的 Java 代码中使用 Geode，我们需要将 <a href="https://search.maven.org/search?q=a:geode-core" target="_blank" rel="noopener noreffer">Apache Geode Java 客户端</a>库添加到我们的 <em>pom</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&lt;dependency&gt;
+</span></span><span class="line"><span class="cl">     &lt;groupId&gt;org.apache.geode&lt;/groupId&gt;
+</span></span><span class="line"><span class="cl">     &lt;artifactId&gt;geode-core&lt;/artifactId&gt;
+</span></span><span class="line"><span class="cl">     &lt;version&gt;1.6.0&lt;/version&gt;
+</span></span><span class="line"><span class="cl">&lt;/dependency&gt;
+</span></span></code></pre></div><p>让我们从在几个区域中简单地存储和检索一些数据开始。</p>
+<h2 id="4简单的存储和检索"><strong>4.简单的存储和检索</strong></h2>
+<p>让我们演示如何存储单个值、批量值以及自定义对象。</p>
+<p>要开始在我们的“demo”区域中存储数据，让我们使用定位器连接到它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Before</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">connect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ClientCacheFactory</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">addPoolLocator</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="n">10334</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">create</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">region</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> 
+</span></span><span class="line"><span class="cl">      <span class="nf">createClientRegionFactory</span><span class="o">(</span><span class="n">ClientRegionShortcut</span><span class="o">.</span><span class="na">CACHING_PROXY</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="s">&#34;demo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="41保存单个值"><strong>4.1。保存单个值</strong></h3>
+<p>现在，我们可以简单地在我们的区域中存储和检索数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenSendMessageToRegion_thenMessageSavedSuccessfully</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">region</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;A&#34;</span><span class="o">,</span> <span class="s">&#34;Hello&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">region</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;B&#34;</span><span class="o">,</span> <span class="s">&#34;demo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Hello&#34;</span><span class="o">,</span> <span class="n">region</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;A&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;demo&#34;</span><span class="o">,</span> <span class="n">region</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;B&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="42-一次保存多个值"><strong>4.2. 一次保存多个值</strong></h3>
+<p>我们还可以一次保存多个值，例如在尝试减少网络延迟时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenPutMultipleValuesAtOnce_thenValuesSavedSuccessfully</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Supplier</span><span class="o">&lt;</span><span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">keys</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&#34;A&#34;</span><span class="o">,</span> <span class="s">&#34;B&#34;</span><span class="o">,</span> <span class="s">&#34;C&#34;</span><span class="o">,</span> <span class="s">&#34;D&#34;</span><span class="o">,</span> <span class="s">&#34;E&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">values</span> <span class="o">=</span> <span class="n">keys</span><span class="o">.</span><span class="na">get</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toMap</span><span class="o">(</span><span class="n">Function</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span> <span class="n">String</span><span class="o">::</span><span class="n">toLowerCase</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">region</span><span class="o">.</span><span class="na">putAll</span><span class="o">(</span><span class="n">values</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">keys</span><span class="o">.</span><span class="na">get</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">k</span> <span class="o">-&gt;</span> <span class="n">assertEquals</span><span class="o">(</span><span class="n">k</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">(),</span> <span class="k">this</span><span class="o">.</span><span class="na">region</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">k</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="43-保存自定义对象"><strong>4.3. 保存自定义对象</strong></h3>
+<p>字符串很有用，但我们迟早需要存储自定义对象。</p>
+<p>假设我们有一个要使用以下键类型存储的客户记录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerKey</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">long</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">country</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// equals and hashcode
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>以及以下值类型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Customer</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">CustomerKey</span> <span class="n">key</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">age</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// getters and setters 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>有几个额外的步骤可以存储这些：</p>
+<p>首先，**他们应该实现 <em>Serializable</em>。**虽然这不是一个严格的要求，但通过使它们可<em>序列化，</em><a href="https://geode.apache.org/docs/guide/16/developing/data_serialization/data_serialization_options.html" target="_blank" rel="noopener noreffer">Geode 可以更健壮地存储它们</a>。</p>
+<p>其次，<strong>它们需要位于我们应用程序的类路径以及 Geode <em>Server</em></strong>的类路径中。</p>
+<p>为了让它们进入服务器的类路径，让我们将它们打包，比如使用 <em>mvn clean package</em>。</p>
+<p><em>然后我们可以在新的启动服务器</em>命令中引用生成的 jar  ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; stop server --name=server1
+</span></span><span class="line"><span class="cl">gfsh&gt; start server --name=server1 --classpath=../lib/apache-geode-1.0-SNAPSHOT.jar --server-port=0
+</span></span></code></pre></div><p><strong>同样，我们必须从临时目录运行这些命令。</strong></p>
+<p>最后，让我们使用与创建“demo”区域相同的命令在<em>服务器</em>上创建一个名为“demo-customers”的新<em>区域：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gfsh&gt; create region --name<span class="o">=</span>demo-customers --type<span class="o">=</span>REPLICATE
+</span></span></code></pre></div><p>在代码中，我们将像以前一样访问定位器，指定自定义类型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Before</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">connect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... connect through the locator
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">this</span><span class="o">.</span><span class="na">customerRegion</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">cache</span><span class="o">.&lt;</span><span class="n">CustomerKey</span><span class="o">,</span> <span class="n">Customer</span><span class="o">&gt;</span> 
+</span></span><span class="line"><span class="cl">      <span class="nf">createClientRegionFactory</span><span class="o">(</span><span class="n">ClientRegionShortcut</span><span class="o">.</span><span class="na">CACHING_PROXY</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="s">&#34;demo-customers&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后，我们可以像以前一样存储我们的客户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenPutCustomKey_thenValuesSavedSuccessfully</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CustomerKey</span> <span class="n">key</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CustomerKey</span><span class="o">(</span><span class="n">123</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Customer</span> <span class="n">customer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Customer</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="s">&#34;William&#34;</span><span class="o">,</span> <span class="s">&#34;Russell&#34;</span><span class="o">,</span> <span class="n">35</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">customerRegion</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">customer</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Customer</span> <span class="n">storedCustomer</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">customerRegion</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;William&#34;</span><span class="o">,</span> <span class="n">storedCustomer</span><span class="o">.</span><span class="na">getFirstName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Russell&#34;</span><span class="o">,</span> <span class="n">storedCustomer</span><span class="o">.</span><span class="na">getLastName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5区域类型"><strong>5.区域类型</strong></h2>
+<p>对于大多数环境，我们将拥有多个副本或多个分区，具体取决于我们的读写吞吐量要求。</p>
+<p>到目前为止，我们已经使用了内存中的复制区域。让我们仔细看看。</p>
+<h3 id="51复制区域"><strong>5.1。复制区域</strong></h3>
+<p>顾名思义，<em><strong>复制区域</strong></em><strong>在多个</strong><em><strong>服务器</strong></em>**上维护其数据的副本。**让我们测试一下。</p>
+<p>从工作目录中的<em>gfsh</em>控制台，让我们再向集群添加一个名为<em>server2的**服务器</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; start server --name=server2 --classpath=../lib/apache-geode-1.0-SNAPSHOT.jar --server-port=0
+</span></span></code></pre></div><p>请记住，当我们制作“demo”时，我们使用了*–type=REPLICATE*。因此，<strong>Geode 会自动将我们的数据复制到新服务器。</strong></p>
+<p>让我们通过停止<em>server1 来验证这一点：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; stop server --name=server1
+</span></span></code></pre></div><p>然后，让我们对“demo”区域执行快速查询。</p>
+<p>如果数据复制成功，我们将返回结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; query --query=&#39;select e.key from /demo.entries e&#39;
+</span></span><span class="line"><span class="cl">Result : true
+</span></span><span class="line"><span class="cl">Limit  : 100
+</span></span><span class="line"><span class="cl">Rows   : 5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Result
+</span></span><span class="line"><span class="cl">------
+</span></span><span class="line"><span class="cl">C
+</span></span><span class="line"><span class="cl">B
+</span></span><span class="line"><span class="cl">A 
+</span></span><span class="line"><span class="cl">E
+</span></span><span class="line"><span class="cl">D
+</span></span></code></pre></div><p>所以，看起来复制成功了！</p>
+<p>向我们的区域添加副本可提高数据可用性。而且，因为不止一台服务器可以响应查询，我们也将获得更高的读取吞吐量。</p>
+<p>但是，*<em>如果他们俩都崩溃了怎么办？由于这些是内存区域，因此数据将丢失</em>。***为此，我们可以改为使用 <em>–type=REPLICATE_PERSISTENT</em>，它还在复制时将数据存储在磁盘上。</p>
+<h3 id="52-分区区域"><strong>5.2. 分区区域</strong></h3>
+<p>对于更大的数据集，我们可以通过配置 Geode 将一个区域拆分为单独的分区或存储桶来更好地扩展系统。</p>
+<p>让我们创建一个名为“demo-partitioned”的分区<em>区域：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; create region --name=demo-partitioned --type=PARTITION
+</span></span></code></pre></div><p>添加一些数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; put --region=demo-partitioned --key=&#34;1&#34; --value=&#34;one&#34;
+</span></span><span class="line"><span class="cl">gfsh&gt; put --region=demo-partitioned --key=&#34;2&#34; --value=&#34;two&#34;
+</span></span><span class="line"><span class="cl">gfsh&gt; put --region=demo-partitioned --key=&#34;3&#34; --value=&#34;three&#34;
+</span></span></code></pre></div><p>并快速验证：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; query --query=&#39;select e.key, e.value from /demo-partitioned.entries e&#39;
+</span></span><span class="line"><span class="cl">Result : true
+</span></span><span class="line"><span class="cl">Limit  : 100
+</span></span><span class="line"><span class="cl">Rows   : 3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">key | value
+</span></span><span class="line"><span class="cl">--- | -----
+</span></span><span class="line"><span class="cl">2   | two
+</span></span><span class="line"><span class="cl">1   | one
+</span></span><span class="line"><span class="cl">3   | three
+</span></span></code></pre></div><p>然后，为了验证数据是否已分区，让我们再次停止<em>server1</em>并重新查询：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; stop server --name=server1
+</span></span><span class="line"><span class="cl">gfsh&gt; query --query=&#39;select e.key, e.value from /demo-partitioned.entries e&#39;
+</span></span><span class="line"><span class="cl">Result : true
+</span></span><span class="line"><span class="cl">Limit  : 100
+</span></span><span class="line"><span class="cl">Rows   : 1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">key | value
+</span></span><span class="line"><span class="cl">--- | -----
+</span></span><span class="line"><span class="cl">2   | two
+</span></span></code></pre></div><p>这次我们只取回了一些数据条目，因为那台服务器只有一个数据分区，所以当 <em>server1</em>掉线时，它的数据也丢失了。</p>
+<p>**但是如果我们需要分区和冗余呢？**Geode 还支持<a href="https://geode.apache.org/docs/guide/11/reference/topics/region_shortcuts_reference.html" target="_blank" rel="noopener noreffer">许多其他类型</a>。以下三个很方便：</p>
+<ul>
+<li><em>PARTITION_REDUNDANT</em>在集群的不同成员之间分区 <em>和复制我们的数据</em></li>
+<li><em>PARTITION_PERSISTENT像**PARTITION</em> 一样对数据进行分区，但是到磁盘，并且</li>
+<li><em>PARTITION_REDUNDANT_PERSISTENT</em>为我们提供了所有三种行为。</li>
+</ul>
+<h2 id="6对象查询语言"><strong>6.对象查询语言</strong></h2>
+<p>Geode 还支持对象查询语言或 OQL，它比简单的键查找功能更强大。这有点像 SQL。</p>
+<p>对于这个例子，让我们使用我们之前构建的“demo-customer”区域。</p>
+<p>如果我们再添加几个客户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">CustomerKey</span><span class="o">,</span> <span class="n">Customer</span><span class="o">&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="k">new</span> <span class="n">CustomerKey</span><span class="o">(</span><span class="n">1</span><span class="o">),</span> <span class="k">new</span> <span class="n">Customer</span><span class="o">(</span><span class="s">&#34;Gheorge&#34;</span><span class="o">,</span> <span class="s">&#34;Manuc&#34;</span><span class="o">,</span> <span class="n">36</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="k">new</span> <span class="n">CustomerKey</span><span class="o">(</span><span class="n">2</span><span class="o">),</span> <span class="k">new</span> <span class="n">Customer</span><span class="o">(</span><span class="s">&#34;Allan&#34;</span><span class="o">,</span> <span class="s">&#34;McDowell&#34;</span><span class="o">,</span> <span class="n">43</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="k">this</span><span class="o">.</span><span class="na">customerRegion</span><span class="o">.</span><span class="na">putAll</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后我们可以使用 <em>QueryService</em>查找名字为“Allan”的客户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">QueryService</span> <span class="n">queryService</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">cache</span><span class="o">.</span><span class="na">getQueryService</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">query</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;select * from /demo-customers c where c.firstName = &#39;Allan&#39;&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">SelectResults</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">SelectResults</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;)</span> <span class="n">queryService</span><span class="o">.</span><span class="na">newQuery</span><span class="o">(</span><span class="n">query</span><span class="o">).</span><span class="na">execute</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">results</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span></span></code></pre></div><h2 id="七功能"><strong>七、功能</strong></h2>
+<p>内存数据网格更强大的概念之一是“将计算应用于数据”的想法。</p>
+<p>简而言之，由于 Geode 是纯 Java，<strong>我们不仅可以轻松发送数据，还可以轻松地对这些数据执行逻辑。</strong></p>
+<p>这可能会让我们想起 PL-SQL 或 Transact-SQL 等 SQL 扩展的想法。</p>
+<h3 id="71定义函数"><strong>7.1。定义函数</strong></h3>
+<p>为了给 Geode 定义一个工作单元，我们实现了 Geode 的 <em>Function</em>接口。</p>
+<p>例如，假设我们需要将所有客户的姓名都更改为大写。</p>
+<p><em>我们可以只实现Function</em>，而不是查询数据并让我们的应用程序完成工作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UpperCaseNames</span> <span class="kd">implements</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">Boolean</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="n">FunctionContext</span><span class="o">&lt;</span><span class="n">Boolean</span><span class="o">&gt;</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">RegionFunctionContext</span> <span class="n">regionContext</span> <span class="o">=</span> <span class="o">(</span><span class="n">RegionFunctionContext</span><span class="o">)</span> <span class="n">context</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Region</span><span class="o">&lt;</span><span class="n">CustomerKey</span><span class="o">,</span> <span class="n">Customer</span><span class="o">&gt;</span> <span class="n">region</span> <span class="o">=</span> <span class="n">regionContext</span><span class="o">.</span><span class="na">getDataSet</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span> <span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">CustomerKey</span><span class="o">,</span> <span class="n">Customer</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">region</span><span class="o">.</span><span class="na">entrySet</span><span class="o">()</span> <span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Customer</span> <span class="n">customer</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">customer</span><span class="o">.</span><span class="na">setFirstName</span><span class="o">(</span><span class="n">customer</span><span class="o">.</span><span class="na">getFirstName</span><span class="o">().</span><span class="na">toUpperCase</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">context</span><span class="o">.</span><span class="na">getResultSender</span><span class="o">().</span><span class="na">lastResult</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>   
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">getClass</span><span class="o">().</span><span class="na">getName</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>请注意，  <em>getId</em>必须返回一个唯一值，因此类名通常是一个不错的选择。</strong></p>
+<p><em>FunctionContext</em>包含我们所有的区域数据，因此我们可以对其进行更复杂的查询，或者像我们在这里所做的那样，对其进行变异。</p>
+<p>而且<em>Function</em>比这更强大，所以请查看<a href="https://gemfire.docs.pivotal.io/95/geode/developing/function_exec/function_execution.html" target="_blank" rel="noopener noreffer">官方手册</a>，尤其<a href="https://geode.apache.org/releases/latest/javadoc/org/apache/geode/cache/execute/FunctionContext.html#getResultSender--" target="_blank" rel="noopener noreffer">是<em>getResultSender</em>方法</a>。</p>
+<h3 id="72-部署功能"><strong>7.2. 部署功能</strong></h3>
+<p>我们需要让 Geode 知道我们的函数才能运行它。就像我们对自定义数据类型所做的那样，我们将打包 jar。</p>
+<p>但这一次，我们可以只使用 <em>deploy</em>命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">gfsh&gt; deploy --jar=./lib/apache-geode-1.0-SNAPSHOT.jar
+</span></span></code></pre></div><h3 id="73-执行功能"><strong>7.3. 执行功能</strong></h3>
+<p>现在，我们可以使用<em>FunctionService</em> 从应用程序中执行<em>Function：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenExecuteUppercaseNames_thenCustomerNamesAreUppercased</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Execution</span> <span class="n">execution</span> <span class="o">=</span> <span class="n">FunctionService</span><span class="o">.</span><span class="na">onRegion</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">customerRegion</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">execution</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">UpperCaseNames</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Customer</span> <span class="n">customer</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">customerRegion</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="k">new</span> <span class="n">CustomerKey</span><span class="o">(</span><span class="n">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;GHEORGE&#34;</span><span class="o">,</span> <span class="n">customer</span><span class="o">.</span><span class="na">getFirstName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="8-结论"><strong>8. 结论</strong></h2>
+<p>在本文中，我们学习了<em>Apache Geode</em>生态系统的基本概念。我们研究了具有标准和自定义类型的简单获取和放置、复制和分区区域以及 oql 和函数支持。</p>
+<p>坚持底 <strong>通过参考<em>学习 Spring Data JPA</em>课程开始使用 Spring Data JPA：</strong>
+<strong><a href="learn-spring-data-jpa-course/index.html#table" rel="">&raquo; 查看课程</a></strong>
+Persistence footer banner</p>
+<p>使用 JPA 介绍 SPRING 数据、JPA<br>
+和事务语义详细信息使用 Spring 获得持久性</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_geode/" data-title="Apache Geode 快速指南"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_geode/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_geode/" data-title="Apache Geode 快速指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_geode/" data-title="Apache Geode 快速指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_geode/" data-title="Apache Geode 快速指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_flink/" class="prev" rel="prev" title="Apache Flink 与 Java 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Flink 与 Java 简介</a>
+            <a href="/apache_httpclient_enable_logging/" class="next" rel="next" title="为 Apache HttpClient 启用日志记录">为 Apache HttpClient 启用日志记录<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

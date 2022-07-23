@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Apache Tika 进行内容分析 - Coding Man</title><meta name="Description" content="本教程侧重于使用 Apache Tika 进行内容分析。使用Parser和Detector API，我们可以自动检测文档的类型，并提取其内容和元数据。对于高级用例，我们可以创建自定义Parser和Detector类来更好地控制解析过程。"><meta property="og:title" content="使用 Apache Tika 进行内容分析" />
+<meta property="og:description" content="本教程侧重于使用 Apache Tika 进行内容分析。使用Parser和Detector API，我们可以自动检测文档的类型，并提取其内容和元数据。对于高级用例，我们可以创建自定义Parser和Detector类来更好地控制解析过程。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_tika/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-06-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Apache Tika 进行内容分析"/>
+<meta name="twitter:description" content="本教程侧重于使用 Apache Tika 进行内容分析。使用Parser和Detector API，我们可以自动检测文档的类型，并提取其内容和元数据。对于高级用例，我们可以创建自定义Parser和Detector类来更好地控制解析过程。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_tika/" /><link rel="prev" href="http://itcodingman.github.io/apache_thrift/" /><link rel="next" href="http://itcodingman.github.io/apache_tomcat_sso/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Apache Tika 进行内容分析",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_tika\/"
+        },"genre": "posts","wordcount":  1861 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_tika\/","datePublished": "2018-06-10T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本教程侧重于使用 Apache Tika 进行内容分析。使用Parser和Detector API，我们可以自动检测文档的类型，并提取其内容和元数据。对于高级用例，我们可以创建自定义Parser和Detector类来更好地控制解析过程。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache Tika 进行内容分析</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-10">2018-06-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1861 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-入门"><strong>2. 入门</strong></a></li>
+    <li><a href="#3-parser-api"><strong>3. <em>Parser</em> API</strong></a></li>
+    <li><a href="#4-自动检测"><strong>4. 自动检测</strong></a>
+      <ul>
+        <li><a href="#41-文档类型检测"><strong>4.1 文档类型检测</strong></a></li>
+        <li><a href="#42-语言检测"><strong>4.2. 语言检测</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-tika在行动"><strong>5. Tika在行动</strong></a>
+      <ul>
+        <li><a href="#51-检测文档类型"><strong>5.1 检测文档类型</strong></a></li>
+        <li><a href="#52-提取内容"><strong>5.2. 提取内容</strong></a></li>
+        <li><a href="#53-提取元数据"><strong>5.3. 提取元数据</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p><strong><a href="https://tika.apache.org/index.html" target="_blank" rel="noopener noreffer">Apache Tika</a>是一个工具包，用于从各种类型的文档中提取内容和元数据</strong>，例如 Word、Excel 和 PDF，甚至是 JPEG 和 MP4 等多媒体文件。</p>
+<p>所有基于文本的和多媒体文件都可以使用一个通用界面进行解析，使 Tika 成为一个功能强大且用途广泛的内容分析库。</p>
+<p>在本文中，我们将介绍 Apache Tika，包括它的解析 API 以及它如何自动检测文档的内容类型。还将提供工作示例来说明该库的操作。</p>
+<h2 id="2-入门"><strong>2. 入门</strong></h2>
+<p>为了使用 Apache Tika 解析文档，我们只需要一个 Maven 依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.tika<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>tika-parsers<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.17<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>可以在<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.tika%22%20AND%20a%3A%22tika-parsers%22" target="_blank" rel="noopener noreffer">此处</a>找到此工件的最新版本。</p>
+<h2 id="3-parser-api"><strong>3. <em>Parser</em> API</strong></h2>
+<p><strong><em>Parser</em> API 是 Apache Tika 的核心，抽象出解析操作的复杂性</strong>。此 API 依赖于一个方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">parse</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">InputStream</span> <span class="n">stream</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">ContentHandler</span> <span class="n">handler</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">Metadata</span> <span class="n">metadata</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">ParseContext</span> <span class="n">context</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">SAXException</span><span class="o">,</span> <span class="n">TikaException</span>
+</span></span></code></pre></div><p>该方法的参数含义如下：</p>
+<ul>
+<li><em>stream</em> —— 从要解析的文档创建的<em>InputStream</em>实例</li>
+<li><em>handler</em> —— 一个<em>ContentHandler</em>对象，接收从输入文档解析的一系列 XHTML SAX 事件；然后，此处理程序将处理事件并以特定形式导出结果</li>
+<li><em>metadata</em> —— 一个<em>Metadata</em>对象，在解析器内外传递元数据属性</li>
+<li><em>context</em> —— 一个<em>ParseContext</em>实例，携带特定于上下文的信息，用于自定义解析过程</li>
+</ul>
+<p>如果无法从输入流中读取，则 parse 方法抛出 IOException，如果无法解析<em>从</em>流<em>中</em>获取的文档，则<em>抛出 TikaException</em> ，如果处理程序无法处理事件，则抛出<em>SAXException 。</em></p>
+<p>在解析文档时，Tika 会尽可能地重用现有的解析器库，例如 Apache POI 或 PDFBox。因此，大多数<em>Parser</em>实现类只是这些外部库的适配器。</p>
+<p>在第 5 节中，我们将了解如何使用<em>处理程序</em>和<em>元数据</em>参数来提取文档的内容和元数据。</p>
+<p>为方便起见，我们可以使用外观类<em>Tika</em>来访问<em>Parser</em> API 的功能。</p>
+<h2 id="4-自动检测"><strong>4. 自动检测</strong></h2>
+<p>Apache Tika 可以根据文档本身而不是附加信息自动检测文档的类型及其语言。</p>
+<h3 id="41-文档类型检测"><strong>4.1 文档类型检测</strong></h3>
+<p><strong>文档类型的检测可以使用<em>Detector</em>接口</strong>的实现类来完成，它有一个方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MediaType</span> <span class="nf">detect</span><span class="o">(</span><span class="n">java</span><span class="o">.</span><span class="na">io</span><span class="o">.</span><span class="na">InputStream</span> <span class="n">input</span><span class="o">,</span> <span class="n">Metadata</span> <span class="n">metadata</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span>
+</span></span></code></pre></div><p>此方法获取一个文档及其关联的元数据，然后返回一个<em>MediaType</em>对象，该对象描述有关文档类型的最佳猜测。</p>
+<p>元数据并不是检测器所依赖的唯一信息来源。检测器还可以使用魔术字节，这是文件开头附近的一种特殊模式，或者将检测过程委托给更合适的检测器。</p>
+<p>事实上，检测器使用的算法是依赖于实现的。</p>
+<p>例如，默认检测器首先使用魔术字节，然后是元数据属性。如果此时还没有找到内容类型，它将使用服务加载器来发现所有可用的检测器并依次尝试它们。</p>
+<h3 id="42-语言检测"><strong>4.2. 语言检测</strong></h3>
+<p>除了文档的类型，即使没有元数据信息的帮助，Tika 也可以识别其语言。</p>
+<p>在以前的 Tika 版本中，使用<em>LanguageIdentifier</em>实例检测文档的语言。</p>
+<p>但是，<em>LanguageIdentifier已被弃用，取而代之的是 Web 服务，这在</em><a href="https://tika.apache.org/1.17/detection.html#Language_Detection" target="_blank" rel="noopener noreffer">Getting Started</a>文档中没有明确说明。</p>
+<p>现在通过抽象类<em>LanguageDetector</em>的子类型提供语言检测服务。使用网络服务，您还可以访问成熟的在线翻译服务，例如谷歌翻译或微软翻译。</p>
+<p>为简洁起见，我们不会详细介绍这些服务。</p>
+<h2 id="5-tika在行动"><strong>5. Tika在行动</strong></h2>
+<p>本节使用工作示例说明 Apache Tika 功能。</p>
+<p>插图方法将包装在一个类中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TikaAnalysis</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// illustration methods
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h3 id="51-检测文档类型"><strong>5.1 检测文档类型</strong></h3>
+<p>下面是我们可以用来检测从<em>InputStream</em>读取的文档类型的代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">detectDocTypeUsingDetector</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">stream</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Detector</span> <span class="n">detector</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultDetector</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Metadata</span> <span class="n">metadata</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Metadata</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">MediaType</span> <span class="n">mediaType</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="na">detect</span><span class="o">(</span><span class="n">stream</span><span class="o">,</span> <span class="n">metadata</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">mediaType</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>假设我们在类路径中有一个名为<em>tika.txt</em>的 PDF 文件。该文件的扩展名已更改以试图欺骗我们的分析工具。通过测试仍然可以找到并确认文档的真实类型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUsingDetector_thenDocumentTypeIsReturned</span><span class="o">()</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InputStream</span> <span class="n">stream</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&#34;tika.txt&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">mediaType</span> <span class="o">=</span> <span class="n">TikaAnalysis</span><span class="o">.</span><span class="na">detectDocTypeUsingDetector</span><span class="o">(</span><span class="n">stream</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;application/pdf&#34;</span><span class="o">,</span> <span class="n">mediaType</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">stream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>很明显，错误的文件扩展名无法阻止 Tika 找到正确的媒体类型，这要归功于文件开头的魔术字节*%PDF 。*</p>
+<p><em>为方便起见，我们可以使用Tika</em>门面类重新编写检测代码，结果相同：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">detectDocTypeUsingFacade</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">stream</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Tika</span> <span class="n">tika</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tika</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">mediaType</span> <span class="o">=</span> <span class="n">tika</span><span class="o">.</span><span class="na">detect</span><span class="o">(</span><span class="n">stream</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">mediaType</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="52-提取内容"><strong>5.2. 提取内容</strong></h3>
+<p>现在让我们提取文件的内容并将结果作为<em>字符串</em>返回——使用<em>Parser</em> API：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">extractContentUsingParser</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">stream</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">TikaException</span><span class="o">,</span> <span class="n">SAXException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Parser</span> <span class="n">parser</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AutoDetectParser</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ContentHandler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BodyContentHandler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Metadata</span> <span class="n">metadata</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Metadata</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ParseContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParseContext</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">parser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">stream</span><span class="o">,</span> <span class="n">handler</span><span class="o">,</span> <span class="n">metadata</span><span class="o">,</span> <span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">handler</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>给定类路径中包含以下内容的 Microsoft Word 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Apache Tika - a content analysis toolkit
+</span></span><span class="line"><span class="cl">The Apache Tika™ toolkit detects and extracts metadata and text ...
+</span></span></code></pre></div><p>内容可以提取和验证：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUsingParser_thenContentIsReturned</span><span class="o">()</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">TikaException</span><span class="o">,</span> <span class="n">SAXException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InputStream</span> <span class="n">stream</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&#34;tika.docx&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">content</span> <span class="o">=</span> <span class="n">TikaAnalysis</span><span class="o">.</span><span class="na">extractContentUsingParser</span><span class="o">(</span><span class="n">stream</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">content</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">containsString</span><span class="o">(</span><span class="s">&#34;Apache Tika - a content analysis toolkit&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">content</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">containsString</span><span class="o">(</span><span class="s">&#34;detects and extracts metadata and text&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">stream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>同样，使用<em>Tika</em>类可以更方便地编写代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">extractContentUsingFacade</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">stream</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">TikaException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Tika</span> <span class="n">tika</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tika</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">content</span> <span class="o">=</span> <span class="n">tika</span><span class="o">.</span><span class="na">parseToString</span><span class="o">(</span><span class="n">stream</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">content</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="53-提取元数据"><strong>5.3. 提取元数据</strong></h3>
+<p>除了文档的内容，<em>Parser</em> API 还可以提取元数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Metadata</span> <span class="nf">extractMetadatatUsingParser</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">stream</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">SAXException</span><span class="o">,</span> <span class="n">TikaException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Parser</span> <span class="n">parser</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AutoDetectParser</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ContentHandler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BodyContentHandler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Metadata</span> <span class="n">metadata</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Metadata</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ParseContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParseContext</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">parser</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">stream</span><span class="o">,</span> <span class="n">handler</span><span class="o">,</span> <span class="n">metadata</span><span class="o">,</span> <span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">metadata</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当类路径中存在 Microsoft Excel 文件时，此测试用例确认提取的元数据是正确的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUsingParser_thenMetadataIsReturned</span><span class="o">()</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">TikaException</span><span class="o">,</span> <span class="n">SAXException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InputStream</span> <span class="n">stream</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&#34;tika.xlsx&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Metadata</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">TikaAnalysis</span><span class="o">.</span><span class="na">extractMetadatatUsingParser</span><span class="o">(</span><span class="n">stream</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;org.apache.tika.parser.DefaultParser&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">metadata</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;X-Parsed-By&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Microsoft Office User&#34;</span><span class="o">,</span> <span class="n">metadata</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;Author&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">stream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>最后，这是使用Tika</em>外观类的另一个版本的提取方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Metadata</span> <span class="nf">extractMetadatatUsingFacade</span><span class="o">(</span><span class="n">InputStream</span> <span class="n">stream</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">TikaException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Tika</span> <span class="n">tika</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tika</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Metadata</span> <span class="n">metadata</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Metadata</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">tika</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">stream</span><span class="o">,</span> <span class="n">metadata</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">metadata</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_tika/" data-title="使用 Apache Tika 进行内容分析"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_tika/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_tika/" data-title="使用 Apache Tika 进行内容分析"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_tika/" data-title="使用 Apache Tika 进行内容分析"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_tika/" data-title="使用 Apache Tika 进行内容分析"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_thrift/" class="prev" rel="prev" title="使用 Apache Thrift"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Apache Thrift</a>
+            <a href="/apache_tomcat_sso/" class="next" rel="next" title="使用 Apache Tomcat 的 SSO">使用 Apache Tomcat 的 SSO<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

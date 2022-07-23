@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Tapestry 简介 - Coding Man</title><meta name="Description" content="在本文中，我们探索了 Apache Tapestry Web 框架。首先，我们创建了一个快速入门 Web 应用程序，并使用 Apache Tapestry 的基本功能（如组件、页面和模板）添加了一个主页。然后，我们检查了 Apache Tapestry 提供的一些方便的注释来配置属性和组件/页面注入。最后，我们探索了框架提供的内置 Ajax 和日志记录支持。"><meta property="og:title" content="Apache Tapestry 简介" />
+<meta property="og:description" content="在本文中，我们探索了 Apache Tapestry Web 框架。首先，我们创建了一个快速入门 Web 应用程序，并使用 Apache Tapestry 的基本功能（如组件、页面和模板）添加了一个主页。然后，我们检查了 Apache Tapestry 提供的一些方便的注释来配置属性和组件/页面注入。最后，我们探索了框架提供的内置 Ajax 和日志记录支持。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_tapestry/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-06-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Tapestry 简介"/>
+<meta name="twitter:description" content="在本文中，我们探索了 Apache Tapestry Web 框架。首先，我们创建了一个快速入门 Web 应用程序，并使用 Apache Tapestry 的基本功能（如组件、页面和模板）添加了一个主页。然后，我们检查了 Apache Tapestry 提供的一些方便的注释来配置属性和组件/页面注入。最后，我们探索了框架提供的内置 Ajax 和日志记录支持。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_tapestry/" /><link rel="prev" href="http://itcodingman.github.io/apache_storm/" /><link rel="next" href="http://itcodingman.github.io/apache_thrift/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Tapestry 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_tapestry\/"
+        },"genre": "posts","wordcount":  3481 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_tapestry\/","datePublished": "2018-06-08T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们探索了 Apache Tapestry Web 框架。首先，我们创建了一个快速入门 Web 应用程序，并使用 Apache Tapestry 的基本功能（如组件、页面和模板）添加了一个主页。然后，我们检查了 Apache Tapestry 提供的一些方便的注释来配置属性和组件/页面注入。最后，我们探索了框架提供的内置 Ajax 和日志记录支持。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Tapestry 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-08">2018-06-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3481 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#四项目结构">四、项目结构</a>
+      <ul>
+        <li><a href="#51-inject">5.1 <em>@Inject</em></a></li>
+        <li><a href="#52-injectpage">5.2. <em>@InjectPage</em></a></li>
+        <li><a href="#53-injectcomponent">5.3. <em>@InjectComponent</em></a></li>
+        <li><a href="#54-log">5.4. <em>@Log</em></a></li>
+        <li><a href="#55-property">5.5. <em>@Property</em></a></li>
+        <li><a href="#56-parameter">5.6. <em>@Parameter</em></a></li>
+      </ul>
+    </li>
+    <li><a href="#6页面">6.页面</a>
+      <ul>
+        <li><a href="#61模板">6.1模板</a></li>
+        <li><a href="#62-property">6.2. Property</a></li>
+        <li><a href="#63-本土化">6.3. 本土化</a></li>
+        <li><a href="#64-布局组件">6.4. 布局组件</a></li>
+      </ul>
+    </li>
+    <li><a href="#7表格">7.表格</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>概述</li>
+</ol>
+<hr>
+<p>如今，从社交网络到银行业务，从医疗保健到政府服务，所有活动都可以在线进行。因此，他们严重依赖 Web 应用程序。</p>
+<p>Web 应用程序使用户能够消费/享受公司提供的在线服务。同时，它充当后端软件的接口。</p>
+<p>在这个介绍性教程中，我们将探索 Apache Tapestry Web 框架并使用它提供的基本功能创建一个简单的 Web 应用程序。</p>
+<ol start="2">
+<li>Apache Tapestry</li>
+</ol>
+<hr>
+<p>Apache Tapestry 是一个基于组件的框架，用于构建可扩展的 Web 应用程序。</p>
+<p>它遵循<strong>约定优于配置的</strong>范式，并使用注释和命名约定进行配置。</p>
+<p>所有组件都是简单的 POJO。同时，它们是从零开始开发的，不依赖于其他库。</p>
+<p>除了 Ajax 支持之外，Tapestry 还具有出色的异常报告功能。它还提供了一个广泛的内置通用组件库。</p>
+<p>在其他重要功能中，一个突出的特点是代码的热重载。因此，使用此功能，我们可以立即看到开发环境中的变化。</p>
+<ol start="3">
+<li>设置</li>
+</ol>
+<hr>
+<p>Apache Tapestry 需要一组简单的工具来创建 Web 应用程序：</p>
+<ul>
+<li>Java 1.6 或更高版本</li>
+<li>构建工具（Maven 或 Gradle）</li>
+<li>IDE（Eclipse 或 IntelliJ）</li>
+<li>应用服务器（Tomcat 或 Jetty）</li>
+</ul>
+<p>在本教程中，我们将结合使用 Java 8、Maven、Eclipse 和 Jetty Server。</p>
+<p>要设置<a href="https://tapestry.apache.org/download.html" target="_blank" rel="noopener noreffer">最新</a>的Apache Tapestry 项目，我们将使用<a href="maven-archetype#creating-archetype" rel="">Maven 原型</a>并按照官方文档提供的<a href="https://tapestry.apache.org/getting-started.html" target="_blank" rel="noopener noreffer">说明进行操作：</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ mvn archetype:generate -DarchetypeCatalog<span class="o">=</span>http://tapestry.apache.org
+</span></span></code></pre></div><p>或者，如果我们有一个现有项目，我们可以简单地将<a href="https://search.maven.org/search?q=g:org.apache.tapestry%20a:tapestry-core" target="_blank" rel="noopener noreffer">Tapestry-core</a> Maven 依赖项添加到<em>pom.xml</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.tapestry<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>tapestry-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>5.4.5<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>一旦我们准备好设置，我们可以通过以下 Maven 命令启动应用程序<em>apache-tapestry ：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ mvn jetty:run
+</span></span></code></pre></div><p>默认情况下，可以通过<em>localhost:8080/apache-tapestry</em> 访问该应用程序：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/apache_tapestry_homepage-1.png"
+        data-srcset="/uploads/apache_tapestry_homepage-1.png, /uploads/apache_tapestry_homepage-1.png 1.5x, /uploads/apache_tapestry_homepage-1.png 2x"
+        data-sizes="auto"
+        alt="/uploads/apache_tapestry_homepage-1.png"
+        title="/uploads/apache_tapestry_homepage-1.png" /></p>
+<h2 id="四项目结构">四、项目结构</h2>
+<p>让我们探索一下 Apache Tapestry 创建的项目布局：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/apache_tapestry_tree_structure.png"
+        data-srcset="/uploads/apache_tapestry_tree_structure.png, /uploads/apache_tapestry_tree_structure.png 1.5x, /uploads/apache_tapestry_tree_structure.png 2x"
+        data-sizes="auto"
+        alt="/uploads/apache_tapestry_tree_structure.png"
+        title="/uploads/apache_tapestry_tree_structure.png" /></p>
+<p>我们可以看到一个类似 Maven 的项目结构，以及一些基于约定的包。</p>
+<p><strong>Java 类被放置在<em>src/main/java</em>并被分类为<em>components</em>、<em>pages</em>和<em>services 。</em></strong></p>
+<p>同样，<em>src/main/resources</em>包含我们的模板（类似于 HTML 文件）——它们具有*.tml*扩展名。</p>
+<p><em><em><em>对于放置在组件</em>和</em>页面</em>目录下的每个 Java 类，都应该创建一个同名的模板文件。**</p>
+<p><em>src/main/webapp</em>目录包含图像、样式表和 JavaScript 文件等资源。同样，测试文件放在<em>src/test</em>中。</p>
+<p>最后，<em>src/site</em>将包含文档文件。</p>
+<p>为了更好的理解，我们来看看在 Eclipse IDE 中打开的项目结构：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/apache_tapestry_project_structure.png"
+        data-srcset="/uploads/apache_tapestry_project_structure.png, /uploads/apache_tapestry_project_structure.png 1.5x, /uploads/apache_tapestry_project_structure.png 2x"
+        data-sizes="auto"
+        alt="/uploads/apache_tapestry_project_structure.png"
+        title="/uploads/apache_tapestry_project_structure.png" /></p>
+<ol start="5">
+<li>注释</li>
+</ol>
+<hr>
+<p>让我们讨论Apache Tapestry 为日常使用提供的一些方便的<a href="https://tapestry.apache.org/annotations.html" target="_blank" rel="noopener noreffer">注释</a>。展望未来，我们将在我们的实现中使用这些注释。</p>
+<h3 id="51-inject">5.1 <em>@Inject</em></h3>
+<p><em><a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/ioc/annotations/Inject.html" target="_blank" rel="noopener noreffer">@Inject</a><em>注解在</em>org.apache.tapestry5.ioc.annotations</em>包中可用，它提供了一种在 Java 类中注入依赖项的简单方法。</p>
+<p>这个注解对于注入资产、块、资源和服务非常方便。</p>
+<h3 id="52-injectpage">5.2. <em>@InjectPage</em></h3>
+<p>在<em>org.apache.tapestry5.annotations</em>包中可用，<a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/annotations/InjectPage.html" target="_blank" rel="noopener noreffer"><em>@InjectPage</em></a>注释允许我们将页面注入另一个组件。此外，注入的页面始终是只读属性。</p>
+<h3 id="53-injectcomponent">5.3. <em>@InjectComponent</em></h3>
+<p>类似地，<a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/annotations/InjectComponent.html" target="_blank" rel="noopener noreffer"><em>@InjectComponent</em></a>注解允许我们注入模板中定义的组件。</p>
+<h3 id="54-log">5.4. <em>@Log</em></h3>
+<p>@Log注释在<em>org.apache.tapestry5.annotations包</em><a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/annotations/Log.html" target="_blank" rel="noopener noreffer"><em>中</em></a>可用，并且可以方便地在任何方法上启用 DEBUG 级别的日志记录。它记录方法的进入和退出，以及参数值。</p>
+<h3 id="55-property">5.5. <em>@Property</em></h3>
+<p>在<em>org.apache.tapestry5.annotations</em>包中可用， <a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/annotations/Property.html" target="_blank" rel="noopener noreffer"><em>@Property</em></a>注释将字段标记为属性。同时，它会自动为属性创建 getter 和 setter。</p>
+<h3 id="56-parameter">5.6. <em>@Parameter</em></h3>
+<p>类似地，*<a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/annotations/Parameter.html" target="_blank" rel="noopener noreffer">@Parameter</a>*注解表示一个字段是一个组件参数。</p>
+<h2 id="6页面">6.页面</h2>
+<p>因此，我们都准备好探索框架的基本功能。让我们在我们的应用程序中创建一个新的<em>主页</em>。</p>
+<p>首先，我们将在<em>src/main/java</em>的<em>pages</em>目录中定义一个 Java 类<em>Home</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Home</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="61模板">6.1模板</h3>
+<p>然后，我们将在<em>src/main/resources</em>下的<em>pages</em>目录中创建一个对应的<em>Home.tml</em><a href="https://tapestry.apache.org/component-templates.html" target="_blank" rel="noopener noreffer">模板</a>。</p>
+<p>扩展名为*.tml*（Tapestry 标记语言）的文件类似于 Apache Tapestry 提供的具有 XML 标记的 HTML/XHTML 文件。</p>
+<p>例如，让我们看一下<em>Home.tml</em>模板：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:t</span><span class="o">=</span><span class="s">&#34;http://tapestry.apache.org/schema/tapestry_5_4.xsd&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>apache-tapestry Home<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Home<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>   
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>瞧！只需重启 Jetty 服务器，我们就可以在<em>localhost:8080/apache-tapestry/home</em> 访问主页：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/apache_tapestry_home1.png"
+        data-srcset="/uploads/apache_tapestry_home1.png, /uploads/apache_tapestry_home1.png 1.5x, /uploads/apache_tapestry_home1.png 2x"
+        data-sizes="auto"
+        alt="/uploads/apache_tapestry_home1.png"
+        title="/uploads/apache_tapestry_home1.png" /></p>
+<h3 id="62-property">6.2. Property</h3>
+<p>让我们探索如何在<em>主页</em>上呈现属性。</p>
+<p>为此，我们将在<em>Home</em>类中添加一个属性和一个 getter 方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Property</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="n">appName</span> <span class="o">=</span> <span class="s">&#34;apache-tapestry&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Date</span> <span class="nf">getCurrentTime</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">Date</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>要在主页</em>上呈现<em>appName</em>属性，我们可以简单地使用*${appName}*。</p>
+<p>同样，我们可以编写*${currentTime}<em>从页面访问</em>getCurrentTime*方法。</p>
+<h3 id="63-本土化">6.3. 本土化</h3>
+<p>Apache Tapestry 提供集成的<a href="https://tapestry.apache.org/localization.html" target="_blank" rel="noopener noreffer">本地化</a>支持。按照惯例，页面名称属性文件保存要在页面上呈现的所有本地消息的列表。</p>
+<p>例如，我们将在<em>主页的**pages</em>目录中创建一个带有本地消息的<em>home.properties</em>文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">introMsg=Welcome to the Apache Tapestry Tutorial
+</span></span></code></pre></div><p>消息属性不同于 Java 属性。</p>
+<p>出于同样的原因，带有<em>消息</em>前缀的键名用于呈现消息属性——例如，<em>${message:introMsg}。</em></p>
+<h3 id="64-布局组件">6.4. 布局组件</h3>
+<p><em>让我们通过创建Layout.java</em>类来定义一个基本的布局组件。我们将文件保存在<em>src/main/java的**components</em>目录中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Layout</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Property</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Parameter</span><span class="o">(</span><span class="n">required</span> <span class="o">=</span> <span class="kc">true</span><span class="o">,</span> <span class="n">defaultPrefix</span> <span class="o">=</span> <span class="n">BindingConstants</span><span class="o">.</span><span class="na">LITERAL</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，<em>title</em>属性被标记为必需，并且绑定的默认前缀设置为文字<em>String</em>。</p>
+<p>然后，我们会在<em>src/main/resources</em>的<em>components</em>目录下编写一个对应的模板文件<em>Layout.tml</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:t</span><span class="o">=</span><span class="s">&#34;http://tapestry.apache.org/schema/tapestry_5_4.xsd&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>${title}<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;container&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">t:body</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>© Your Company<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>现在，让我们使用<em>主页</em>上的<em>布局</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">t:type</span><span class="o">=</span><span class="s">&#34;layout&#34;</span> <span class="na">title</span><span class="o">=</span><span class="s">&#34;apache-tapestry Home&#34;</span> 
+</span></span><span class="line"><span class="cl">    <span class="na">xmlns:t</span><span class="o">=</span><span class="s">&#34;http://tapestry.apache.org/schema/tapestry_5_4.xsd&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Home! ${appName}<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>${message:introMsg}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>${currentTime}<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>请注意，<a href="https://tapestry.apache.org/schema/tapestry_5_4.xsd" target="_blank" rel="noopener noreffer">命名空间</a>用于标识Apache Tapestry 提供的元素（ <em>t:type</em>和*t:body ）。*同时，命名空间还提供了组件和属性。</p>
+<p>在这里，<em>t:type</em>将设置<em>主页</em>上的<em>布局</em>。并且，<em>t:body</em>元素将插入页面的内容。</p>
+<p>让我们看一下带有布局的<em>主页：</em></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/apache_tapestry_homepage2-1.png"
+        data-srcset="/uploads/apache_tapestry_homepage2-1.png, /uploads/apache_tapestry_homepage2-1.png 1.5x, /uploads/apache_tapestry_homepage2-1.png 2x"
+        data-sizes="auto"
+        alt="/uploads/apache_tapestry_homepage2-1.png"
+        title="/uploads/apache_tapestry_homepage2-1.png" /></p>
+<h2 id="7表格">7.表格</h2>
+<p>让我们创建一个带有表单的<em>登录页面，以允许用户登录。</em></p>
+<p>如前所述，我们将首先创建一个 Java 类<em>Login</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Login</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nd">@InjectComponent</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Form</span> <span class="n">login</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Property</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Property</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">password</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，我们定义了两个属性—— <em>email</em>和<em>password</em>。此外，我们还为登录注入了一个<em>表单</em>组件。</p>
+<p>然后，让我们创建一个对应的模板<em>login.tml</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">t:type</span><span class="o">=</span><span class="s">&#34;layout&#34;</span> <span class="na">title</span><span class="o">=</span><span class="s">&#34;apache-tapestry com.example&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">xmlns:t</span><span class="o">=</span><span class="s">&#34;http://tapestry.apache.org/schema/tapestry_5_3.xsd&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="na">xmlns:p</span><span class="o">=</span><span class="s">&#34;tapestry:parameter&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">t:form</span> <span class="na">t:id</span><span class="o">=</span><span class="s">&#34;login&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Please sign in<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">t:textfield</span> <span class="na">t:id</span><span class="o">=</span><span class="s">&#34;email&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Email address&#34;</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">t:passwordfield</span> <span class="na">t:id</span><span class="o">=</span><span class="s">&#34;password&#34;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&#34;Password&#34;</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">t:submit</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;btn btn-large btn-primary&#34;</span> <span class="na">value</span><span class="o">=</span><span class="s">&#34;Sign in&#34;</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">t:form</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>现在，我们可以在<em>localhost:8080/apache-tapestry/login</em> 访问<em>登录</em>页面：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/apache_tapestry_login-1.png"
+        data-srcset="/uploads/apache_tapestry_login-1.png, /uploads/apache_tapestry_login-1.png 1.5x, /uploads/apache_tapestry_login-1.png 2x"
+        data-sizes="auto"
+        alt="/uploads/apache_tapestry_login-1.png"
+        title="/uploads/apache_tapestry_login-1.png" /></p>
+<ol start="8">
+<li>验证</li>
+</ol>
+<hr>
+<p>Apache Tapestry 提供了一些用于<a href="https://tapestry.apache.org/forms-and-validation.html" target="_blank" rel="noopener noreffer">表单验证</a>的内置方法。它还提供了处理表单提交成功或失败的方法。</p>
+<p>内置方法遵循事件和组件名称的约定。例如，方法<em>onValidationFromLogin</em>将验证<em>Login</em>组件。</p>
+<p>同样，像<em>onSuccessFromLogin</em>和<em>onFailureFromLogin</em>这样的方法分别用于成功和失败事件。</p>
+<p>因此，让我们将这些内置方法添加到<em>Login</em>类中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Login</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">onValidateFromLogin</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">email</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Email is null);
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">        if (password == null)
+</span></span></span><span class="line"><span class="cl"><span class="s">            System.out.println(&#34;</span><span class="n">Password</span> <span class="n">is</span> <span class="kc">null</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Object</span> <span class="nf">onSuccessFromLogin</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Welcome! Login Successful&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Home</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">onFailureFromLogin</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Please try again with correct credentials&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ol start="9">
+<li>警报</li>
+</ol>
+<hr>
+<p>如果没有适当的警报，表单验证是不完整的。更不用说，该框架还内置了对警报消息的支持。</p>
+<p>为此，我们将首先在<em>Login类中注入</em><a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/alerts/AlertManager.html" target="_blank" rel="noopener noreffer"><em>AlertManager</em></a>的实例来管理警报*。<em>然后，将现有方法中的</em>println*语句替换为警告消息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Login</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nd">@Inject</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">AlertManager</span> <span class="n">alertManager</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">onValidateFromLogin</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="o">(</span><span class="n">email</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">password</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">alertManager</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Email/Password is null&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">login</span><span class="o">.</span><span class="na">recordError</span><span class="o">(</span><span class="s">&#34;Validation failed&#34;</span><span class="o">);</span> <span class="c1">//submission failure on the form
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Object</span> <span class="nf">onSuccessFromLogin</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alertManager</span><span class="o">.</span><span class="na">success</span><span class="o">(</span><span class="s">&#34;Welcome! Login Successful&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Home</span><span class="o">.</span><span class="na">class</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">onFailureFromLogin</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">alertManager</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Please try again with correct credentials&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们看看登录失败时的警报：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/apache_tapestry_loginfail-1.png"
+        data-srcset="/uploads/apache_tapestry_loginfail-1.png, /uploads/apache_tapestry_loginfail-1.png 1.5x, /uploads/apache_tapestry_loginfail-1.png 2x"
+        data-sizes="auto"
+        alt="/uploads/apache_tapestry_loginfail-1.png"
+        title="/uploads/apache_tapestry_loginfail-1.png" /></p>
+<ol start="10">
+<li>Ajax</li>
+</ol>
+<hr>
+<p>到目前为止，我们已经探索了使用表单创建一个简单的<em>主页</em>。同时，我们看到了对警报消息的验证和支持。</p>
+<p>接下来，让我们探索一下 Apache Tapestry 对 Ajax 的内置支持。</p>
+<p>首先，我们将在<em>Home</em>类中注入<a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/services/ajax/AjaxResponseRenderer.html" target="_blank" rel="noopener noreffer"><em>AjaxResponseRenderer</em></a>和<a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/Block.html" target="_blank" rel="noopener noreffer"><em>Block</em></a>组件的实例。然后，我们将创建一个<em>onCallAjax</em>方法来处理 Ajax 调用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Home</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ....
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Inject</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">AjaxResponseRenderer</span> <span class="n">ajaxResponseRenderer</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nd">@Inject</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Block</span> <span class="n">ajaxBlock</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Log</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">onCallAjax</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ajaxResponseRenderer</span><span class="o">.</span><span class="na">addRender</span><span class="o">(</span><span class="s">&#34;ajaxZone&#34;</span><span class="o">,</span> <span class="n">ajaxBlock</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此外，我们需要在<em>Home.tml</em>中进行一些更改。</p>
+<p>首先，我们将添加<a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/corelib/components/EventLink.html" target="_blank" rel="noopener noreffer"><em>eventLink</em></a>以调用<em>onCallAjax</em>方法。然后，我们将添加一个id 为<em>ajaxZone的</em><a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/corelib/components/Zone.html" target="_blank" rel="noopener noreffer"><em>zone</em></a>元素来呈现 Ajax 响应。</p>
+<p>最后，我们需要一个块组件，该组件将被注入<em>Home</em>类并呈现为 Ajax 响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">t:eventlink</span> <span class="na">event</span><span class="o">=</span><span class="s">&#34;callAjax&#34;</span> <span class="na">zone</span><span class="o">=</span><span class="s">&#34;ajaxZone&#34;</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;btn btn-default&#34;</span><span class="p">&gt;</span>Call Ajax<span class="p">&lt;/</span><span class="nt">t:eventlink</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">t:zone</span> <span class="na">t:id</span><span class="o">=</span><span class="s">&#34;ajaxZone&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">t:zone</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">t:block</span> <span class="na">t:id</span><span class="o">=</span><span class="s">&#34;ajaxBlock&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>Rendered through Ajax<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The current time is: <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>${currentTime}<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">t:block</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>我们来看看更新后的<em>主页</em>：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/apache_tapestry_home-1.png"
+        data-srcset="/uploads/apache_tapestry_home-1.png, /uploads/apache_tapestry_home-1.png 1.5x, /uploads/apache_tapestry_home-1.png 2x"
+        data-sizes="auto"
+        alt="/uploads/apache_tapestry_home-1.png"
+        title="/uploads/apache_tapestry_home-1.png" />
+然后，我们可以单击 Call Ajax 按钮并查看<em>ajaxResponseRenderer</em>的运行情况：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/apache_tapestry_homeAjax.png"
+        data-srcset="/uploads/apache_tapestry_homeAjax.png, /uploads/apache_tapestry_homeAjax.png 1.5x, /uploads/apache_tapestry_homeAjax.png 2x"
+        data-sizes="auto"
+        alt="/uploads/apache_tapestry_homeAjax.png"
+        title="/uploads/apache_tapestry_homeAjax.png" /></p>
+<ol start="11">
+<li>记录</li>
+</ol>
+<hr>
+<p>要启用内置的日志记录功能，需要注入<a href="http://www.slf4j.org/api/org/slf4j/Logger.html" target="_blank" rel="noopener noreffer"><em>Logger的实例。</em></a>然后，我们可以使用它来记录任何级别的日志，例如 TRACE、DEBUG 和 INFO。</p>
+<p>因此，让我们在<em>Home</em>类中进行必要的更改：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Home</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Inject</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Logger</span> <span class="n">logger</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">onCallAjax</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Ajax call&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ajaxResponseRenderer</span><span class="o">.</span><span class="na">addRender</span><span class="o">(</span><span class="s">&#34;ajaxZone&#34;</span><span class="o">,</span> <span class="n">ajaxBlock</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，当我们单击 Call Ajax 按钮时，<em>记录器</em>将在 INFO 级别记录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="o">[</span>INFO<span class="o">]</span> pages.Home Ajax call
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_tapestry/" data-title="Apache Tapestry 简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_tapestry/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_tapestry/" data-title="Apache Tapestry 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_tapestry/" data-title="Apache Tapestry 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_tapestry/" data-title="Apache Tapestry 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_storm/" class="prev" rel="prev" title="Apache Storm 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Storm 简介</a>
+            <a href="/apache_thrift/" class="next" rel="next" title="使用 Apache Thrift">使用 Apache Thrift<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

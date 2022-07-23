@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Apache POI 更改单元格字体样式 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache POI 更改单元格字体样式" />
+<meta property="og:description" content="简介 Apache POI是一个开源库，供软件开发人员创建和操作 Microsoft Office 文档。除其他功能外，它还允许开发人员以编程方式更改文档格式。 在本文中，我们将讨论在使用" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_poi_change_cell_font/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Apache POI 更改单元格字体样式"/>
+<meta name="twitter:description" content="简介 Apache POI是一个开源库，供软件开发人员创建和操作 Microsoft Office 文档。除其他功能外，它还允许开发人员以编程方式更改文档格式。 在本文中，我们将讨论在使用"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_poi_change_cell_font/" /><link rel="prev" href="http://itcodingman.github.io/apache_poi_background_color/" /><link rel="next" href="http://itcodingman.github.io/apache_poi_numeric_format/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Apache POI 更改单元格字体样式",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_poi_change_cell_font\/"
+        },"genre": "posts","keywords": "Excel","wordcount":  1581 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_poi_change_cell_font\/","datePublished": "2018-05-26T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache POI 更改单元格字体样式</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-26">2018-05-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1581 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#51意外修改所有单元格样式">5.1。意外修改所有单元格样式</a></li>
+        <li><a href="#52-为每个单元格创建新样式">5.2. 为每个单元格创建新样式</a></li>
+      </ul>
+    </li>
+    <li><a href="#6总结">6.总结</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>简介</li>
+</ol>
+<hr>
+<p><a href="java-microsoft-excel" rel="">Apache POI</a>是一个开源库，供软件开发人员创建和<a href="apache-poi-insert-excel-row" rel="">操作 Microsoft Office 文档</a>。除其他功能外，它还允许开发人员以编程方式更改文档格式。</p>
+<p>在本文中，我们将讨论在使用名为<em>CellStyle</em>的类时如何在 Microsoft Excel 中更改单元格的样式。也就是说，使用这个类，我们可以编写代码来修改Microsoft Excel 文档中单元格的样式。首先，它是 Apache POI 库提供的一项功能，允许在工作簿中创建具有多种格式属性的样式。其次，可以将样式应用于该工作簿中的多个单元格。</p>
+<p>除此之外，我们还将了解使用<em>CellStyle</em>类的常见缺陷。</p>
+<ol start="2">
+<li>Apache POI 和 Maven 依赖</li>
+</ol>
+<hr>
+<p>让我们将<a href="https://search.maven.org/search?q=g:org.apache.poi%20a:poi" target="_blank" rel="noopener noreffer">Apache POI</a>作为依赖项添加到我们的项目<em>pom.xml</em> 文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.poi<span class="nt">&lt;/groupId&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>poi<span class="nt">&lt;/artifactId&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>5.2.0<span class="nt">&lt;/version&gt;</span> 
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><ol start="3">
+<li>创建<em>CellStyle</em></li>
+</ol>
+<hr>
+<p>让我们从实例化<em>CellStyle</em>开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Workbook</span> <span class="n">workbook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XSSFWorkbook</span><span class="o">(</span><span class="n">fileLocation</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">CellStyle</span> <span class="n">cellStyle</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="na">createCellStyle</span><span class="o">();</span>
+</span></span></code></pre></div><p>接下来，设置好所需的格式化属性。例如，下面的代码会将其设置为日期格式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">cellStyle</span><span class="o">.</span><span class="na">setDataFormat</span><span class="o">(</span><span class="n">createHelper</span><span class="o">.</span><span class="na">createDataFormat</span><span class="o">().</span><span class="na">getFormat</span><span class="o">(</span><span class="s">&#34;m/d/yy h:mm&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><p><em>最重要的是，我们可以设置CellStyle</em>的多个格式属性来获得所需的样式组合。例如，我们将以下代码应用于同一个<em>CellStyle</em>对象。因此，它具有日期格式样式以及居中对齐的文本样式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">cellStyle</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="n">HorizontalAlignment</span><span class="o">.</span><span class="na">CENTER</span><span class="o">);</span>
+</span></span></code></pre></div><p>请注意，<strong><em>CellStyle</em>有几个我们可以修改的格式属性</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>财产</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>数据格式</em></td>
+<td>单元格的数据格式，例如日期</td>
+</tr>
+<tr>
+<td><em>结盟</em></td>
+<td>单元格的水平对齐类型</td>
+</tr>
+<tr>
+<td><em>隐</em></td>
+<td>是否要隐藏单元格</td>
+</tr>
+<tr>
+<td><em>缩进</em></td>
+<td>用于缩进单元格中文本的空格数</td>
+</tr>
+<tr>
+<td><em>边框底部</em>,</td>
+<td></td>
+</tr>
+<tr>
+<td><em>左边框</em>，</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>右边框</em>，
+<em>边框顶部</em> | 用于单元格的底部、左侧、右侧和顶部边框的边框类型 |
+| <em>字体</em> | 此样式的字体属性，例如字体颜色 |</p>
+<p>稍后我们将在使用<em>Font</em>属性更改字体样式时再次查看它。</p>
+<ol start="4">
+<li>使用<em>CellStyle</em>格式化字体</li>
+</ol>
+<hr>
+<p><em>CellStyle</em>的<em>Font</em>属性是我们设置字体相关格式的地方。例如，我们可以设置字体名称、颜色和大小。我们可以设置字体是粗体还是斜体。<em>Font</em>的两个属性都可以是<em>true</em>或<em>false</em>。我们还可以将下划线样式设置为：</p>
+<table>
+<thead>
+<tr>
+<th>价值</th>
+<th>财产</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>U_NONE</em></td>
+<td>没有下划线的文字</td>
+</tr>
+<tr>
+<td><em>你单身</em></td>
+<td>单下划线文本，其中只有单词带下划线</td>
+</tr>
+<tr>
+<td><em>U_SINGLE_ACCOUNTING</em></td>
+<td>几乎整个单元格宽度都带有下划线的单个下划线文本</td>
+</tr>
+<tr>
+<td><em>U_DOUBLE</em></td>
+<td>双下划线文本，其中只有单词带下划线</td>
+</tr>
+<tr>
+<td><em>U_DOUBLE_ACCOUNTING</em></td>
+<td>双下划线文本，几乎整个单元格宽度都带有下划线</td>
+</tr>
+</tbody>
+</table>
+<p>让我们从前面的例子继续。我们将编写一个名为<em>CellStyler</em>的类，其中包含一个为警告文本创建样式的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CellStyler</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">CellStyle</span> <span class="nf">createWarningColor</span><span class="o">(</span><span class="n">Workbook</span> <span class="n">workbook</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CellStyle</span> <span class="n">style</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="na">createCellStyle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Font</span> <span class="n">font</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="na">createFont</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">font</span><span class="o">.</span><span class="na">setFontName</span><span class="o">(</span><span class="s">&#34;Courier New&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">font</span><span class="o">.</span><span class="na">setBold</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">font</span><span class="o">.</span><span class="na">setUnderline</span><span class="o">(</span><span class="n">Font</span><span class="o">.</span><span class="na">U_SINGLE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">font</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">HSSFColorPredefined</span><span class="o">.</span><span class="na">DARK_RED</span><span class="o">.</span><span class="na">getIndex</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">style</span><span class="o">.</span><span class="na">setFont</span><span class="o">(</span><span class="n">font</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">style</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="n">HorizontalAlignment</span><span class="o">.</span><span class="na">CENTER</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">style</span><span class="o">.</span><span class="na">setVerticalAlignment</span><span class="o">(</span><span class="n">VerticalAlignment</span><span class="o">.</span><span class="na">CENTER</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">style</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们创建一个 Apache POI 工作簿并获取第一个工作表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Workbook</span> <span class="n">workbook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XSSFWorkbook</span><span class="o">(</span><span class="n">fileLocation</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Sheet</span> <span class="n">sheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="na">getSheetAt</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span></code></pre></div><p>请注意，我们正在<strong>设置行高，以便我们可以看到文本对齐的效果</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Row</span> <span class="n">row1</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="na">createRow</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">row1</span><span class="o">.</span><span class="na">setHeightInPoints</span><span class="o">((</span><span class="kt">short</span><span class="o">)</span> <span class="n">40</span><span class="o">);</span>
+</span></span></code></pre></div><p>让我们实例化该类并使用它来设置样式</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CellStyler</span> <span class="n">styler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CellStyler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">CellStyle</span> <span class="n">style</span> <span class="o">=</span> <span class="n">styler</span><span class="o">.</span><span class="na">createWarningColor</span><span class="o">(</span><span class="n">workbook</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Cell</span> <span class="n">cell1</span> <span class="o">=</span> <span class="n">row1</span><span class="o">.</span><span class="na">createCell</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell1</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">style</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell1</span><span class="o">.</span><span class="na">setCellValue</span><span class="o">(</span><span class="s">&#34;Hello&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Cell</span> <span class="n">cell2</span> <span class="o">=</span> <span class="n">row1</span><span class="o">.</span><span class="na">createCell</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell2</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">style</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell2</span><span class="o">.</span><span class="na">setCellValue</span><span class="o">(</span><span class="s">&#34;world!&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>现在，让我们将此工作簿保存到一个文件中，并在 Microsoft Excel 中打开该文件以查看字体样式效果，我们应该在其中看到：</p>
+<p><a href="/uploads/2022/01/Change_Cell_Font_Style_with_Apache_POI-e1638669975805.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2022/01/Change_Cell_Font_Style_with_Apache_POI-e1638670076814.png"
+        data-srcset="wp-content/uploads/2022/01/Change_Cell_Font_Style_with_Apache_POI-e1638670076814.png, wp-content/uploads/2022/01/Change_Cell_Font_Style_with_Apache_POI-e1638670076814.png 1.5x, wp-content/uploads/2022/01/Change_Cell_Font_Style_with_Apache_POI-e1638670076814.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2022/01/Change_Cell_Font_Style_with_Apache_POI-e1638670076814.png"
+        title="应用字体样式的结果" /></a></p>
+<ol start="5">
+<li>常见的陷阱</li>
+</ol>
+<hr>
+<p>让我们看看使用<em>CellStyle 时常</em>犯的两个错误。</p>
+<h3 id="51意外修改所有单元格样式">5.1。意外修改所有单元格样式</h3>
+<p>首先，从单元格中获取<em>CellStyle</em>并开始修改它是一个常见的错误。<em>getCellStyle</em>方法的 Apache POI 文档提到<strong>单元格的<em>getCellStyle</em>方法将始终返回非空值</strong>。这意味着单元格有一个默认值，这也是工作簿中所有单元格最初使用的默认样式。因此，下面的代码将使所有单元格都具有日期格式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">cell</span><span class="o">.</span><span class="na">setCellValue</span><span class="o">(</span><span class="n">rdf</span><span class="o">.</span><span class="na">getEffectiveDate</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell</span><span class="o">.</span><span class="na">getCellStyle</span><span class="o">().</span><span class="na">setDataFormat</span><span class="o">(</span><span class="n">HSSFDataFormat</span><span class="o">.</span><span class="na">getBuiltinFormat</span><span class="o">(</span><span class="s">&#34;d-mmm-yy&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><h3 id="52-为每个单元格创建新样式">5.2. 为每个单元格创建新样式</h3>
+<p>另一个常见的错误是工作簿中有太多相似的样式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CellStyle</span> <span class="n">style1</span> <span class="o">=</span> <span class="n">codeToCreateCellStyle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cell</span> <span class="n">cell1</span> <span class="o">=</span> <span class="n">row1</span><span class="o">.</span><span class="na">createCell</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell1</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">style1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">CellStyle</span> <span class="n">style2</span> <span class="o">=</span> <span class="n">codeToCreateCellStyle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cell</span> <span class="n">cell2</span> <span class="o">=</span> <span class="n">row1</span><span class="o">.</span><span class="na">createCell</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell2</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">style2</span><span class="o">);</span>
+</span></span></code></pre></div><p>一个<strong><em>CellStyle</em>的范围是一个工作簿</strong>。因此，多个单元格应共享类似的样式。在上面的示例中，样式应该只创建一次并在<em>cell1</em>和<em>cell2</em>之间共享：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CellStyle</span> <span class="n">style1</span> <span class="o">=</span> <span class="n">codeToCreateCellStyle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Cell</span> <span class="n">cell1</span> <span class="o">=</span> <span class="n">row1</span><span class="o">.</span><span class="na">createCell</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell1</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">style1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell1</span><span class="o">.</span><span class="na">setCellValue</span><span class="o">(</span><span class="s">&#34;Hello&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Cell</span> <span class="n">cell2</span> <span class="o">=</span> <span class="n">row1</span><span class="o">.</span><span class="na">createCell</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell2</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">style1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">cell2</span><span class="o">.</span><span class="na">setCellValue</span><span class="o">(</span><span class="s">&#34;world!&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="6总结">6.总结</h2>
+<p>在本文中，我们学习了如何使用<em>CellStyle</em>及其<em>Font</em>属性来设置 Apache POI 中的单元格样式。如本文所述，如果我们设法避免陷阱，则对单元格进行样式设置相对简单。</p>
+<p>在代码示例中，我们展示了如何根据需要以编程方式设置电子表格文档的样式，就像我们使用 Excel 应用程序本身一样。当需要生成具有美观数据表示的电子表格时，这一点最为重要。</p>
+<p>通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_poi_change_cell_font/" data-title="使用 Apache POI 更改单元格字体样式" data-hashtags="Excel"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_poi_change_cell_font/" data-hashtag="Excel"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_poi_change_cell_font/" data-title="使用 Apache POI 更改单元格字体样式"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_poi_change_cell_font/" data-title="使用 Apache POI 更改单元格字体样式"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_poi_change_cell_font/" data-title="使用 Apache POI 更改单元格字体样式"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/excel/">Excel</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_poi_background_color/" class="prev" rel="prev" title="使用 Apache POI 设置单元格的背景颜色"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Apache POI 设置单元格的背景颜色</a>
+            <a href="/apache_poi_numeric_format/" class="next" rel="next" title="使用 POI 的数字格式">使用 POI 的数字格式<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -3,7 +3,47 @@
         <title>Persistence - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/persistence/</link>
         <description>Persistence - Category - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 29 Mar 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/persistence/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 18 May 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/persistence/" rel="self" type="application/rss+xml" /><item>
+    <title>Apache Ignite 指南</title>
+    <link>http://itcodingman.github.io/apache_ignite/</link>
+    <pubDate>Fri, 18 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_ignite/</guid>
+    <description><![CDATA[1. 简介 Apache Ignite 是一个以内存为中心的开源分布式平台。我们可以将它用作数据库、缓存系统或用于内存数据处理。 该平台使用内存作为存储层，因此具有令人印象]]></description>
+</item>
+<item>
+    <title>Apache Geode 快速指南</title>
+    <link>http://itcodingman.github.io/apache_geode/</link>
+    <pubDate>Sat, 12 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_geode/</guid>
+    <description><![CDATA[1. 概述 Apache Geode是一个分布式内存数据网格，支持缓存和数据计算。 在本教程中，我们将介绍 Geode 的关键概念并使用其 Java 客户端运行一些代码示例。 2. 设置 首]]></description>
+</item>
+<item>
+    <title>Apache Commons DbUtils 指南</title>
+    <link>http://itcodingman.github.io/apache_commons_dbutils/</link>
+    <pubDate>Sat, 28 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_commons_dbutils/</guid>
+    <description><![CDATA[1. 概述 Apache Commons DbUtils 是一个小型库，它使使用 JDBC 变得更加容易。 在本文中，我们将实施示例来展示其特性和功能。 2. 设置 2.1。Maven 依赖项 首先，我们需要将]]></description>
+</item>
+<item>
+    <title>Apache Cayenne 中的高级查询</title>
+    <link>http://itcodingman.github.io/apache_cayenne_query/</link>
+    <pubDate>Sat, 21 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_cayenne_query/</guid>
+    <description><![CDATA[1. 概述 之前，我们专注于如何开始使用 Apache Cayenne。 在本文中，我们将介绍如何使用 ORM 编写简单和高级查询。 2. 设置 该设置类似于上一篇文章中使用的设]]></description>
+</item>
+<item>
+    <title>Apache Cayenne ORM 简介</title>
+    <link>http://itcodingman.github.io/apache_cayenne_orm/</link>
+    <pubDate>Fri, 20 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_cayenne_orm/</guid>
+    <description><![CDATA[1. 概述 Apache Cayenne是一个开源库，在 Apache 许可下分发，提供建模工具、对象关系映射（又名 ORM）等功能，用于本地持久性操作和远程服务。 在以下部分]]></description>
+</item>
+<item>
     <title>ActiveJDBC 简介</title>
     <link>http://itcodingman.github.io/active_jdbc/</link>
     <pubDate>Thu, 29 Mar 2018 00:00:00 &#43;0000</pubDate>

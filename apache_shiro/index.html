@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Shiro 简介 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Shiro 简介" />
+<meta property="og:description" content="1. 概述 在本文中，我们将介绍Apache Shiro，一个通用的 Java 安全框架。 该框架是高度可定制和模块化的，因为它提供身份验证、授权、加密和会话管" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_shiro/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-06-03T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Shiro 简介"/>
+<meta name="twitter:description" content="1. 概述 在本文中，我们将介绍Apache Shiro，一个通用的 Java 安全框架。 该框架是高度可定制和模块化的，因为它提供身份验证、授权、加密和会话管"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_shiro/" /><link rel="prev" href="http://itcodingman.github.io/apache_rocketmq_spring_boot/" /><link rel="next" href="http://itcodingman.github.io/apache_shiro_access_control/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Shiro 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_shiro\/"
+        },"genre": "posts","wordcount":  4183 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_shiro\/","datePublished": "2018-06-03T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Shiro 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/security/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Security</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-03">2018-06-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4183 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2依赖"><strong>2.依赖</strong></a></li>
+    <li><a href="#3-配置安全管理器"><strong>3. 配置安全管理器</strong></a></li>
+    <li><a href="#4-认证"><strong>4. 认证</strong></a></li>
+    <li><a href="#5授权"><strong>5.授权</strong></a></li>
+    <li><a href="#6-领域配置"><strong>6. 领域配置</strong></a></li>
+    <li><a href="#7-登出"><strong>7. 登出</strong></a></li>
+    <li><a href="#8-会话管理"><strong>8. 会话管理</strong></a></li>
+    <li><a href="#9-shiro-用于使用-spring-的-web-应用程序"><strong>9. Shiro 用于使用 Spring 的 Web 应用程序</strong></a>
+      <ul>
+        <li><a href="#91依赖项"><strong>9.1。依赖项</strong></a></li>
+        <li><a href="#92-配置"><strong>9.2. 配置</strong></a></li>
+        <li><a href="#93-认证和授权"><strong>9.3. 认证和授权</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#11-结论"><strong>11. 结论</strong></a>
+      <ul>
+        <li><a href="#我刚刚宣布了新的learn-spring-security课程包括专注于-spring-security-5-中新的-oauth2-堆栈的完整材料"><strong>我刚刚宣布了新的<em>Learn Spring Security</em>课程，包括专注于 Spring Security 5 中新的 OAuth2 堆栈的完整材料：</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将介绍<a href="https://shiro.apache.org/" target="_blank" rel="noopener noreffer">Apache Shiro</a>，一个通用的 Java 安全框架。</p>
+<p>该框架是高度可定制和模块化的，因为它提供身份验证、授权、加密和会话管理。</p>
+<h2 id="2依赖"><strong>2.依赖</strong></h2>
+<p>Apache Shiro 有很多<a href="https://shiro.apache.org/download.html" target="_blank" rel="noopener noreffer">模块</a>。但是，在本教程中，我们仅使用<em>shiro-core</em>工件。</p>
+<p>让我们将它添加到我们的<em>pom.xml</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.shiro<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>shiro-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.4.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>最新版本的 Apache Shiro 模块可以<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.shiro%22" target="_blank" rel="noopener noreffer">在 Maven Central 上找到。</a></p>
+<h2 id="3-配置安全管理器"><strong>3. 配置安全管理器</strong></h2>
+<p><em>SecurityManager</em>是 Apache Shiro 框架的核心部分。应用程序通常会运行它的单个实例。</p>
+<p>在本教程中，我们将在桌面环境中探索该框架。要配置框架，我们需要在资源文件夹中创建一个<em>shiro.ini文件，内容如下：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[users]
+</span></span><span class="line"><span class="cl">user = password, admin
+</span></span><span class="line"><span class="cl">user2 = password2, editor
+</span></span><span class="line"><span class="cl">user3 = password3, author
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[roles]
+</span></span><span class="line"><span class="cl">admin = *
+</span></span><span class="line"><span class="cl">editor = articles:*
+</span></span><span class="line"><span class="cl">author = articles:compose,articles:save
+</span></span></code></pre></div><p><em>shiro.ini</em>配置文件的*[users]<em>部分定义了</em>SecurityManager*识别的用户凭据。格式为：<em>p</em> <em>rincipal (username) = password, role1, role2, &hellip;, role</em>。</p>
+<p>角色及其相关权限在*[roles]<em>部分中声明。<em>管理员</em>角色被授予对应用程序每个部分的权限和访问权限。这由通配符</em>(*)*符号表示。</p>
+<p><em>编辑</em>角色拥有与<em>文章</em>相关的所有权限，而<em>作者</em>角色只能<em>撰写</em>和<em>保存</em>文章。</p>
+<p><em>SecurityManager</em>用于配置<em>SecurityUtils</em>类。从<em>SecurityUtils</em>我们可以获取当前与系统交互的用户，并进行认证和授权操作。</p>
+<p>让我们使用<em>IniRealm</em>从<em>shiro.ini</em>文件加载我们的用户和角色定义，然后使用它来配置<em>DefaultSecurityManager</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IniRealm</span> <span class="n">iniRealm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IniRealm</span><span class="o">(</span><span class="s">&#34;classpath:shiro.ini&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">SecurityManager</span> <span class="n">securityManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSecurityManager</span><span class="o">(</span><span class="n">iniRealm</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">SecurityUtils</span><span class="o">.</span><span class="na">setSecurityManager</span><span class="o">(</span><span class="n">securityManager</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Subject</span> <span class="n">currentUser</span> <span class="o">=</span> <span class="n">SecurityUtils</span><span class="o">.</span><span class="na">getSubject</span><span class="o">();</span>
+</span></span></code></pre></div><p>现在我们有了一个知道<em>shiro.ini文件中定义的用户凭据和角色的**SecurityManager</em>，让我们继续进行用户身份验证和授权。</p>
+<h2 id="4-认证"><strong>4. 认证</strong></h2>
+<p>在 Apache Shiro 的术语中，<em>Subject</em>是与系统交互的任何实体。它可以是人、脚本或 REST 客户端。</p>
+<p>调用<em>SecurityUtils.getSubject()<em>返回当前</em>Subject</em>的一个实例，即<em>currentUser</em>。</p>
+<p>现在我们有了<em>currentUser</em>对象，我们可以对提供的凭据执行身份验证：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(!</span><span class="n">currentUser</span><span class="o">.</span><span class="na">isAuthenticated</span><span class="o">())</span> <span class="o">{</span>               
+</span></span><span class="line"><span class="cl">  <span class="n">UsernamePasswordToken</span> <span class="n">token</span>                       
+</span></span><span class="line"><span class="cl">    <span class="o">=</span> <span class="k">new</span> <span class="n">UsernamePasswordToken</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;password&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">token</span><span class="o">.</span><span class="na">setRememberMe</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>                        
+</span></span><span class="line"><span class="cl">  <span class="k">try</span> <span class="o">{</span>                                             
+</span></span><span class="line"><span class="cl">      <span class="n">currentUser</span><span class="o">.</span><span class="na">login</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>                       
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">UnknownAccountException</span> <span class="n">uae</span><span class="o">)</span> <span class="o">{</span>           
+</span></span><span class="line"><span class="cl">      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Username Not Found!&#34;</span><span class="o">,</span> <span class="n">uae</span><span class="o">);</span>        
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IncorrectCredentialsException</span> <span class="n">ice</span><span class="o">)</span> <span class="o">{</span>     
+</span></span><span class="line"><span class="cl">      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Invalid Credentials!&#34;</span><span class="o">,</span> <span class="n">ice</span><span class="o">);</span>       
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">LockedAccountException</span> <span class="n">lae</span><span class="o">)</span> <span class="o">{</span>            
+</span></span><span class="line"><span class="cl">      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Your Account is Locked!&#34;</span><span class="o">,</span> <span class="n">lae</span><span class="o">);</span>    
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">AuthenticationException</span> <span class="n">ae</span><span class="o">)</span> <span class="o">{</span>            
+</span></span><span class="line"><span class="cl">      <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Unexpected Error!&#34;</span><span class="o">,</span> <span class="n">ae</span><span class="o">);</span>           
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>                                                 
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>首先，我们检查当前用户是否尚未通过身份验证。*然后我们使用用户的主体（用户名）<em>和凭证</em>（密码）*创建一个身份验证令牌。</p>
+<p>接下来，我们尝试使用令牌登录。如果提供的凭据是正确的，那么一切都会好起来的。</p>
+<p>不同的情况有不同的例外。也可以抛出更适合应用程序要求的自定义异常。这可以通过<em>继承 AccountException</em>类来完成。</p>
+<h2 id="5授权"><strong>5.授权</strong></h2>
+<p>身份验证试图验证用户的身份，而授权试图控制对系统中某些资源的访问。</p>
+<p>回想一下，我们为在<em>shiro.ini</em>文件中创建的每个用户分配了一个或多个角色。此外，在角色部分，我们为每个角色定义了不同的权限或访问级别。</p>
+<p>现在让我们看看如何在我们的应用程序中使用它来实施用户访问控制。</p>
+<p>在<em>shiro.ini</em>文件中，我们赋予管理员对系统每个部分的完全访问权限。</p>
+<p>编辑可以完全访问有关<em>文章</em>的每个资源/操作，并且作者仅限于撰写和保存<em>文章</em>。</p>
+<p>让我们根据角色欢迎当前用户：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;admin&#34;</span><span class="o">))</span> <span class="o">{</span>       
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Welcome Admin&#34;</span><span class="o">);</span>              
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;editor&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Welcome, Editor!&#34;</span><span class="o">);</span>           
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Welcome, Author&#34;</span><span class="o">);</span>            
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>                                  
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Welcome, Guest&#34;</span><span class="o">);</span>             
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们看看当前用户在系统中被允许做什么：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:compose&#34;</span><span class="o">))</span> <span class="o">{</span>            
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;You can compose an article&#34;</span><span class="o">);</span>                    
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>                                                     
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;You are not permitted to compose an article!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>                                                            
+</span></span><span class="line"><span class="cl">                                                             
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:save&#34;</span><span class="o">))</span> <span class="o">{</span>               
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;You can save articles&#34;</span><span class="o">);</span>                         
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>                                                     
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;You can not save articles&#34;</span><span class="o">);</span>                   
+</span></span><span class="line"><span class="cl"><span class="o">}</span>                                                            
+</span></span><span class="line"><span class="cl">                                                             
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:publish&#34;</span><span class="o">))</span> <span class="o">{</span>            
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;You can publish articles&#34;</span><span class="o">);</span>                      
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>                                                     
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;You can not publish articles&#34;</span><span class="o">);</span>                
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-领域配置"><strong>6. 领域配置</strong></h2>
+<p>在实际应用程序中，我们需要一种从数据库而不是从<em>shiro.ini</em>文件中获取用户凭据的方法。这就是 Realm 概念发挥作用的地方。</p>
+<p>在 Apache Shiro 的术语中，<a href="https://shiro.apache.org/realm.html" target="_blank" rel="noopener noreffer">Realm</a>是一个 DAO，它指向身份验证和授权所需的用户凭据存储。</p>
+<p>要创建领域，我们只需要实现<em>领域</em>接口。这可能很乏味；但是，该框架带有默认实现，我们可以从中继承。这些实现之一是<em>JdbcRealm</em>。</p>
+<p>我们创建了一个自定义领域实现，它扩展<em>了 JdbcRealm</em>类并覆盖了以下方法：<em>doGetAuthenticationInfo()</em>、<em>doGetAuthorizationInfo()</em>、<em>getRoleNamesForUser()<em>和</em>getPermissions()</em>。</p>
+<p><em>让我们通过继承 JdbcRealm</em>类来创建一个领域：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyCustomRealm</span> <span class="kd">extends</span> <span class="n">JdbcRealm</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>为了简单起见，我们使用<em>java.util.Map</em>来模拟一个数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">credentials</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">roles</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">perm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">credentials</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="s">&#34;password&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">credentials</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;user2&#34;</span><span class="o">,</span> <span class="s">&#34;password2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">credentials</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;user3&#34;</span><span class="o">,</span> <span class="s">&#34;password3&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                                          
+</span></span><span class="line"><span class="cl">    <span class="n">roles</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;user&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;admin&#34;</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">roles</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;user2&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;editor&#34;</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">roles</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;user3&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">                                                             
+</span></span><span class="line"><span class="cl">    <span class="n">perm</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;admin&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;*&#34;</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">perm</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;editor&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;articles:*&#34;</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">perm</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;articles:compose&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;articles:save&#34;</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们继续并覆盖<em>doGetAuthenticationInfo()</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">protected</span> <span class="n">AuthenticationInfo</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">doGetAuthenticationInfo</span><span class="o">(</span><span class="n">AuthenticationToken</span> <span class="n">token</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">AuthenticationException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                                                                 
+</span></span><span class="line"><span class="cl">    <span class="n">UsernamePasswordToken</span> <span class="n">uToken</span> <span class="o">=</span> <span class="o">(</span><span class="n">UsernamePasswordToken</span><span class="o">)</span> <span class="n">token</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">                                                                
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="o">(</span><span class="n">uToken</span><span class="o">.</span><span class="na">getUsername</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span>
+</span></span><span class="line"><span class="cl">      <span class="o">||</span> <span class="n">uToken</span><span class="o">.</span><span class="na">getUsername</span><span class="o">().</span><span class="na">isEmpty</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">||</span> <span class="o">!</span><span class="n">credentials</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">uToken</span><span class="o">.</span><span class="na">getUsername</span><span class="o">()))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">throw</span> <span class="k">new</span> <span class="n">UnknownAccountException</span><span class="o">(</span><span class="s">&#34;username not found!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">                                        
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">SimpleAuthenticationInfo</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">uToken</span><span class="o">.</span><span class="na">getUsername</span><span class="o">(),</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">credentials</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">uToken</span><span class="o">.</span><span class="na">getUsername</span><span class="o">()),</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">getName</span><span class="o">());</span> 
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们首先将提供的<em>AuthenticationToken</em>转换为<em>UsernamePasswordToken</em>。从<em>uToken</em>中，我们提取用户名（<em>uToken.getUsername()</em>）并使用它从数据库中获取用户凭据（密码）。</p>
+<p>如果没有找到记录——我们抛出一个<em>UnknownAccountException</em>，否则我们使用凭证和用户名来构造一个从该方法返回的<em>SimpleAuthenticatioInfo对象。</em></p>
+<p>如果用户凭证使用盐进行哈希处理，我们需要返回一个<em>SimpleAuthenticationInfo</em>以及相关的盐：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">return</span> <span class="k">new</span> <span class="n">SimpleAuthenticationInfo</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">uToken</span><span class="o">.</span><span class="na">getUsername</span><span class="o">(),</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">credentials</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">uToken</span><span class="o">.</span><span class="na">getUsername</span><span class="o">()),</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">ByteSource</span><span class="o">.</span><span class="na">Util</span><span class="o">.</span><span class="na">bytes</span><span class="o">(</span><span class="s">&#34;salt&#34;</span><span class="o">),</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">getName</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl"><span class="o">);</span>
+</span></span></code></pre></div><p>我们还需要覆盖<em>doGetAuthorizationInfo()<em>以及</em>getRoleNamesForUser()<em>和</em>getPermissions()</em>。</p>
+<p>最后，让我们将自定义领域插入到<em>securityManager</em>中。我们需要做的就是用我们的自定义领域替换上面的<em>IniRealm</em>，并将其传递给<em>DefaultSecurityManager</em>的构造函数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Realm</span> <span class="n">realm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyCustomRealm</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">SecurityManager</span> <span class="n">securityManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSecurityManager</span><span class="o">(</span><span class="n">realm</span><span class="o">);</span>
+</span></span></code></pre></div><p>代码的所有其他部分都与以前相同。这就是我们使用自定义领域正确配置<em>securityManager所需的全部内容。</em></p>
+<p>现在的问题是——框架如何匹配凭证？</p>
+<p>默认情况下，<em>JdbcRealm</em>使用<em>SimpleCredentialsMatcher ，它仅通过比较**AuthenticationToken</em>和<em>AuthenticationInfo</em>中的凭据来检查是否相等。</p>
+<p>如果我们散列密码，我们需要通知框架使用<em>HashedCredentialsMatcher</em>。可以在<a href="https://shiro.apache.org/realm.html#Realm-HashingCredentials" target="_blank" rel="noopener noreffer">此处</a>找到具有散列密码的领域的 INI 配置。</p>
+<h2 id="7-登出"><strong>7. 登出</strong></h2>
+<p>现在我们已经验证了用户，是时候实现注销了。这只需调用一个方法即可完成——该方法使用户会话无效并将用户注销：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">currentUser</span><span class="o">.</span><span class="na">logout</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="8-会话管理"><strong>8. 会话管理</strong></h2>
+<p>该框架自然带有其会话管理系统。如果在 Web 环境中使用，则默认为<em>HttpSession</em>实现。</p>
+<p>对于独立应用程序，它使用其企业会话管理系统。好处是即使在桌面环境中，您也可以像在典型 Web 环境中那样使用会话对象。</p>
+<p>让我们看一个简单的示例并与当前用户的会话进行交互：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">currentUser</span><span class="o">.</span><span class="na">getSession</span><span class="o">();</span>                
+</span></span><span class="line"><span class="cl"><span class="n">session</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">&#34;key&#34;</span><span class="o">,</span> <span class="s">&#34;value&#34;</span><span class="o">);</span>                      
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">value</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">session</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">&#34;key&#34;</span><span class="o">);</span>       
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">&#34;value&#34;</span><span class="o">))</span> <span class="o">{</span>                               
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Retrieved the correct value! [&#34;</span> <span class="o">+</span> <span class="n">value</span> <span class="o">+</span> <span class="s">&#34;]&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="9-shiro-用于使用-spring-的-web-应用程序"><strong>9. Shiro 用于使用 Spring 的 Web 应用程序</strong></h2>
+<p>到目前为止，我们已经概述了 Apache Shiro 的基本结构，并且我们已经在桌面环境中实现了它。让我们继续将框架集成到 Spring Boot 应用程序中。</p>
+<p>请注意，这里的主要焦点是 Shiro，而不是 Spring 应用程序——我们只会使用它来支持一个简单的示例应用程序。</p>
+<h3 id="91依赖项"><strong>9.1。依赖项</strong></h3>
+<p>首先，我们需要将 Spring Boot 父依赖添加到我们的<em>pom.xml</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;parent&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-parent<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.6.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/parent&gt;</span>
+</span></span></code></pre></div><p>接下来，我们必须将以下依赖项添加到同一个<em>pom.xml</em>文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-freemarker<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.shiro<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>shiro-spring-boot-web-starter<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${apache-shiro-core-version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h3 id="92-配置"><strong>9.2. 配置</strong></h3>
+<p>将<em>shiro-spring-boot-web-starter</em>依赖添加到我们的<em>pom.xml</em>将默认配置 Apache Shiro 应用程序的一些功能，例如<em>SecurityManager</em>。</p>
+<p>但是，我们仍然需要配置<em>Realm</em>和 Shiro 安全过滤器。我们将使用上面定义的相同自定义领域。</p>
+<p>因此，在运行 Spring Boot 应用程序的主类中，让我们添加以下<em>Bean</em>定义：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Realm</span> <span class="nf">realm</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">MyCustomRealm</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nd">@Bean</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">ShiroFilterChainDefinition</span> <span class="nf">shiroFilterChainDefinition</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DefaultShiroFilterChainDefinition</span> <span class="n">filter</span>
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultShiroFilterChainDefinition</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">filter</span><span class="o">.</span><span class="na">addPathDefinition</span><span class="o">(</span><span class="s">&#34;/secure&#34;</span><span class="o">,</span> <span class="s">&#34;authc&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">filter</span><span class="o">.</span><span class="na">addPathDefinition</span><span class="o">(</span><span class="s">&#34;/**&#34;</span><span class="o">,</span> <span class="s">&#34;anon&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">filter</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在<em>ShiroFilterChainDefinition</em>中，我们将<em>authc</em>过滤器应用于*/secure<em>路径，并使用 Ant 模式将</em>anon过滤器应用于其他路径。*</p>
+<p><em>Web 应用程序默认提供 authc</em>和anon<em>过滤</em>器。其他默认过滤器可以在<a href="https://shiro.apache.org/web.html#Web-DefaultFilters" target="_blank" rel="noopener noreffer">这里</a>找到。</p>
+<p>如果我们没有定义<em>Realm</em> bean，<em>ShiroAutoConfiguration</em>将默认提供一个<em>IniRealm</em>实现，该实现期望在<em>src/main/resources</em>或<em>src/main/resources/META-INF中找到一个**shiro.ini</em>文件。</p>
+<p>如果我们不定义<em>ShiroFilterChainDefinition</em> bean，框架会保护所有路径并将登录 URL 设置为<em>login.jsp</em>。</p>
+<p><em>我们可以通过将以下条目添加到我们的application.properties</em>来更改此默认登录 URL 和其他默认值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">shiro.loginUrl = /login
+</span></span><span class="line"><span class="cl">shiro.successUrl = /secure
+</span></span><span class="line"><span class="cl">shiro.unauthorizedUrl = /login
+</span></span></code></pre></div><p>现在<em>authc</em>过滤器已应用于*/secure*，对该路由的所有请求都需要表单身份验证。</p>
+<h3 id="93-认证和授权"><strong>9.3. 认证和授权</strong></h3>
+<p>让我们创建一个具有以下路径映射的<em>ShiroSpringController ：</em> <em>/index</em>、<em>/login、/logout</em>和*/secure。*</p>
+<p>*login()*方法是我们实现如上所述的实际用户身份验证的地方。如果身份验证成功，用户将被重定向到安全页面：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Subject</span> <span class="n">subject</span> <span class="o">=</span> <span class="n">SecurityUtils</span><span class="o">.</span><span class="na">getSubject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="o">(!</span><span class="n">subject</span><span class="o">.</span><span class="na">isAuthenticated</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">UsernamePasswordToken</span> <span class="n">token</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UsernamePasswordToken</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">cred</span><span class="o">.</span><span class="na">getUsername</span><span class="o">(),</span> <span class="n">cred</span><span class="o">.</span><span class="na">getPassword</span><span class="o">(),</span> <span class="n">cred</span><span class="o">.</span><span class="na">isRememberMe</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">subject</span><span class="o">.</span><span class="na">login</span><span class="o">(</span><span class="n">token</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">AuthenticationException</span> <span class="n">ae</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ae</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">attr</span><span class="o">.</span><span class="na">addFlashAttribute</span><span class="o">(</span><span class="s">&#34;error&#34;</span><span class="o">,</span> <span class="s">&#34;Invalid Credentials&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;redirect:/login&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="s">&#34;redirect:/secure&#34;</span><span class="o">;</span>
+</span></span></code></pre></div><p>现在在*secure()<em>实现中，<em>currentUser</em>是通过调用</em>SecurityUtils.getSubject() 获得的。*用户的角色和权限以及用户的主体被传递到安全页面：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Subject</span> <span class="n">currentUser</span> <span class="o">=</span> <span class="n">SecurityUtils</span><span class="o">.</span><span class="na">getSubject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">role</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="o">,</span> <span class="n">permission</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;admin&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">role</span> <span class="o">=</span> <span class="n">role</span>  <span class="o">+</span> <span class="s">&#34;You are an Admin&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;editor&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">role</span> <span class="o">=</span> <span class="n">role</span> <span class="o">+</span> <span class="s">&#34;You are an Editor&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;author&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">role</span> <span class="o">=</span> <span class="n">role</span> <span class="o">+</span> <span class="s">&#34;You are an Author&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:compose&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">permission</span> <span class="o">=</span> <span class="n">permission</span> <span class="o">+</span> <span class="s">&#34;You can compose an article, &#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">permission</span> <span class="o">=</span> <span class="n">permission</span> <span class="o">+</span> <span class="s">&#34;You are not permitted to compose an article!, &#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:save&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">permission</span> <span class="o">=</span> <span class="n">permission</span> <span class="o">+</span> <span class="s">&#34;You can save articles, &#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">permission</span> <span class="o">=</span> <span class="n">permission</span> <span class="o">+</span> <span class="s">&#34;\nYou can not save articles, &#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span><span class="o">(</span><span class="n">currentUser</span><span class="o">.</span><span class="na">isPermitted</span><span class="o">(</span><span class="s">&#34;articles:publish&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">permission</span> <span class="o">=</span> <span class="n">permission</span>  <span class="o">+</span> <span class="s">&#34;\nYou can publish articles&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">permission</span> <span class="o">=</span> <span class="n">permission</span> <span class="o">+</span> <span class="s">&#34;\nYou can not publish articles&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">modelMap</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;username&#34;</span><span class="o">,</span> <span class="n">currentUser</span><span class="o">.</span><span class="na">getPrincipal</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">modelMap</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;permission&#34;</span><span class="o">,</span> <span class="n">permission</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">modelMap</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">&#34;role&#34;</span><span class="o">,</span> <span class="n">role</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="s">&#34;secure&#34;</span><span class="o">;</span>
+</span></span></code></pre></div><p>**我们完成了。**这就是我们如何将 Apache Shiro 集成到 Spring Boot 应用程序中。</p>
+<p>另外，请注意，该框架提供了额外的<a href="https://shiro.apache.org/spring.html" target="_blank" rel="noopener noreffer">注释</a>，可以与过滤器链定义一起使用以保护我们的应用程序。</p>
+<ol start="10">
+<li>JEE 集成</li>
+</ol>
+<hr>
+<p>将 Apache Shiro 集成到 JEE 应用程序中只需配置<em>web.xml</em>文件。配置期望<em>shiro.ini</em>在类路径中。<a href="https://shiro.apache.org/web.html#Web-%7B%7Bweb.xml%7D%7D" target="_blank" rel="noopener noreffer">此处</a>提供了详细的示例配置。此外，可以在<a href="https://shiro.apache.org/web.html#Web-JSP%2FGSPTagLibrary" target="_blank" rel="noopener noreffer">此处</a>找到 JSP 标记。</p>
+<h2 id="11-结论"><strong>11. 结论</strong></h2>
+<p>在本教程中，我们研究了 Apache Shiro 的身份验证和授权机制。我们还专注于如何定义自定义领域并将其插入<em>SecurityManager</em>。</p>
+<p>安全底</p>
+<h3 id="我刚刚宣布了新的learn-spring-security课程包括专注于-spring-security-5-中新的-oauth2-堆栈的完整材料"><strong>我刚刚宣布了新的<em>Learn Spring Security</em>课程，包括专注于 Spring Security 5 中新的 OAuth2 堆栈的完整材料：</strong></h3>
+<p><strong><a href="lss-course#table" rel="">&raquo; 查看课程</a></strong></p>
+<p>安全页脚横幅</p>
+<p>学习使用 Spring 保护 REST API 的基础知识
+<a href="security-video-guide" rel="">访问视频课程</a></p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_shiro/" data-title="Apache Shiro 简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_shiro/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_shiro/" data-title="Apache Shiro 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_shiro/" data-title="Apache Shiro 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_shiro/" data-title="Apache Shiro 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_rocketmq_spring_boot/" class="prev" rel="prev" title="带有 Spring Boot 的 Apache RocketMQ"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>带有 Spring Boot 的 Apache RocketMQ</a>
+            <a href="/apache_shiro_access_control/" class="next" rel="next" title="使用 Apache Shiro 的基于权限的访问控制">使用 Apache Shiro 的基于权限的访问控制<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

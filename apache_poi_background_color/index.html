@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Apache POI 设置单元格的背景颜色 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache POI 设置单元格的背景颜色" />
+<meta property="og:description" content="概述 在 Excel 工作表上，当我们通过更改表头的背景颜色来突出显示表头时，它总是看起来很优雅。本文介绍如何使用Apache POI更改单元格背景颜色。 此" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_poi_background_color/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Apache POI 设置单元格的背景颜色"/>
+<meta name="twitter:description" content="概述 在 Excel 工作表上，当我们通过更改表头的背景颜色来突出显示表头时，它总是看起来很优雅。本文介绍如何使用Apache POI更改单元格背景颜色。 此"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_poi_background_color/" /><link rel="prev" href="http://itcodingman.github.io/apache_poi_add_borders/" /><link rel="next" href="http://itcodingman.github.io/apache_poi_change_cell_font/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Apache POI 设置单元格的背景颜色",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_poi_background_color\/"
+        },"genre": "posts","keywords": "Excel","wordcount":  1013 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_poi_background_color\/","datePublished": "2018-05-25T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache POI 设置单元格的背景颜色</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-25">2018-05-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1013 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#2maven依赖">2.Maven依赖</a></li>
+    <li><a href="#3更改单元格背景颜色">3.更改单元格背景颜色</a>
+      <ul>
+        <li><a href="#31关于单元格背景">3.1。关于单元格背景</a></li>
+        <li><a href="#32-更改背景颜色的代码">3.2. 更改背景颜色的代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#4结论">4。结论</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><ol>
+<li>概述</li>
+</ol>
+<hr>
+<p>在 Excel 工作表上，当我们通过更改表头的背景颜色来突出显示表头时，它总是看起来很优雅。本文介绍如何使用<a href="https://poi.apache.org" target="_blank" rel="noopener noreffer">Apache POI</a>更改单元格背景颜色。</p>
+<p>此外，我们建议阅读我们<a href="java-microsoft-excel" rel="">在 Java 中使用 Microsoft Excel</a>教程，以了解在 Java 中使用 Excel 的一些基础知识。</p>
+<h2 id="2maven依赖">2.Maven依赖</h2>
+<p>首先，我们需要在<em>pom.xml中添加**poi-ooxml</em>作为依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="nt">&lt;groupId&gt;</span>org.apache.poi<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="nt">&lt;artifactId&gt;</span>poi-ooxml<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="nt">&lt;version&gt;</span>5.2.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"> <span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h2 id="3更改单元格背景颜色">3.更改单元格背景颜色</h2>
+<h3 id="31关于单元格背景">3.1。关于单元格背景</h3>
+<p>在 Excel 工作表上，我们可以通过填充颜色或图案来更改单元格背景。在下图中，单元格<em>A1</em>填充有浅蓝色背景，而单元格<em>B1</em>填充有图案。此图案有黑色背景和顶部的浅蓝色斑点：</p>
+<p><a href="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png"
+        data-srcset="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png, wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png 1.5x, wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png"
+        title="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png" /></a></p>
+<h3 id="32-更改背景颜色的代码">3.2. 更改背景颜色的代码</h3>
+<p>Apache POI 提供了三种更改背景颜色的方法。在<em>CellStyle</em>类中，我们可以为此目的使用<em>setFillForegroundColor</em>、<em>setFillPattern</em>和<em>setFillBackgroundColor方法。**在IndexedColors</em>类中定义了一个颜色列表。<em>同样，在FillPatternType</em>中定义了一个模式列表。</p>
+<p><strong>有时，名称<em>setFillBackgroundColor</em>可能会误导我们</strong>。但是，该方法本身不足以改变单元格背景。要通过填充纯色来更改单元格背景，我们使用<em>setFillForegroundColor</em>和<em>setFillPattern</em>方法。第一种方法告诉要填充什么颜色，而第二种方法指定要使用的纯色填充图案。</p>
+<p>以下代码段是更改单元格背景的示例方法，如单元格<em>A1</em>所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">changeCellBackgroundColor</span><span class="o">(</span><span class="n">Cell</span> <span class="n">cell</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CellStyle</span> <span class="n">cellStyle</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="na">getCellStyle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="o">(</span><span class="n">cellStyle</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cellStyle</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="na">getSheet</span><span class="o">().</span><span class="na">getWorkbook</span><span class="o">().</span><span class="na">createCellStyle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cellStyle</span><span class="o">.</span><span class="na">setFillForegroundColor</span><span class="o">(</span><span class="n">IndexedColors</span><span class="o">.</span><span class="na">LIGHT_BLUE</span><span class="o">.</span><span class="na">getIndex</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cellStyle</span><span class="o">.</span><span class="na">setFillPattern</span><span class="o">(</span><span class="n">FillPatternType</span><span class="o">.</span><span class="na">SOLID_FOREGROUND</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cell</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">cellStyle</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>要使用图案更改单元格背景，我们需要使用两种颜色</strong>：一种颜色填充整个背景，另一种颜色在第一种颜色之上填充图案。在这里，我们需要使用所有这三种方法。</p>
+<p>这里使用方法<em>setFillBackgroundColor</em>来指定背景颜色。仅使用此方法不会产生任何效果。我们需要使用<em>setFillForegroundColor</em>选择第二种颜色并使用<em>setFillPattern</em>来说明图案类型。</p>
+<p>以下代码段是更改单元格背景的示例方法，如单元格<em>B1</em>所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">changeCellBackgroundColorWithPattern</span><span class="o">(</span><span class="n">Cell</span> <span class="n">cell</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CellStyle</span> <span class="n">cellStyle</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="na">getCellStyle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="o">(</span><span class="n">cellStyle</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cellStyle</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="na">getSheet</span><span class="o">().</span><span class="na">getWorkbook</span><span class="o">().</span><span class="na">createCellStyle</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cellStyle</span><span class="o">.</span><span class="na">setFillBackgroundColor</span><span class="o">(</span><span class="n">IndexedColors</span><span class="o">.</span><span class="na">BLACK</span><span class="o">.</span><span class="na">index</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cellStyle</span><span class="o">.</span><span class="na">setFillPattern</span><span class="o">(</span><span class="n">FillPatternType</span><span class="o">.</span><span class="na">BIG_SPOTS</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cellStyle</span><span class="o">.</span><span class="na">setFillForegroundColor</span><span class="o">(</span><span class="n">IndexedColors</span><span class="o">.</span><span class="na">LIGHT_BLUE</span><span class="o">.</span><span class="na">getIndex</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cell</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">cellStyle</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4结论">4。结论</h2>
+<p>在这个快速教程中，我们学习了如何使用 Apache POI 更改 Excel 工作表中单元格的单元格背景。</p>
+<p><em>仅使用CellStyle</em>类的<em>setFillForegroundColor</em>、<em>setFillPattern</em>和<em>setFillBackgroundColor</em>三种方法 -我们可以轻松更改单元格的背景颜色和填充图案。</p>
+<p>通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_poi_background_color/" data-title="使用 Apache POI 设置单元格的背景颜色" data-hashtags="Excel"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_poi_background_color/" data-hashtag="Excel"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_poi_background_color/" data-title="使用 Apache POI 设置单元格的背景颜色"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_poi_background_color/" data-title="使用 Apache POI 设置单元格的背景颜色"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_poi_background_color/" data-title="使用 Apache POI 设置单元格的背景颜色"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/excel/">Excel</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_poi_add_borders/" class="prev" rel="prev" title="使用 Apache POI 为 Excel 单元格添加边框"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Apache POI 为 Excel 单元格添加边框</a>
+            <a href="/apache_poi_change_cell_font/" class="next" rel="next" title="使用 Apache POI 更改单元格字体样式">使用 Apache POI 更改单元格字体样式<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

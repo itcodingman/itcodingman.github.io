@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache CXF 对 RESTful Web 服务的支持 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache CXF 对 RESTful Web 服务的支持" />
+<meta property="og:description" content="1. 概述 本教程将Apache CXF介绍为符合 JAX-RS 标准的框架，该标准定义了 Java 生态系统对 REpresentational State Transfer (REST) 架构模式的支持。 具体来说，它逐步描述了如何构建和发布" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_cxf_rest_api/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache CXF 对 RESTful Web 服务的支持"/>
+<meta name="twitter:description" content="1. 概述 本教程将Apache CXF介绍为符合 JAX-RS 标准的框架，该标准定义了 Java 生态系统对 REpresentational State Transfer (REST) 架构模式的支持。 具体来说，它逐步描述了如何构建和发布"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_cxf_rest_api/" /><link rel="prev" href="http://itcodingman.github.io/apache_curator/" /><link rel="next" href="http://itcodingman.github.io/apache_cxf_with_spring/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache CXF 对 RESTful Web 服务的支持",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_cxf_rest_api\/"
+        },"genre": "posts","keywords": "Apache CXF","wordcount":  4469 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_cxf_rest_api\/","datePublished": "2018-05-08T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache CXF 对 RESTful Web 服务的支持</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/rest/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>REST</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-08">2018-05-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4469 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#3-资源类和请求映射"><strong>3. 资源类和请求映射</strong></a>
+      <ul>
+        <li><a href="#31资源"><strong>3.1。资源</strong></a></li>
+        <li><a href="#32-简单的数据设置"><strong>3.2. 简单的数据设置</strong></a></li>
+        <li><a href="#33-api--请求映射方法"><strong>3.3. API – 请求映射方法</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4服务器端点"><strong>4.<em>服务器</em>端点</strong></a></li>
+    <li><a href="#5-测试用例"><strong>5. 测试用例</strong></a>
+      <ul>
+        <li><a href="#51准备"><strong>5.1。准备</strong></a></li>
+        <li><a href="#52-获取请求"><strong>5.2. <em>获取</em>请求</strong></a></li>
+        <li><a href="#53-post请求"><strong>5.3. <em>POST</em>请求</strong></a></li>
+        <li><a href="#54-put请求"><strong>5.4. <em>PUT</em>请求</strong></a></li>
+        <li><a href="#55-删除请求"><strong>5.5. <em>删除</em>请求</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#6-测试执行"><strong>6. 测试执行</strong></a></li>
+    <li><a href="#7-结论"><strong>7. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>本教程将<a href="https://cxf.apache.org/" target="_blank" rel="noopener noreffer">Apache CXF</a>介绍为符合 JAX-RS 标准的框架，该标准定义了 Java 生态系统对 REpresentational State Transfer (REST) 架构模式的支持。</p>
+<p>具体来说，它逐步描述了如何构建和发布 RESTful Web 服务，以及如何编写单元测试来验证服务。</p>
+<p>这是 Apache CXF 系列的第三篇；<a href="introduction-to-apache-cxf" rel="">第一个</a>侧重于将 CXF 用作完全兼容 JAX-WS 的实现。<a href="apache-cxf-with-spring" rel="">第二篇文章</a>提供了如何将 CXF 与 Spring 一起使用的指南。</p>
+<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<p>第一个必需的依赖项是<em>org.apache.cxf:cxf- rt -frontend-</em> <em>jaxrs</em>。该工件提供 JAX-RS API 以及 CXF 实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.cxf<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cxf-rt-frontend-jaxrs<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.1.7<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>在本教程中，我们使用 CXF 创建<em>服务器</em>端点来发布 Web 服务，而不是使用 servlet 容器。因此，需要在 Maven POM 文件中包含以下依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.cxf<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cxf-rt-transports-http-jetty<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.1.7<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>最后，让我们添加 HttpClient 库以方便单元测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.httpcomponents<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>httpclient<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.5.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.cxf%22%20AND%20a%3A%22cxf-rt-frontend-jaxrs%22" target="_blank" rel="noopener noreffer">在这里</a>您可以找到最新版本的<em>cxf-rt-frontend-jaxrs</em>依赖项。您可能还想参考<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.cxf%22%20AND%20a%3A%22cxf-rt-transports-http-jetty%22" target="_blank" rel="noopener noreffer">此链接以获取</a><em>org.apache.cxf:cxf-rt-transports-http-jetty</em>工件的最新版本。最后，可以在<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.httpcomponents%22%20AND%20a%3A%22httpclient%22" target="_blank" rel="noopener noreffer">这里找到最新版本的</a><em>httpclient</em>。</p>
+<h2 id="3-资源类和请求映射"><strong>3. 资源类和请求映射</strong></h2>
+<p>让我们开始实现一个简单的例子；我们将使用两个资源<em>课程</em>和<em>学生来设置我们的 REST API。</em></p>
+<p>我们将从简单开始，然后逐步转向更复杂的示例。</p>
+<h3 id="31资源"><strong>3.1。资源</strong></h3>
+<p>以下是<em>Student</em>资源类的定义：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@XmlRootElement</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;Student&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// standard equals and hashCode implementations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，我们使用*@XmlRootElement*注释告诉 JAXB 这个类的实例应该被编组为 XML。</p>
+<p>接下来是<em>Course</em>资源类的定义：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@XmlRootElement</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#34;Course&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Course</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="n">students</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Student</span> <span class="nf">findById</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Student</span> <span class="n">student</span> <span class="o">:</span> <span class="n">students</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">student</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">==</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">student</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl">    <span class="c1">// standard getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// standard equals and hasCode implementations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，让我们实现*CourseRepository——*它是根资源并作为 Web 服务资源的入口点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Path</span><span class="o">(</span><span class="s">&#34;course&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Produces</span><span class="o">(</span><span class="s">&#34;text/xml&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CourseRepository</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Course</span><span class="o">&gt;</span> <span class="n">courses</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// request handling methods
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Course</span> <span class="nf">findById</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Course</span><span class="o">&gt;</span> <span class="n">course</span> <span class="o">:</span> <span class="n">courses</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">course</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">==</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">course</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>注意带有@Path</em>注释的映射。<em>CourseRepository</em>是这里的根资源，因此它被映射为处理以<em>course</em>开头的所有 URL 。</p>
+<p><em>@Produces</em>注解的值用于告诉服务器在将此类中的方法返回的对象发送给客户端之前将其转换为 XML 文档。我们在这里使用 JAXB 作为默认值，因为没有指定其他绑定机制。</p>
+<h3 id="32-简单的数据设置"><strong>3.2. 简单的数据设置</strong></h3>
+<p>因为这是一个简单的示例实现，所以我们使用内存中的数据而不是成熟的持久性解决方案。</p>
+<p>考虑到这一点，让我们实现一些简单的设置逻辑来将一些数据填充到系统中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Student</span> <span class="n">student1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Student</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Student</span> <span class="n">student2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Student</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">student1</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">student1</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Student A&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">student2</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">student2</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Student B&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span> <span class="n">course1Students</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course1Students</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">student1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course1Students</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">student2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Course</span> <span class="n">course1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Course</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Course</span> <span class="n">course2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Course</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course1</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course1</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;REST with Spring&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course1</span><span class="o">.</span><span class="na">setStudents</span><span class="o">(</span><span class="n">course1Students</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course2</span><span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">course2</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Learn Spring Security&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">courses</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">course1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">courses</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">course2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此类中处理 HTTP 请求的方法将在下一小节中介绍。</p>
+<h3 id="33-api--请求映射方法"><strong>3.3. API – 请求映射方法</strong></h3>
+<p>现在，让我们来看看实际 REST API 的实现。</p>
+<p>我们将开始在资源 POJO 中添加 API 操作——使用*@Path*注释。</p>
+<p>重要的是要理解这与典型 Spring 项目中的方法有很大不同——API 操作将在控制器中定义，而不是在 POJO 本身上。</p>
+<p><em>让我们从Course</em>类中定义的映射方法开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GET</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Path</span><span class="o">(</span><span class="s">&#34;{studentId}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Student</span> <span class="nf">getStudent</span><span class="o">(</span><span class="nd">@PathParam</span><span class="o">(</span><span class="s">&#34;studentId&#34;</span><span class="o">)</span><span class="kt">int</span> <span class="n">studentId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">findById</span><span class="o">(</span><span class="n">studentId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>简单地说，该方法在处理<em>GET</em>请求时被调用，由*@GET*注解表示。</p>
+<p>注意到从 HTTP 请求映射<em>studentId</em>路径参数的简单语法。</p>
+<p>然后我们简单地使用<em>findById</em>帮助器方法返回相应的<em>Student</em>实例。</p>
+<p>以下方法通过将接收到的<em>Student</em>对象添加到<em>学生</em>列表来处理由*@POST<em>注释指示的</em>POST*请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@POST</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Path</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Response</span> <span class="nf">createStudent</span><span class="o">(</span><span class="n">Student</span> <span class="n">student</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="n">Student</span> <span class="n">element</span> <span class="o">:</span> <span class="n">students</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">element</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">==</span> <span class="n">student</span><span class="o">.</span><span class="na">getId</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="n">Response</span><span class="o">.</span><span class="na">Status</span><span class="o">.</span><span class="na">CONFLICT</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">students</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">student</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">student</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果创建操作成功，则返回<em>200 OK</em>响应，如果具有提交<em>id</em>的对象已经存在，则返回<em>409 Conflict 。</em></p>
+<p>另请注意，我们可以跳过*@Path*注释，因为它的值是一个空字符串。</p>
+<p>最后一个方法处理<em>DELETE</em>请求。它从<em>学生</em>列表中删除一个元素，其<em>id</em>是接收到的路径参数，并返回一个<em>OK</em> (200) 状态的响应。如果没有与指定<em>id</em>关联的元素，这意味着没有要删除的内容，则此方法返回<em>Not Found</em> (404) 状态的响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@DELETE</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Path</span><span class="o">(</span><span class="s">&#34;{studentId}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Response</span> <span class="nf">deleteStudent</span><span class="o">(</span><span class="nd">@PathParam</span><span class="o">(</span><span class="s">&#34;studentId&#34;</span><span class="o">)</span> <span class="kt">int</span> <span class="n">studentId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Student</span> <span class="n">student</span> <span class="o">=</span> <span class="n">findById</span><span class="o">(</span><span class="n">studentId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">student</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="n">Response</span><span class="o">.</span><span class="na">Status</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">students</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">student</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们继续请求<em>CourseRepository</em>类的映射方法。</p>
+<p>以下<em>getCourse</em>方法返回<em>Course对象，该对象是**课程</em>映射中条目的值，其键是接收到的<em>GET</em>请求的<em>courseId</em>路径参数。在内部，该方法将路径参数分派给<em>findById</em>辅助方法以完成其工作。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@GET</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Path</span><span class="o">(</span><span class="s">&#34;courses/{courseId}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Course</span> <span class="nf">getCourse</span><span class="o">(</span><span class="nd">@PathParam</span><span class="o">(</span><span class="s">&#34;courseId&#34;</span><span class="o">)</span> <span class="kt">int</span> <span class="n">courseId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">findById</span><span class="o">(</span><span class="n">courseId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>以下方法更新<em>课程</em>地图的现有条目，其中接收到的<em>PUT</em>请求的正文是条目值，<em>courseId</em>参数是关联的键：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@PUT</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Path</span><span class="o">(</span><span class="s">&#34;courses/{courseId}&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Response</span> <span class="nf">updateCourse</span><span class="o">(</span><span class="nd">@PathParam</span><span class="o">(</span><span class="s">&#34;courseId&#34;</span><span class="o">)</span> <span class="kt">int</span> <span class="n">courseId</span><span class="o">,</span> <span class="n">Course</span> <span class="n">course</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Course</span> <span class="n">existingCourse</span> <span class="o">=</span> <span class="n">findById</span><span class="o">(</span><span class="n">courseId</span><span class="o">);</span>        
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">existingCourse</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="n">Response</span><span class="o">.</span><span class="na">Status</span><span class="o">.</span><span class="na">NOT_FOUND</span><span class="o">).</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">existingCourse</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">course</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">notModified</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>    
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">courses</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">courseId</span><span class="o">,</span> <span class="n">course</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果更新成功，则此<em>updateCourse</em>方法返回<em>OK</em> (200) 状态的响应，不更改任何内容，如果现有对象和上传的对象具有相同的字段值，则返回<em>Not Modified (304) 响应。<em>如果在</em>课程</em>地图中找不到具有给定<em>ID的**课程</em>实例，该方法将返回具有<em>未找到</em>(404) 状态的响应。</p>
+<p>这个根资源类的第三种方法不直接处理任何 HTTP 请求。相反，它将请求委托给<em>Course</em>类，其中请求由匹配方法处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Path</span><span class="o">(</span><span class="s">&#34;courses/{courseId}/students&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Course</span> <span class="nf">pathToStudent</span><span class="o">(</span><span class="nd">@PathParam</span><span class="o">(</span><span class="s">&#34;courseId&#34;</span><span class="o">)</span> <span class="kt">int</span> <span class="n">courseId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">findById</span><span class="o">(</span><span class="n">courseId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们已经在<em>Course</em>类中展示了之前处理委托请求的方法。</p>
+<h2 id="4服务器端点"><strong>4.<em>服务器</em>端点</strong></h2>
+<p>本节重点介绍 CXF 服务器的构建，该服务器用于发布 RESTful Web 服务，其资源已在上一节中描述。第一步是实例化一个<em>JAXRSServerFactoryBean</em>对象并设置根资源类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">JAXRSServerFactoryBean</span> <span class="n">factoryBean</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JAXRSServerFactoryBean</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">factoryBean</span><span class="o">.</span><span class="na">setResourceClasses</span><span class="o">(</span><span class="n">CourseRepository</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后需要在工厂 bean 上设置资源提供者来管理根资源类的生命周期。我们使用默认的单例资源提供程序，它为每个请求返回相同的资源实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">factoryBean</span><span class="o">.</span><span class="na">setResourceProvider</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">SingletonResourceProvider</span><span class="o">(</span><span class="k">new</span> <span class="n">CourseRepository</span><span class="o">()));</span>
+</span></span></code></pre></div><p>我们还设置了一个地址来指示发布 Web 服务的 URL：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">factoryBean</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="s">&#34;http://localhost:8080/&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>现在可以使用<em>factoryBean创建一个新**服务器</em>，该服务器将开始侦听传入连接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Server</span> <span class="n">server</span> <span class="o">=</span> <span class="n">factoryBean</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
+</span></span></code></pre></div><p>本节上面的所有代码都应该包装在<em>main</em>方法中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">RestfulServer</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[])</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// code snippets shown above
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>该<em>main</em>方法的调用在第 6 节中介绍。</p>
+<h2 id="5-测试用例"><strong>5. 测试用例</strong></h2>
+<p>本节介绍用于验证我们之前创建的 Web 服务的测试用例。这些测试在响应四种最常用方法的 HTTP 请求后验证服务的资源状态，即<em>GET</em>、<em>POST</em>、<em>PUT</em>和<em>DELETE</em>。</p>
+<h3 id="51准备"><strong>5.1。准备</strong></h3>
+<p>首先，在测试类中声明了两个静态字段，命名为<em>RestfulTest</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">BASE_URL</span> <span class="o">=</span> <span class="s">&#34;http://localhost:8080/&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="n">CloseableHttpClient</span> <span class="n">client</span><span class="o">;</span>
+</span></span></code></pre></div><p>在运行测试之前，我们创建一个<em>客户端</em>对象，用于与服务器通信并在之后销毁它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@BeforeClass</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createClient</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">client</span> <span class="o">=</span> <span class="n">HttpClients</span><span class="o">.</span><span class="na">createDefault</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nd">@AfterClass</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">closeClient</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">client</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>客户端</em>实例现在已准备好供测试用例使用。</p>
+<h3 id="52-获取请求"><strong>5.2. <em>获取</em>请求</strong></h3>
+<p>在测试类中，我们定义了两种方法来向运行 Web 服务的服务器发送<em>GET</em>请求。</p>
+<p>第一种方法是根据资源中的<em>ID获取**Course</em>实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Course</span> <span class="nf">getCourse</span><span class="o">(</span><span class="kt">int</span> <span class="n">courseOrder</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="n">courseOrder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InputStream</span> <span class="n">input</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Course</span> <span class="n">course</span>
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">JAXB</span><span class="o">.</span><span class="na">unmarshal</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">input</span><span class="o">),</span> <span class="n">Course</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">course</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>第二种是在给定资源中课程和学生的<em>id的情况下获取**Student</em>实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Student</span> <span class="nf">getStudent</span><span class="o">(</span><span class="kt">int</span> <span class="n">courseOrder</span><span class="o">,</span> <span class="kt">int</span> <span class="n">studentOrder</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="n">courseOrder</span> <span class="o">+</span> <span class="s">&#34;/students/&#34;</span> <span class="o">+</span> <span class="n">studentOrder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InputStream</span> <span class="n">input</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Student</span> <span class="n">student</span>
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">JAXB</span><span class="o">.</span><span class="na">unmarshal</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">input</span><span class="o">),</span> <span class="n">Student</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">student</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这些方法将 HTTP <em>GET</em>请求发送到服务资源，然后将 XML 响应解组到相应类的实例。两者都用于在执行<em>POST</em>、<em>PUT</em>和<em>DELETE</em>请求后验证服务资源状态。</p>
+<h3 id="53-post请求"><strong>5.3. <em>POST</em>请求</strong></h3>
+<p><em>本小节介绍了POST</em>请求的两个测试用例，说明了上传的<em>Student</em>实例导致冲突以及成功创建时Web 服务的操作。</p>
+<p>在第一个测试中，我们使用了一个从<em>conflict_student.xml文件中解组的**Student</em>对象，该文件位于类路径中，内容如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;Student&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>2<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>Student B<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/Student&gt;</span>
+</span></span></code></pre></div><p>这是将该内容转换为<em>POST</em>请求正文的方式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpPost</span> <span class="n">httpPost</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpPost</span><span class="o">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="s">&#34;1/students&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">InputStream</span> <span class="n">resourceStream</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&#34;conflict_student.xml&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">httpPost</span><span class="o">.</span><span class="na">setEntity</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamEntity</span><span class="o">(</span><span class="n">resourceStream</span><span class="o">));</span>
+</span></span></code></pre></div><p><em>设置Content-Type</em>标头是为了告诉服务器请求的内容类型是 XML：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">httpPost</span><span class="o">.</span><span class="na">setHeader</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/xml&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>由于上传的<em>Student</em>对象已经存在于第一个<em>Course</em>实例中，我们希望创建失败并返回一个带有<em>Conflict</em> (409) 状态的响应。以下代码片段验证了预期：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">httpPost</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">409</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatusLine</span><span class="o">().</span><span class="na">getStatusCode</span><span class="o">());</span>
+</span></span></code></pre></div><p><em>在下一个测试中，我们从名为created_student.xml</em>的文件中提取 HTTP 请求的主体，该文件也在类路径中。这是文件的内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;Student&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>3<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>Student C<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/Student&gt;</span>
+</span></span></code></pre></div><p>与前面的测试用例类似，我们构建并执行一个请求，然后验证是否成功创建了一个新实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpPost</span> <span class="n">httpPost</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpPost</span><span class="o">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="s">&#34;2/students&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">InputStream</span> <span class="n">resourceStream</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&#34;created_student.xml&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">httpPost</span><span class="o">.</span><span class="na">setEntity</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamEntity</span><span class="o">(</span><span class="n">resourceStream</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">httpPost</span><span class="o">.</span><span class="na">setHeader</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/xml&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl"><span class="n">HttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">httpPost</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">200</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatusLine</span><span class="o">().</span><span class="na">getStatusCode</span><span class="o">());</span>
+</span></span></code></pre></div><p>我们可以确认 Web 服务资源的新状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Student</span> <span class="n">student</span> <span class="o">=</span> <span class="n">getStudent</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="n">student</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Student C&#34;</span><span class="o">,</span> <span class="n">student</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span></code></pre></div><p>这是对新<em>Student</em>对象请求的 XML 响应如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; standalone=&#34;yes&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;Student&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>3<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>Student C<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/Student&gt;</span>
+</span></span></code></pre></div><h3 id="54-put请求"><strong>5.4. <em>PUT</em>请求</strong></h3>
+<p>让我们从一个无效的更新请求开始，其中正在更新的<em>Course</em>对象不存在。以下是用于替换Web 服务资源中不存在的<em>Course对象的实例内容：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;Course&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>3<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>Apache CXF Support for RESTful<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/Course&gt;</span>
+</span></span></code></pre></div><p>该内容存储在类路径上名为<em>non_existent_course.xml</em>的文件中。它被提取，然后通过以下代码用于填充<em>PUT请求的主体：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpPut</span> <span class="n">httpPut</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpPut</span><span class="o">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="s">&#34;3&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">InputStream</span> <span class="n">resourceStream</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&#34;non_existent_course.xml&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">httpPut</span><span class="o">.</span><span class="na">setEntity</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamEntity</span><span class="o">(</span><span class="n">resourceStream</span><span class="o">));</span>
+</span></span></code></pre></div><p><em>设置Content-Type</em>标头是为了告诉服务器请求的内容类型是 XML：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">httpPut</span><span class="o">.</span><span class="na">setHeader</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/xml&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>由于我们故意发送无效请求来更新不存在的对象，因此预计会收到*Not Found (404) 响应。*响应已验证：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">httpPut</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">404</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatusLine</span><span class="o">().</span><span class="na">getStatusCode</span><span class="o">());</span>
+</span></span></code></pre></div><p><em>在PUT</em>请求的第二个测试用例中，我们提交了一个具有相同字段值的<em>Course对象。<em>由于在这种情况下没有任何更改，我们希望返回</em>未修改</em>(304) 状态的响应。整个过程如图：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpPut</span> <span class="n">httpPut</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpPut</span><span class="o">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="s">&#34;1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">InputStream</span> <span class="n">resourceStream</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&#34;unchanged_course.xml&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">httpPut</span><span class="o">.</span><span class="na">setEntity</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamEntity</span><span class="o">(</span><span class="n">resourceStream</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">httpPut</span><span class="o">.</span><span class="na">setHeader</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/xml&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl"><span class="n">HttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">httpPut</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">304</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatusLine</span><span class="o">().</span><span class="na">getStatusCode</span><span class="o">());</span>
+</span></span></code></pre></div><p>其中未<em>更改</em>的课程.xml 是类路径上保存用于更新的信息的文件。这是它的内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;Course&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>1<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>REST with Spring<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/Course&gt;</span>
+</span></span></code></pre></div><p>在<em>PUT</em>请求的最后一个演示中，我们执行了一个有效的更新。以下是<em>changed_course.xml</em>文件的内容，其内容用于更新 Web 服务资源中的<em>Course</em>实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;Course&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>2<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>Apache CXF Support for RESTful<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/Course&gt;</span>
+</span></span></code></pre></div><p>这是构建和执行请求的方式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpPut</span> <span class="n">httpPut</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpPut</span><span class="o">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="s">&#34;2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">InputStream</span> <span class="n">resourceStream</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&#34;changed_course.xml&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">httpPut</span><span class="o">.</span><span class="na">setEntity</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamEntity</span><span class="o">(</span><span class="n">resourceStream</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">httpPut</span><span class="o">.</span><span class="na">setHeader</span><span class="o">(</span><span class="s">&#34;Content-Type&#34;</span><span class="o">,</span> <span class="s">&#34;text/xml&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>让我们验证对服务器的<em>PUT</em>请求并验证成功上传：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">httpPut</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">200</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatusLine</span><span class="o">().</span><span class="na">getStatusCode</span><span class="o">());</span>
+</span></span></code></pre></div><p>让我们验证 Web 服务资源的新状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Course</span> <span class="n">course</span> <span class="o">=</span> <span class="n">getCourse</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Apache CXF Support for RESTful&#34;</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span></code></pre></div><p>以下代码片段显示了发送对先前上传的<em>Course</em>对象的 GET 请求时 XML 响应的内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; standalone=&#34;yes&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;Course&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>2<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>Apache CXF Support for RESTful<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/Course&gt;</span>
+</span></span></code></pre></div><h3 id="55-删除请求"><strong>5.5. <em>删除</em>请求</strong></h3>
+<p>首先，让我们尝试删除一个不存在的<em>Student</em>实例。<em>操作应该会失败，并且会出现Not Found</em> (404) 状态的相应响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpDelete</span> <span class="n">httpDelete</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpDelete</span><span class="o">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="s">&#34;1/students/3&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">HttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">httpDelete</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">404</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatusLine</span><span class="o">().</span><span class="na">getStatusCode</span><span class="o">());</span>
+</span></span></code></pre></div><p><em>在DELETE</em>请求的第二个测试用例中，我们创建、执行和验证请求：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HttpDelete</span> <span class="n">httpDelete</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpDelete</span><span class="o">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="s">&#34;1/students/1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">HttpResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">httpDelete</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">200</span><span class="o">,</span> <span class="n">response</span><span class="o">.</span><span class="na">getStatusLine</span><span class="o">().</span><span class="na">getStatusCode</span><span class="o">());</span>
+</span></span></code></pre></div><p>我们使用以下代码片段验证 Web 服务资源的新状态：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Course</span> <span class="n">course</span> <span class="o">=</span> <span class="n">getCourse</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getStudents</span><span class="o">().</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getStudents</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">getId</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Student B&#34;</span><span class="o">,</span> <span class="n">course</span><span class="o">.</span><span class="na">getStudents</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">getName</span><span class="o">());</span>
+</span></span></code></pre></div><p>接下来，我们列出在请求Web 服务资源中的第一个<em>Course</em>对象后收到的 XML 响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; standalone=&#34;yes&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;Course&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;id&gt;</span>1<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;name&gt;</span>REST with Spring<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;students&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;id&gt;</span>2<span class="nt">&lt;/id&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;name&gt;</span>Student B<span class="nt">&lt;/name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/students&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/Course&gt;</span>
+</span></span></code></pre></div><p>很明显，第一个<em>Student</em>已成功移除。</p>
+<h2 id="6-测试执行"><strong>6. 测试执行</strong></h2>
+<p>第 4 节描述了如何在<em>RestfulServer</em>类的<em>main</em>方法中创建和销毁一个<em>Server</em>实例。</p>
+<p>使服务器启动并运行的最后一步是调用该<em>main</em>方法。为了实现这一点，在 Maven POM 文件中包含并配置了 Exec Maven 插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.codehaus.mojo<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>exec-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.0.0<span class="nt">&lt;version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;mainClass&gt;</span>
+</span></span><span class="line"><span class="cl">          com.codingman.cxf.jaxrs.implementation.RestfulServer
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/mainClass&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>这个插件的最新版本可以通过<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.codehaus.mojo%22%20AND%20a%3A%22exec-maven-plugin%22" target="_blank" rel="noopener noreffer">这个链接</a>找到。</p>
+<p>在编译和打包本教程中说明的工件的过程中，Maven Surefire 插件会自动执行包含在名称以 Test 开头或结尾的类中的所有<em>测试</em>。如果是这种情况，则应将插件配置为排除这些测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.22.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;excludes&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;exclude&gt;</span>**/ServiceTest<span class="nt">&lt;/exclude&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/excludes&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>使用上述配置，<em>ServiceTest</em>被排除在外，因为它是测试类的名称。您可以为该类选择任何名称，前提是其中包含的测试在服务器准备好连接之前不由 Maven Surefire 插件运行。</p>
+<p>有关最新版本的 Maven Surefire 插件，请查看<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22maven-surefire-plugin%22" target="_blank" rel="noopener noreffer">此处</a>。</p>
+<p>现在您可以执行<em>exec:java</em>目标来启动 RESTful Web 服务服务器，然后使用 IDE 运行上述测试。等效地，您可以通过在终端中执行命令<em>mvn -Dtest=ServiceTest test来开始测试。</em></p>
+<h2 id="7-结论"><strong>7. 结论</strong></h2>
+<p>本教程说明了将 Apache CXF 用作 JAX-RS 实现。它演示了如何使用该框架为 RESTful Web 服务定义资源并创建用于发布服务的服务器。</p>
+<p>REST 底部</p>
+<p>REST 页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_cxf_rest_api/" data-title="Apache CXF 对 RESTful Web 服务的支持" data-hashtags="Apache CXF"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_cxf_rest_api/" data-hashtag="Apache CXF"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_cxf_rest_api/" data-title="Apache CXF 对 RESTful Web 服务的支持"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_cxf_rest_api/" data-title="Apache CXF 对 RESTful Web 服务的支持"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_cxf_rest_api/" data-title="Apache CXF 对 RESTful Web 服务的支持"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/apache-cxf/">Apache CXF</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_curator/" class="prev" rel="prev" title="Apache Curator 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Curator 简介</a>
+            <a href="/apache_cxf_with_spring/" class="next" rel="next" title="使用 Spring 的 Apache CXF 指南">使用 Spring 的 Apache CXF 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

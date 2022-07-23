@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Velocity 简介 - Coding Man</title><meta name="Description" content="在本文中，我们了解了 Velocity 如何成为渲染动态网页的有用工具。此外，我们还看到了使用速度提供的 servlet 的不同方式。"><meta property="og:title" content="Apache Velocity 简介" />
+<meta property="og:description" content="在本文中，我们了解了 Velocity 如何成为渲染动态网页的有用工具。此外，我们还看到了使用速度提供的 servlet 的不同方式。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_velocity/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-06-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Velocity 简介"/>
+<meta name="twitter:description" content="在本文中，我们了解了 Velocity 如何成为渲染动态网页的有用工具。此外，我们还看到了使用速度提供的 servlet 的不同方式。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_velocity/" /><link rel="prev" href="http://itcodingman.github.io/apache_tomcat_sso/" /><link rel="next" href="http://itcodingman.github.io/1_hour_python_opencv/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Velocity 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_velocity\/"
+        },"genre": "posts","wordcount":  2416 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_velocity\/","datePublished": "2018-06-12T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们了解了 Velocity 如何成为渲染动态网页的有用工具。此外，我们还看到了使用速度提供的 servlet 的不同方式。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Velocity 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/jakarta-ee/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Jakarta EE</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-12">2018-06-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2416 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-velocity是如何工作的"><strong>2. Velocity是如何工作的</strong></a></li>
+    <li><a href="#3-maven依赖"><strong>3. Maven依赖</strong></a></li>
+    <li><a href="#4-velocity模板语言"><strong>4. Velocity模板语言</strong></a>
+      <ul>
+        <li><a href="#41-参考"><strong>4.1 参考</strong></a></li>
+        <li><a href="#42-指令"><strong>4.2. 指令</strong></a></li>
+        <li><a href="#43-其它功能"><strong>4.3. 其它功能</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-velocity-servlet程序"><strong>5. Velocity Servlet程序</strong></a></li>
+    <li><a href="#6配置"><strong>6.配置</strong></a>
+      <ul>
+        <li><a href="#61-网页配置"><strong>6.1 网页配置</strong></a></li>
+        <li><a href="#62-资源加载器"><strong>6.2. 资源加载器</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-velocity模板"><strong>7. Velocity模板</strong></a></li>
+    <li><a href="#8-管理页面布局"><strong>8. 管理页面布局</strong></a>
+      <ul>
+        <li><a href="#81-网页配置"><strong>8.1 网页配置</strong></a></li>
+        <li><a href="#82-布局模板"><strong>8.2. 布局模板</strong></a></li>
+        <li><a href="#83-请求屏幕中的布局规范"><strong>8.3. 请求屏幕中的布局规范</strong></a></li>
+        <li><a href="#84-请求参数中的布局规范"><strong>8.4. 请求参数中的布局规范</strong></a></li>
+        <li><a href="#85-错误屏幕"><strong>8.5 错误屏幕</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p><a href="https://velocity.apache.org/" target="_blank" rel="noopener noreffer">Velocity</a>是一个基于 Java 的模板引擎。</p>
+<p>它是一个开源 Web 框架，旨在用作 MVC 架构中的视图组件，它提供了一些现有技术（如 JSP）的替代方案。</p>
+<p>Velocity 可用于生成 XML 文件、SQL、PostScript 和大多数其他基于文本的格式。</p>
+<p>在本文中，我们将探讨如何使用它来创建动态网页。</p>
+<h2 id="2-velocity是如何工作的"><strong>2. Velocity是如何工作的</strong></h2>
+<p><strong>Velocity 的核心类是<em>VelocityEngine</em>。</strong></p>
+<p>它使用数据模型和速度模板编排读取、解析和生成内容的整个过程。</p>
+<p>简而言之，对于任何典型的速度应用程序，我们需要遵循以下步骤：</p>
+<ul>
+<li>初始化Velocity引擎</li>
+<li>读入模板</li>
+<li>将数据模型放入上下文对象中</li>
+<li>将模板与上下文数据合并并渲染视图</li>
+</ul>
+<p><strong>让我们</strong>按照这些简单的步骤来看一个示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">VelocityEngine</span> <span class="n">velocityEngine</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VelocityEngine</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">velocityEngine</span><span class="o">.</span><span class="na">init</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl"><span class="n">Template</span> <span class="n">t</span> <span class="o">=</span> <span class="n">velocityEngine</span><span class="o">.</span><span class="na">getTemplate</span><span class="o">(</span><span class="s">&#34;index.vm&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="n">VelocityContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">VelocityContext</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">context</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;World&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="n">StringWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringWriter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">t</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span> <span class="n">context</span><span class="o">,</span> <span class="n">writer</span> <span class="o">);</span>
+</span></span></code></pre></div><h2 id="3-maven依赖"><strong>3. Maven依赖</strong></h2>
+<p>要使用 Velocity，我们需要在 Maven 项目中添加以下依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.velocity<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>velocity<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.7<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="nt">&lt;groupId&gt;</span>org.apache.velocity<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="nt">&lt;artifactId&gt;</span>velocity-tools<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="nt">&lt;version&gt;</span>2.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>这两个依赖项的最新版本可以在这里：<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.velocity%22%20AND%20a%3A%22velocity%22" target="_blank" rel="noopener noreffer">velocity</a>和<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.velocity%22%20AND%20a%3A%22velocity-tools%22" target="_blank" rel="noopener noreffer">velocity-tools</a>。</p>
+<h2 id="4-velocity模板语言"><strong>4. Velocity模板语言</strong></h2>
+<p>Velocity 模板语言 (VTL) 通过使用 VTL 引用提供了将动态内容合并到网页中的最简单和最干净的方法。</p>
+<p>速度模板中的 VTL 引用以*$<em>开头，用于获取与该引用关联的值。VTL 还提供了一组指令，可用于操作 Java 代码的输出。这些指令以</em># 开头。*</p>
+<h3 id="41-参考"><strong>4.1 参考</strong></h3>
+<p>Velocity 中有三种类型的引用，变量，属性和方法：</p>
+<ul>
+<li><strong>变量</strong>——在页面中使用*#set*指令或从 Java 对象的字段返回的值定义：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">#set ($message=&#34;Hello World&#34;)
+</span></span></code></pre></div><ul>
+<li><strong>属性</strong>——引用对象中的字段；它们还可以引用属性的<em>getter</em>方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">$customer.name
+</span></span></code></pre></div><ul>
+<li><strong>方法</strong>– 指 Java 对象上的方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">$customer.getName()
+</span></span></code></pre></div><p>每个引用产生的最终值在呈现到最终输出时都会转换为字符串。</p>
+<h3 id="42-指令"><strong>4.2. 指令</strong></h3>
+<p>VTL 提供了丰富的指令集：</p>
+<ul>
+<li><strong>set</strong> – 可用于设置参考值；此值可以分配给变量或属性引用：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">#set ($message = &#34;Hello World&#34;)
+</span></span><span class="line"><span class="cl">#set ($customer.name = &#34;Brian Mcdonald&#34;)
+</span></span></code></pre></div><ul>
+<li><strong>条件</strong>—— <em>#if、#elseif</em>和*#else*指令提供了一种基于条件检查生成内容的方法：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">#if($employee.designation == &#34;Manager&#34;)
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span> Manager <span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">#elseif($employee.designation == &#34;Senior Developer&#34;)
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span> Senior Software Engineer <span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">#else
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span> Trainee <span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">#end
+</span></span></code></pre></div><ul>
+<li><strong>loops</strong> – <em>#foreach</em>指令允许循环对象集合：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    #foreach($product in $productList)
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span> $product <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    #end
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span></code></pre></div><ul>
+<li><strong>include</strong> - <em>#include</em>元素提供将文件导入模板的能力：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">#include(&#34;one.gif&#34;,&#34;two.txt&#34;,&#34;three.html&#34;...)
+</span></span></code></pre></div><ul>
+<li><strong>parse</strong> – <em>#parse</em>语句允许模板设计者导入另一个包含 VTL 的本地文件；然后 Velocity 将解析内容并呈现它：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">#parse (Template)
+</span></span></code></pre></div><ul>
+<li><strong>evaluate</strong>– <em>#evaluate</em>指令可用于动态评估 VTL；这允许模板在渲染时评估<em>字符串</em>，例如国际化模板：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">#set($firstName = &#34;David&#34;)
+</span></span><span class="line"><span class="cl">#set($lastName = &#34;Johnson&#34;)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#set($dynamicsource = &#34;$firstName$lastName&#34;)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#evaluate($dynamicsource)
+</span></span></code></pre></div><ul>
+<li><strong>break</strong> - <em>#break</em>指令停止当前执行范围的任何进一步呈现（即*#foreach*，<em>#parse</em>）</li>
+<li><strong>stop</strong> – <em>#stop</em>指令停止模板的任何进一步渲染和执行。</li>
+<li><strong>velocimacros</strong> – <em>#macro</em>指令允许模板设计者定义 VTL 的重复段：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">#macro(tablerows)
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">#end
+</span></span></code></pre></div><p>*这个宏现在可以作为#tablerows()*放在模板中的任何位置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl">#macro(tablerows $color $productList)
+</span></span><span class="line"><span class="cl">    #foreach($product in $productList)
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">td</span> <span class="na">bgcolor</span><span class="o">=</span><span class="s">$color</span><span class="p">&gt;</span>$product.name<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    #end
+</span></span><span class="line"><span class="cl">#end
+</span></span></code></pre></div><h3 id="43-其它功能"><strong>4.3. 其它功能</strong></h3>
+<ul>
+<li><strong>math</strong> – 一些内置的数学函数，可以在模板中使用：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">#set($percent = $number / 100)
+</span></span><span class="line"><span class="cl">#set($remainder = $dividend % $divisor)
+</span></span></code></pre></div><ul>
+<li><strong>范围运算符</strong>– 可以与*#set<em>和</em>#foreach 结合使用：*</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">#set($array = [0..10])
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#foreach($elem in $arr)
+</span></span><span class="line"><span class="cl">    $elem
+</span></span><span class="line"><span class="cl">#end
+</span></span></code></pre></div><h2 id="5-velocity-servlet程序"><strong>5. Velocity Servlet程序</strong></h2>
+<p>Velocity Engine 的主要工作是根据模板生成内容。</p>
+<p>引擎本身不包含任何与网络相关的功能。要实现 Web 应用程序，我们需要使用 servlet 或基于 servlet 的框架。</p>
+<p>Velocity 提供了一个开箱即用的实现<em>VelocityViewServlet</em>，它是velocity-tools 子项目的一部分。</p>
+<p><em>为了利用VelocityViewServlet</em>提供的内置功能，我们可以从<em>VelocityViewServlet</em>扩展我们的 servlet并覆盖*handleRequest()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProductServlet</span> <span class="kd">extends</span> <span class="n">VelocityViewServlet</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ProductService</span> <span class="n">service</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ProductService</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Template</span> <span class="nf">handleRequest</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">Product</span><span class="o">&gt;</span> <span class="n">products</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="na">getProducts</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">context</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;products&#34;</span><span class="o">,</span> <span class="n">products</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">getTemplate</span><span class="o">(</span><span class="s">&#34;index.vm&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6配置"><strong>6.配置</strong></h2>
+<h3 id="61-网页配置"><strong>6.1 网页配置</strong></h3>
+<p>现在让我们看看如何在<em>web.xml中配置**VelocityViewServlet</em>。</p>
+<p>我们需要指定可选的初始化参数，包括<em>velocity.properties</em>和<em>toolbox.xml</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;web-app&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;display-name&gt;</span>apache-velocity<span class="nt">&lt;/display-name&gt;</span>
+</span></span><span class="line"><span class="cl">      //...
+</span></span><span class="line"><span class="cl">       
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;servlet-name&gt;</span>velocity<span class="nt">&lt;/servlet-name&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;servlet-class&gt;</span>org.apache.velocity.tools.view.VelocityViewServlet<span class="nt">&lt;/servlet-class&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;init-param&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;param-name&gt;</span>org.apache.velocity.properties<span class="nt">&lt;/param-name&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;param-value&gt;</span>/WEB-INF/velocity.properties<span class="nt">&lt;/param-value&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/init-param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/servlet&gt;</span>
+</span></span><span class="line"><span class="cl">        //...
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/web-app&gt;</span>
+</span></span></code></pre></div><p>我们还需要为这个 servlet 指定映射。所有对速度模板 ( <em>*.vm</em> ) 的请求都需要由速度 servlet 提供服务：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;servlet-mapping&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet-name&gt;</span>velocityLayout<span class="nt">&lt;/servlet-name&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;url-pattern&gt;</span>*.vm<span class="nt">&lt;/url-pattern&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/servlet-mapping&gt;</span>
+</span></span></code></pre></div><h3 id="62-资源加载器"><strong>6.2. 资源加载器</strong></h3>
+<p>Velocity 提供灵活的资源加载系统。它允许一个或多个资源加载器同时运行：</p>
+<ul>
+<li><em>文件资源加载器</em></li>
+<li><em>JarResourceLoader</em></li>
+<li><em>类路径资源加载器</em></li>
+<li><em>URL资源加载器</em></li>
+<li><em>数据源资源加载器</em></li>
+<li><em>WebappResourceLoader</em></li>
+</ul>
+<p>这些资源加载器在<em>velocity.properties 中配置：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">resource.loader=webapp
+</span></span><span class="line"><span class="cl">webapp.resource.loader.class=org.apache.velocity.tools.view.WebappResourceLoader
+</span></span><span class="line"><span class="cl">webapp.resource.loader.path = 
+</span></span><span class="line"><span class="cl">webapp.resource.loader.cache = true
+</span></span></code></pre></div><h2 id="7-velocity模板"><strong>7. Velocity模板</strong></h2>
+<p>Velocity 模板是编写所有视图生成逻辑的地方。这些页面是使用 Velocity 模板语言 (VTL) 编写的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">center</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        ...
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>$products.size() Products on Sale!<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">            We are proud to offer these fine products
+</span></span><span class="line"><span class="cl">            at these amazing prices.
+</span></span><span class="line"><span class="cl">        ...
+</span></span><span class="line"><span class="cl">        #set( $count = 1 )
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">table</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;gridtable&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Serial #<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Product Name<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Price<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            #foreach( $product in $products )
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>$count)<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>$product.getName()<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>$product.getPrice()<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            #set( $count = $count + 1 )
+</span></span><span class="line"><span class="cl">            #end
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">center</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h2 id="8-管理页面布局"><strong>8. 管理页面布局</strong></h2>
+<p>Velocity 为基于 Velocity Tool 的应用程序提供了简单的布局控制和可定制的错误屏幕。</p>
+<p><em>VelocityLayoutServlet</em>封装了此功能以呈现指定的布局。<em>VelocityLayoutServlet</em>是 VelocityViewServlet 的扩展*。*</p>
+<h3 id="81-网页配置"><strong>8.1 网页配置</strong></h3>
+<p>让我们看看如何配置<em>VelocityLayoutServlet。<em>servlet 被定义用于拦截速度模板页面的请求，并且布局特定属性在</em>velocity.properties</em>文件中定义：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;web-app&gt;</span>
+</span></span><span class="line"><span class="cl">    // ...
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;servlet-name&gt;</span>velocityLayout<span class="nt">&lt;/servlet-name&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;servlet-class&gt;</span>org.apache.velocity.tools.view.VelocityLayoutServlet<span class="nt">&lt;/servlet-class&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;init-param&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;param-name&gt;</span>org.apache.velocity.properties<span class="nt">&lt;/param-name&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;param-value&gt;</span>/WEB-INF/velocity.properties<span class="nt">&lt;/param-value&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/init-param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/servlet&gt;</span>
+</span></span><span class="line"><span class="cl">    // ...
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;servlet-mapping&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;servlet-name&gt;</span>velocityLayout<span class="nt">&lt;/servlet-name&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;url-pattern&gt;</span>*.vm<span class="nt">&lt;/url-pattern&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/servlet-mapping&gt;</span>
+</span></span><span class="line"><span class="cl">    // ...
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/web-app&gt;</span>
+</span></span></code></pre></div><h3 id="82-布局模板"><strong>8.2. 布局模板</strong></h3>
+<p>布局模板定义了速度页面的典型结构。默认情况下，<em>VelocityLayoutServlet</em>在布局文件夹下搜索<em>Default.vm</em> 。覆盖少数属性可以更改此位置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">tools.view.servlet.layout.directory = layout/
+</span></span><span class="line"><span class="cl">tools.view.servlet.layout.default.template = Default.vm
+</span></span></code></pre></div><p>布局文件由页眉模板、页脚模板和一个速度变量*$screen_content 组成*，它呈现请求的速度页面的内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Velocity<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            #parse(&#34;/fragments/header.vm&#34;)
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="c">&lt;!-- View index.vm is inserted here --&gt;</span>
+</span></span><span class="line"><span class="cl">            $screen_content
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">            #parse(&#34;/fragments/footer.vm&#34;)
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><h3 id="83-请求屏幕中的布局规范"><strong>8.3. 请求屏幕中的布局规范</strong></h3>
+<p>特定屏幕的布局可以定义为页面开头的速度变量。这是通过将这一行放在页面中来完成的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">#set($layout = &#34;MyOtherLayout.vm&#34;)
+</span></span></code></pre></div><h3 id="84-请求参数中的布局规范"><strong>8.4. 请求参数中的布局规范</strong></h3>
+<p>我们可以在查询字符串<em>layout=MyOtherLayout.vm</em>中添加一个请求参数，VLS 会找到它并在该布局内渲染屏幕，而不是搜索默认布局。</p>
+<h3 id="85-错误屏幕"><strong>8.5 错误屏幕</strong></h3>
+<p>可以使用速度布局实现自定义错误屏幕。<em>VelocityLayoutServlet</em>提供了两个变量*$error_cause<em>和</em>$stack_trace*来呈现异常细节。</p>
+<p>错误页面可以在<em>velocity.properties</em>文件中配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">tools.view.servlet.error.template = Error.vm
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_velocity/" data-title="Apache Velocity 简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_velocity/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_velocity/" data-title="Apache Velocity 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_velocity/" data-title="Apache Velocity 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_velocity/" data-title="Apache Velocity 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_tomcat_sso/" class="prev" rel="prev" title="使用 Apache Tomcat 的 SSO"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Apache Tomcat 的 SSO</a>
+            <a href="/1_hour_python_opencv/" class="next" rel="next" title="一小时学习Python和OpenCV">一小时学习Python和OpenCV<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

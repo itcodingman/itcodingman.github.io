@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache OpenNLP 简介 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache OpenNLP 简介" />
+<meta property="og:description" content="1. 概述 Apache OpenNLP 是一个开源的自然语言处理 Java 库。 它具有用于命名实体识别、句子检测、POS 标记和标记化等用例的 API。 在本教程中，我们将了解如何将此 API" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_open_nlp/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache OpenNLP 简介"/>
+<meta name="twitter:description" content="1. 概述 Apache OpenNLP 是一个开源的自然语言处理 Java 库。 它具有用于命名实体识别、句子检测、POS 标记和标记化等用例的 API。 在本教程中，我们将了解如何将此 API"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_open_nlp/" /><link rel="prev" href="http://itcodingman.github.io/apache_mesos/" /><link rel="next" href="http://itcodingman.github.io/apache_poi_add_borders/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache OpenNLP 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_open_nlp\/"
+        },"genre": "posts","wordcount":  676 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_open_nlp\/","datePublished": "2018-05-23T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache OpenNLP 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/algorithms/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Algorithms</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-23">2018-05-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;676 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-maven-设置"><strong>2. Maven 设置</strong></a></li>
+    <li><a href="#3-句子检测"><strong>3. 句子检测</strong></a></li>
+    <li><a href="#4-代币化"><strong>4. 代币化</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>Apache OpenNLP 是一个开源的自然语言处理 Java 库。</p>
+<p>它具有用于命名实体识别、句子检测、POS 标记和标记化等用例的 API。</p>
+<p>在本教程中，我们将了解如何将此 API 用于不同的用例。</p>
+<h2 id="2-maven-设置"><strong>2. Maven 设置</strong></h2>
+<p>首先，我们需要将主要依赖添加到我们的<em>pom.xml</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.opennlp<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>opennlp-tools<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.8.4<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>最新的稳定版本可以在<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22opennlp-tools%22" target="_blank" rel="noopener noreffer">Maven Central</a>上找到。</p>
+<p>一些用例需要经过训练的模型。您可以在此处下载预定义模型，并<a href="https://opennlp.apache.org/models.html" target="_blank" rel="noopener noreffer">在</a><a href="http://opennlp.sourceforge.net/models-1.5/" target="_blank" rel="noopener noreffer">此处</a>下载有关这些模型的详细信息。</p>
+<h2 id="3-句子检测"><strong>3. 句子检测</strong></h2>
+<p>让我们从了解什么是句子开始。</p>
+<p><strong>句子检测是关于识别句子的开头和结尾</strong>，这通常取决于手头的语言。这也称为“句子边界消歧”（SBD）。 </p>
+<p>在某些情况下，<strong>由于句号的模棱两可，句子检测非常具有挑战性</strong>。句点通常表示句子的结尾，但也可以出现在电子邮件地址、缩写、小数点和许多其他地方。</p>
+<p>对于大多数 NLP 任务，对于句子检测，我们需要一个经过训练的模型作为输入，我们希望它位于*/resources*文件夹中。</p>
+<p>为了实现句子检测，我们加载模型并将其传递给 <em>SentenceDetectorME</em>的实例。然后，我们只需将文本传递给*sentDetect()*方法以在句子边界处拆分它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenEnglishModel_whenDetect_thenSentencesAreDetected</span><span class="o">()</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">paragraph</span> <span class="o">=</span> <span class="s">&#34;This is a statement. This is another statement.&#34;</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="s">&#34;Now is an abstract word for time, &#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="s">&#34;that is always flying. And my email address is [[email protected]](cdn-cgi/l/email-protection)&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">InputStream</span> <span class="n">is</span> <span class="o">=</span> <span class="n">getClass</span><span class="o">().</span><span class="na">getResourceAsStream</span><span class="o">(</span><span class="s">&#34;/models/en-sent.bin&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SentenceModel</span> <span class="n">model</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SentenceModel</span><span class="o">(</span><span class="n">is</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">SentenceDetectorME</span> <span class="n">sdetector</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SentenceDetectorME</span><span class="o">(</span><span class="n">model</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">sentences</span><span class="o">[]</span> <span class="o">=</span> <span class="n">sdetector</span><span class="o">.</span><span class="na">sentDetect</span><span class="o">(</span><span class="n">paragraph</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">sentences</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;This is a statement.&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;This is another statement.&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;Now is an abstract word for time, that is always flying.&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;And my email address is [[email protected]](cdn-cgi/l/email-protection)&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>注意：后缀“ME”用于 Apache OpenNLP 的许多类名中，表示基于“最大熵”的算法。</p>
+<h2 id="4-代币化"><strong>4. 代币化</strong></h2>
+<p>现在我们可以将文本语料库划分为句子，我们可以开始更详细地分析句子。</p>
+<p><strong>标记化的目标是将一个句子分成更小的部分，称为标记</strong>。通常，这些标记是单词、数字或标点符号。</p>
+<p>OpenNLP 中提供了三种类型的标记器。</p>
+<!-- raw HTML omitted -->
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_open_nlp/" data-title="Apache OpenNLP 简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_open_nlp/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_open_nlp/" data-title="Apache OpenNLP 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_open_nlp/" data-title="Apache OpenNLP 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_open_nlp/" data-title="Apache OpenNLP 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_mesos/" class="prev" rel="prev" title="Apache Mesos 指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Mesos 指南</a>
+            <a href="/apache_poi_add_borders/" class="next" rel="next" title="使用 Apache POI 为 Excel 单元格添加边框">使用 Apache POI 为 Excel 单元格添加边框<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

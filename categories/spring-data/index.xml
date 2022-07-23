@@ -3,7 +3,15 @@
         <title>Spring Data - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/spring-data/</link>
         <description>Spring Data - Category - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 13 Apr 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/spring-data/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 19 May 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/spring-data/" rel="self" type="application/rss+xml" /><item>
+    <title>Apache Ignite 与 Spring Data</title>
+    <link>http://itcodingman.github.io/apache_ignite_spring_data/</link>
+    <pubDate>Sat, 19 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_ignite_spring_data/</guid>
+    <description><![CDATA[1. 概述 在本快速指南中，我们将重点介绍如何将 Spring Data API 与 Apache Ignite 平台集成。 要了解 Apache Ignite，请查看我们之前的指南。 2. Maven 设置 除了现有的依赖项，我们还]]></description>
+</item>
+<item>
     <title>带有 Spring Data REST 的 AngularJS CRUD 应用程序</title>
     <link>http://itcodingman.github.io/angularjs_crud_with_spring_data_rest/</link>
     <pubDate>Fri, 13 Apr 2018 00:00:00 &#43;0000</pubDate>

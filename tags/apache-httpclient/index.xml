@@ -1,0 +1,39 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Apache HttpClient - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/apache-httpclient/</link>
+        <description>Apache HttpClient - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 17 May 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/apache-httpclient/" rel="self" type="application/rss+xml" /><item>
+    <title>Apache HttpClient 与 CloseableHttpClient</title>
+    <link>http://itcodingman.github.io/apache_httpclient_vs_closeablehttpclient/</link>
+    <pubDate>Thu, 17 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_httpclient_vs_closeablehttpclient/</guid>
+    <description><![CDATA[概述 Apache HttpClient是一个流行的 Java 库，它提供了高效且功能丰富的包，实现了最新 HTTP 标准的客户端。该库专为扩展而设计，同时为基本 HTTP 方法提供强]]></description>
+</item>
+<item>
+    <title>向 Apache HttpClient 请求添加参数</title>
+    <link>http://itcodingman.github.io/apache_httpclient_parameters/</link>
+    <pubDate>Tue, 15 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_httpclient_parameters/</guid>
+    <description><![CDATA[简介 HttpClient是 Apache HttpComponents 项目的一部分，该项目提供了一个专注于 HTTP 和相关协议的低级 Java 组件工具集。HttpClient 最基本的功能是执行 HTTP 方]]></description>
+</item>
+<item>
+    <title>使用 Apache HttpClient 展开缩短的 URL</title>
+    <link>http://itcodingman.github.io/apache_httpclient_expand_url/</link>
+    <pubDate>Mon, 14 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_httpclient_expand_url/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将展示如何使用HttpClient扩展 URL 。 一个简单的例子是原始 URL 被缩短了一次- 被诸如bit.ly之类的服务所缩短。 一个更]]></description>
+</item>
+<item>
+    <title>为 Apache HttpClient 启用日志记录</title>
+    <link>http://itcodingman.github.io/apache_httpclient_enable_logging/</link>
+    <pubDate>Sun, 13 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_httpclient_enable_logging/</guid>
+    <description><![CDATA[概述 在本教程中，我们将展示如何在**Apache 的 HttpClient**中启用日志记录。此外，我们将解释如何在库中实现日志记录。之后，我们]]></description>
+</item>
+</channel>
+</rss>

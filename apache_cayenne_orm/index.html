@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Cayenne ORM 简介 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Cayenne ORM 简介" />
+<meta property="og:description" content="1. 概述 Apache Cayenne是一个开源库，在 Apache 许可下分发，提供建模工具、对象关系映射（又名 ORM）等功能，用于本地持久性操作和远程服务。 在以下部分" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_cayenne_orm/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-04-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Cayenne ORM 简介"/>
+<meta name="twitter:description" content="1. 概述 Apache Cayenne是一个开源库，在 Apache 许可下分发，提供建模工具、对象关系映射（又名 ORM）等功能，用于本地持久性操作和远程服务。 在以下部分"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_cayenne_orm/" /><link rel="prev" href="http://itcodingman.github.io/apache_camel_spring_boot/" /><link rel="next" href="http://itcodingman.github.io/apache_cayenne_query/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Cayenne ORM 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_cayenne_orm\/"
+        },"genre": "posts","wordcount":  2397 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_cayenne_orm\/","datePublished": "2018-04-20T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Cayenne ORM 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/persistence/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Persistence</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-20">2018-04-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2397 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#3-设置"><a href="wp-content/uploads/2017/09/Screen1.png"><img src="wp-content/uploads/2017/09/Screen1.png" alt="屏幕1"></a>
+<strong>3. 设置</strong></a></li>
+    <li><a href="#4-映射和数据库设计"><strong>4. 映射和数据库设计</strong></a>
+      <ul>
+        <li><a href="#41造型"><strong>4.1。造型</strong></a></li>
+        <li><a href="#42-映射结构"><strong>4.2. 映射结构</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-卡宴-api"><strong>5. 卡宴 API</strong></a>
+      <ul>
+        <li><a href="#51创建对象"><strong>5.1。创建对象</strong></a></li>
+        <li><a href="#52-读取对象"><strong>5.2. 读取对象</strong></a></li>
+        <li><a href="#53-检索一个类的所有记录"><strong>5.3. 检索一个类的所有记录</strong></a></li>
+        <li><a href="#54-更新对象"><strong>5.4. 更新对象</strong></a></li>
+        <li><a href="#55-附加对象"><strong>5.5. 附加对象</strong></a></li>
+        <li><a href="#56-删除对象"><strong>5.6. 删除对象</strong></a></li>
+        <li><a href="#57-删除班级的所有记录"><strong>5.7. 删除班级的所有记录</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#六结论"><strong>六，结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p><a href="https://cayenne.apache.org" target="_blank" rel="noopener noreffer">Apache Cayenne</a>是一个开源库，在 Apache 许可下分发，提供建模工具、对象关系映射（又名 ORM）等功能，用于本地持久性操作和远程服务。</p>
+<p>在以下部分中，我们将了解如何使用 Apache Cayenne ORM 与 MySQL 数据库进行交互。</p>
+<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<p>首先，我们只需要添加以下依赖项，即可将 Apache Cayenne 和 MySQL 连接器与 JDBC 驱动程序一起访问我们的<em>intro_cayenne</em>数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.cayenne<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>cayenne-server<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.0.M5<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>mysql<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>mysql-connector-java<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>5.1.44<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>让我们配置 Cayenne 建模器插件，该插件将用于设计或设置我们的映射文件，该文件充当数据库模式和 Java 对象之间的桥梁：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.cayenne.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>maven-cayenne-modeler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.0.M5<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><p>建议不要手动构建 XML 映射文件（很少制作），而是使用建模器，它是 Cayenne 发行版附带的一个非常高级的工具。</p>
+<p><a href="https://cayenne.apache.org/download.html" target="_blank" rel="noopener noreffer">根据您的操作系统，可以从这个存档</a>下载它，或者只使用作为 Maven 插件包含的跨平台版本 (JAR)。</p>
+<p>Maven 中央存储库托管最新版本的<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22cayenne-server%22" target="_blank" rel="noopener noreffer">Apache Cayenne</a>、<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22cayenne-modeler-maven-plugin%22" target="_blank" rel="noopener noreffer">他的建模器</a>和<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22mysql%22%20AND%20a%3A%22mysql-connector-java%22" target="_blank" rel="noopener noreffer">MySQL 连接器</a>。</p>
+<p><em>接下来，让我们使用mvn install</em>构建我们的项目，并使用命令<em>mvn cayenne-modeler:run</em>启动建模器 GUI，以获取此屏幕的输出：</p>
+<h2 id="3-设置"><a href="wp-content/uploads/2017/09/Screen1.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2017/09/Screen1.png"
+        data-srcset="wp-content/uploads/2017/09/Screen1.png, wp-content/uploads/2017/09/Screen1.png 1.5x, wp-content/uploads/2017/09/Screen1.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2017/09/Screen1.png"
+        title="屏幕1" /></a>
+<strong>3. 设置</strong></h2>
+<p>要让 Apache Cayenne 查找正确的本地数据库，我们只需在<em>资源</em>目录中的文件<em>cayenne-project.xml中使用正确的驱动程序、URL 和用户填充他的配置文件：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;utf-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;domain</span> <span class="na">project-version=</span><span class="s">&#34;9&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&#34;datanode&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="na">factory
+</span></span></span><span class="line"><span class="cl"><span class="na">      =</span><span class="s">&#34;org.apache.cayenne.configuration.server.XMLPoolingDataSourceFactory&#34;</span>
+</span></span><span class="line"><span class="cl">          <span class="na">schema-update-strategy
+</span></span></span><span class="line"><span class="cl"><span class="na">      =</span><span class="s">&#34;org.apache.cayenne.access.dbsync.CreateIfNoSchemaStrategy&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;data-source&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;driver</span> <span class="na">value=</span><span class="s">&#34;com.mysql.jdbc.Driver&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;url</span> <span class="na">value
+</span></span></span><span class="line"><span class="cl"><span class="na">              =</span><span class="s">&#34;jdbc:mysql://localhost:3306/intro_cayenne;create=true&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;connectionPool</span> <span class="na">min=</span><span class="s">&#34;1&#34;</span> <span class="na">max=</span><span class="s">&#34;1&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;login</span> <span class="na">userName=</span><span class="s">&#34;root&#34;</span> <span class="na">password=</span><span class="s">&#34;root&#34;</span><span class="nt">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/data-source&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/node&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/domain&gt;</span>
+</span></span></code></pre></div><p>在这里我们可以看到：</p>
+<ul>
+<li>本地数据库名为<em>intro_cayenne</em></li>
+<li>如果尚未创建，Cayenne 将为我们完成</li>
+<li>我们将使用用户名<em>root</em>和密码<em>root</em>进行连接（根据在您的数据库管理系统中注册的用户进行更改）</li>
+</ul>
+<p>在内部，它是<em>XMLPoolingDataSourceFactory</em>负责从与<em>DataNodeDescriptor</em>关联的 XML 资源加载 JDBC 连接信息。</p>
+<p>请注意，这些参数与数据库管理系统和 JDBC 驱动程序相关，因为该库可以支持许多不同的数据库。</p>
+<p><a href="https://cayenne.apache.org/database-support.html" target="_blank" rel="noopener noreffer">在此详细列表</a>中，它们中的每一个都有一个可用的适配器。请注意，尚未提供 4.0 版的完整文档，因此我们在此处参考之前的版本。</p>
+<h2 id="4-映射和数据库设计"><strong>4. 映射和数据库设计</strong></h2>
+<h3 id="41造型"><strong>4.1。造型</strong></h3>
+<p>现在让我们单击*“打开项目”<em>，导航到项目的资源文件夹并选择文件</em>cayenne-project.xml，*建模器将显示以下内容：</p>
+<p><a href="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.45.04.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.45.04.png"
+        data-srcset="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.45.04.png, /uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.45.04.png 1.5x, /uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.45.04.png 2x"
+        data-sizes="auto"
+        alt="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.45.04.png"
+        title="截屏" /></a>
+在这里，<strong>我们可以选择从现有数据库创建映射结构</strong> **或手动进行。**本文将处理使用建模器和现有数据库进入 Cayenne 并快速了解其工作原理的问题。</p>
+<p>让我们看一下我们的<em>intro_cayenne</em>数据库，它在两个表之间<em>具有一对多的</em>关系，因为作者可以发布或拥有许多文章：</p>
+<ul>
+<li><em>作者：id（PK）<em>和</em>姓名</em></li>
+<li><em>文章：id (PK)、title、content</em>和<em>author_id(FK)</em></li>
+</ul>
+<p>现在让我们转到“<em>工具 &gt; 重新设计数据库模式</em>”，我们将自动填充所有映射配置。在提示屏幕上，只需填写<em>cayenne-project.xml</em>文件中可用的数据源配置，然后点击继续：</p>
+<p><a href="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.55.12.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.55.12.png"
+        data-srcset="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.55.12.png, /uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.55.12.png 1.5x, /uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.55.12.png 2x"
+        data-sizes="auto"
+        alt="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.55.12.png"
+        title="截屏" /></a>
+在下一个屏幕上，我们需要检查“使用 Java 原始类型”，如下所示：</p>
+<p><a href="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-24-%E8%84%BF-14.02.18.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-24-%E8%84%BF-14.02.18.png"
+        data-srcset="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-24-%E8%84%BF-14.02.18.png, /uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-24-%E8%84%BF-14.02.18.png 1.5x, /uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-24-%E8%84%BF-14.02.18.png 2x"
+        data-sizes="auto"
+        alt="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-24-%E8%84%BF-14.02.18.png"
+        title="截屏" /></a>
+我们还需要确保将<em>com.codingman.apachecayenne.persistent</em>作为 Java 包并保存；我们将看到 XML 配置文件已更新其<em>defaultPackage</em>属性以匹配 Java 包：</p>
+<p><a href="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.58.41.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.58.41.png"
+        data-srcset="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.58.41.png, /uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.58.41.png 1.5x, /uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.58.41.png 2x"
+        data-sizes="auto"
+        alt="/uploads/2017/09/Capture-d%E9%88%A5%E6%AB%AD%E3%83%BDran-2017-09-26-%E8%84%BF-02.58.41.png"
+        title="截屏" /></a>
+在每个<em>ObjEntity 中</em>，我们必须为子类指定包，如下图所示，然后再次单击*“保存”*图标：</p>
+<p><a href="wp-content/uploads/2017/09/Screen5.png" rel=""><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2017/09/Screen5.png"
+        data-srcset="wp-content/uploads/2017/09/Screen5.png, wp-content/uploads/2017/09/Screen5.png 1.5x, wp-content/uploads/2017/09/Screen5.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2017/09/Screen5.png"
+        title="屏幕5" /></a>
+现在在*“Tools &gt; Generate Classes”<em>菜单上，选择“ <em>Standard Persistent Objects</em> ”作为类型；并在</em>“类”<em>选项卡上检查所有类并点击</em>“生成”*。</p>
+<p>回到源码看看我们的持久化对象已经生成成功了，说说*_Article.java<em>和</em>_Author.java*。</p>
+<p>请注意，所有这些配置都保存在文件<em>datamap.map.xml</em>中，该文件也位于<em>资源</em>文件夹中。</p>
+<h3 id="42-映射结构"><strong>4.2. 映射结构</strong></h3>
+<p>资源文件夹中生成的 XML 映射文件使用了一些与 Apache Cayenne 相关的唯一标签：</p>
+<ul>
+<li><em>DataNode(<!-- raw HTML omitted -->)</em> – 数据库的模型，其内容连接到数据库所需的所有信息（数据库名称、驱动程序和用户凭据）</li>
+<li><em>DataMap(<!-- raw HTML omitted -->)</em> – 它是持久实体及其关系的容器</li>
+<li><em>DbAttribute(<!-- raw HTML omitted -->)</em> – 表示数据库表中的列</li>
+<li><em>DbEntity(<!-- raw HTML omitted -->)</em> - 单个数据库表或视图的模型，它可以有DbAttributes和关系</li>
+<li><em>ObjEntity(<!-- raw HTML omitted -->)</em> ——单个持久化java类的模型；由对应于实体类属性的 ObjAttributes 和作为具有另一个实体类型的属性的 ObjRelationships 组成</li>
+<li><em>Embeddable(<!-- raw HTML omitted -->)</em> – Java 类的模型，充当 ObjEntity 的属性，但对应于数据库中的多个列</li>
+<li><em>Procedure(<!-- raw HTML omitted -->)</em> – 在数据库中注册存储过程</li>
+<li><em>Query(<!-- raw HTML omitted -->)</em> - 查询的模型，用于在配置文件中映射查询，不要忘记我们也可以在代码中做到这一点</li>
+</ul>
+<p>这是完整的<a href="https://cayenne.apache.org/docs/3.1/cayenne-guide/cayenne-mapping-structure.html" target="_blank" rel="noopener noreffer">细节</a>。</p>
+<h2 id="5-卡宴-api"><strong>5. 卡宴 API</strong></h2>
+<p>剩下的唯一步骤是使用 Cayenne API 使用生成的类来执行我们的数据库操作，因为我们知道将我们的持久类子类化只是以后用于自定义模型的最佳实践。</p>
+<h3 id="51创建对象"><strong>5.1。创建对象</strong></h3>
+<p>在这里，我们只是保存了一个<em>Author</em>对象，稍后检查数据库中是否只有一条该类型的记录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenInsert_thenWeGetOneRecordInTheDatabase</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">newObject</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">commitChanges</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">records</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">dataRowQuery</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">selectCount</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">records</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="52-读取对象"><strong>5.2. 读取对象</strong></h3>
+<p>保存<em>Author</em>后，我们只需通过特定属性的简单查询来选择它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenInsert_andQueryByFirstName_thenWeGetTheAuthor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">newObject</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">commitChanges</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">expectedAuthor</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">selectOne</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">,</span> <span class="n">expectedAuthor</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="53-检索一个类的所有记录"><strong>5.3. 检索一个类的所有记录</strong></h3>
+<p>我们将保存两个作者并检索作者对象的集合以检查是否只保存了这两个：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenInsert_andQueryAll_thenWeGetTwoAuthors</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">firstAuthor</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">newObject</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">firstAuthor</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">secondAuthor</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">newObject</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">secondAuthor</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Ludovic&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">commitChanges</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Author</span><span class="o">&gt;</span> <span class="n">authors</span> <span class="o">=</span> <span class="n">ObjectSelect</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">select</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="54-更新对象"><strong>5.4. 更新对象</strong></h3>
+<p>更新过程也很简单，但我们需要先拥有所需的对象，然后再修改其属性并将其应用于数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUpdating_thenWeGetAnUpatedeAuthor</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">newObject</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">commitChanges</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">expectedAuthor</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">selectOne</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">expectedAuthor</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Garcia&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">commitChanges</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">author</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">expectedAuthor</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="55-附加对象"><strong>5.5. 附加对象</strong></h3>
+<p>我们可以将一篇文章分配给作者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenAttachingToArticle_thenTheRelationIsMade</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">newObject</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Article</span> <span class="n">article</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">newObject</span><span class="o">(</span><span class="n">Article</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">article</span><span class="o">.</span><span class="na">setTitle</span><span class="o">(</span><span class="s">&#34;My post title&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">article</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="s">&#34;The content&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">article</span><span class="o">.</span><span class="na">setAuthor</span><span class="o">(</span><span class="n">author</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">commitChanges</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">expectedAuthor</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">&#34;Smith&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">selectOne</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Article</span> <span class="n">expectedArticle</span> <span class="o">=</span> <span class="o">(</span><span class="n">expectedAuthor</span><span class="o">.</span><span class="na">getArticles</span><span class="o">()).</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">article</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span> <span class="n">expectedArticle</span><span class="o">.</span><span class="na">getTitle</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="56-删除对象"><strong>5.6. 删除对象</strong></h3>
+<p>删除保存的对象会将其从数据库中完全删除，此后我们将看到<em>null</em>作为查询的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenDeleting_thenWeLostHisDetails</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">author</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">newObject</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">author</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">commitChanges</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">savedAuthor</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">selectOne</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="o">(</span><span class="n">savedAuthor</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">context</span><span class="o">.</span><span class="na">deleteObjects</span><span class="o">(</span><span class="n">author</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">context</span><span class="o">.</span><span class="na">commitChanges</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Author</span> <span class="n">expectedAuthor</span> <span class="o">=</span> <span class="n">ObjectSelect</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">&#34;Paul&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">selectOne</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertNull</span><span class="o">(</span><span class="n">expectedAuthor</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="57-删除班级的所有记录"><strong>5.7. 删除班级的所有记录</strong></h3>
+<p>也可以使用<em>SQLTemplate</em>删除表的所有记录，这里我们在每个测试方法之后执行此操作，以便在每个测试启动之前始终拥有一个 void 数据库*：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@After</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteAllRecords</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SQLTemplate</span> <span class="n">deleteArticles</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SQLTemplate</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Article</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;delete from article&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SQLTemplate</span> <span class="n">deleteAuthors</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SQLTemplate</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Author</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;delete from author&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">performGenericQuery</span><span class="o">(</span><span class="n">deleteArticles</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="na">performGenericQuery</span><span class="o">(</span><span class="n">deleteAuthors</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="六结论"><strong>六，结论</strong></h2>
+<p>在本教程中，我们专注于使用 Apache Cayenne ORM 轻松演示如何使用<em>一对多</em>关系进行 CRUD 操作。</p>
+<p>坚持底 <strong>通过参考<em>学习 Spring Data JPA</em>课程开始使用 Spring Data JPA：</strong>
+<strong><a href="learn-spring-data-jpa-course/index.html#table" rel="">&raquo; 查看课程</a></strong>
+持久性页脚横幅</p>
+<p>使用 JPA 介绍 SPRING 数据、JPA<br>
+和事务语义详细信息使用 Spring 获得持久性</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_cayenne_orm/" data-title="Apache Cayenne ORM 简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_cayenne_orm/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_cayenne_orm/" data-title="Apache Cayenne ORM 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_cayenne_orm/" data-title="Apache Cayenne ORM 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_cayenne_orm/" data-title="Apache Cayenne ORM 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_camel_spring_boot/" class="prev" rel="prev" title="带有 Spring Boot 的 Apache Camel"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>带有 Spring Boot 的 Apache Camel</a>
+            <a href="/apache_cayenne_query/" class="next" rel="next" title="Apache Cayenne 中的高级查询">Apache Cayenne 中的高级查询<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

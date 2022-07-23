@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Flink 与 Java 简介 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Flink 与 Java 简介" />
+<meta property="og:description" content="1. 概述 Apache Flink 是一个大数据处理框架，它允许程序员以非常高效和可扩展的方式处理大量数据。 在本文中，我们将介绍***Apache Flink*** Java API****中" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_flink/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Flink 与 Java 简介"/>
+<meta name="twitter:description" content="1. 概述 Apache Flink 是一个大数据处理框架，它允许程序员以非常高效和可扩展的方式处理大量数据。 在本文中，我们将介绍***Apache Flink*** Java API****中"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_flink/" /><link rel="prev" href="http://itcodingman.github.io/apache_druid_event_driven_data/" /><link rel="next" href="http://itcodingman.github.io/apache_geode/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Flink 与 Java 简介",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_flink\/"
+        },"genre": "posts","wordcount":  2824 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_flink\/","datePublished": "2018-05-11T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Flink 与 Java 简介</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-11">2018-05-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2824 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#3-核心-api-概念"><strong>3. 核心 API 概念</strong></a></li>
+    <li><a href="#4-数据集-api-转换"><strong>4. 数据集 API 转换</strong></a>
+      <ul>
+        <li><a href="#41创建数据集"><strong>4.1。创建数据集</strong></a></li>
+        <li><a href="#42-过滤和减少"><strong>4.2. 过滤和减少</strong></a></li>
+        <li><a href="#43-地图"><strong>4.3. 地图</strong></a></li>
+        <li><a href="#44-加入"><strong>4.4. 加入</strong></a></li>
+        <li><a href="#45-种类"><strong>4.5. 种类</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5字数"><strong>5.字数</strong></a></li>
+    <li><a href="#6数据流api"><strong>6.数据流API</strong></a>
+      <ul>
+        <li><a href="#61创建数据流"><strong>6.1。创建数据流</strong></a></li>
+        <li><a href="#62-事件窗口化"><strong>6.2. 事件窗口化</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-结论"><strong>7. 结论</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>Apache Flink 是一个大数据处理框架，它允许程序员以非常高效和可扩展的方式处理大量数据。</p>
+<p>在本文中，我们将介绍***<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.2/index.html" target="_blank" rel="noopener noreffer">Apache Flink</a>*** <strong>Java API****中可用的一些核心 API 概念和标准数据转换</strong>。这个 API 的流畅风格使得使用 Flink 的中心结构——分布式集合变得容易。</p>
+<p>首先，我们将看一下 Flink 的<em>DataSet</em> API 转换，并使用它们来实现一个字数统计程序。然后我们将简要介绍 Flink 的<em>DataStream</em> API，它允许您以实时方式处理事件流。</p>
+<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<p>首先，我们需要将 Maven 依赖项添加到<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.flink%22%20AND%20a%3A%22flink-java%22" target="_blank" rel="noopener noreffer"><em>flink-java</em></a>和<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.flink%22%20AND%20a%3A%22flink-test-utils%22" target="_blank" rel="noopener noreffer"><em>flink-test-utils</em></a>库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.flink<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>flink-java<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.2.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.flink<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>flink-test-utils_2.10<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.2.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;scope&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h2 id="3-核心-api-概念"><strong>3. 核心 API 概念</strong></h2>
+<p>在使用 Flink 时，我们需要了解与它的 API 相关的几件事：</p>
+<ul>
+<li>**每个 Flink 程序都会对分布式数据集合进行转换。**提供了用于转换数据的各种功能，包括过滤、映射、连接、分组和聚合</li>
+<li><strong>Flink 中的<em>sink</em>操作触发流的执行以产生程序所需的结果</strong>，例如将结果保存到文件系统或打印到标准输出</li>
+<li><strong>Flink 转换是惰性的，这意味着它们在调用<em>sink</em>操作之前不会执行</strong></li>
+<li>**Apache Flink API 支持两种操作模式——批处理和实时。**如果您正在处理可以在批处理模式下处理的有限数据源，您将使用<em>DataSet</em> API。如果您想实时处理无限的数据流，则需要使用<em>DataStream</em> API</li>
+</ul>
+<h2 id="4-数据集-api-转换"><strong>4. 数据集 API 转换</strong></h2>
+<p>Flink 程序的入口点是<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.2/api/java/org/apache/flink/api/scala/ExecutionEnvironment.html" target="_blank" rel="noopener noreffer"><em>ExecutionEnvironment</em></a>类的实例——它定义了程序执行的上下文。</p>
+<p>让我们创建一个<em>ExecutionEnvironment</em>来开始我们的处理：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ExecutionEnvironment</span> <span class="n">env</span>
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">ExecutionEnvironment</span><span class="o">.</span><span class="na">getExecutionEnvironment</span><span class="o">();</span>
+</span></span></code></pre></div><p>**请注意，当您在本地机器上启动应用程序时，它将在本地 JVM 上执行处理。**如果您想在机器集群上开始处理，则需要在这些机器上安装<a href="https://nightlies.apache.org/flink/flink-docs-release-1.14//docs/try-flink/local_installation/" target="_blank" rel="noopener noreffer">Apache Flink并相应地配置</a><em>ExecutionEnvironment</em>。</p>
+<h3 id="41创建数据集"><strong>4.1。创建数据集</strong></h3>
+<p>要开始执行数据转换，我们需要为我们的程序提供数据。</p>
+<p><em>让我们使用ExecutionEnvironement创建**DataSet</em>类的实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DataSet</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">amounts</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromElements</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">29</span><span class="o">,</span> <span class="n">40</span><span class="o">,</span> <span class="n">50</span><span class="o">);</span>
+</span></span></code></pre></div><p>您可以从多个源创建数据<em>集</em>，例如 Apache Kafka、CSV、文件或几乎任何其他数据源。</p>
+<h3 id="42-过滤和减少"><strong>4.2. 过滤和减少</strong></h3>
+<p>创建<em>DataSet</em>类的实例后，您可以对其应用转换。</p>
+<p>假设您要过滤高于某个阈值的数字，然后将它们全部相加*。<em>您可以使用</em>filter()<em>和</em>reduce()*转换来实现这一点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">threshold</span> <span class="o">=</span> <span class="n">30</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">collect</span> <span class="o">=</span> <span class="n">amounts</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">reduce</span><span class="o">((</span><span class="n">integer</span><span class="o">,</span> <span class="n">t1</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">integer</span> <span class="o">+</span> <span class="n">t1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">collect</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">90</span><span class="o">);</span>
+</span></span></code></pre></div><p>请注意，<em>collect()<em>方法是触发实际数据转换的接收</em>器操作。</em></p>
+<h3 id="43-地图"><strong>4.3. 地图</strong></h3>
+<p>假设您有一个<em>Person</em>对象的<em>DataSet ：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Person</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard constructors/getters/setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，让我们创建这些对象的<em>DataSet</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DataSet</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">personDataSource</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromCollection</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">Person</span><span class="o">(</span><span class="n">23</span><span class="o">,</span> <span class="s">&#34;Tom&#34;</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">Person</span><span class="o">(</span><span class="n">75</span><span class="o">,</span> <span class="s">&#34;Michael&#34;</span><span class="o">)));</span>
+</span></span></code></pre></div><p>假设您只想从集合的每个对象中提取<em>年龄</em>字段。您可以使用<em>map()转换仅获取**Person</em>类的特定字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">ages</span> <span class="o">=</span> <span class="n">personDataSource</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">p</span> <span class="o">-&gt;</span> <span class="n">p</span><span class="o">.</span><span class="na">age</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">ages</span><span class="o">).</span><span class="na">hasSize</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">ages</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="n">23</span><span class="o">,</span> <span class="n">75</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="44-加入"><strong>4.4. 加入</strong></h3>
+<p>当您有两个数据集时，您可能希望将它们加入某个<em>id</em>字段。为此，您可以使用*join()*转换。</p>
+<p>让我们创建用户的交易和地址的集合：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Tuple3</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">address</span>
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="k">new</span> <span class="n">Tuple3</span><span class="o">&lt;&gt;(</span><span class="n">1</span><span class="o">,</span> <span class="s">&#34;5th Avenue&#34;</span><span class="o">,</span> <span class="s">&#34;London&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DataSet</span><span class="o">&lt;</span><span class="n">Tuple3</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">addresses</span>
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromElements</span><span class="o">(</span><span class="n">address</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">firstTransaction</span> 
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">1</span><span class="o">,</span> <span class="s">&#34;Transaction_1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DataSet</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">transactions</span> 
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromElements</span><span class="o">(</span><span class="n">firstTransaction</span><span class="o">,</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">12</span><span class="o">,</span> <span class="s">&#34;Transaction_2&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><p>两个元组中的第一个字段都是<em>整数</em>类型，这是一个<em>id</em>字段，我们要在其上连接两个数据集。</p>
+<p>要执行实际的加入逻辑，我们需要为地址和交易实现一个*<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.2/api/java/org/apache/flink/api/java/functions/KeySelector.html" target="_blank" rel="noopener noreffer">KeySelector接口：</a>*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">IdKeySelectorTransaction</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">implements</span> <span class="n">KeySelector</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Integer</span> <span class="nf">getKey</span><span class="o">(</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="na">f0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">IdKeySelectorAddress</span> 
+</span></span><span class="line"><span class="cl">  <span class="kd">implements</span> <span class="n">KeySelector</span><span class="o">&lt;</span><span class="n">Tuple3</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Integer</span> <span class="nf">getKey</span><span class="o">(</span><span class="n">Tuple3</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="na">f0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>每个选择器只返回应该执行连接的字段。</p>
+<p><strong>不幸的是，这里不能使用 lambda 表达式，因为 Flink 需要泛型类型信息。</strong></p>
+<p>接下来，让我们使用这些选择器实现合并逻辑：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;,</span> <span class="n">Tuple3</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">joined</span> <span class="o">=</span> <span class="n">transactions</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="n">addresses</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">where</span><span class="o">(</span><span class="k">new</span> <span class="n">IdKeySelectorTransaction</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">equalTo</span><span class="o">(</span><span class="k">new</span> <span class="n">IdKeySelectorAddress</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">joined</span><span class="o">).</span><span class="na">hasSize</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">joined</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">firstTransaction</span><span class="o">,</span> <span class="n">address</span><span class="o">));</span>
+</span></span></code></pre></div><h3 id="45-种类"><strong>4.5. 种类</strong></h3>
+<p>假设您有以下<em>Tuple2 集合：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">secondPerson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">4</span><span class="o">,</span> <span class="s">&#34;Tom&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">thirdPerson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">5</span><span class="o">,</span> <span class="s">&#34;Scott&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">fourthPerson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">200</span><span class="o">,</span> <span class="s">&#34;Michael&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">firstPerson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">1</span><span class="o">,</span> <span class="s">&#34;Jack&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DataSet</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">transactions</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromElements</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fourthPerson</span><span class="o">,</span> <span class="n">secondPerson</span><span class="o">,</span> <span class="n">thirdPerson</span><span class="o">,</span> <span class="n">firstPerson</span><span class="o">);</span>
+</span></span></code></pre></div><p>如果要按元组的第一个字段对该集合进行排序，可以使用*sortPartitions()*转换：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">sorted</span> <span class="o">=</span> <span class="n">transactions</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">sortPartition</span><span class="o">(</span><span class="k">new</span> <span class="n">IdKeySelectorTransaction</span><span class="o">(),</span> <span class="n">Order</span><span class="o">.</span><span class="na">ASCENDING</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">sorted</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">containsExactly</span><span class="o">(</span><span class="n">firstPerson</span><span class="o">,</span> <span class="n">secondPerson</span><span class="o">,</span> <span class="n">thirdPerson</span><span class="o">,</span> <span class="n">fourthPerson</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="5字数"><strong>5.字数</strong></h2>
+<p>字数统计问题是一种常用来展示大数据处理框架能力的问题。基本解决方案涉及计算文本输入中的单词出现次数。让我们使用 Flink 来实现这个问题的解决方案。</p>
+<p>作为我们解决方案的第一步，我们创建了一个<em>LineSplitter</em>类，它将我们的输入拆分为标记（单词），为每个标记收集一个<em>Tuple2</em>键值对。在每个元组中，键是在文本中找到的单词，值是整数一 (1)。</p>
+<p>此类实现了*<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.1/api/java/org/apache/flink/api/common/functions/FlatMapFunction.html" target="_blank" rel="noopener noreffer">FlatMapFunction</a>* 接口，该接口将<em>String</em>作为输入并生成*<a href="https://nightlies.apache.org/flink/flink-docs-release-1.3/api/java/org/apache/flink/api/java/tuple/Tuple2.html" target="_blank" rel="noopener noreffer">Tuple2</a> &lt;String, Integer&gt;：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LineSplitter</span> <span class="kd">implements</span> <span class="n">FlatMapFunction</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">flatMap</span><span class="o">(</span><span class="n">String</span> <span class="n">value</span><span class="o">,</span> <span class="n">Collector</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">out</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">value</span><span class="o">.</span><span class="na">toLowerCase</span><span class="o">().</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;\\W+&#34;</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">token</span> <span class="o">-&gt;</span> <span class="n">out</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">token</span><span class="o">,</span> <span class="n">1</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><a href="https://ci.apache.org/projects/flink/flink-docs-release-1.0/api/java/org/apache/flink/util/class-use/Collector.html" target="_blank" rel="noopener noreffer"><em>我们在Collector</em></a>类上调用*collect()*方法，在处理管道中向前推送数据。</p>
+<p>我们的下一步也是最后一步是按元组的第一个元素（单词）对元组进行分组，然后对第二个元素执行<em>求和</em>聚合以产生单词出现的计数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">DataSet</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="nf">startWordCount</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">ExecutionEnvironment</span> <span class="n">env</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lines</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DataSet</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">text</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromCollection</span><span class="o">(</span><span class="n">lines</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="k">new</span> <span class="n">LineSplitter</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">groupBy</span><span class="o">(</span><span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">aggregate</span><span class="o">(</span><span class="n">Aggregations</span><span class="o">.</span><span class="na">SUM</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>我们使用了三种类型的 Flink 转换：<em>flatMap()</em>、<em>groupBy()<em>和</em>aggregate()</em>。</strong></p>
+<p>让我们编写一个测试来断言字数统计实现按预期工作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lines</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;This is a first sentence&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;This is a second sentence with a one word&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">DataSet</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">WordCount</span><span class="o">.</span><span class="na">startWordCount</span><span class="o">(</span><span class="n">env</span><span class="o">,</span> <span class="n">lines</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">collect</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">collect</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">collect</span><span class="o">).</span><span class="na">containsExactlyInAnyOrder</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;a&#34;</span><span class="o">,</span> <span class="n">3</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;sentence&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;word&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;is&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;this&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;second&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;first&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;with&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;one&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">));</span>
+</span></span></code></pre></div><h2 id="6数据流api"><strong>6.数据流API</strong></h2>
+<h3 id="61创建数据流"><strong>6.1。创建数据流</strong></h3>
+<p>Apache Flink 还支持通过其 DataStream API 处理事件流。如果我们想开始消费事件，我们首先需要使用<em>StreamExecutionEnvironment</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">StreamExecutionEnvironment</span> <span class="n">executionEnvironment</span>
+</span></span><span class="line"><span class="cl"> <span class="o">=</span> <span class="n">StreamExecutionEnvironment</span><span class="o">.</span><span class="na">getExecutionEnvironment</span><span class="o">();</span>
+</span></span></code></pre></div><p>接下来，我们可以使用来自各种来源的<em>executionEnvironment</em>创建一个事件流。它可能是一些像<em>Apache Kafka</em>这样的消息总线，但在这个例子中，我们将简单地从几个字符串元素创建一个源：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DataStream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">dataStream</span> <span class="o">=</span> <span class="n">executionEnvironment</span><span class="o">.</span><span class="na">fromElements</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;This is a first sentence&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;This is a second sentence with a one word&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p><em>我们可以对DataStream</em>的每个元素应用转换，就像在普通的<em>DataSet</em>类中一样：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SingleOutputStreamOperator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">upperCase</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">String</span><span class="o">::</span><span class="n">toUpperCase</span><span class="o">);</span>
+</span></span></code></pre></div><p>为了触发执行，我们需要调用一个接收器操作，例如<em>print()</em>，它只会将转换结果打印到标准输出，然后是<em>StreamExecutionEnvironment</em>类的*execute()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">upperCase</span><span class="o">.</span><span class="na">print</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">env</span><span class="o">.</span><span class="na">execute</span><span class="o">();</span>
+</span></span></code></pre></div><p>它将产生以下输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">1&gt; THIS IS A FIRST SENTENCE
+</span></span><span class="line"><span class="cl">2&gt; THIS IS A SECOND SENTENCE WITH A ONE WORD
+</span></span></code></pre></div><h3 id="62-事件窗口化"><strong>6.2. 事件窗口化</strong></h3>
+<p>在实时处理事件流时，您有时可能需要将事件组合在一起并在这些事件的窗口上应用一些计算。</p>
+<p>假设我们有一个事件流，其中每个事件都是由事件编号和事件发送到我们系统时的时间戳组成的对，并且我们可以容忍无序的事件，但前提是它们是无序的。迟到了二十多秒。</p>
+<p>对于这个例子，让我们首先创建一个流来模拟两个相隔几分钟的事件，并定义一个时间戳提取器来指定我们的延迟阈值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SingleOutputStreamOperator</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;&gt;</span> <span class="n">windowed</span>
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromElements</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">16</span><span class="o">,</span> <span class="n">ZonedDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">().</span><span class="na">plusMinutes</span><span class="o">(</span><span class="n">25</span><span class="o">).</span><span class="na">toInstant</span><span class="o">().</span><span class="na">getEpochSecond</span><span class="o">()),</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">15</span><span class="o">,</span> <span class="n">ZonedDateTime</span><span class="o">.</span><span class="na">now</span><span class="o">().</span><span class="na">plusMinutes</span><span class="o">(</span><span class="n">2</span><span class="o">).</span><span class="na">toInstant</span><span class="o">().</span><span class="na">getEpochSecond</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">assignTimestampsAndWatermarks</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">BoundedOutOfOrdernessTimestampExtractor</span>
+</span></span><span class="line"><span class="cl">      <span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;&gt;(</span><span class="n">Time</span><span class="o">.</span><span class="na">seconds</span><span class="o">(</span><span class="n">20</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">long</span> <span class="nf">extractTimestamp</span><span class="o">(</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="n">element</span><span class="o">.</span><span class="na">f1</span> <span class="o">*</span> <span class="n">1000</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">});</span>
+</span></span></code></pre></div><p>接下来，让我们定义一个窗口操作，将我们的事件分组为 5 秒的窗口，并对这些事件应用转换：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SingleOutputStreamOperator</span><span class="o">&lt;</span><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;&gt;</span> <span class="n">reduced</span> <span class="o">=</span> <span class="n">windowed</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">windowAll</span><span class="o">(</span><span class="n">TumblingEventTimeWindows</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">Time</span><span class="o">.</span><span class="na">seconds</span><span class="o">(</span><span class="n">5</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">maxBy</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">reduced</span><span class="o">.</span><span class="na">print</span><span class="o">();</span>
+</span></span></code></pre></div><p>它将获取每五秒窗口的最后一个元素，因此它会打印出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">1</span><span class="o">&gt;</span> <span class="o">(</span><span class="n">15</span><span class="o">,</span><span class="n">1491221519</span><span class="o">)</span>
+</span></span></code></pre></div><p>请注意，我们看不到第二个事件，因为它晚于指定的延迟阈值到达。</p>
+<h2 id="7-结论"><strong>7. 结论</strong></h2>
+<p>在本文中，我们介绍了 Apache Flink 框架并查看了其 API 提供的一些转换。</p>
+<p>我们使用 Flink 流畅且功能强大的 DataSet API 实现了一个字数统计程序。然后我们查看了 DataStream API 并在事件流上实现了一个简单的实时转换。</p>
+<p>通用底部</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_flink/" data-title="Apache Flink 与 Java 简介"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_flink/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_flink/" data-title="Apache Flink 与 Java 简介"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_flink/" data-title="Apache Flink 与 Java 简介"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_flink/" data-title="Apache Flink 与 Java 简介"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_druid_event_driven_data/" class="prev" rel="prev" title="使用 Apache Druid 的事件驱动数据"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Apache Druid 的事件驱动数据</a>
+            <a href="/apache_geode/" class="next" rel="next" title="Apache Geode 快速指南">Apache Geode 快速指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

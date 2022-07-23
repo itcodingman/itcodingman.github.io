@@ -1,0 +1,39 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Architecture - Category - Coding Man</title>
+        <link>http://itcodingman.github.io/categories/architecture/</link>
+        <description>Architecture - Category - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 07 Jun 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/architecture/" rel="self" type="application/rss+xml" /><item>
+    <title>Apache Storm 简介</title>
+    <link>http://itcodingman.github.io/apache_storm/</link>
+    <pubDate>Thu, 07 Jun 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_storm/</guid>
+    <description><![CDATA[概述 本教程将介绍分布式实时计算系统Apache Storm 。 我们将重点关注并涵盖： Apache Storm 到底是什么以及它解决了什么问题 它的架构，以及 如何在项目中使用它 什]]></description>
+</item>
+<item>
+    <title>Apache Pulsar 简介</title>
+    <link>http://itcodingman.github.io/apache_pulsar/</link>
+    <pubDate>Fri, 01 Jun 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_pulsar/</guid>
+    <description><![CDATA[简介 Apache Pulsar是 Yahoo 开发的基于分布式开源发布/订阅的消息传递系统。 它的创建是为了支持 Yahoo 的关键应用程序，如 Yahoo Mail、Yahoo Financ]]></description>
+</item>
+<item>
+    <title>Apache Mesos 指南</title>
+    <link>http://itcodingman.github.io/apache_mesos/</link>
+    <pubDate>Tue, 22 May 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_mesos/</guid>
+    <description><![CDATA[概述 我们通常在同一个机器集群上部署各种应用程序。例如，现在很常见的是 在同一个集群中拥有像Apache Spark或Apache Flink这样的]]></description>
+</item>
+<item>
+    <title>Apache ActiveMQ 与 Kafka</title>
+    <link>http://itcodingman.github.io/apache_activemq_vs_kafka/</link>
+    <pubDate>Sun, 15 Apr 2018 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/apache_activemq_vs_kafka/</guid>
+    <description><![CDATA[概述 在分布式架构中，应用程序通常需要在它们之间交换数据。一方面，这可以通过彼此直接通信来完成。另一方面，为了达到高可用性和分区容错，以及在应]]></description>
+</item>
+</channel>
+</rss>

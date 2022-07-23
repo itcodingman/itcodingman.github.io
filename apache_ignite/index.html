@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Apache Ignite 指南 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Ignite 指南" />
+<meta property="og:description" content="1. 简介 Apache Ignite 是一个以内存为中心的开源分布式平台。我们可以将它用作数据库、缓存系统或用于内存数据处理。 该平台使用内存作为存储层，因此具有令人印象" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/apache_ignite/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2018-05-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Apache Ignite 指南"/>
+<meta name="twitter:description" content="1. 简介 Apache Ignite 是一个以内存为中心的开源分布式平台。我们可以将它用作数据库、缓存系统或用于内存数据处理。 该平台使用内存作为存储层，因此具有令人印象"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/apache_ignite/" /><link rel="prev" href="http://itcodingman.github.io/apache_httpclient_vs_closeablehttpclient/" /><link rel="next" href="http://itcodingman.github.io/apache_ignite_spring_data/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Apache Ignite 指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/apache_ignite\/"
+        },"genre": "posts","wordcount":  2441 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_ignite\/","datePublished": "2018-05-18T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Ignite 指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/persistence/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Persistence</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-18">2018-05-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2441 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
+    <li><a href="#2-安装和设置"><strong>2. 安装和设置</strong></a></li>
+    <li><a href="#4-内存页"><strong>4. 内存页</strong></a></li>
+    <li><a href="#5-生命周期"><strong>5. 生命周期</strong></a>
+      <ul>
+        <li><a href="#61缓存支持"><strong>6.1。缓存支持</strong></a></li>
+        <li><a href="#62-流媒体支持"><strong>6.2. 流媒体支持</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-sql-支持"><strong>7. SQL 支持</strong></a>
+      <ul>
+        <li><a href="#71jdbc"><strong>7.1。JDBC</strong></a></li>
+        <li><a href="#72-查询对象"><strong>7.2. 查询对象</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#8-总结"><strong>8. 总结</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
+<p>Apache Ignite 是一个以内存为中心的开源分布式平台。我们可以将它用作数据库、缓存系统或用于内存数据处理。</p>
+<p>该平台使用内存作为存储层，因此具有令人印象深刻的性能。简单地说，<strong>这是目前生产使用中最快的原子数据处理平台之一。</strong></p>
+<h2 id="2-安装和设置"><strong>2. 安装和设置</strong></h2>
+<p>首先，请查看 <a href="https://apacheignite.readme.io/docs/getting-started" target="_blank" rel="noopener noreffer">入门页面</a> 以获取初始设置和安装说明。</p>
+<p>我们将要构建的应用程序的 Maven 依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.ignite<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>ignite-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${ignite.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.ignite<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>ignite-indexing<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>${ignite.version}<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><strong><a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.ignite%22%20AND%20a%3A%22ignite-core%22" target="_blank" rel="noopener noreffer"><em>ignite-core</em></a>是项目的唯一强制依赖</strong>。由于我们还想与 SQL 交互，所以这里也<em>ignite-indexing</em><a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.ignite%22%20AND%20a%3A%22ignite-core%22" target="_blank" rel="noopener noreffer"><em>${ignite.version}</em></a>是 Apache Ignite 的最新版本。</p>
+<p>作为最后一步，我们启动 Ignite 节点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Ignite node started OK (id=53c77dea)
+</span></span><span class="line"><span class="cl">Topology snapshot [ver=1, servers=1, clients=0, CPUs=4, offheap=1.2GB, heap=1.0GB]
+</span></span><span class="line"><span class="cl">Data Regions Configured:
+</span></span><span class="line"><span class="cl">^-- default [initSize=256.0 MiB, maxSize=1.2 GiB, persistenceEnabled=false]
+</span></span></code></pre></div><p>上面的控制台输出表明我们准备好了。</p>
+<ol start="3">
+<li>内存架构</li>
+</ol>
+<hr>
+<p><strong>该平台基于持久内存架构</strong>。这使得能够在磁盘和内存中存储和处理数据。它通过有效利用集群的 RAM 资源来提高性能。</p>
+<p>内存和磁盘中的数据具有相同的二进制表示。这意味着在从一层移动到另一层时无需额外转换数据。</p>
+<p>持久内存架构分为称为页面的固定大小的块。页面存储在 Java 堆之外并组织在 RAM 中。它有一个唯一标识符：<em>FullPageId</em>。</p>
+<p><em>页面使用PageMemory</em>抽象与内存交互 。</p>
+<p>它有助于读取、写入页面，还有助于分配页面 id。<strong>在内存中，Ignite 将页面与<em>Memory Buffers</em></strong>相关联。</p>
+<h2 id="4-内存页"><strong>4. 内存页</strong></h2>
+<p>一个页面可以有以下状态：</p>
+<ul>
+<li>Unloaded – 内存中没有加载页面缓冲区</li>
+<li>清除——页面缓冲区被加载并与磁盘上的数据同步</li>
+<li>Durty – 页缓冲区保存的数据与磁盘中的数据不同</li>
+<li>检查点脏——在第一个修改保存到磁盘之前，还有另一个修改开始。这里开始一个检查点，<em>PageMemory</em>为每个 Page 保留两个内存缓冲区。</li>
+</ul>
+<p>**持久内存在本地分配一个称为<em>Data Region</em>的内存段。**默认情况下，它的容量为集群内存的 20%。多区域配置允许将可用数据保存在内存中。</p>
+<p>该区域的最大容量是一个内存段。它是物理内存或连续字节数组。</p>
+<p><strong>为了避免内存碎片，一个页面包含多个键值条目</strong>。每个新条目都将添加到最佳页面。如果键值对大小超过页面的最大容量，Ignite 会将数据存储在多个页面中。相同的逻辑适用于更新数据。</p>
+<p>SQL 和缓存索引存储在称为 B+ 树的结构中。缓存键按其键值排序。</p>
+<h2 id="5-生命周期"><strong>5. 生命周期</strong></h2>
+<p><strong>每个 Ignite 节点都在单个 JVM 实例上运行</strong>。但是，可以配置为在单个 JVM 进程中运行多个 Ignite 节点。</p>
+<p>让我们来看看生命周期事件类型：</p>
+<ul>
+<li><em>BEFORE_NODE_START</em> – 在 Ignite 节点启动之前</li>
+<li><em>AFTER_NODE_START</em> – 在 Ignite 节点启动后触发</li>
+<li><em>BEFORE_NODE_STOP</em> – 在启动节点停止之前</li>
+<li><em>AFTER_NODE_STOP</em> – Ignite 节点停止后</li>
+</ul>
+<p>要启动默认的 Ignite 节点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Ignite</span> <span class="n">ignite</span> <span class="o">=</span> <span class="n">Ignition</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span></span></code></pre></div><p>或者从配置文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Ignite</span> <span class="n">ignite</span> <span class="o">=</span> <span class="n">Ignition</span><span class="o">.</span><span class="na">start</span><span class="o">(</span><span class="s">&#34;config/example-cache.xml&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>如果我们需要对初始化过程进行更多控制，还有另一种借助<em>LifecycleBean</em>接口的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomLifecycleBean</span> <span class="kd">implements</span> <span class="n">LifecycleBean</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onLifecycleEvent</span><span class="o">(</span><span class="n">LifecycleEventType</span> <span class="n">lifecycleEventType</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">      <span class="kd">throws</span> <span class="n">IgniteException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="o">(</span><span class="n">lifecycleEventType</span> <span class="o">==</span> <span class="n">LifecycleEventType</span><span class="o">.</span><span class="na">AFTER_NODE_START</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，我们可以使用生命周期事件类型在节点启动/停止之前或之后执行操作。</p>
+<p>为此，我们将带有<em>CustomLifecycleBean</em>的配置实例传递给 start 方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IgniteConfiguration</span> <span class="n">configuration</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IgniteConfiguration</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">configuration</span><span class="o">.</span><span class="na">setLifecycleBeans</span><span class="o">(</span><span class="k">new</span> <span class="n">CustomLifecycleBean</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">Ignite</span> <span class="n">ignite</span> <span class="o">=</span> <span class="n">Ignition</span><span class="o">.</span><span class="na">start</span><span class="o">(</span><span class="n">configuration</span><span class="o">);</span>
+</span></span></code></pre></div><ol start="6">
+<li>内存数据网格</li>
+</ol>
+<hr>
+<p><strong>Ignite 数据网格是一种分布式键值存储，对于分区</strong><em>HashMap</em>非常熟悉。它是水平缩放的。这意味着我们添加更多的集群节点，更多的数据被缓存或存储在内存中。</p>
+<p>作为缓存的附加层，它可以为 NoSql、RDMS 数据库等 3rd 方软件提供显着的性能提升。</p>
+<h3 id="61缓存支持"><strong>6.1。缓存支持</strong></h3>
+<p><strong>数据访问 API 基于 JCache JSR 107 规范。</strong></p>
+<p>例如，让我们使用模板配置创建缓存：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IgniteCache</span><span class="o">&lt;</span><span class="n">Employee</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">ignite</span><span class="o">.</span><span class="na">getOrCreateCache</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;baeldingCache&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>让我们看看这里发生了什么以了解更多详细信息。首先，Ignite 找到缓存存储的内存区域。</p>
+<p>然后，B+树索引Page会根据key hash code来定位。如果索引存在，就会定位到对应key的数据Page。</p>
+<p><strong>当索引为 NULL 时，平台使用给定的键创建新的数据条目。</strong></p>
+<p>接下来，让我们添加一些<em>Employee</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="k">new</span> <span class="n">Employee</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="s">&#34;John&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="k">new</span> <span class="n">Employee</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="s">&#34;Anna&#34;</span><span class="o">,</span> <span class="kc">false</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="k">new</span> <span class="n">Employee</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="s">&#34;George&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">));</span>
+</span></span></code></pre></div><p>同样，持久内存将寻找缓存所属的内存区域。根据缓存键，索引页将位于 B+ 树结构中。</p>
+<p><strong>当索引页面不存在时，会请求一个新页面并将其添加到树中。</strong></p>
+<p>接下来，将数据页分配给索引页。</p>
+<p>要从缓存中读取员工，我们只需使用键值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Employee</span> <span class="n">employee</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="62-流媒体支持"><strong>6.2. 流媒体支持</strong></h3>
+<p>内存数据流为基于磁盘和文件系统的数据处理应用程序提供了另一种方法。<strong>Streaming API 将高负载数据流拆分为多个阶段并路由它们进行处理</strong>。</p>
+<p>我们可以修改我们的示例并从文件中流式传输数据。首先，我们定义一个数据流送器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IgniteDataStreamer</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Employee</span><span class="o">&gt;</span> <span class="n">streamer</span> <span class="o">=</span> <span class="n">ignite</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">dataStreamer</span><span class="o">(</span><span class="n">cache</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span></span></code></pre></div><p>接下来，我们可以注册一个流转换器来将接收到的员工标记为已雇用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">streamer</span><span class="o">.</span><span class="na">receiver</span><span class="o">(</span><span class="n">StreamTransformer</span><span class="o">.</span><span class="na">from</span><span class="o">((</span><span class="n">e</span><span class="o">,</span> <span class="n">arg</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Employee</span> <span class="n">employee</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">employee</span><span class="o">.</span><span class="na">setEmployed</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">e</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">employee</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}));</span>
+</span></span></code></pre></div><p>作为最后一步，我们遍历<em>employees.txt</em>文件行并将它们转换为 Java 对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">IgniteStream</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getResource</span><span class="o">(</span><span class="s">&#34;employees.txt&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">toURI</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">Gson</span> <span class="n">gson</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Gson</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Files</span><span class="o">.</span><span class="na">lines</span><span class="o">(</span><span class="n">path</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">l</span> <span class="o">-&gt;</span> <span class="n">streamer</span><span class="o">.</span><span class="na">addData</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">employee</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">gson</span><span class="o">.</span><span class="na">fromJson</span><span class="o">(</span><span class="n">l</span><span class="o">,</span> <span class="n">Employee</span><span class="o">.</span><span class="na">class</span><span class="o">)));</span>
+</span></span></code></pre></div><p>*<em>使用*streamer.addData()<em>将员工对象放入流中。</em></em></p>
+<h2 id="7-sql-支持"><strong>7. SQL 支持</strong></h2>
+<p><strong>该平台提供以内存为中心、容错的 SQL 数据库。</strong></p>
+<p>我们可以使用纯 SQL API 或 JDBC 进行连接。这里的 SQL 语法是 ANSI-99，因此支持查询中的所有标准聚合函数，DML，DDL 语言操作。</p>
+<h3 id="71jdbc"><strong>7.1。JDBC</strong></h3>
+<p>为了更实用，让我们创建一个员工表并向其中添加一些数据。</p>
+<p>为此，<strong>我们注册一个 JDBC 驱动程序并打开一个连接</strong>作为下一步：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&#34;org.apache.ignite.IgniteJdbcThinDriver&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="s">&#34;jdbc:ignite:thin://127.0.0.1/&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>在标准 DDL 命令的帮助下，我们填充<em>Employee</em>表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">sql</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">(</span><span class="s">&#34;CREATE TABLE Employee (&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34; id LONG PRIMARY KEY, name VARCHAR, isEmployed tinyint(1)) &#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34; WITH \&#34;template=replicated\&#34;&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>在 WITH 关键字之后，我们可以设置缓存配置模板。这里我们使用<em>REPLICATED</em>。<strong>默认情况下，模板模式为<em>PARTITIONED</em></strong>。<strong>要指定数据的副本数，我们也可以在此处指定<em>BACKUPS</em></strong>参数，默认为 0。</p>
+<p>然后，让我们使用 INSERT DML 语句添加一些数据：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PreparedStatement</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;INSERT INTO Employee (id, name, isEmployed) VALUES (?, ?, ?)&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">sql</span><span class="o">.</span><span class="na">setLong</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sql</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="s">&#34;James&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sql</span><span class="o">.</span><span class="na">setBoolean</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sql</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// add the rest
+</span></span></span></code></pre></div><p>之后，我们选择记录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ResultSet</span> <span class="n">rs</span> 
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="s">&#34;SELECT e.name, e.isEmployed &#34;</span> 
+</span></span><span class="line"><span class="cl">    <span class="o">+</span> <span class="s">&#34; FROM Employee e &#34;</span> 
+</span></span><span class="line"><span class="cl">    <span class="o">+</span> <span class="s">&#34; WHERE e.isEmployed = TRUE &#34;</span><span class="o">)</span>
+</span></span></code></pre></div><h3 id="72-查询对象"><strong>7.2. 查询对象</strong></h3>
+<p><strong>还可以对缓存中存储的 Java 对象执行查询</strong>。Ignite 将 Java 对象视为单独的 SQL 记录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IgniteCache</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Employee</span><span class="o">&gt;</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">ignite</span><span class="o">.</span><span class="na">cache</span><span class="o">(</span><span class="s">&#34;demoCache&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">SqlFieldsQuery</span> <span class="n">sql</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SqlFieldsQuery</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;select name from Employee where isEmployed = &#39;true&#39;&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">QueryCursor</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;?&gt;&gt;</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;?&gt;</span> <span class="n">row</span> <span class="o">:</span> <span class="n">cursor</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// do something with the row
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><h2 id="8-总结"><strong>8. 总结</strong></h2>
+<p>在本教程中，我们快速浏览了 Apache Ignite 项目。本指南重点介绍了该平台相对于其他类似产品的优势，例如性能提升、耐用性、轻量级 API。</p>
+<p>因此，<strong>我们学习了如何使用 SQL 语言和 Java API 来存储、检索、流式传输持久性或内存网格内的数据。</strong></p>
+<p>坚持底 <strong>通过参考<em>学习 Spring Data JPA</em>课程开始使用 Spring Data JPA：</strong>
+<strong><a href="learn-spring-data-jpa-course/index.html#table" rel="">&raquo; 查看课程</a></strong>
+持久性页脚横幅</p>
+<p>使用 JPA 介绍 SPRING 数据、JPA<br>
+和事务语义详细信息使用 Spring 获得持久性</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-23</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_ignite/" data-title="Apache Ignite 指南"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_ignite/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_ignite/" data-title="Apache Ignite 指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_ignite/" data-title="Apache Ignite 指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_ignite/" data-title="Apache Ignite 指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/apache_httpclient_vs_closeablehttpclient/" class="prev" rel="prev" title="Apache HttpClient 与 CloseableHttpClient"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache HttpClient 与 CloseableHttpClient</a>
+            <a href="/apache_ignite_spring_data/" class="next" rel="next" title="Apache Ignite 与 Spring Data">Apache Ignite 与 Spring Data<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>
