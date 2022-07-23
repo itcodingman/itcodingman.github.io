@@ -20,7 +20,7 @@
     <description><![CDATA[1. 概述 在本文中，我们将了解如何借助名为Apache Thrift的 RPC 框架开发跨平台的客户端-服务器应用程序。 我们将涵盖： 使用 IDL 定义数据类型和服]]></description>
 </item>
 <item>
-    <title>使用 Apache SolrJ 在 Java 中使用 Solr 指南</title>
+    <title>Apache SolrJ 在 Java 中使用 Solr 指南</title>
     <link>http://itcodingman.github.io/apache_solrj/</link>
     <pubDate>Tue, 05 Jun 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>

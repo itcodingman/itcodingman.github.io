@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>使用 Apache Shiro 的基于权限的访问控制 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache Shiro 的基于权限的访问控制" />
-<meta property="og:description" content="1. 简介 在本教程中，我们将了解如何使用Apache Shiro Java 安全框架实现细粒度的基于权限的访问控制。 2. 设置 我们将使用与 Shiro 介绍相同的设置——也就是说，" />
+        <title>使用 Apache Shiro 的基于权限的访问控制 - Coding Man</title><meta name="Description" content="在本文中，我们回顾了 Apache Shiro 如何实现基于权限的访问控制。"><meta property="og:title" content="使用 Apache Shiro 的基于权限的访问控制" />
+<meta property="og:description" content="在本文中，我们回顾了 Apache Shiro 如何实现基于权限的访问控制。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_shiro_access_control/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-06-04T00:00:00+00:00" />
@@ -13,7 +13,7 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Apache Shiro 的基于权限的访问控制"/>
-<meta name="twitter:description" content="1. 简介 在本教程中，我们将了解如何使用Apache Shiro Java 安全框架实现细粒度的基于权限的访问控制。 2. 设置 我们将使用与 Shiro 介绍相同的设置——也就是说，"/>
+<meta name="twitter:description" content="在本文中，我们回顾了 Apache Shiro 如何实现基于权限的访问控制。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_shiro_access_control\/"
-        },"genre": "posts","wordcount":  2417 ,
+        },"genre": "posts","wordcount":  2300 ,
         "url": "http:\/\/itcodingman.github.io\/apache_shiro_access_control\/","datePublished": "2018-06-04T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本文中，我们回顾了 Apache Shiro 如何实现基于权限的访问控制。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache Shiro 的基于权限的访问控制</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/security/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Security</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-04">2018-06-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2417 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-04">2018-06-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2300 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -120,30 +120,25 @@
     <li><a href="#2-设置"><strong>2. 设置</strong></a></li>
     <li><a href="#3-角色和权限"><strong>3. 角色和权限</strong></a>
       <ul>
-        <li><a href="#31权限"><strong>3.1。权限</strong></a></li>
+        <li><a href="#31-权限"><strong>3.1 权限</strong></a></li>
         <li><a href="#32-将权限与用户关联"><strong>3.2. 将权限与用户关联</strong></a></li>
       </ul>
     </li>
     <li><a href="#4-通配符权限"><strong>4. 通配符权限</strong></a>
       <ul>
-        <li><a href="#41权限含义和实例级粒度"><strong>4.1。权限含义和实例级粒度</strong></a></li>
+        <li><a href="#41-权限含义和实例级粒度"><strong>4.1 权限含义和实例级粒度</strong></a></li>
       </ul>
     </li>
     <li><a href="#5-自定义权限实现"><strong>5. 自定义权限实现</strong></a>
       <ul>
-        <li><a href="#51编写权限实现"><strong>5.1。编写权限实现</strong></a></li>
+        <li><a href="#51编写权限实现"><strong>5.1编写权限实现</strong></a></li>
         <li><a href="#52-告诉-shiro-我们的实施"><strong>5.2. 告诉 Shiro 我们的实施</strong></a></li>
-      </ul>
-    </li>
-    <li><a href="#六结论"><strong>六，结论</strong></a>
-      <ul>
-        <li><a href="#我刚刚宣布了新的learn-spring-security课程包括专注于-spring-security-5-中新的-oauth2-堆栈的完整材料"><strong>我刚刚宣布了新的<em>Learn Spring Security</em>课程，包括专注于 Spring Security 5 中新的 OAuth2 堆栈的完整材料：</strong></a></li>
       </ul>
     </li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
-<p>在本教程中，我们将了解如何使用<a href="apache-shiro" rel="">Apache Shiro</a> Java 安全框架实现<strong>细粒度的基于权限的访问控制。</strong></p>
+<p>在本教程中，我们将了解如何使用<a href="/apache_shiro" rel="">Apache Shiro</a> Java 安全框架实现<strong>细粒度的基于权限的访问控制。</strong></p>
 <h2 id="2-设置"><strong>2. 设置</strong></h2>
 <p>我们将使用与 Shiro 介绍相同的设置——也就是说，我们只会将<a href="https://search.maven.org/search?q=g:org.apache.shiro%20AND%20a:shiro-core&amp;core=gav" target="_blank" rel="noopener noreffer"><em>shiro-core</em></a>模块添加到我们的依赖项中：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
@@ -174,7 +169,7 @@
 </span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">subject</span><span class="o">.</span><span class="na">hasRole</span><span class="o">(</span><span class="s">&#34;admin&#34;</span><span class="o">))</span> <span class="o">{</span>       
 </span></span><span class="line"><span class="cl">    <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">&#34;Welcome Admin&#34;</span><span class="o">);</span>              
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h3 id="31权限"><strong>3.1。权限</strong></h3>
+</span></span></code></pre></div><h3 id="31-权限"><strong>3.1 权限</strong></h3>
 <p>但是，如果我们通过测试用户是否具有特定角色来检查授权，则会出现问题。事实上，**我们正在硬编码角色和权限之间的关系。**换句话说，当我们想要授予或撤销对资源的访问权限时，我们将不得不更改源代码。当然，这也意味着重建和重新部署。</p>
 <p>我们可以做得更好；这就是为什么我们现在要介绍权限的概念。<strong>权限代表</strong>我们可以授权或拒绝的软件可以做什么，而**不是谁可以做。**例如，“编辑当前用户的个人资料”、“批准文档”或“创建新文章”。</p>
 <p>Shiro 对权限的假设很少。在最简单的情况下，权限是纯字符串：</p>
@@ -212,7 +207,7 @@
 </span></span><span class="line"><span class="cl">    <span class="c1">//Edit article with id 123
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
 </span></span></code></pre></div><p>请注意，<strong>通配符权限字符串中的组件数不必是三个，即使通常情况下三个组件也是如此。</strong></p>
-<h3 id="41权限含义和实例级粒度"><strong>4.1。权限含义和实例级粒度</strong></h3>
+<h3 id="41-权限含义和实例级粒度"><strong>4.1 权限含义和实例级粒度</strong></h3>
 <p>当我们将通配符权限与 Shiro 权限的另一个特性（隐含）结合使用时，通配符权限就会大放异彩。</p>
 <p>**当我们测试角色时，我们会测试确切的成员资格：**一个<em>Subject</em>有一个特定的角色，或者没有。换句话说，Shiro 测试角色的平等性。</p>
 <p>另一方面，**当我们测试权限时，我们会测试含义：**<em>Subject</em>的权限是否暗示我们正在测试它的权限？</p>
@@ -236,11 +231,11 @@
 <p>假设我们需要对路径的权限进行建模，以便路径上的权限<em>意味着</em>对所有子路径的权限。实际上，我们可以对任务使用通配符权限，但让我们忽略它。</p>
 <p>那么，我们需要什么？</p>
 <ol>
-<li><em>权限</em>实现_</li>
+<li><em>权限</em>实现</li>
 <li>告诉四郎这件事</li>
 </ol>
 <p>让我们看看如何实现这两点。</p>
-<h3 id="51编写权限实现"><strong>5.1。编写权限实现</strong></h3>
+<h3 id="51编写权限实现"><strong>5.1编写权限实现</strong></h3>
 <p><strong><em>Permission</em>实现是一个只有一个方法的类——<em>意味着</em>：</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PathPermission</span> <span class="kd">implements</span> <span class="n">Permission</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">
@@ -293,15 +288,7 @@
 </span></span><span class="line"><span class="cl">jdbcRealm = org.apache.shiro.realm.jdbc.JdbcRealm
 </span></span><span class="line"><span class="cl">jdbcRealm.dataSource = $dataSource 
 </span></span><span class="line"><span class="cl">jdbcRealm.permissionResolver = $permissionResolver
-</span></span></code></pre></div><h2 id="六结论"><strong>六，结论</strong></h2>
-<p>在本文中，我们回顾了 Apache Shiro 如何实现基于权限的访问控制。</p>
-<p>安全底</p>
-<h3 id="我刚刚宣布了新的learn-spring-security课程包括专注于-spring-security-5-中新的-oauth2-堆栈的完整材料"><strong>我刚刚宣布了新的<em>Learn Spring Security</em>课程，包括专注于 Spring Security 5 中新的 OAuth2 堆栈的完整材料：</strong></h3>
-<p><strong><a href="lss-course#table" rel="">&raquo; 查看课程</a></strong></p>
-<p>安全页脚横幅</p>
-<p>学习使用 Spring 保护 REST API 的基础知识
-<a href="security-video-guide" rel="">访问视频课程</a></p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
@@ -324,7 +311,7 @@
     </div>
 
     <div class="post-nav"><a href="/apache_shiro/" class="prev" rel="prev" title="Apache Shiro 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Shiro 简介</a>
-            <a href="/apache_solrj/" class="next" rel="next" title="使用 Apache SolrJ 在 Java 中使用 Solr 指南">使用 Apache SolrJ 在 Java 中使用 Solr 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+            <a href="/apache_solrj/" class="next" rel="next" title="Apache SolrJ 在 Java 中使用 Solr 指南">Apache SolrJ 在 Java 中使用 Solr 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

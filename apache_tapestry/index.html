@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_tapestry\/"
-        },"genre": "posts","wordcount":  3481 ,
+        },"genre": "posts","wordcount":  3488 ,
         "url": "http:\/\/itcodingman.github.io\/apache_tapestry\/","datePublished": "2018-06-08T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Tapestry 简介</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-08">2018-06-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3481 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-08">2018-06-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3488 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -116,7 +116,11 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#四项目结构">四、项目结构</a>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-apache-tapestry">2. Apache Tapestry</a></li>
+    <li><a href="#3-设置">3. 设置</a></li>
+    <li><a href="#4-项目结构">4. 项目结构</a></li>
+    <li><a href="#5-注释">5. 注释</a>
       <ul>
         <li><a href="#51-inject">5.1 <em>@Inject</em></a></li>
         <li><a href="#52-injectpage">5.2. <em>@InjectPage</em></a></li>
@@ -135,28 +139,23 @@
       </ul>
     </li>
     <li><a href="#7表格">7.表格</a></li>
+    <li><a href="#8-验证">8. 验证</a></li>
+    <li><a href="#9-警报">9. 警报</a></li>
+    <li><a href="#10-ajax">10. Ajax</a></li>
+    <li><a href="#11-记录">11. 记录</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>概述</li>
-</ol>
-<hr>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
 <p>如今，从社交网络到银行业务，从医疗保健到政府服务，所有活动都可以在线进行。因此，他们严重依赖 Web 应用程序。</p>
 <p>Web 应用程序使用户能够消费/享受公司提供的在线服务。同时，它充当后端软件的接口。</p>
 <p>在这个介绍性教程中，我们将探索 Apache Tapestry Web 框架并使用它提供的基本功能创建一个简单的 Web 应用程序。</p>
-<ol start="2">
-<li>Apache Tapestry</li>
-</ol>
-<hr>
+<h2 id="2-apache-tapestry">2. Apache Tapestry</h2>
 <p>Apache Tapestry 是一个基于组件的框架，用于构建可扩展的 Web 应用程序。</p>
 <p>它遵循<strong>约定优于配置的</strong>范式，并使用注释和命名约定进行配置。</p>
 <p>所有组件都是简单的 POJO。同时，它们是从零开始开发的，不依赖于其他库。</p>
 <p>除了 Ajax 支持之外，Tapestry 还具有出色的异常报告功能。它还提供了一个广泛的内置通用组件库。</p>
 <p>在其他重要功能中，一个突出的特点是代码的热重载。因此，使用此功能，我们可以立即看到开发环境中的变化。</p>
-<ol start="3">
-<li>设置</li>
-</ol>
-<hr>
+<h2 id="3-设置">3. 设置</h2>
 <p>Apache Tapestry 需要一组简单的工具来创建 Web 应用程序：</p>
 <ul>
 <li>Java 1.6 或更高版本</li>
@@ -184,7 +183,7 @@
         data-sizes="auto"
         alt="/uploads/apache_tapestry_homepage-1.png"
         title="/uploads/apache_tapestry_homepage-1.png" /></p>
-<h2 id="四项目结构">四、项目结构</h2>
+<h2 id="4-项目结构">4. 项目结构</h2>
 <p>让我们探索一下 Apache Tapestry 创建的项目布局：</p>
 <p><img
         class="lazyload"
@@ -209,10 +208,7 @@
         data-sizes="auto"
         alt="/uploads/apache_tapestry_project_structure.png"
         title="/uploads/apache_tapestry_project_structure.png" /></p>
-<ol start="5">
-<li>注释</li>
-</ol>
-<hr>
+<h2 id="5-注释">5. 注释</h2>
 <p>让我们讨论Apache Tapestry 为日常使用提供的一些方便的<a href="https://tapestry.apache.org/annotations.html" target="_blank" rel="noopener noreffer">注释</a>。展望未来，我们将在我们的实现中使用这些注释。</p>
 <h3 id="51-inject">5.1 <em>@Inject</em></h3>
 <p><em><a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/ioc/annotations/Inject.html" target="_blank" rel="noopener noreffer">@Inject</a><em>注解在</em>org.apache.tapestry5.ioc.annotations</em>包中可用，它提供了一种在 Java 类中注入依赖项的简单方法。</p>
@@ -346,10 +342,7 @@
         data-sizes="auto"
         alt="/uploads/apache_tapestry_login-1.png"
         title="/uploads/apache_tapestry_login-1.png" /></p>
-<ol start="8">
-<li>验证</li>
-</ol>
-<hr>
+<h2 id="8-验证">8. 验证</h2>
 <p>Apache Tapestry 提供了一些用于<a href="https://tapestry.apache.org/forms-and-validation.html" target="_blank" rel="noopener noreffer">表单验证</a>的内置方法。它还提供了处理表单提交成功或失败的方法。</p>
 <p>内置方法遵循事件和组件名称的约定。例如，方法<em>onValidationFromLogin</em>将验证<em>Login</em>组件。</p>
 <p>同样，像<em>onSuccessFromLogin</em>和<em>onFailureFromLogin</em>这样的方法分别用于成功和失败事件。</p>
@@ -374,10 +367,7 @@
 </span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Please try again with correct credentials&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><ol start="9">
-<li>警报</li>
-</ol>
-<hr>
+</span></span></code></pre></div><h2 id="9-警报">9. 警报</h2>
 <p>如果没有适当的警报，表单验证是不完整的。更不用说，该框架还内置了对警报消息的支持。</p>
 <p>为此，我们将首先在<em>Login类中注入</em><a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/alerts/AlertManager.html" target="_blank" rel="noopener noreffer"><em>AlertManager</em></a>的实例来管理警报*。<em>然后，将现有方法中的</em>println*语句替换为警告消息：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Login</span> <span class="o">{</span>
@@ -410,10 +400,7 @@
         data-sizes="auto"
         alt="/uploads/apache_tapestry_loginfail-1.png"
         title="/uploads/apache_tapestry_loginfail-1.png" /></p>
-<ol start="10">
-<li>Ajax</li>
-</ol>
-<hr>
+<h2 id="10-ajax">10. Ajax</h2>
 <p>到目前为止，我们已经探索了使用表单创建一个简单的<em>主页</em>。同时，我们看到了对警报消息的验证和支持。</p>
 <p>接下来，让我们探索一下 Apache Tapestry 对 Ajax 的内置支持。</p>
 <p>首先，我们将在<em>Home</em>类中注入<a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/services/ajax/AjaxResponseRenderer.html" target="_blank" rel="noopener noreffer"><em>AjaxResponseRenderer</em></a>和<a href="https://tapestry.apache.org/current/apidocs/org/apache/tapestry5/Block.html" target="_blank" rel="noopener noreffer"><em>Block</em></a>组件的实例。然后，我们将创建一个<em>onCallAjax</em>方法来处理 Ajax 调用：</p>
@@ -459,10 +446,7 @@
         data-sizes="auto"
         alt="/uploads/apache_tapestry_homeAjax.png"
         title="/uploads/apache_tapestry_homeAjax.png" /></p>
-<ol start="11">
-<li>记录</li>
-</ol>
-<hr>
+<h2 id="11-记录">11. 记录</h2>
 <p>要启用内置的日志记录功能，需要注入<a href="http://www.slf4j.org/api/org/slf4j/Logger.html" target="_blank" rel="noopener noreffer"><em>Logger的实例。</em></a>然后，我们可以使用它来记录任何级别的日志，例如 TRACE、DEBUG 和 INFO。</p>
 <p>因此，让我们在<em>Home</em>类中进行必要的更改：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Home</span> <span class="o">{</span>

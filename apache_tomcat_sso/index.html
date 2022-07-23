@@ -178,7 +178,7 @@
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/tomcat-users&gt;</span>
 </span></span></code></pre></div><h3 id="32-web-应用程序配置">3.2. Web 应用程序配置</h3>
 <p>一旦我们配置了服务器，让我们通过每个 servlet 的 WEB-INF 文件夹中的 web.xml 配置文件来配置 servlet。</p>
-<p><strong>所有需要 SSO 的 Web 应用程序都必须具有受保护的资源并使用一种 Tomcat 身份验证方法</strong>。<strong>正如 Servlet API 规范 2.3 中定义的那样，Web 应用程序的身份验证机制在<em>web-app</em>元素</strong>内的 login-config 元素中定义。此元素将包含需要使用以下值之一的身份验证方法表单：BASIC、DIGEST、FORM 或 CLIENT-CERT。每种身份验证方法都有不同的配置，但我们将在<a href="/apache-tomcat-sso#Tomcat-Web-Apps-Configurations" rel="">Tomcat Web 应用程序配置</a>部分仅讨论 DIGEST 和 FORM 身份验证方法。</p>
+<p><strong>所有需要 SSO 的 Web 应用程序都必须具有受保护的资源并使用一种 Tomcat 身份验证方法</strong>。<strong>正如 Servlet API 规范 2.3 中定义的那样，Web 应用程序的身份验证机制在<em>web-app</em>元素</strong>内的 login-config 元素中定义。此元素将包含需要使用以下值之一的身份验证方法表单：BASIC、DIGEST、FORM 或 CLIENT-CERT。每种身份验证方法都有不同的配置，但我们将在<a href="/apache_tomcat_sso" rel="">Tomcat Web 应用程序配置</a>部分仅讨论 DIGEST 和 FORM 身份验证方法。</p>
 <p><strong>要完成 Web 应用配置，我们需要设置保护区</strong>。在 web-app 元素下的 web.xml 文件中，我们可以根据需要添加任意数量的<em>安全约束</em>元素。每个安全约束都定义了受保护资源的 URL 模式，并将设置允许的角色。此外，我们需要为所有角色定义安全角色元素，并且它们必须与 tomcat-users.xml 文件中的定义相匹配。我们将在下一节中看到一个示例。</p>
 <h2 id="4-示例认证机制">4. 示例认证机制</h2>
 <p>现在我们知道如何配置 Web 应用程序，让我们看两个示例：Ping 和 Pong。<strong>我们选择了不同的身份验证机制来证明 SSO 可以很好地与不同的机制配合使用</strong>。</p>
@@ -252,8 +252,8 @@
         data-srcset="/uploads/apache_tomcat_sso_login_request.png, /uploads/apache_tomcat_sso_login_request.png 1.5x, /uploads/apache_tomcat_sso_login_request.png 2x"
         data-sizes="auto"
         alt="/uploads/apache_tomcat_sso_login_request.png"
-        title="/uploads/apache_tomcat_sso_login_request.png" />
-然后我们需要引入<a href="/apache-tomcat-sso" rel="">Tomcat服务器配置</a>部分配置的凭据并提交表单。如果服务器验证了凭据，那么我们将看到一个网页，其中包含指向 pong 私有部分的链接：</p>
+        title="/uploads/apache_tomcat_sso_login_request.png" /></p>
+<p>然后我们需要引入<a href="/apache_tomcat_sso" rel="">Tomcat服务器配置</a>部分配置的凭据并提交表单。如果服务器验证了凭据，那么我们将看到一个网页，其中包含指向 pong 私有部分的链接：</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -261,8 +261,8 @@
         data-srcset="/uploads/apache_tomcat_sso_private_page.png, /uploads/apache_tomcat_sso_private_page.png 1.5x, /uploads/apache_tomcat_sso_private_page.png 2x"
         data-sizes="auto"
         alt="/uploads/apache_tomcat_sso_private_page.png"
-        title="/uploads/apache_tomcat_sso_private_page.png" />
-如果服务器不验证访问，我们将看到登录错误页面。</p>
+        title="/uploads/apache_tomcat_sso_private_page.png" /></p>
+<p>如果服务器不验证访问，我们将看到登录错误页面。</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -270,8 +270,8 @@
         data-srcset="/uploads/apache_tomcat_sso_login_error.png, /uploads/apache_tomcat_sso_login_error.png 1.5x, /uploads/apache_tomcat_sso_login_error.png 2x"
         data-sizes="auto"
         alt="/uploads/apache_tomcat_sso_login_error.png"
-        title="/uploads/apache_tomcat_sso_login_error.png" />
-成功登录 Ping 应用程序后，我们可以看到 SSO 机制正在运行，单击指向 pong 私有部分的链接。如果会话已经处于活动状态，服务器将发送 Pong 的受保护资源，而无需我们再次登录。</p>
+        title="/uploads/apache_tomcat_sso_login_error.png" /></p>
+<p>成功登录 Ping 应用程序后，我们可以看到 SSO 机制正在运行，单击指向 pong 私有部分的链接。如果会话已经处于活动状态，服务器将发送 Pong 的受保护资源，而无需我们再次登录。</p>
 <p><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -279,15 +279,15 @@
         data-srcset="/uploads/apache_tomcat_sso_private_page2.png, /uploads/apache_tomcat_sso_private_page2.png 1.5x, /uploads/apache_tomcat_sso_private_page2.png 2x"
         data-sizes="auto"
         alt="/uploads/apache_tomcat_sso_private_page2.png"
-        title="/uploads/apache_tomcat_sso_private_page2.png" />
-最后，我们可以检查会话过期后，服务器会再次显示登录页面。我们可以通过等待几分钟并单击指向 ping 私人部分的链接来做到这一点。</p>
+        title="/uploads/apache_tomcat_sso_private_page2.png" /></p>
+<p>最后，我们可以检查会话过期后，服务器会再次显示登录页面。我们可以通过等待几分钟并单击指向 ping 私人部分的链接来做到这一点。</p>
 <h2 id="6-其他-sso-解决方案">6. 其他 SSO 解决方案</h2>
 <p>在本文中，我们介绍了 Tomcat 服务器实现的 Web-SSO。如果我们想探索其他 SSO 选项，这里有一些流行的选项：</p>
 <ul>
-<li><a href="/spring-security-openid-connect" rel="">Spring Security 和 OpenID Connect</a></li>
-<li><a href="/sso-spring-security-oauth2" rel=""><em>带有KeyCloak</em>的 Spring Security OAuth</a></li>
-<li><a href="/spring-security-saml" rel="">带有 Spring Security 的 SAML</a></li>
-<li><a href="/spring-security-cas-sso" rel="">Apereo 中央认证服务</a>
+<li><a href="/spring_security_openid_connect" rel="">Spring Security 和 OpenID Connect</a></li>
+<li><a href="/sso_spring_security_oauth2" rel=""><em>带有KeyCloak</em>的 Spring Security OAuth</a></li>
+<li><a href="/spring_security_saml" rel="">带有 Spring Security 的 SAML</a></li>
+<li><a href="/spring_security_cas_sso" rel="">Apereo 中央认证服务</a>
 &quot;</li>
 </ul>
 </div><div class="post-footer" id="post-footer">
