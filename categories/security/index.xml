@@ -9,7 +9,7 @@
     <pubDate>Mon, 11 Jun 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_tomcat_sso/</guid>
-    <description><![CDATA[概述 在本文中，我们将了解 Tomcat 服务器基础知识、它的工作原理以及如何启用 Tomcat 的单点登录 ( SSO ) 功能。我们将探索 Tomcat 服务器和 Web 应用程序所需的配置。 2.To]]></description>
+    <description><![CDATA[1. 概述 在本文中，我们将了解 Tomcat 服务器基础知识、它的工作原理以及如何启用 Tomcat 的单点登录 ( SSO ) 功能。我们将探索 Tomcat 服务器和 Web 应用程序所需的配置。 2.T]]></description>
 </item>
 <item>
     <title>使用 Apache Shiro 的基于权限的访问控制</title>

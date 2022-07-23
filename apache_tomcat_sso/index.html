@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_tomcat_sso\/"
-        },"genre": "posts","wordcount":  2750 ,
+        },"genre": "posts","wordcount":  2755 ,
         "url": "http:\/\/itcodingman.github.io\/apache_tomcat_sso\/","datePublished": "2018-06-11T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache Tomcat 的 SSO</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/security/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Security</a>&nbsp;<a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-11">2018-06-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2750 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-11">2018-06-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2755 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -116,21 +116,26 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#2tomcat架构">2.Tomcat架构</a>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2tomcat架构">2.Tomcat架构</a></li>
+    <li><a href="#3-tomcat-单点登录">3. Tomcat 单点登录</a>
       <ul>
         <li><a href="#31-tomcat-服务器配置">3.1 Tomcat 服务器配置</a></li>
         <li><a href="#32-web-应用程序配置">3.2. Web 应用程序配置</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-示例认证机制">4. 示例认证机制</a>
+      <ul>
         <li><a href="#41-ping-认证机制">4.1 Ping 认证机制</a></li>
         <li><a href="#42-认证机制">4.2. 认证机制</a></li>
         <li><a href="#43-web-应用安全约束配置">4.3. Web 应用安全约束配置</a></li>
       </ul>
     </li>
+    <li><a href="#5-运行示例">5. 运行示例</a></li>
+    <li><a href="#6-其他-sso-解决方案">6. 其他 SSO 解决方案</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>概述</li>
-</ol>
-<hr>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
 <p>在本文中，我们将了解 Tomcat 服务器基础知识、它的工作原理以及如何启用 Tomcat 的单点登录 ( <a href="https://tomcat.apache.org/tomcat-10.0-doc/config/host.html#Single_Sign_On" target="_blank" rel="noopener noreffer">SSO</a> ) 功能。我们将探索 Tomcat 服务器和 Web 应用程序所需的配置。</p>
 <h2 id="2tomcat架构">2.Tomcat架构</h2>
 <p>构成 Catalina servlet 容器的主要部分是包含定义连接器的服务和由主机构建的引擎的服务器，最后，这些主机将包含上下文或 Web 应用程序。</p>
@@ -138,10 +143,7 @@
 <p>引擎将处理连接器收到的请求并生成输出。它将包含一个 <a href="https://en.wikipedia.org/wiki/Pipeline_%28software%29" target="_blank" rel="noopener noreffer">处理管道</a>，这是一个进程链，每个请求都会执行以产生响应。这些过程就是 Tomcat 的<a href="https://tomcat.apache.org/tomcat-10.0-doc/config/valve.html#Introduction" target="_blank" rel="noopener noreffer">阀门</a>。例如，Tomcat 上的 SSO 是作为阀门实现的。</p>
 <p>之后，我们找到将定义将网络名称与服务器相关联的虚拟主机的主机。这是定义 SSO 阀的级别，因此主机的所有上下文都将位于 SSO 之下。</p>
 <p>最后，我们将拥有与主机关联的上下文元素。这些上下文是将在服务器上运行的 Web 应用程序。上下文必须遵循 servlet 规范 2.3 或更高版本。</p>
-<ol start="3">
-<li>Tomcat 单点登录</li>
-</ol>
-<hr>
+<h2 id="3-tomcat-单点登录">3. Tomcat 单点登录</h2>
 <p>Tomcat 在必须在主机级别配置的 Valve 中实现单点登录功能。它的工作方式是 SSO 阀门将存储用户凭据并在需要时传递它们，因此用户无需再次登录。</p>
 <p><strong>SSO 阀需要满足以下要求</strong>：</p>
 <ul>
@@ -178,10 +180,7 @@
 <p>一旦我们配置了服务器，让我们通过每个 servlet 的 WEB-INF 文件夹中的 web.xml 配置文件来配置 servlet。</p>
 <p><strong>所有需要 SSO 的 Web 应用程序都必须具有受保护的资源并使用一种 Tomcat 身份验证方法</strong>。<strong>正如 Servlet API 规范 2.3 中定义的那样，Web 应用程序的身份验证机制在<em>web-app</em>元素</strong>内的 login-config 元素中定义。此元素将包含需要使用以下值之一的身份验证方法表单：BASIC、DIGEST、FORM 或 CLIENT-CERT。每种身份验证方法都有不同的配置，但我们将在<a href="/apache-tomcat-sso#Tomcat-Web-Apps-Configurations" rel="">Tomcat Web 应用程序配置</a>部分仅讨论 DIGEST 和 FORM 身份验证方法。</p>
 <p><strong>要完成 Web 应用配置，我们需要设置保护区</strong>。在 web-app 元素下的 web.xml 文件中，我们可以根据需要添加任意数量的<em>安全约束</em>元素。每个安全约束都定义了受保护资源的 URL 模式，并将设置允许的角色。此外，我们需要为所有角色定义安全角色元素，并且它们必须与 tomcat-users.xml 文件中的定义相匹配。我们将在下一节中看到一个示例。</p>
-<ol start="4">
-<li>示例认证机制</li>
-</ol>
-<hr>
+<h2 id="4-示例认证机制">4. 示例认证机制</h2>
 <p>现在我们知道如何配置 Web 应用程序，让我们看两个示例：Ping 和 Pong。<strong>我们选择了不同的身份验证机制来证明 SSO 可以很好地与不同的机制配合使用</strong>。</p>
 <h3 id="41-ping-认证机制">4.1 Ping 认证机制</h3>
 <p>在 ping web 应用程序中，我们使用 FORM 身份验证方法。<strong>FORM认证方式需要登录表单，网页登录失败</strong>。例如，当我们想要将登录页面自定义为 Web 应用程序时，此方法将很有用，配置如下所示：</p>
@@ -243,10 +242,7 @@
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;/user-data-constraint&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/security-constraint&gt;</span>
 </span></span></code></pre></div><p>安全约束定义私有文件夹下的所有内容都是受保护的资源，并且还定义了需要具有管理员角色才能访问资源。</p>
-<ol start="5">
-<li>运行示例</li>
-</ol>
-<hr>
+<h2 id="5-运行示例">5. 运行示例</h2>
 <p>现在我们需要安装一个<a href="https://tomcat.apache.org/download-10.cgi" target="_blank" rel="noopener noreffer">Tomcat 10</a>服务器，按照文章前面所示调整配置，将 Ping 和 Pong web 应用程序放在 Tomcat 的 web 应用程序文件夹下。</p>
 <p>一旦服务器启动并运行，并且两个应用程序都已部署，请求资源 http://localhost:8080/ping/private。 服务器将显示登录身份验证，因为我们没有登录：</p>
 <p><img
@@ -285,10 +281,7 @@
         alt="/uploads/apache_tomcat_sso_private_page2.png"
         title="/uploads/apache_tomcat_sso_private_page2.png" />
 最后，我们可以检查会话过期后，服务器会再次显示登录页面。我们可以通过等待几分钟并单击指向 ping 私人部分的链接来做到这一点。</p>
-<ol start="6">
-<li>其他 SSO 解决方案</li>
-</ol>
-<hr>
+<h2 id="6-其他-sso-解决方案">6. 其他 SSO 解决方案</h2>
 <p>在本文中，我们介绍了 Tomcat 服务器实现的 Web-SSO。如果我们想探索其他 SSO 选项，这里有一些流行的选项：</p>
 <ul>
 <li><a href="/spring-security-openid-connect" rel="">Spring Security 和 OpenID Connect</a></li>
