@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Flink 与 Java 简介 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Flink 与 Java 简介" />
-<meta property="og:description" content="1. 概述 Apache Flink 是一个大数据处理框架，它允许程序员以非常高效和可扩展的方式处理大量数据。 在本文中，我们将介绍***Apache Flink*** Java API****中" />
+        <title>Apache Flink 与 Java 简介 - Coding Man</title><meta name="Description" content="在本文中，我们介绍了 Apache Flink 框架并查看了其 API 提供的一些转换。我们使用 Flink 流畅且功能强大的 DataSet API 实现了一个字数统计程序。然后我们查看了 DataStream API 并在事件流上实现了一个简单的实时转换。"><meta property="og:title" content="Apache Flink 与 Java 简介" />
+<meta property="og:description" content="在本文中，我们介绍了 Apache Flink 框架并查看了其 API 提供的一些转换。我们使用 Flink 流畅且功能强大的 DataSet API 实现了一个字数统计程序。然后我们查看了 DataStream API 并在事件流上实现了一个简单的实时转换。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_flink/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-11T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Apache Flink 与 Java 简介"/>
-<meta name="twitter:description" content="1. 概述 Apache Flink 是一个大数据处理框架，它允许程序员以非常高效和可扩展的方式处理大量数据。 在本文中，我们将介绍***Apache Flink*** Java API****中"/>
+<meta name="twitter:description" content="在本文中，我们介绍了 Apache Flink 框架并查看了其 API 提供的一些转换。我们使用 Flink 流畅且功能强大的 DataSet API 实现了一个字数统计程序。然后我们查看了 DataStream API 并在事件流上实现了一个简单的实时转换。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_flink\/"
-        },"genre": "posts","wordcount":  2824 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_flink\/","datePublished": "2018-05-11T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","wordcount":  2722 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_flink\/","datePublished": "2018-05-11T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本文中，我们介绍了 Apache Flink 框架并查看了其 API 提供的一些转换。我们使用 Flink 流畅且功能强大的 DataSet API 实现了一个字数统计程序。然后我们查看了 DataStream API 并在事件流上实现了一个简单的实时转换。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Flink 与 Java 简介</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-11">2018-05-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2824 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-11">2018-05-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2722 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -117,32 +117,31 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
-    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
     <li><a href="#3-核心-api-概念"><strong>3. 核心 API 概念</strong></a></li>
     <li><a href="#4-数据集-api-转换"><strong>4. 数据集 API 转换</strong></a>
       <ul>
-        <li><a href="#41创建数据集"><strong>4.1。创建数据集</strong></a></li>
+        <li><a href="#41-创建数据集"><strong>4.1 创建数据集</strong></a></li>
         <li><a href="#42-过滤和减少"><strong>4.2. 过滤和减少</strong></a></li>
         <li><a href="#43-地图"><strong>4.3. 地图</strong></a></li>
         <li><a href="#44-加入"><strong>4.4. 加入</strong></a></li>
         <li><a href="#45-种类"><strong>4.5. 种类</strong></a></li>
       </ul>
     </li>
-    <li><a href="#5字数"><strong>5.字数</strong></a></li>
+    <li><a href="#5-字数统计"><strong>5. 字数统计</strong></a></li>
     <li><a href="#6数据流api"><strong>6.数据流API</strong></a>
       <ul>
-        <li><a href="#61创建数据流"><strong>6.1。创建数据流</strong></a></li>
+        <li><a href="#61-创建数据流"><strong>6.1 创建数据流</strong></a></li>
         <li><a href="#62-事件窗口化"><strong>6.2. 事件窗口化</strong></a></li>
       </ul>
     </li>
-    <li><a href="#7-结论"><strong>7. 结论</strong></a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
 <p>Apache Flink 是一个大数据处理框架，它允许程序员以非常高效和可扩展的方式处理大量数据。</p>
 <p>在本文中，我们将介绍***<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.2/index.html" target="_blank" rel="noopener noreffer">Apache Flink</a>*** <strong>Java API****中可用的一些核心 API 概念和标准数据转换</strong>。这个 API 的流畅风格使得使用 Flink 的中心结构——分布式集合变得容易。</p>
 <p>首先，我们将看一下 Flink 的<em>DataSet</em> API 转换，并使用它们来实现一个字数统计程序。然后我们将简要介绍 Flink 的<em>DataStream</em> API，它允许您以实时方式处理事件流。</p>
-<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
 <p>首先，我们需要将 Maven 依赖项添加到<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.flink%22%20AND%20a%3A%22flink-java%22" target="_blank" rel="noopener noreffer"><em>flink-java</em></a>和<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.flink%22%20AND%20a%3A%22flink-test-utils%22" target="_blank" rel="noopener noreffer"><em>flink-test-utils</em></a>库：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.flink<span class="nt">&lt;/groupId&gt;</span>
@@ -169,7 +168,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ExecutionEnvironment</span> <span class="n">env</span>
 </span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">ExecutionEnvironment</span><span class="o">.</span><span class="na">getExecutionEnvironment</span><span class="o">();</span>
 </span></span></code></pre></div><p>**请注意，当您在本地机器上启动应用程序时，它将在本地 JVM 上执行处理。**如果您想在机器集群上开始处理，则需要在这些机器上安装<a href="https://nightlies.apache.org/flink/flink-docs-release-1.14//docs/try-flink/local_installation/" target="_blank" rel="noopener noreffer">Apache Flink并相应地配置</a><em>ExecutionEnvironment</em>。</p>
-<h3 id="41创建数据集"><strong>4.1。创建数据集</strong></h3>
+<h3 id="41-创建数据集"><strong>4.1 创建数据集</strong></h3>
 <p>要开始执行数据转换，我们需要为我们的程序提供数据。</p>
 <p><em>让我们使用ExecutionEnvironement创建**DataSet</em>类的实例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DataSet</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">amounts</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="na">fromElements</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">29</span><span class="o">,</span> <span class="n">40</span><span class="o">,</span> <span class="n">50</span><span class="o">);</span>
@@ -260,7 +259,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">sorted</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">containsExactly</span><span class="o">(</span><span class="n">firstPerson</span><span class="o">,</span> <span class="n">secondPerson</span><span class="o">,</span> <span class="n">thirdPerson</span><span class="o">,</span> <span class="n">fourthPerson</span><span class="o">);</span>
-</span></span></code></pre></div><h2 id="5字数"><strong>5.字数</strong></h2>
+</span></span></code></pre></div><h2 id="5-字数统计"><strong>5. 字数统计</strong></h2>
 <p>字数统计问题是一种常用来展示大数据处理框架能力的问题。基本解决方案涉及计算文本输入中的单词出现次数。让我们使用 Flink 来实现这个问题的解决方案。</p>
 <p>作为我们解决方案的第一步，我们创建了一个<em>LineSplitter</em>类，它将我们的输入拆分为标记（单词），为每个标记收集一个<em>Tuple2</em>键值对。在每个元组中，键是在文本中找到的单词，值是整数一 (1)。</p>
 <p>此类实现了*<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.1/api/java/org/apache/flink/api/common/functions/FlatMapFunction.html" target="_blank" rel="noopener noreffer">FlatMapFunction</a>* 接口，该接口将<em>String</em>作为输入并生成*<a href="https://nightlies.apache.org/flink/flink-docs-release-1.3/api/java/org/apache/flink/api/java/tuple/Tuple2.html" target="_blank" rel="noopener noreffer">Tuple2</a> &lt;String, Integer&gt;：*</p>
@@ -298,7 +297,7 @@
 </span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;is&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;this&#34;</span><span class="o">,</span> <span class="n">2</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;second&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span>
 </span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;first&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;with&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">),</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="s">&#34;one&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">));</span>
 </span></span></code></pre></div><h2 id="6数据流api"><strong>6.数据流API</strong></h2>
-<h3 id="61创建数据流"><strong>6.1。创建数据流</strong></h3>
+<h3 id="61-创建数据流"><strong>6.1 创建数据流</strong></h3>
 <p>Apache Flink 还支持通过其 DataStream API 处理事件流。如果我们想开始消费事件，我们首先需要使用<em>StreamExecutionEnvironment</em>类：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">StreamExecutionEnvironment</span> <span class="n">executionEnvironment</span>
 </span></span><span class="line"><span class="cl"> <span class="o">=</span> <span class="n">StreamExecutionEnvironment</span><span class="o">.</span><span class="na">getExecutionEnvironment</span><span class="o">();</span>
@@ -337,19 +336,14 @@
 </span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">maxBy</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">reduced</span><span class="o">.</span><span class="na">print</span><span class="o">();</span>
 </span></span></code></pre></div><p>它将获取每五秒窗口的最后一个元素，因此它会打印出：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">1</span><span class="o">&gt;</span> <span class="o">(</span><span class="n">15</span><span class="o">,</span><span class="n">1491221519</span><span class="o">)</span>
-</span></span></code></pre></div><p>请注意，我们看不到第二个事件，因为它晚于指定的延迟阈值到达。</p>
-<h2 id="7-结论"><strong>7. 结论</strong></h2>
-<p>在本文中，我们介绍了 Apache Flink 框架并查看了其 API 提供的一些转换。</p>
-<p>我们使用 Flink 流畅且功能强大的 DataSet API 实现了一个字数统计程序。然后我们查看了 DataStream API 并在事件流上实现了一个简单的实时转换。</p>
-<p>通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">1&gt; (15,1491221519)
+</span></span></code></pre></div><p>请注意，我们看不到第二个事件，因为它晚于指定的延迟阈值到达。
+&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>带有 Spring Boot 的 Apache RocketMQ - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="带有 Spring Boot 的 Apache RocketMQ" />
-<meta property="og:description" content="简介 在本教程中，我们将使用 Spring Boot 和开源分布式消息传递和流数据平台 Apache RocketMQ 创建消息生产者和消费者。 依赖 对于 Maven 项目，我们需要添加RocketMQ Spring Boot S" />
+        <title>带有 Spring Boot 的 Apache RocketMQ - Coding Man</title><meta name="Description" content="在本文中，我们学习了如何使用 Apache RocketMQ 和 Spring Boot 发送和消费消息。"><meta property="og:title" content="带有 Spring Boot 的 Apache RocketMQ" />
+<meta property="og:description" content="在本文中，我们学习了如何使用 Apache RocketMQ 和 Spring Boot 发送和消费消息。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_rocketmq_spring_boot/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-06-02T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="带有 Spring Boot 的 Apache RocketMQ"/>
-<meta name="twitter:description" content="简介 在本教程中，我们将使用 Spring Boot 和开源分布式消息传递和流数据平台 Apache RocketMQ 创建消息生产者和消费者。 依赖 对于 Maven 项目，我们需要添加RocketMQ Spring Boot S"/>
+<meta name="twitter:description" content="在本文中，我们学习了如何使用 Apache RocketMQ 和 Spring Boot 发送和消费消息。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_rocketmq_spring_boot\/"
-        },"genre": "posts","keywords": "Messaging","wordcount":  1932 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_rocketmq_spring_boot\/","datePublished": "2018-06-02T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Messaging","wordcount":  1924 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_rocketmq_spring_boot\/","datePublished": "2018-06-02T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本文中，我们学习了如何使用 Apache RocketMQ 和 Spring Boot 发送和消费消息。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">带有 Spring Boot 的 Apache RocketMQ</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a>&nbsp;<a href="/categories/spring-boot/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring Boot</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-02">2018-06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1932 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-06-02">2018-06-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1924 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -116,31 +116,27 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
+    <li><a href="#1-简介">1. 简介</a></li>
+    <li><a href="#2-依赖">2. 依赖</a></li>
+    <li><a href="#3-产生消息">3. 产生消息</a></li>
     <li><a href="#4消息消费者">4.消息消费者</a></li>
-    <li><a href="#5同步和异步传输">5.同步和异步传输</a></li>
+    <li><a href="#5-同步和异步传输">5. 同步和异步传输</a></li>
+    <li><a href="#6-在事务中发送消息">6. 在事务中发送消息</a></li>
+    <li><a href="#7-消息生产者配置">7. 消息生产者配置</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>简介</li>
-</ol>
-<hr>
+            </div><div class="content" id="content"><h2 id="1-简介">1. 简介</h2>
 <p>在本教程中，我们将使用 Spring Boot 和开源分布式消息传递和流数据平台 Apache RocketMQ 创建消息生产者和消费者。</p>
-<ol start="2">
-<li>依赖</li>
-</ol>
-<hr>
+<h2 id="2-依赖">2. 依赖</h2>
 <p>对于 Maven 项目，我们需要添加<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.rocketmq%22%20AND%20a%3A%22rocketmq-spring-boot-starter%22" target="_blank" rel="noopener noreffer">RocketMQ Spring Boot Starter</a>依赖：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">&lt;dependency&gt;
 </span></span><span class="line"><span class="cl">    &lt;groupId&gt;org.apache.rocketmq&lt;/groupId&gt;
 </span></span><span class="line"><span class="cl">    &lt;artifactId&gt;rocketmq-spring-boot-starter&lt;/artifactId&gt;
 </span></span><span class="line"><span class="cl">    &lt;version&gt;2.0.4&lt;/version&gt;
 </span></span><span class="line"><span class="cl">&lt;/dependency&gt;
-</span></span></code></pre></div><ol start="3">
-<li>产生消息</li>
-</ol>
-<hr>
+</span></span></code></pre></div><h2 id="3-产生消息">3. 产生消息</h2>
 <p>对于我们的示例，我们将创建一个基本的消息生产者，每当用户在购物车中添加或删除商品时，它都会发送事件。</p>
-<p><em>首先，让我们在application.properties</em>中设置我们的服务器位置和组名：</p>
+<p>首先，让我们在<em>application.properties</em>中设置我们的服务器位置和组名：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">rocketmq.name-server=127.0.0.1:9876
 </span></span><span class="line"><span class="cl">rocketmq.producer.group=cart-producer-group
 </span></span></code></pre></div><p>请注意，如果我们有多个名称服务器，我们可以将它们列出为 <em>host:port;host:port</em>。</p>
@@ -203,7 +199,7 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>我们需要为我们正在监听的每个消息主题创建一个单独的组件。在每一个监听器中，我们通过@RocketMQMessageListener 注解定义主题名称和消费<em>组</em>名称*。*</p>
-<h2 id="5同步和异步传输">5.同步和异步传输</h2>
+<h2 id="5-同步和异步传输">5. 同步和异步传输</h2>
 <p>在前面的示例中，我们使用了<em>convertAndSend</em>方法来发送我们的消息。不过，我们还有其他一些选择。</p>
 <p>例如，我们可以调用<em>与 convertAndSend</em>不同的<em>syncSend</em> ，因为它返回<em>SendResult</em>对象。</p>
 <p>例如，它可以用来验证我们的消息是否成功发送或获取它的 id：</p>
@@ -233,10 +229,7 @@
 </span></span></code></pre></div><p>我们在需要高吞吐量的情况下使用异步传输。</p>
 <p>最后，对于吞吐量要求非常高的场景，我们可以使用<em>sendOneWay</em>代替<em>asyncSend</em>。 <em>sendOneWay 与**asyncSend</em>的不同之处在于它不保证消息会被发送。</p>
 <p>单向传输也可以用于普通的可靠性情况，例如收集日志。</p>
-<ol start="6">
-<li>在事务中发送消息</li>
-</ol>
-<hr>
+<h2 id="6-在事务中发送消息">6. 在事务中发送消息</h2>
 <p>RocketMQ 为我们提供了在事务中发送消息的能力。我们可以使用*sendInTransaction()*方法来做到这一点：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MessageBuilder</span><span class="o">.</span><span class="na">withPayload</span><span class="o">(</span><span class="k">new</span> <span class="n">CartItemEvent</span><span class="o">(</span><span class="s">&#34;bike&#34;</span><span class="o">,</span> <span class="n">1</span><span class="o">)).</span><span class="na">build</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl"><span class="n">rocketMQTemplate</span><span class="o">.</span><span class="na">sendMessageInTransaction</span><span class="o">(</span><span class="s">&#34;test-transaction&#34;</span><span class="o">,</span> <span class="s">&#34;topic-name&#34;</span><span class="o">,</span> <span class="n">msg</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
@@ -256,10 +249,7 @@
 </span></span><span class="line"><span class="cl">      <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>在<em>sendMessageInTransaction()<em>中，第一个参数是事务名称。它必须与</em>@RocketMQTransactionListener</em>的成员字段<em>txProducerGroup 相同。</em></p>
-<ol start="7">
-<li>消息生产者配置</li>
-</ol>
-<hr>
+<h2 id="7-消息生产者配置">7. 消息生产者配置</h2>
 <p>我们还可以配置消息生产者本身的各个方面：</p>
 <ul>
 <li><em>Rocketmq.producer.send-message-timeout</em>：消息发送超时时间，以毫秒为单位——默认值为 3000</li>
@@ -267,20 +257,14 @@
 <li><em>Rocketmq.producer.max-message-size</em>：最大消息大小（以字节为单位）——默认值为 4096。</li>
 <li><em>Rocketmq.producer.retry-times-when-send-async-failed</em>：发送失败前在异步模式下内部执行的最大重试次数——默认值为 2。</li>
 <li><em>Rocketmq.producer.retry-next-server</em>：指示是否在内部发送失败时重试另一个代理 - 默认值为<em>false</em>。</li>
-<li><em>Rocketmq.producer.retry-times-when-send-failed</em>：发送失败前在异步模式下内部执行的最大重试次数——默认值为 2。</li>
+<li><em>Rocketmq.producer.retry-times-when-send-failed</em>：发送失败前在异步模式下内部执行的最大重试次数——默认值为 2。
+&quot;</li>
 </ul>
-<ol start="8">
-<li>结论</li>
-</ol>
-<hr>
-<p>通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

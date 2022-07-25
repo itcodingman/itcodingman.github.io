@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Crunch 指南 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Crunch 指南" />
-<meta property="og:description" content="简介 在本教程中，我们将 使用示例数据处理应用程序演示Apache Crunch 。我们将使用MapReduce框架运行这个应用程序。 我们将首先简要介绍一些 Apache" />
+        <title>Apache Crunch 指南 - Coding Man</title><meta name="Description" content="在本教程中，我们创建了一个在 MapReduce 上运行的数据处理应用程序。Apache Crunch 使使用 Java 编写、测试和执行 MapReduce 管道变得容易。"><meta property="og:title" content="Apache Crunch 指南" />
+<meta property="og:description" content="在本教程中，我们创建了一个在 MapReduce 上运行的数据处理应用程序。Apache Crunch 使使用 Java 编写、测试和执行 MapReduce 管道变得容易。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_crunch/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-06T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Apache Crunch 指南"/>
-<meta name="twitter:description" content="简介 在本教程中，我们将 使用示例数据处理应用程序演示Apache Crunch 。我们将使用MapReduce框架运行这个应用程序。 我们将首先简要介绍一些 Apache"/>
+<meta name="twitter:description" content="在本教程中，我们创建了一个在 MapReduce 上运行的数据处理应用程序。Apache Crunch 使使用 Java 编写、测试和执行 MapReduce 管道变得容易。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_crunch\/"
-        },"genre": "posts","wordcount":  3522 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_crunch\/","datePublished": "2018-05-06T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","wordcount":  3469 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_crunch\/","datePublished": "2018-05-06T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本教程中，我们创建了一个在 MapReduce 上运行的数据处理应用程序。Apache Crunch 使使用 Java 编写、测试和执行 MapReduce 管道变得容易。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,8 +107,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Crunch 指南</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-06">2018-05-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3522 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-06">2018-05-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3469 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -116,21 +116,31 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#1-简介">1. 简介</a></li>
+    <li><a href="#2-什么是mapreduce">2. 什么是MapReduce？</a></li>
+    <li><a href="#3-建立一个-crunch-项目">3. 建立一个 Crunch 项目</a>
       <ul>
-        <li><a href="#31maven-依赖项">3.1。Maven 依赖项</a></li>
+        <li><a href="#31-maven-依赖项">3.1 Maven 依赖项</a></li>
         <li><a href="#32-maven-原型">3.2. Maven 原型</a></li>
-        <li><a href="#61将一行文本拆分为单词">6.1。将一行文本拆分为单词</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-紧缩管道设置">4. 紧缩管道设置</a></li>
+    <li><a href="#5-读取输入数据">5. 读取输入数据</a></li>
+    <li><a href="#6-数据处理步骤">6. 数据处理步骤</a>
+      <ul>
+        <li><a href="#61-将一行文本拆分为单词">6.1 将一行文本拆分为单词</a></li>
         <li><a href="#62-删除停用词">6.2. 删除停用词</a></li>
         <li><a href="#63-计算唯一单词">6.3. 计算唯一单词</a></li>
       </ul>
     </li>
+    <li><a href="#7-指定输出">7. 指定输出</a></li>
+    <li><a href="#8-管理管道执行">8. 管理管道执行</a></li>
+    <li><a href="#9-整合管道">9. 整合管道</a></li>
+    <li><a href="#10-hadoop-启动配置">10. Hadoop 启动配置</a></li>
+    <li><a href="#11-运行应用程序">11. 运行应用程序</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>简介</li>
-</ol>
-<hr>
+            </div><div class="content" id="content"><h2 id="1-简介">1. 简介</h2>
 <p>在本教程中，我们将  使用示例数据处理应用程序演示<a href="https://crunch.apache.org/" target="_blank" rel="noopener noreffer">Apache Crunch 。</a>我们将使用<a href="https://en.wikipedia.org/wiki/MapReduce" target="_blank" rel="noopener noreffer">MapReduce</a>框架运行这个应用程序。</p>
 <p>我们将首先简要介绍一些 Apache Crunch 概念。然后我们将进入一个示例应用程序。在这个应用程序中，我们将进行文本处理：</p>
 <ul>
@@ -139,10 +149,7 @@
 <li>然后，我们将剩余的单词分组以获得唯一单词列表及其计数</li>
 <li>最后，我们将此列表写入文本文件</li>
 </ul>
-<ol start="2">
-<li>什么是紧缩？</li>
-</ol>
-<hr>
+<h2 id="2-什么是mapreduce">2. 什么是MapReduce？</h2>
 <p>MapReduce 是一种分布式并行编程框架，用于在服务器集群上处理大量数据。Hadoop 和 Spark 等软件框架实现了 MapReduce。</p>
 <p>**Crunch 提供了一个框架，用于在 Java 中编写、测试和运行 MapReduce 管道。**在这里，我们不直接编写 MapReduce 作业。相反，我们使用 Crunch API 定义数据管道（即执行输入、处理和输出步骤的操作）。Crunch Planner 将它们映射到 MapReduce 作业并在需要时执行它们。</p>
 <p>**<em>因此，每个 Crunch 数据管道都由Pipeline</em>接口的一个实例进行协调。<em><em><em>该接口还定义了通过Source</em>实例将数据读入管道以及将数据从管道写入</em>Target</em>实例的方法。</p>
@@ -152,19 +159,16 @@
 <li><em>PTable&lt;K</em> , V <em>&gt;</em>  – 一个不可变的、分布式的、无序的键和值的多映射</li>
 <li><em>PGroupedTable&lt;K</em> , V <em>&gt;</em> – K 类型键到可迭代 V<em>的</em>分布式排序映射，可仅迭代一次</li>
 </ol>
-<p><em><strong>DoFn</strong></em><strong>是所有数据处理函数的基类</strong>。它对应  于 MapReduce<em>中的Mapper</em>、  <em>Reducer</em> 和 <em>Combiner类。<em>我们将大部分开发时间用于编写和测试使用它的逻辑计算</em>。</em></p>
+<p>** <em>DoFn</em>是所有数据处理函数的基类**。它对应  于 MapReduce<em>中的Mapper</em>、  <em>Reducer</em> 和 <em>Combiner类。<em>我们将大部分开发时间用于编写和测试使用它的逻辑计算</em>。</em></p>
 <p>现在我们对 Crunch 更加熟悉了，让我们使用它来构建示例应用程序。</p>
-<ol start="3">
-<li>建立一个 Crunch 项目</li>
-</ol>
-<hr>
+<h2 id="3-建立一个-crunch-项目">3. 建立一个 Crunch 项目</h2>
 <p>首先，让我们用 Maven 建立一个 Crunch 项目。我们可以通过两种方式做到这一点：</p>
 <ol>
 <li>在现有项目的<em>pom.xml</em>文件中添加所需的依赖项</li>
 <li>使用原型生成启动项目</li>
 </ol>
 <p>让我们快速浏览一下这两种方法。</p>
-<h3 id="31maven-依赖项">3.1。Maven 依赖项</h3>
+<h3 id="31-maven-依赖项">3.1 Maven 依赖项</h3>
 <p>为了将 Crunch 添加到现有项目，让我们在 <em>pom.xml</em>文件中添加所需的依赖项。</p>
 <p>首先，让我们添加<em>crunch-core</em>库：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
@@ -184,10 +188,7 @@
 <p><strong>另一种方法是使用 Crunch 提供的 Maven 原型快速生成一个入门项目</strong>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">mvn archetype:generate -Dfilter=org.apache.crunch:crunch-archetype
 </span></span></code></pre></div><p>当上述命令提示时，我们提供 Crunch 版本和项目工件详细信息。</p>
-<ol start="4">
-<li>紧缩管道设置</li>
-</ol>
-<hr>
+<h2 id="4-紧缩管道设置">4. 紧缩管道设置</h2>
 <p>设置好项目后，我们需要创建一个<em>Pipeline</em>对象。 <strong>Crunch 有 3 个<em>Pipeline</em>实现</strong>：</p>
 <ul>
 <li><em>MRPipeline</em> – 在 Hadoop MapReduce 中执行</li>
@@ -199,11 +200,8 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Pipeline</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">MemPipeline</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
 </span></span></code></pre></div><p>但是现在，让我们创建一个<em>MRPipeline</em>实例 来使用 Hadoop 执行应用程序*：*</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Pipeline</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MRPipeline</span><span class="o">(</span><span class="n">WordCount</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">getConf</span><span class="o">());</span>
-</span></span></code></pre></div><ol start="5">
-<li>读取输入数据</li>
-</ol>
-<hr>
-<p>创建管道对象后，我们要读取输入数据。 <em><strong>Pipeline</strong></em><strong>接口提供了一种从文本文件读取输入的便捷方法</strong>， <em>即 readTextFile(pathName)。</em></p>
+</span></span></code></pre></div><h2 id="5-读取输入数据">5. 读取输入数据</h2>
+<p>创建管道对象后，我们要读取输入数据。 ** <em>Pipeline</em>接口提供了一种从文本文件读取输入的便捷方法**， <em>即 readTextFile(pathName)。</em></p>
 <p>让我们调用这个方法来读取输入文本文件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PCollection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">lines</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="na">readTextFile</span><span class="o">(</span><span class="n">inputPath</span><span class="o">);</span>
 </span></span></code></pre></div><p>上面的代码将文本文件读取为<em>String</em>的集合。</p>
@@ -218,10 +216,7 @@
 </span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">size</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>在这个测试中，我们验证我们在读取文本文件时获得了预期的行数。</p>
-<ol start="6">
-<li>数据处理步骤</li>
-</ol>
-<hr>
+<h2 id="6-数据处理步骤">6. 数据处理步骤</h2>
 <p>读取输入数据后，我们需要对其进行处理。 <strong>Crunch API 包含许多 <em>DoFn</em>的子类来处理常见的数据处理场景</strong>：</p>
 <ul>
 <li><em>FilterFn</em> – 根据布尔条件过滤集合成员</li>
@@ -235,7 +230,7 @@
 <li>删除停用词</li>
 <li>计算唯一的单词</li>
 </ol>
-<h3 id="61将一行文本拆分为单词">6.1。将一行文本拆分为单词</h3>
+<h3 id="61-将一行文本拆分为单词">6.1 将一行文本拆分为单词</h3>
 <p>首先，让我们创建<em>Tokenizer</em>类来将一行拆分为单词。</p>
 <p>我们将扩展 <em>DoFn</em> 类。这个类有一个叫做<em>process</em>的抽象方法。此方法处理来自<em>PCollection</em>的输入记录并将输出发送到<em>Emitter。</em></p>
 <p>我们需要在这个方法中实现拆分逻辑：</p>
@@ -338,10 +333,7 @@
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// The count method applies a series of Crunch primitives and returns
 </span></span></span><span class="line"><span class="cl"><span class="c1">// a map of the unique words in the input PCollection to their counts.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">PTable</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">noStopWords</span><span class="o">.</span><span class="na">count</span><span class="o">();</span>
-</span></span></code></pre></div><ol start="7">
-<li>指定输出</li>
-</ol>
-<hr>
+</span></span></code></pre></div><h2 id="7-指定输出">7. 指定输出</h2>
 <p>作为前面步骤的结果，我们有一个单词表和它们的计数。我们想将此结果写入文本文件。 <em><strong>Pipeline</strong></em><strong>接口提供了方便****的 方法来编写输出：</strong></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">write</span><span class="o">(</span><span class="n">PCollection</span><span class="o">&lt;?&gt;</span> <span class="n">collection</span><span class="o">,</span> <span class="n">Target</span> <span class="n">target</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">
@@ -351,10 +343,7 @@
 </span></span><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">writeTextFile</span><span class="o">(</span><span class="n">PCollection</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">collection</span><span class="o">,</span> <span class="n">String</span> <span class="n">pathName</span><span class="o">);</span>
 </span></span></code></pre></div><p>因此，让我们调用 <em>writeTextFile</em>方法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">pipeline</span><span class="o">.</span><span class="na">writeTextFile</span><span class="o">(</span><span class="n">counts</span><span class="o">,</span> <span class="n">outputPath</span><span class="o">);</span>
-</span></span></code></pre></div><ol start="8">
-<li>管理管道执行</li>
-</ol>
-<hr>
+</span></span></code></pre></div><h2 id="8-管理管道执行">8. 管理管道执行</h2>
 <p>到目前为止，所有步骤都刚刚定义了数据管道。未读取或处理任何输入。这是因为 <strong>Crunch 使用了惰性执行模型。</strong></p>
 <p>在 Pipeline 接口上调用控制作业计划和执行的方法之前，它不会运行 MapReduce 作业：</p>
 <ul>
@@ -365,10 +354,7 @@
 <p>因此，让我们调用<em>done</em>方法将管道作为 MapReduce 作业执行：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PipelineResult</span> <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="na">done</span><span class="o">();</span>
 </span></span></code></pre></div><p>上面的语句运行 MapReduce 作业以读取输入、处理它们并将结果写入输出目录。</p>
-<ol start="9">
-<li>整合管道</li>
-</ol>
-<hr>
+<h2 id="9-整合管道">9. 整合管道</h2>
 <p>到目前为止，我们已经开发并单元测试了读取输入数据、处理它并写入输出文件的逻辑。</p>
 <p>接下来，让我们将它们放在一起构建整个数据管道：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">run</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
@@ -401,10 +387,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="na">succeeded</span><span class="o">()</span> <span class="o">?</span> <span class="n">0</span> <span class="o">:</span> <span class="n">1</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><ol start="10">
-<li>Hadoop 启动配置</li>
-</ol>
-<hr>
+</span></span></code></pre></div><h2 id="10-hadoop-启动配置">10. Hadoop 启动配置</h2>
 <p>数据管道因此准备就绪。</p>
 <p>但是，我们需要代码来启动它。因此，让我们编写启动应用程序的<em>main</em>方法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">WordCount</span> <span class="kd">extends</span> <span class="n">Configured</span> <span class="kd">implements</span> <span class="n">Tool</span> <span class="o">{</span>
@@ -413,35 +396,25 @@
 </span></span><span class="line"><span class="cl">        <span class="n">ToolRunner</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="k">new</span> <span class="n">Configuration</span><span class="o">(),</span> <span class="k">new</span> <span class="n">WordCount</span><span class="o">(),</span> <span class="n">args</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span></code></pre></div><p><strong><em>ToolRunner.run 从命令行</em> 解析 Hadoop 配置并执行 MapReduce 作业。</strong></p>
-<ol start="11">
-<li>运行应用程序</li>
-</ol>
-<hr>
+<h2 id="11-运行应用程序">11. 运行应用程序</h2>
 <p>完整的应用程序现已准备就绪。让我们运行以下命令来构建它：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">mvn package
 </span></span></code></pre></div><p>作为上述命令的结果，我们在目标目录中获得了打包的应用程序和一个特殊的作业 jar。</p>
 <p>让我们使用这个作业 jar 在 Hadoop 上执行应用程序：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">hadoop jar target/crunch-1.0-SNAPSHOT-job.jar &lt;input file path&gt; &lt;output directory&gt;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hadoop jar target/crunch-1.0-SNAPSHOT-job.jar &lt;input file path&gt; &lt;output directory&gt;
 </span></span></code></pre></div><p>应用程序读取输入文件并将结果写入输出文件。输出文件包含唯一单词及其计数，类似于以下内容：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">[Add,1]
 </span></span><span class="line"><span class="cl">[Added,1]
 </span></span><span class="line"><span class="cl">[Admiration,1]
 </span></span><span class="line"><span class="cl">[Admitting,1]
 </span></span><span class="line"><span class="cl">[Allowance,1]
-</span></span></code></pre></div><p>除了 Hadoop，我们还可以在 IDE 中运行应用程序，作为独立应用程序或单元测试。</p>
-<ol start="12">
-<li>结论</li>
-</ol>
-<hr>
-<p>在本教程中，我们创建了一个在 MapReduce 上运行的数据处理应用程序。Apache Crunch 使使用 Java 编写、测试和执行 MapReduce 管道变得容易。</p>
-<p>通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>除了 Hadoop，我们还可以在 IDE 中运行应用程序，作为独立应用程序或单元测试。
+&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

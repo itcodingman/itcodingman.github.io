@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>使用 Apache POI 读取 Excel 单元格值而不是公式 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache POI 读取 Excel 单元格值而不是公式" />
-<meta property="og:description" content="简介 在 Java 中读取 Excel 文件时，我们通常希望读取单元格的值以执行一些计算或生成报告。但是，我们可能会遇到一个或多个包含公式而不是原始数据值的单元格。" />
+        <title>使用 Apache POI 读取 Excel 单元格值而不是公式 - Coding Man</title><meta name="Description" content="在这篇快速文章中，我们看到了两种获取 Excel 单元格值的方法，而不是计算它的公式。"><meta property="og:title" content="使用 Apache POI 读取 Excel 单元格值而不是公式" />
+<meta property="og:description" content="在这篇快速文章中，我们看到了两种获取 Excel 单元格值的方法，而不是计算它的公式。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_poi_read_cell_value_formula/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-29T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Apache POI 读取 Excel 单元格值而不是公式"/>
-<meta name="twitter:description" content="简介 在 Java 中读取 Excel 文件时，我们通常希望读取单元格的值以执行一些计算或生成报告。但是，我们可能会遇到一个或多个包含公式而不是原始数据值的单元格。"/>
+<meta name="twitter:description" content="在这篇快速文章中，我们看到了两种获取 Excel 单元格值的方法，而不是计算它的公式。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_poi_read_cell_value_formula\/"
-        },"genre": "posts","keywords": "Excel","wordcount":  936 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_poi_read_cell_value_formula\/","datePublished": "2018-05-29T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Excel","wordcount":  888 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_poi_read_cell_value_formula\/","datePublished": "2018-05-29T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在这篇快速文章中，我们看到了两种获取 Excel 单元格值的方法，而不是计算它的公式。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache POI 读取 Excel 单元格值而不是公式</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-29">2018-05-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;936 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-29">2018-05-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;888 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -116,24 +116,22 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#2maven依赖">2.Maven依赖</a></li>
+    <li><a href="#1-简介">1. 简介</a></li>
+    <li><a href="#2-maven依赖">2. Maven依赖</a></li>
     <li><a href="#3获取最后一个缓存值">3.获取最后一个缓存值</a></li>
     <li><a href="#4评估公式以获取单元格值">4.评估公式以获取单元格值</a></li>
-    <li><a href="#六结论">六，结论</a></li>
+    <li><a href="#5-选择哪种方法">5. 选择哪种方法</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>简介</li>
-</ol>
-<hr>
+            </div><div class="content" id="content"><h2 id="1-简介">1. 简介</h2>
 <p>在 Java 中读取 Excel 文件时，我们通常希望读取单元格的值以执行一些计算或生成报告。但是，我们可能会遇到一个或多个包含公式而不是原始数据值的单元格。那么，我们如何获得这些单元格的实际数据值呢？</p>
-<p>在本教程中，我们将研究使用<a href="java-microsoft-excel" rel="">Apache POI</a> Java 库读取 Excel 单元格值的不同方法——而不是计算单元格值的公式。</p>
+<p>在本教程中，我们将研究使用<a href="/java-microsoft-excel" rel="">Apache POI</a> Java 库读取 Excel 单元格值的不同方法——而不是计算单元格值的公式。</p>
 <p>有两种方法可以解决这个问题：</p>
 <ul>
 <li>获取单元格的最后一个缓存值</li>
 <li>在运行时评估公式以获取单元格值</li>
 </ul>
-<h2 id="2maven依赖">2.Maven依赖</h2>
+<h2 id="2-maven依赖">2. Maven依赖</h2>
 <p>我们需要在我们的 pom.xml 文件中为 Apache POI 添加以下依赖项：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.poi<span class="nt">&lt;/groupId&gt;</span>
@@ -144,7 +142,7 @@
 <h2 id="3获取最后一个缓存值">3.获取最后一个缓存值</h2>
 <p>当公式计算单元格的值时，Excel 会为单元格存储两个对象。一是公式本身，二是缓存值。<strong>缓存的值包含公式计算的最后一个值</strong>。</p>
 <p>所以这里的想法是我们可以获取最后一个缓存值并将其视为单元格值。最后一个缓存值是正确的单元格值可能并不总是正确的。但是，当我们使用已保存的 Excel 文件并且最近没有对文件进行修改时，最后缓存的值应该是单元格值。</p>
-<p>让我们看看如何获​​取单元格的最后一个缓存值：</p>
+<p>让我们看看如何获取单元格的最后一个缓存值：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">FileInputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&#34;temp.xlsx&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="n">Workbook</span> <span class="n">workbook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XSSFWorkbook</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">Sheet</span> <span class="n">sheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="na">getSheetAt</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
@@ -167,7 +165,7 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><h2 id="4评估公式以获取单元格值">4.评估公式以获取单元格值</h2>
-<p>Apache POI 提供了一个<strong><em>FormulaEvaluator</em>类，它使我们能够计算</strong>Excel 表格中公式的结果。</p>
+<p>Apache POI 提供了一个** <em>FormulaEvaluator</em>类，它使我们能够计算**Excel 表格中公式的结果。</p>
 <p>因此，我们可以直接使用<em>FormulaEvaluator</em>在运行时计算单元格值。<em>FormulaEvaluator</em>类提供了一个名为<em>evaluateFormulaCell 的方法，<em>该方法计算给定</em>Cell</em>对象的单元格值并返回一个<em>CellType</em>对象，该对象表示单元格值的数据类型。</p>
 <p>让我们看看这种方法的实际效果：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="c1">// existing Workbook setup
@@ -189,23 +187,16 @@
 </span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><ol start="5">
-<li>选择哪种方法</li>
-</ol>
-<hr>
+</span></span></code></pre></div><h2 id="5-选择哪种方法">5. 选择哪种方法</h2>
 <p>这两种方法之间的简单区别在于，第一种方法使用最后一个缓存值，第二种方法在运行时计算公式。</p>
 <p>如果我们正在使用已保存的 Excel 文件并且我们不打算在运行时对该电子表格进行更改，那么缓存值方法会更好，因为我们不必评估公式。</p>
-<p>但是，如果我们知道我们将在运行时进行频繁的更改，那么最好在运行时评估公式以获取单元格值。</p>
-<h2 id="六结论">六，结论</h2>
-<p>在这篇快速文章中，我们看到了两种获取 Excel 单元格值的方法，而不是计算它的公式。</p>
-<p>通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+<p>但是，如果我们知道我们将在运行时进行频繁的更改，那么最好在运行时评估公式以获取单元格值。
+&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

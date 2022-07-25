@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>使用 Apache POI 为 Excel 单元格添加边框 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache POI 为 Excel 单元格添加边框" />
-<meta property="og:description" content="概述 在本教程中，我们将学习如何使用Apache POI Java 库为 Excel 工作表添加边框。 有关 excel 处理的更多基础知识，我们可以从使用 Java 中的 Microsoft Excel开始。 2." />
+        <title>使用 Apache POI 为 Excel 单元格添加边框 - Coding Man</title><meta name="Description" content="在这篇简短的文章中，我们了解了如何使用CellRangeAddress、RegionUtil、BorderStyles和IndexedColors类生成各种单元格边框。边框的每一边都必须单独设置。"><meta property="og:title" content="使用 Apache POI 为 Excel 单元格添加边框" />
+<meta property="og:description" content="在这篇简短的文章中，我们了解了如何使用CellRangeAddress、RegionUtil、BorderStyles和IndexedColors类生成各种单元格边框。边框的每一边都必须单独设置。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_poi_add_borders/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Apache POI 为 Excel 单元格添加边框"/>
-<meta name="twitter:description" content="概述 在本教程中，我们将学习如何使用Apache POI Java 库为 Excel 工作表添加边框。 有关 excel 处理的更多基础知识，我们可以从使用 Java 中的 Microsoft Excel开始。 2."/>
+<meta name="twitter:description" content="在这篇简短的文章中，我们了解了如何使用CellRangeAddress、RegionUtil、BorderStyles和IndexedColors类生成各种单元格边框。边框的每一边都必须单独设置。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_poi_add_borders\/"
-        },"genre": "posts","keywords": "Excel","wordcount":  773 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_poi_add_borders\/","datePublished": "2018-05-24T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Excel","wordcount":  658 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_poi_add_borders\/","datePublished": "2018-05-24T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在这篇简短的文章中，我们了解了如何使用CellRangeAddress、RegionUtil、BorderStyles和IndexedColors类生成各种单元格边框。边框的每一边都必须单独设置。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache POI 为 Excel 单元格添加边框</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-24">2018-05-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;773 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-24">2018-05-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;658 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -116,33 +116,31 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#2excel边框">2.Excel边框</a>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2excel边框">2.Excel边框</a></li>
+    <li><a href="#3-excel-边框编码">3. Excel 边框编码</a>
       <ul>
-        <li><a href="#31单元格范围或区域">3.1。单元格范围或区域</a></li>
+        <li><a href="#31-单元格范围或区域">3.1 单元格范围或区域</a></li>
         <li><a href="#32-单元格边界">3.2. 单元格边界</a></li>
         <li><a href="#33-边框颜色">3.3. 边框颜色</a></li>
       </ul>
     </li>
-    <li><a href="#4结论">4。结论</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>概述</li>
-</ol>
-<hr>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
 <p>在本教程中，我们将学习如何使用<a href="https://poi.apache.org" target="_blank" rel="noopener noreffer">Apache POI</a> Java 库为 Excel 工作表添加边框。</p>
-<p>有关 excel 处理的更多基础知识，我们可以从使用 <a href="java-microsoft-excel" rel="">Java 中的 Microsoft Excel</a>开始。</p>
+<p>有关 excel 处理的更多基础知识，我们可以从使用 <a href="/java-microsoft-excel" rel="">Java 中的 Microsoft Excel</a>开始。</p>
 <h2 id="2excel边框">2.Excel边框</h2>
 <p>我们可以为 Excel 单元格或一系列单元格创建边框。这些<strong>边界线可以有多种样式</strong>。一些示例样式包括粗线、细线、中线、虚线。为了增加更多种类，<strong>我们可以有彩色边框</strong>。</p>
 <p>此图像显示了其中一些品种边界：</p>
-<p><a href="wp-content/uploads/2021/11/ExcelCellBorders.png" rel=""><img
+<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="wp-content/uploads/2021/11/ExcelCellBorders.png"
-        data-srcset="wp-content/uploads/2021/11/ExcelCellBorders.png, wp-content/uploads/2021/11/ExcelCellBorders.png 1.5x, wp-content/uploads/2021/11/ExcelCellBorders.png 2x"
+        data-src="/uploads/apache_poi_add_borders.png"
+        data-srcset="/uploads/apache_poi_add_borders.png, /uploads/apache_poi_add_borders.png 1.5x, /uploads/apache_poi_add_borders.png 2x"
         data-sizes="auto"
-        alt="wp-content/uploads/2021/11/ExcelCellBorders.png"
-        title="wp-content/uploads/2021/11/ExcelCellBorders.png" /></a></p>
+        alt="/uploads/apache_poi_add_borders.png"
+        title="/uploads/apache_poi_add_borders.png" /></p>
 <ul>
 <li>单元格<em>B2</em>带有粗线边框</li>
 <li><em>D2</em>细胞具有宽紫色边框</li>
@@ -150,12 +148,9 @@
 <li>范围<em>B4:F6</em>带有中等大小的边框</li>
 <li>区域<em>B8:F9</em>带有中等大小的橙色边框</li>
 </ul>
-<ol start="3">
-<li>Excel 边框编码</li>
-</ol>
-<hr>
+<h2 id="3-excel-边框编码">3. Excel 边框编码</h2>
 <p>Apache POI 库提供了多种处理边界的方法。一种简单的方法是引用单元格范围并应用边框。</p>
-<h3 id="31单元格范围或区域">3.1。单元格范围或区域</h3>
+<h3 id="31-单元格范围或区域">3.1 单元格范围或区域</h3>
 <p>要引用一系列单元格，我们可以使用<em>CellRangeAddress</em>类：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CellRangeAddress</span> <span class="n">region</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CellRangeAddress</span><span class="o">(</span><span class="n">7</span><span class="o">,</span> <span class="n">8</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
 </span></span></code></pre></div><p><em>CellRangeAddress</em>构造函数采用第一行、最后一行、第一列和最后一列四个参数。每个行和列索引都从零开始。在上面的代码中，它指的是单元格范围<em>B8:F9</em>。</p>
@@ -176,16 +171,12 @@
 </span></span><span class="line"><span class="cl"><span class="n">RegionUtil</span><span class="o">.</span><span class="na">setBottomBorderColor</span><span class="o">(</span><span class="n">IndexedColors</span><span class="o">.</span><span class="na">GREEN</span><span class="o">.</span><span class="na">index</span><span class="o">,</span> <span class="n">region</span><span class="o">,</span> <span class="n">sheet</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">RegionUtil</span><span class="o">.</span><span class="na">setLeftBorderColor</span><span class="o">(</span><span class="n">IndexedColors</span><span class="o">.</span><span class="na">BLUE</span><span class="o">.</span><span class="na">index</span><span class="o">,</span> <span class="n">region</span><span class="o">,</span> <span class="n">sheet</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">RegionUtil</span><span class="o">.</span><span class="na">setRightBorderColor</span><span class="o">(</span><span class="n">IndexedColors</span><span class="o">.</span><span class="na">VIOLET</span><span class="o">.</span><span class="na">index</span><span class="o">,</span> <span class="n">region</span><span class="o">,</span> <span class="n">sheet</span><span class="o">);</span>
-</span></span></code></pre></div><h2 id="4结论">4。结论</h2>
-<p>在这篇简短的文章中，我们了解了如何使用<em>CellRangeAddress</em>、<em>RegionUtil</em>、<em>BorderStyles</em>和<em>IndexedColors</em>类生成各种单元格边框。边框的每一边都必须单独设置。</p>
-<p>Java底层</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

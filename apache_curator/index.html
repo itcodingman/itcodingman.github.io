@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Curator 简介 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Curator 简介" />
-<meta property="og:description" content="1. 简介 Apache Curator是 Apache Zookeeper 的 Java 客户端，Apache Zookeeper是分布式应用程序的流行协调服务。 在本教程中，我们将介绍 Curator 提供的一些最相" />
+        <title>Apache Curator 简介 - Coding Man</title><meta name="Description" content="在本文中，我们了解了如何使用 Apache Curator 连接到 Apache Zookeeper 并利用其主要功能。"><meta property="og:title" content="Apache Curator 简介" />
+<meta property="og:description" content="在本文中，我们了解了如何使用 Apache Curator 连接到 Apache Zookeeper 并利用其主要功能。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_curator/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Apache Curator 简介"/>
-<meta name="twitter:description" content="1. 简介 Apache Curator是 Apache Zookeeper 的 Java 客户端，Apache Zookeeper是分布式应用程序的流行协调服务。 在本教程中，我们将介绍 Curator 提供的一些最相"/>
+<meta name="twitter:description" content="在本文中，我们了解了如何使用 Apache Curator 连接到 Apache Zookeeper 并利用其主要功能。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_curator\/"
-        },"genre": "posts","wordcount":  2224 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_curator\/","datePublished": "2018-05-07T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","wordcount":  2137 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_curator\/","datePublished": "2018-05-07T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本文中，我们了解了如何使用 Apache Curator 连接到 Apache Zookeeper 并利用其主要功能。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Curator 简介</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/cloud/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Cloud</a>&nbsp;<a href="/categories/devops/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>DevOps</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-07">2018-05-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2224 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-07">2018-05-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2137 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -117,23 +117,22 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
-    <li><a href="#2先决条件"><strong>2.先决条件</strong></a></li>
-    <li><a href="#3连接管理"><strong>3.连接管理</strong></a></li>
+    <li><a href="#2-先决条件"><strong>2. 先决条件</strong></a></li>
+    <li><a href="#3-连接管理"><strong>3. 连接管理</strong></a></li>
     <li><a href="#4异步"><strong>4.异步</strong></a></li>
-    <li><a href="#5配置管理"><strong>5.配置管理</strong></a>
+    <li><a href="#5-配置管理"><strong>5. 配置管理</strong></a>
       <ul>
-        <li><a href="#51观察者"><strong>5.1。观察者</strong></a></li>
+        <li><a href="#51-观察者"><strong>5.1 观察者</strong></a></li>
       </ul>
     </li>
     <li><a href="#6-强类型模型"><strong>6. 强类型模型</strong></a></li>
-    <li><a href="#7-食谱"><strong>7. 食谱</strong></a>
+    <li><a href="#7-recipes"><strong>7. recipes</strong></a>
       <ul>
-        <li><a href="#71领袖选举"><strong>7.1。领袖选举</strong></a></li>
+        <li><a href="#71-领袖选举"><strong>7.1 领袖选举</strong></a></li>
         <li><a href="#72-共享锁"><strong>7.2. 共享锁</strong></a></li>
         <li><a href="#73-计数器"><strong>7.3. 计数器</strong></a></li>
       </ul>
     </li>
-    <li><a href="#8-结论"><strong>8. 结论</strong></a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
@@ -146,7 +145,7 @@
 <li>强类型模型——使用类型模型</li>
 <li>食谱——实现领导者选举、分布式锁或计数器</li>
 </ul>
-<h2 id="2先决条件"><strong>2.先决条件</strong></h2>
+<h2 id="2-先决条件"><strong>2. 先决条件</strong></h2>
 <p>首先，建议快速了解一下<a href="https://zookeeper.apache.org/" target="_blank" rel="noopener noreffer">Apache Zookeeper</a>及其功能。</p>
 <p>对于本教程，我们假设已经有一个独立的 Zookeeper 实例在<em>127.0.0.1:2181</em>上运行；如果您刚刚开始，<a href="https://zookeeper.apache.org/doc/current/zookeeperStarted.html" target="_blank" rel="noopener noreffer">这里有关于如何安装和运行它的说明。</a></p>
 <p>首先，我们需要将<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.curator%22%20AND%20a%3A%22curator-x-async%22" target="_blank" rel="noopener noreffer">curator-x-async</a>依赖项添加到我们的<em>pom.xml</em>中：</p>
@@ -170,7 +169,7 @@
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.4.11<span class="nt">&lt;/version&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
 </span></span></code></pre></div><p>有关兼容性的更多信息，请参阅<a href="https://curator.apache.org/zk-compatibility-34.html" target="_blank" rel="noopener noreffer">此链接</a>。</p>
-<h2 id="3连接管理"><strong>3.连接管理</strong></h2>
+<h2 id="3-连接管理"><strong>3. 连接管理</strong></h2>
 <p><strong>Apache Curator 的基本用例是连接到正在运行的 Apache Zookeeper 实例</strong>。</p>
 <p>该工具提供了一个工厂来使用重试策略建立与 Zookeeper 的连接：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">sleepMsBetweenRetries</span> <span class="o">=</span> <span class="n">100</span><span class="o">;</span>
@@ -207,7 +206,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">await</span><span class="o">().</span><span class="na">until</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">exists</span><span class="o">.</span><span class="na">get</span><span class="o">()).</span><span class="na">isTrue</span><span class="o">());</span>
 </span></span></code></pre></div><p>现在，*checkExists()<em>操作在异步模式下工作，不会阻塞主线程。我们还可以使用</em>thenAcceptAsync()*方法一个接一个地链接操作，该方法使用<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CompletionStage.html" target="_blank" rel="noopener noreffer">CompletionStage API</a>。</p>
-<h2 id="5配置管理"><strong>5.配置管理</strong></h2>
+<h2 id="5-配置管理"><strong>5. 配置管理</strong></h2>
 <p>在分布式环境中，最常见的挑战之一是管理许多应用程序之间的共享配置。<strong>我们可以使用 Zookeeper 作为数据存储来保存我们的配置。</strong></p>
 <p>让我们看一个使用 Apache Curator 获取和设置数据的示例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CuratorFramework</span> <span class="n">client</span> <span class="o">=</span> <span class="n">newClient</span><span class="o">();</span>
@@ -228,7 +227,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">await</span><span class="o">().</span><span class="na">until</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">assertThat</span><span class="o">(</span><span class="n">isEquals</span><span class="o">.</span><span class="na">get</span><span class="o">()).</span><span class="na">isTrue</span><span class="o">());</span>
 </span></span></code></pre></div><p>在这个例子中，我们创建节点路径，在 Zookeeper 中设置数据，然后我们检查它的值是否相同来恢复它。<em>关键字</em>段可以是像*/config/dev/my_key*这样的节点路径。</p>
-<h3 id="51观察者"><strong>5.1。观察者</strong></h3>
+<h3 id="51-观察者"><strong>5.1 观察者</strong></h3>
 <p>Zookeeper 中另一个有趣的特性是能够监视键或节点。<strong>它允许我们监听配置的变化并更新我们的应用程序，而无需重新部署</strong>.</p>
 <p>让我们看看上面的例子在使用 watchers 时的样子：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CuratorFramework</span> <span class="n">client</span> <span class="o">=</span> <span class="n">newClient</span><span class="o">()</span>
@@ -303,17 +302,17 @@
 </span></span><span class="line"><span class="cl">     <span class="o">}</span>
 </span></span><span class="line"><span class="cl">   <span class="o">});</span>
 </span></span></code></pre></div><p>读取路径*/config/dev<em>时的</em>whenComplete()<em>方法将返回 Zookeeper 中的</em>HostConfig*实例。</p>
-<h2 id="7-食谱"><strong>7. 食谱</strong></h2>
+<h2 id="7-recipes"><strong>7. recipes</strong></h2>
 <p>Zookeeper 提供<a href="https://zookeeper.apache.org/doc/current/recipes.html" target="_blank" rel="noopener noreffer">此指南</a>来实现<strong>高级解决方案或配方，例如领导者选举、分布式锁或共享计数器。</strong></p>
-<p>Apache Curator 为大多数这些配方提供了一个实现。要查看完整列表，请访问<a href="https://curator.apache.org/curator-recipes/index.html" target="_blank" rel="noopener noreffer">策展人食谱文档</a>。</p>
-<p>所有这些食谱都在一个单独的模块中可用：</p>
+<p>Apache Curator 为大多数这些配方提供了一个实现。要查看完整列表，请访问<a href="https://curator.apache.org/curator-recipes/index.html" target="_blank" rel="noopener noreffer">文档</a>。</p>
+<p>所有这些recipes都在一个单独的模块中可用：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.curator<span class="nt">&lt;/groupId&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>curator-recipes<span class="nt">&lt;/artifactId&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.0.1<span class="nt">&lt;/version&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
 </span></span></code></pre></div><p>让我们直接进入并通过一些简单的例子开始理解这些。</p>
-<h3 id="71领袖选举"><strong>7.1。领袖选举</strong></h3>
+<h3 id="71-领袖选举"><strong>7.1 领袖选举</strong></h3>
 <p>在分布式环境中，我们可能需要一个主节点或领导节点来协调一项复杂的工作。</p>
 <p>这是Curator<a href="https://curator.apache.org/curator-recipes/leader-election.html" target="_blank" rel="noopener noreffer">中领导人选举配方的用法：</a></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CuratorFramework</span> <span class="n">client</span> <span class="o">=</span> <span class="n">newClient</span><span class="o">();</span>
@@ -363,35 +362,13 @@
 </span></span><span class="line"><span class="cl"><span class="n">counter</span><span class="o">.</span><span class="na">setCount</span><span class="o">(</span><span class="n">counter</span><span class="o">.</span><span class="na">getCount</span><span class="o">()</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">counter</span><span class="o">.</span><span class="na">getCount</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
-</span></span></code></pre></div><p>在此示例中，Zookeeper 将<em>Integer</em>值存储在路径*/counters/A<em>中，如果尚未创建路径，则将该值初始化为</em>0 。*</p>
-<h2 id="8-结论"><strong>8. 结论</strong></h2>
-<p>在本文中，我们了解了如何使用 Apache Curator 连接到 Apache Zookeeper 并利用其主要功能。</p>
-<p>我们还介绍了 Curator 中的一些主要食谱。</p>
-<p>通用底部</p>
-<p>云页脚横幅
-<img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="wp-content/uploads/2018/07/Microservice-BookCover-1.png"
-        data-srcset="wp-content/uploads/2018/07/Microservice-BookCover-1.png, wp-content/uploads/2018/07/Microservice-BookCover-1.png 1.5x, wp-content/uploads/2018/07/Microservice-BookCover-1.png 2x"
-        data-sizes="auto"
-        alt="wp-content/uploads/2018/07/Microservice-BookCover-1.png"
-        title="带有 Spring Boot 和 Spring Cloud 的微服务架构 - 书籍封面" /></p>
-<p><img
-        class="lazyload"
-        src="/svg/loading.min.svg"
-        data-src="wp-content/uploads/2018/07/MicroserviceSpring-Icon.png"
-        data-srcset="wp-content/uploads/2018/07/MicroserviceSpring-Icon.png, wp-content/uploads/2018/07/MicroserviceSpring-Icon.png 1.5x, wp-content/uploads/2018/07/MicroserviceSpring-Icon.png 2x"
-        data-sizes="auto"
-        alt="wp-content/uploads/2018/07/MicroserviceSpring-Icon.png"
-        title="带有 Spring Boot 和 Spring Cloud 的微服务架构 - 图标" /></p>
-<p>构建您的微服务架构Spring Boot 和 Spring Cloud</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>在此示例中，Zookeeper 将<em>Integer</em>值存储在路径*/counters/A<em>中，如果尚未创建路径，则将该值初始化为</em>0* 。
+&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

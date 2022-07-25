@@ -9,7 +9,7 @@
     <pubDate>Sat, 02 Jun 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_rocketmq_spring_boot/</guid>
-    <description><![CDATA[简介 在本教程中，我们将使用 Spring Boot 和开源分布式消息传递和流数据平台 Apache RocketMQ 创建消息生产者和消费者。 依赖 对于 Maven 项目，我们需要添加RocketMQ Spring Boot S]]></description>
+    <description><![CDATA[1. 简介 在本教程中，我们将使用 Spring Boot 和开源分布式消息传递和流数据平台 Apache RocketMQ 创建消息生产者和消费者。 2. 依赖 对于 Maven 项目，我们需要添加RocketMQ Spring]]></description>
 </item>
 <item>
     <title>Apache Pulsar 简介</title>
@@ -17,7 +17,7 @@
     <pubDate>Fri, 01 Jun 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_pulsar/</guid>
-    <description><![CDATA[简介 Apache Pulsar是 Yahoo 开发的基于分布式开源发布/订阅的消息传递系统。 它的创建是为了支持 Yahoo 的关键应用程序，如 Yahoo Mail、Yahoo Financ]]></description>
+    <description><![CDATA[1. 简介 Apache Pulsar是 Yahoo 开发的基于分布式开源发布/订阅的消息传递系统。 它的创建是为了支持 Yahoo 的关键应用程序，如 Yahoo Mail、Yahoo Finan]]></description>
 </item>
 </channel>
 </rss>

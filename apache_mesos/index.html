@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Mesos 指南 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Mesos 指南" />
-<meta property="og:description" content="概述 我们通常在同一个机器集群上部署各种应用程序。例如，现在很常见的是 在同一个集群中拥有像Apache Spark或Apache Flink这样的" />
+        <title>Apache Mesos 指南 - Coding Man</title><meta name="Description" content="在本文中，我们简要讨论了在同一集群中运行的应用程序之间的资源共享。我们还讨论了 Apache Mesos 如何通过集群资源（如 CPU 和内存）的抽象视图帮助应用程序实现最大利用率。稍后，我们讨论了基于各种公平策略和角色的应用程序之间的资源动态分配。Mesos 允许应用程序根据集群中 Mesos 代理提供的资源做出调度决策。最后，我们看到了 Mesos 框架在 Java 中的实现。"><meta property="og:title" content="Apache Mesos 指南" />
+<meta property="og:description" content="在本文中，我们简要讨论了在同一集群中运行的应用程序之间的资源共享。我们还讨论了 Apache Mesos 如何通过集群资源（如 CPU 和内存）的抽象视图帮助应用程序实现最大利用率。稍后，我们讨论了基于各种公平策略和角色的应用程序之间的资源动态分配。Mesos 允许应用程序根据集群中 Mesos 代理提供的资源做出调度决策。最后，我们看到了 Mesos 框架在 Java 中的实现。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_mesos/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Apache Mesos 指南"/>
-<meta name="twitter:description" content="概述 我们通常在同一个机器集群上部署各种应用程序。例如，现在很常见的是 在同一个集群中拥有像Apache Spark或Apache Flink这样的"/>
+<meta name="twitter:description" content="在本文中，我们简要讨论了在同一集群中运行的应用程序之间的资源共享。我们还讨论了 Apache Mesos 如何通过集群资源（如 CPU 和内存）的抽象视图帮助应用程序实现最大利用率。稍后，我们讨论了基于各种公平策略和角色的应用程序之间的资源动态分配。Mesos 允许应用程序根据集群中 Mesos 代理提供的资源做出调度决策。最后，我们看到了 Mesos 框架在 Java 中的实现。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_mesos\/"
-        },"genre": "posts","wordcount":  4640 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_mesos\/","datePublished": "2018-05-22T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","wordcount":  4448 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_mesos\/","datePublished": "2018-05-22T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本文中，我们简要讨论了在同一集群中运行的应用程序之间的资源共享。我们还讨论了 Apache Mesos 如何通过集群资源（如 CPU 和内存）的抽象视图帮助应用程序实现最大利用率。稍后，我们讨论了基于各种公平策略和角色的应用程序之间的资源动态分配。Mesos 允许应用程序根据集群中 Mesos 代理提供的资源做出调度决策。最后，我们看到了 Mesos 框架在 Java 中的实现。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,8 +107,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Mesos 指南</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/architecture/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Architecture</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-22">2018-05-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4640 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;10 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-22">2018-05-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4448 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;9 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -116,34 +116,37 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-共享集群">2. 共享集群</a></li>
+    <li><a href="#3-apache-mesos">3. Apache Mesos</a>
       <ul>
-        <li><a href="#31mesos-大师">3.1。Mesos 大师</a></li>
+        <li><a href="#31-mesos-大师">3.1 Mesos 大师</a></li>
         <li><a href="#32-mesos-代理">3.2. Mesos 代理</a></li>
         <li><a href="#33-中观框架">3.3. 中观框架</a></li>
-        <li><a href="#41资源优惠">4.1。资源优惠</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-资源管理">4. 资源管理</a>
+      <ul>
+        <li><a href="#41-资源优惠">4.1 资源优惠</a></li>
         <li><a href="#42-资源角色">4.2. 资源角色</a></li>
         <li><a href="#43-资源预留">4.3. 资源预留</a></li>
         <li><a href="#44-资源权重和配额">4.4. 资源权重和配额</a></li>
-        <li><a href="#51框架主类">5.1。框架主类</a></li>
-        <li><a href="#52-实现调度器">5.2. 实现调度器</a></li>
-        <li><a href="#53-执行者">5.3. 执行<em>者</em></a></li>
       </ul>
     </li>
-    <li><a href="#六结论">六，结论</a></li>
+    <li><a href="#5-实施框架">5. 实施框架</a>
+      <ul>
+        <li><a href="#51-框架主类">5.1 框架主类</a></li>
+        <li><a href="#52-实现调度器">5.2. 实现调度器</a></li>
+        <li><a href="#53-执行者">5.3. 执行者</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>概述</li>
-</ol>
-<hr>
-<p>我们通常在同一个机器集群上部署各种应用程序。例如，现在很常见的是 在同一个集群中拥有像<a href="apache-spark" rel="">Apache Spark</a>或<a href="apache-flink" rel="">Apache Flink这样的分布式处理引擎和像</a><a href="cassandra-with-java" rel="">Apache Cassandra</a>这样的分布式数据库。</p>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>我们通常在同一个机器集群上部署各种应用程序。例如，现在很常见的是 在同一个集群中拥有像<a href="/apache-spark" rel="">Apache Spark</a>或<a href="/apache-flink" rel="">Apache Flink这样的分布式处理引擎和像</a><a href="/cassandra-with-java" rel="">Apache Cassandra</a>这样的分布式数据库。</p>
 <p><strong>Apache Mesos 是一个允许此类应用程序之间有效资源共享的平台。</strong></p>
 <p>在本文中，我们将首先讨论部署在同一集群上的应用程序中的资源分配问题。稍后，我们将看到 Apache Mesos 如何在应用程序之间提供更好的资源利用率。</p>
-<ol start="2">
-<li>共享集群</li>
-</ol>
-<hr>
+<h2 id="2-共享集群">2. 共享集群</h2>
 <p>许多应用程序需要共享一个集群。总的来说，有两种常见的方法：</p>
 <ul>
 <li>静态分区集群并在每个分区上运行应用程序</li>
@@ -153,10 +156,7 @@
 <p>例如，考虑一个应用程序，<strong>它只运行了很短的时间，然后是一段时间的不活动。<strong>现在，由于我们为该应用程序分配了静态机器或分区，因此</strong>在非活动期间我们有未使用的资源。</strong></p>
 <p>我们可以通过将非活动期间的空闲资源重新分配给其他应用程序来优化资源利用率。</p>
 <p>Apache Mesos 有助于在应用程序之间进行动态资源分配。</p>
-<ol start="3">
-<li>阿帕奇梅索斯</li>
-</ol>
-<hr>
+<h2 id="3-apache-mesos">3. Apache Mesos</h2>
 <p>使用我们上面讨论的两种集群共享方法，应用程序只知道它们正在运行的特定分区或机器的资源。但是，Apache Mesos 为应用程序提供了集群中所有资源的抽象视图。</p>
 <p>我们很快就会看到，Mesos 充当机器和应用程序之间的接口。它为应用程序提供**集群中所有机器上的可用资源。<strong>它经常更新此信息以包括由已达到完成状态</strong>的应用程序释放的资源。**这允许应用程序就在哪台机器上执行哪个任务做出最佳决定。</p>
 <p>为了理解 Mesos 是如何工作的，让我们来看看它的<a href="https://mesos.apache.org/documentation/latest/architecture/" target="_blank" rel="noopener noreffer">架构</a>：</p>
@@ -170,7 +170,7 @@
         title="wp-content/uploads/2019/07/Mesos-arch.jpg" /></a>
 此图像是 Mesos 官方文档的一部分（<a href="https://mesos.apache.org/assets/img/documentation/architecture3.jpg" target="_blank" rel="noopener noreffer">来源</a>）。在这里，<em>Hadoop</em>和<em>MPI</em>是共享集群的两个应用程序。</p>
 <p>我们将在接下来的几节中讨论此处显示的每个组件。</p>
-<h3 id="31mesos-大师">3.1。Mesos 大师</h3>
+<h3 id="31-mesos-大师">3.1 Mesos 大师</h3>
 <p>Master 是此设置中的核心组件，用于存储集群中资源的当前状态。此外，它通过传递有关资源和任务等信息，充当<strong>代理和应用程序之间的协调器。</strong></p>
 <p>由于 master 中的任何故障都会导致有关资源和任务的状态丢失，因此我们将其部署在高可用性配置中。从上图中可以看出，Mesos 部署了备用主守护进程和一个领导者。这些守护进程依靠 Zookeeper 来在发生故障时恢复状态。</p>
 <h3 id="32-mesos-代理">3.2. Mesos 代理</h3>
@@ -184,18 +184,17 @@
 <li><em>Executor</em> – 在所有代理上运行，并包含在该代理上执行任何计划任务所需的所有信息</li>
 </ul>
 <p>这个流程描述了整个过程：</p>
-<p> </p>
-<p><a href="wp-content/uploads/2019/07/Mesos-flow.jpg" rel=""><img
+<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
         data-src="wp-content/uploads/2019/07/Mesos-flow.jpg"
         data-srcset="wp-content/uploads/2019/07/Mesos-flow.jpg, wp-content/uploads/2019/07/Mesos-flow.jpg 1.5x, wp-content/uploads/2019/07/Mesos-flow.jpg 2x"
         data-sizes="auto"
         alt="wp-content/uploads/2019/07/Mesos-flow.jpg"
-        title="wp-content/uploads/2019/07/Mesos-flow.jpg" /></a>
-首先，代理向主报告他们的资源。此时，master 将这些资源提供给所有已注册的调度程序。此过程称为资源提供，我们将在下一节中详细讨论。</p>
+        title="wp-content/uploads/2019/07/Mesos-flow.jpg" /></p>
+<p>首先，代理向主报告他们的资源。此时，master 将这些资源提供给所有已注册的调度程序。此过程称为资源提供，我们将在下一节中详细讨论。</p>
 <p>然后调度程序选择最好的代理并通过 Master 在其上执行各种任务。一旦执行者完成分配的任务，代理就会重新将他们的资源发布给主节点。Master 对集群中的所有框架重复这个资源共享过程。</p>
-<p>Mesos 允许应用程序以各种编程语言<strong>实现其自定义调度程序和执行程序。****调度程序的</strong>Java 实现必须<strong>实现</strong> <em><strong>调度程序</strong></em><strong>接口</strong>：</p>
+<p>Mesos 允许应用程序以各种编程语言<strong>实现其自定义调度程序和执行程序。调度程序的</strong>Java 实现必须<strong>实现<em>调度程序</em>接口</strong>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorldScheduler</span> <span class="kd">implements</span> <span class="n">Scheduler</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
@@ -274,11 +273,8 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>我们将在后面的部分中看到调度器和执行器的操作版本。</p>
-<ol start="4">
-<li>资源管理</li>
-</ol>
-<hr>
-<h3 id="41资源优惠">4.1。资源优惠</h3>
+<h2 id="4-资源管理">4. 资源管理</h2>
+<h3 id="41-资源优惠">4.1 资源优惠</h3>
 <p>正如我们之前所讨论的，代理将其资源信息发布给主节点。反过来，主节点将这些资源提供给集群中运行的框架。此过程称为<em>资源报价。</em></p>
 <p>资源报价由两部分组成——资源和属性。</p>
 <p>资源用于<strong>发布代理机器</strong>的内存、CPU、磁盘等硬件信息。</p>
@@ -331,12 +327,9 @@
 <p>与资源类似，我们可以通过<a href="https://mesos.apache.org/documentation/latest/weights/#operator-http-endpoint" target="_blank" rel="noopener noreffer">HTTP 端点</a>配置权重。</p>
 <p>除了确保为具有权重的角色分配公平的资源外，Mesos 还确保<strong>为角色分配最少的资源。</strong></p>
 <p>Mesos 允许我们为<strong>资源角色添加配额。<strong>配额指定</strong>角色可以保证接收的最小资源量</strong>。</p>
-<ol start="5">
-<li>实施框架</li>
-</ol>
-<hr>
+<h2 id="5-实施框架">5. 实施框架</h2>
 <p>正如我们在前面部分中讨论的，Mesos 允许应用程序以他们选择的语言提供框架实现。在 Java 中，使用主类（作为框架进程的入口点）以及前面讨论的<em>调度</em>器和 <em>执行器 的实现来实现框架。</em></p>
-<h3 id="51框架主类">5.1。框架主类</h3>
+<h3 id="51-框架主类">5.1 框架主类</h3>
 <p>在我们实现调度器和执行器之前，我们将首先实现我们框架的入口点：</p>
 <ul>
 <li>向主人注册自己</li>
@@ -435,7 +428,7 @@
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>或者， <em>调度程序</em>经常发现需要拒绝资源提供。例如，如果 <em>调度程序</em>由于缺乏资源而无法在代理上启动任务，它必须立即拒绝该提议：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">schedulerDriver</span><span class="o">.</span><span class="na">declineOffer</span><span class="o">(</span><span class="n">offer</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
-</span></span></code></pre></div><h3 id="53-执行者">5.3. 执行<em>者</em></h3>
+</span></span></code></pre></div><h3 id="53-执行者">5.3. 执行者</h3>
 <p>正如我们前面所讨论的，框架的执行器组件负责在 Mesos 代理上执行应用程序任务。</p>
 <p>我们使用 HTTP 端点在 Mesos 1.0中实现*调度程序。*同样，我们可以将<a href="https://mesos.apache.org/documentation/latest/executor-http-api/" target="_blank" rel="noopener noreffer">HTTP 端点</a>用于执行程序。</p>
 <p>在前面的部分中，我们讨论了框架如何配置代理以启动执行程序进程：</p>
@@ -468,18 +461,12 @@
 <p>在某些情况下，执行器还可以将数据发送回调度器：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">myStatus</span> <span class="o">=</span> <span class="s">&#34;Hello Framework&#34;</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl"><span class="n">driver</span><span class="o">.</span><span class="na">sendFrameworkMessage</span><span class="o">(</span><span class="n">myStatus</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
-</span></span></code></pre></div><h2 id="六结论">六，结论</h2>
-<p>在本文中，我们简要讨论了在同一集群中运行的应用程序之间的资源共享。我们还讨论了 Apache Mesos 如何通过集群资源（如 CPU 和内存）的抽象视图帮助应用程序实现最大利用率。</p>
-<p>稍后，我们讨论了基于<strong>各种公平策略和角色****的应用程序之间的资源动态分配。<strong>Mesos 允许应用程序根据集群中 Mesos 代理提供的资源做出</strong>调度决策。</strong></p>
-<p>最后，我们看到了 Mesos 框架在 Java 中的实现。</p>
-<p>通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

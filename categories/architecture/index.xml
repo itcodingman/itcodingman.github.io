@@ -17,7 +17,7 @@
     <pubDate>Fri, 01 Jun 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_pulsar/</guid>
-    <description><![CDATA[简介 Apache Pulsar是 Yahoo 开发的基于分布式开源发布/订阅的消息传递系统。 它的创建是为了支持 Yahoo 的关键应用程序，如 Yahoo Mail、Yahoo Financ]]></description>
+    <description><![CDATA[1. 简介 Apache Pulsar是 Yahoo 开发的基于分布式开源发布/订阅的消息传递系统。 它的创建是为了支持 Yahoo 的关键应用程序，如 Yahoo Mail、Yahoo Finan]]></description>
 </item>
 <item>
     <title>Apache Mesos 指南</title>
@@ -25,7 +25,7 @@
     <pubDate>Tue, 22 May 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_mesos/</guid>
-    <description><![CDATA[概述 我们通常在同一个机器集群上部署各种应用程序。例如，现在很常见的是 在同一个集群中拥有像Apache Spark或Apache Flink这样的]]></description>
+    <description><![CDATA[1. 概述 我们通常在同一个机器集群上部署各种应用程序。例如，现在很常见的是 在同一个集群中拥有像Apache Spark或Apache Flink这样]]></description>
 </item>
 <item>
     <title>Apache ActiveMQ 与 Kafka</title>

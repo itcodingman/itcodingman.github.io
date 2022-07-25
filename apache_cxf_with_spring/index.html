@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>使用 Spring 的 Apache CXF 指南 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Spring 的 Apache CXF 指南" />
-<meta property="og:description" content="1. 概述 本教程的重点是配置和使用Apache CXF框架以及 Spring - 使用 Java 或 XML 配置。 这是 Apache CXF 系列的第二篇；第一个侧重于将 CXF 的基础知识作为 JAX-WS 标准 API 的实" />
+        <title>使用 Spring 的 Apache CXF 指南 - Coding Man</title><meta name="Description" content="本教程说明了 Apache CXF 对 Spring 的支持。特别是，它展示了如何使用 Spring 配置文件发布 Web 服务，以及客户端如何通过 Apache CXF 代理工厂创建的代理与该服务交互，该代理工厂在另一个配置文件中声明。"><meta property="og:title" content="使用 Spring 的 Apache CXF 指南" />
+<meta property="og:description" content="本教程说明了 Apache CXF 对 Spring 的支持。特别是，它展示了如何使用 Spring 配置文件发布 Web 服务，以及客户端如何通过 Apache CXF 代理工厂创建的代理与该服务交互，该代理工厂在另一个配置文件中声明。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_cxf_with_spring/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-09T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Spring 的 Apache CXF 指南"/>
-<meta name="twitter:description" content="1. 概述 本教程的重点是配置和使用Apache CXF框架以及 Spring - 使用 Java 或 XML 配置。 这是 Apache CXF 系列的第二篇；第一个侧重于将 CXF 的基础知识作为 JAX-WS 标准 API 的实"/>
+<meta name="twitter:description" content="本教程说明了 Apache CXF 对 Spring 的支持。特别是，它展示了如何使用 Spring 配置文件发布 Web 服务，以及客户端如何通过 Apache CXF 代理工厂创建的代理与该服务交互，该代理工厂在另一个配置文件中声明。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_cxf_with_spring\/"
-        },"genre": "posts","keywords": "Apache CXF","wordcount":  2842 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_cxf_with_spring\/","datePublished": "2018-05-09T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Apache CXF","wordcount":  2751 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_cxf_with_spring\/","datePublished": "2018-05-09T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "本教程说明了 Apache CXF 对 Spring 的支持。特别是，它展示了如何使用 Spring 配置文件发布 Web 服务，以及客户端如何通过 Apache CXF 代理工厂创建的代理与该服务交互，该代理工厂在另一个配置文件中声明。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Spring 的 Apache CXF 指南</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/spring/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Spring</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-09">2018-05-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2842 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-09">2018-05-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2751 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -117,10 +117,10 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
-    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
     <li><a href="#3-服务器端组件"><strong>3. 服务器端组件</strong></a>
       <ul>
-        <li><a href="#31webapplicationinitilizer接口"><strong>3.1。<em>WebApplicationInitilizer</em>接口</strong></a></li>
+        <li><a href="#31-webapplicationinitilizer接口"><strong>3.1 <em>WebApplicationInitilizer</em>接口</strong></a></li>
         <li><a href="#32-好旧的webxml"><strong>3.2. 好旧的<em>web.xml</em></strong></a></li>
         <li><a href="#33-服务配置类"><strong>3.3. <em>服务配置</em>类</strong></a></li>
         <li><a href="#34-类型定义"><strong>3.4. 类型定义</strong></a></li>
@@ -129,13 +129,12 @@
     <li><a href="#4-客户端-bean"><strong>4. 客户端 Bean</strong></a></li>
     <li><a href="#5-测试用例"><strong>5. 测试用例</strong></a></li>
     <li><a href="#6-集成测试"><strong>6. 集成测试</strong></a></li>
-    <li><a href="#7-结论"><strong>7. 结论</strong></a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
 <p>本教程的重点是配置和<strong>使用<a href="https://cxf.apache.org/" target="_blank" rel="noopener noreffer">Apache CXF</a>框架以及 Spring</strong> - 使用 Java 或 XML 配置。</p>
 <p>这是 Apache CXF 系列的第二篇；<a href="introduction-to-apache-cxf" rel="">第一个</a>侧重于将 CXF 的基础知识作为 JAX-WS 标准 API 的实现。</p>
-<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
 <p>与上一个教程类似，需要包含以下两个依赖项：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.cxf<span class="nt">&lt;/groupId&gt;</span>
@@ -166,10 +165,10 @@
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>javax.servlet-api<span class="nt">&lt;/artifactId&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
-</span></span></code></pre></div><p><a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22javax.servlet%22%20AND%20a%3A%22javax.servlet-api%22" target="_blank" rel="noopener noreffer">在</a>这里我们可以找到最新版本的 Servlet API。</p>
+</span></span></code></pre></div><p>在<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22javax.servlet%22%20AND%20a%3A%22javax.servlet-api%22" target="_blank" rel="noopener noreffer">这里</a>我们可以找到最新版本的 Servlet API。</p>
 <h2 id="3-服务器端组件"><strong>3. 服务器端组件</strong></h2>
 <p>现在让我们看一下为了发布 Web 服务端点而需要在服务器端出现的组件。</p>
-<h3 id="31webapplicationinitilizer接口"><strong>3.1。<em>WebApplicationInitilizer</em>接口</strong></h3>
+<h3 id="31-webapplicationinitilizer接口"><strong>3.1 <em>WebApplicationInitilizer</em>接口</strong></h3>
 <p><em>WebApplicationInitializer</em>接口被实现为以编程方式为应用程序配置ServletContext<em>接口</em>。当出现在类路径上时，它的<em>onStartup</em>方法由 servlet 容器自动调用，然后<em>ServletContext</em>被实例化和初始化。</p>
 <p>下面是如何定义一个类来实现<em>WebApplicationInitializer</em>接口：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppInitializer</span> <span class="kd">implements</span> <span class="n">WebApplicationInitializer</span> <span class="o">{</span>
@@ -321,7 +320,7 @@
 </span></span></code></pre></div><p>该插件将编译后的源代码打包成 WAR 文件。由于我们使用 Java 代码配置 servlet 上下文，因此不需要存在传统的<em>web.xml部署描述符。<em>因此，<em>failOnMissingWebXml</em>属性必须设置为</em>false</em>以避免在执行插件时失败。</p>
 <p>我们可以通过<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.maven.plugins%22%20AND%20a%3A%22maven-war-plugin%22" target="_blank" rel="noopener noreffer">此链接</a>获取最新版本的 Maven WAR 插件。</p>
 <p>为了说明 Web 服务的操作，我们创建了一个集成测试。该测试首先生成 WAR 文件并启动嵌入式服务器，然后让客户端调用 Web 服务，验证后续响应并最终停止服务器。</p>
-<p>以下插件需要包含在 Maven POM 文件中。有关更多详细信息，请查看<a href="apache-cxf-with-spring" rel="">此集成测试教程</a>。</p>
+<p>以下插件需要包含在 Maven POM 文件中。有关更多详细信息，请查看<a href="/apache-cxf-with-spring" rel="">此集成测试教程</a>。</p>
 <p>这是 Maven Surefire 插件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
@@ -398,16 +397,13 @@
 </span></span><span class="line"><span class="cl">        <span class="nt">&lt;/execution&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;/executions&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
-</span></span></code></pre></div><p>现在整个过程可以通过命令运行：<em>mvn -Pintegration clean install</em>。</p>
-<h2 id="7-结论"><strong>7. 结论</strong></h2>
-<p>本教程说明了 Apache CXF 对 Spring 的支持。特别是，它展示了如何使用 Spring 配置文件发布 Web 服务，以及客户端如何通过 Apache CXF 代理工厂创建的代理与该服务交互，该代理工厂在另一个配置文件中声明。</p>
-<p>弹簧底</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>现在整个过程可以通过命令运行：<em>mvn -Pintegration clean install</em>。
+&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

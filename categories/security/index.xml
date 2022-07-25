@@ -33,7 +33,7 @@
     <pubDate>Wed, 16 May 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_httpclient_tls/</guid>
-    <description><![CDATA[简介 Apache HttpClient 是一个用于与 HTTP 服务器通信的低级、轻量级客户端 HTTP 库。在本教程中，我们将学习如何在使用HttpClient时配置支持的传输层安全 (TLS) 版本。]]></description>
+    <description><![CDATA[1. 简介 Apache HttpClient 是一个用于与 HTTP 服务器通信的低级、轻量级客户端 HTTP 库。在本教程中，我们将学习如何在使用HttpClient时配置支持的传输层安全 (TLS) 版本]]></description>
 </item>
 <item>
     <title>Linux 中的高级文件权限</title>

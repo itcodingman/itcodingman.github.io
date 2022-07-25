@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>使用 Apache POI 设置单元格的背景颜色 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache POI 设置单元格的背景颜色" />
-<meta property="og:description" content="概述 在 Excel 工作表上，当我们通过更改表头的背景颜色来突出显示表头时，它总是看起来很优雅。本文介绍如何使用Apache POI更改单元格背景颜色。 此" />
+        <title>使用 Apache POI 设置单元格的背景颜色 - Coding Man</title><meta name="Description" content="在这个快速教程中，我们学习了如何使用 Apache POI 更改 Excel 工作表中单元格的单元格背景。"><meta property="og:title" content="使用 Apache POI 设置单元格的背景颜色" />
+<meta property="og:description" content="在这个快速教程中，我们学习了如何使用 Apache POI 更改 Excel 工作表中单元格的单元格背景。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_poi_background_color/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-25T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Apache POI 设置单元格的背景颜色"/>
-<meta name="twitter:description" content="概述 在 Excel 工作表上，当我们通过更改表头的背景颜色来突出显示表头时，它总是看起来很优雅。本文介绍如何使用Apache POI更改单元格背景颜色。 此"/>
+<meta name="twitter:description" content="在这个快速教程中，我们学习了如何使用 Apache POI 更改 Excel 工作表中单元格的单元格背景。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_poi_background_color\/"
-        },"genre": "posts","keywords": "Excel","wordcount":  1013 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_poi_background_color\/","datePublished": "2018-05-25T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Excel","wordcount":  858 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_poi_background_color\/","datePublished": "2018-05-25T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在这个快速教程中，我们学习了如何使用 Apache POI 更改 Excel 工作表中单元格的单元格背景。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,8 +107,8 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache POI 设置单元格的背景颜色</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-25">2018-05-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1013 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-25">2018-05-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;858 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -116,23 +116,20 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#2maven依赖">2.Maven依赖</a></li>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-maven依赖">2. Maven依赖</a></li>
     <li><a href="#3更改单元格背景颜色">3.更改单元格背景颜色</a>
       <ul>
-        <li><a href="#31关于单元格背景">3.1。关于单元格背景</a></li>
+        <li><a href="#31-关于单元格背景">3.1 关于单元格背景</a></li>
         <li><a href="#32-更改背景颜色的代码">3.2. 更改背景颜色的代码</a></li>
       </ul>
     </li>
-    <li><a href="#4结论">4。结论</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>概述</li>
-</ol>
-<hr>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
 <p>在 Excel 工作表上，当我们通过更改表头的背景颜色来突出显示表头时，它总是看起来很优雅。本文介绍如何使用<a href="https://poi.apache.org" target="_blank" rel="noopener noreffer">Apache POI</a>更改单元格背景颜色。</p>
-<p>此外，我们建议阅读我们<a href="java-microsoft-excel" rel="">在 Java 中使用 Microsoft Excel</a>教程，以了解在 Java 中使用 Excel 的一些基础知识。</p>
-<h2 id="2maven依赖">2.Maven依赖</h2>
+<p>此外，我们建议阅读我们<a href="/java-microsoft-excel" rel="">在 Java 中使用 Microsoft Excel</a>教程，以了解在 Java 中使用 Excel 的一些基础知识。</p>
+<h2 id="2-maven依赖">2. Maven依赖</h2>
 <p>首先，我们需要在<em>pom.xml中添加**poi-ooxml</em>作为依赖项：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">     <span class="nt">&lt;groupId&gt;</span>org.apache.poi<span class="nt">&lt;/groupId&gt;</span>
@@ -140,16 +137,16 @@
 </span></span><span class="line"><span class="cl">     <span class="nt">&lt;version&gt;</span>5.2.0<span class="nt">&lt;/version&gt;</span>
 </span></span><span class="line"><span class="cl"> <span class="nt">&lt;/dependency&gt;</span>
 </span></span></code></pre></div><h2 id="3更改单元格背景颜色">3.更改单元格背景颜色</h2>
-<h3 id="31关于单元格背景">3.1。关于单元格背景</h3>
+<h3 id="31-关于单元格背景">3.1 关于单元格背景</h3>
 <p>在 Excel 工作表上，我们可以通过填充颜色或图案来更改单元格背景。在下图中，单元格<em>A1</em>填充有浅蓝色背景，而单元格<em>B1</em>填充有图案。此图案有黑色背景和顶部的浅蓝色斑点：</p>
-<p><a href="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png" rel=""><img
+<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png"
-        data-srcset="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png, wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png 1.5x, wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png 2x"
+        data-src="/uploads/apache_poi_background_color.png"
+        data-srcset="/uploads/apache_poi_background_color.png, /uploads/apache_poi_background_color.png 1.5x, /uploads/apache_poi_background_color.png 2x"
         data-sizes="auto"
-        alt="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png"
-        title="wp-content/uploads/2021/11/ExcelCellBackgroundColor-300x78-1.png" /></a></p>
+        alt="/uploads/apache_poi_background_color.png"
+        title="/uploads/apache_poi_background_color.png" /></p>
 <h3 id="32-更改背景颜色的代码">3.2. 更改背景颜色的代码</h3>
 <p>Apache POI 提供了三种更改背景颜色的方法。在<em>CellStyle</em>类中，我们可以为此目的使用<em>setFillForegroundColor</em>、<em>setFillPattern</em>和<em>setFillBackgroundColor方法。**在IndexedColors</em>类中定义了一个颜色列表。<em>同样，在FillPatternType</em>中定义了一个模式列表。</p>
 <p><strong>有时，名称<em>setFillBackgroundColor</em>可能会误导我们</strong>。但是，该方法本身不足以改变单元格背景。要通过填充纯色来更改单元格背景，我们使用<em>setFillForegroundColor</em>和<em>setFillPattern</em>方法。第一种方法告诉要填充什么颜色，而第二种方法指定要使用的纯色填充图案。</p>
@@ -176,17 +173,12 @@
 </span></span><span class="line"><span class="cl">    <span class="n">cellStyle</span><span class="o">.</span><span class="na">setFillForegroundColor</span><span class="o">(</span><span class="n">IndexedColors</span><span class="o">.</span><span class="na">LIGHT_BLUE</span><span class="o">.</span><span class="na">getIndex</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl">    <span class="n">cell</span><span class="o">.</span><span class="na">setCellStyle</span><span class="o">(</span><span class="n">cellStyle</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h2 id="4结论">4。结论</h2>
-<p>在这个快速教程中，我们学习了如何使用 Apache POI 更改 Excel 工作表中单元格的单元格背景。</p>
-<p><em>仅使用CellStyle</em>类的<em>setFillForegroundColor</em>、<em>setFillPattern</em>和<em>setFillBackgroundColor</em>三种方法 -我们可以轻松更改单元格的背景颜色和填充图案。</p>
-<p>通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>使用 POI 的数字格式 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 POI 的数字格式" />
-<meta property="og:description" content="概述 在本快速教程中，我们将演示如何使用 Apache POI 在 Excel 中格式化数字单元格。 2.阿帕奇POI Apache POI是一个开源的纯 Java 项目。它提供了用于读取和写入 Microsoft Office 格" />
+        <title>使用 POI 的数字格式 - Coding Man</title><meta name="Description" content="在本文中，我们演示了如何在更改或不更改 Excel 工作表中数字单元格的实际值的情况下显示格式化值。"><meta property="og:title" content="使用 POI 的数字格式" />
+<meta property="og:description" content="在本文中，我们演示了如何在更改或不更改 Excel 工作表中数字单元格的实际值的情况下显示格式化值。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_poi_numeric_format/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 POI 的数字格式"/>
-<meta name="twitter:description" content="概述 在本快速教程中，我们将演示如何使用 Apache POI 在 Excel 中格式化数字单元格。 2.阿帕奇POI Apache POI是一个开源的纯 Java 项目。它提供了用于读取和写入 Microsoft Office 格"/>
+<meta name="twitter:description" content="在本文中，我们演示了如何在更改或不更改 Excel 工作表中数字单元格的实际值的情况下显示格式化值。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_poi_numeric_format\/"
-        },"genre": "posts","keywords": "Excel","wordcount":  753 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_poi_numeric_format\/","datePublished": "2018-05-28T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Excel","wordcount":  689 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_poi_numeric_format\/","datePublished": "2018-05-28T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本文中，我们演示了如何在更改或不更改 Excel 工作表中数字单元格的实际值的情况下显示格式化值。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 POI 的数字格式</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-28">2018-05-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;753 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-28">2018-05-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;689 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -116,29 +116,24 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#2阿帕奇poi">2.阿帕奇POI</a>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-apache-poi">2. Apache POI</a></li>
+    <li><a href="#3-数字格式">3. 数字格式</a>
       <ul>
-        <li><a href="#31仅显示值的格式">3.1。仅显示值的格式</a></li>
+        <li><a href="#31-仅显示值的格式">3.1 仅显示值的格式</a></li>
         <li><a href="#32-实际值和显示值的格式">3.2. 实际值和显示值的格式</a></li>
       </ul>
     </li>
-    <li><a href="#4结论">4。结论</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>概述</li>
-</ol>
-<hr>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
 <p>在本快速教程中，<strong>我们将演示如何使用 Apache POI 在 Excel 中格式化数字单元格</strong>。</p>
-<h2 id="2阿帕奇poi">2.阿帕奇POI</h2>
-<p><a href="https://poi.apache.org" target="_blank" rel="noopener noreffer">Apache POI</a>是一个开源的纯 Java 项目。它提供了用于读取和写入 Microsoft Office 格式文件的库，例如 Word、PowerPoint 和<a href="java-microsoft-excel" title="微软Excel" rel="">Excel</a>。</p>
+<h2 id="2-apache-poi">2. Apache POI</h2>
+<p><a href="https://poi.apache.org" target="_blank" rel="noopener noreffer">Apache POI</a>是一个开源的纯 Java 项目。它提供了用于读取和写入 Microsoft Office 格式文件的库，例如 Word、PowerPoint 和<a href="/java-microsoft-excel" title="微软Excel" rel="">Excel</a>。</p>
 <p>在使用较新的*.xlsx* 文件格式时，我们将使用 <em>XSSFWorkbook</em>类，对于*.xls* 格式，我们使用 <em>HSSFWorkbook</em>类*。*</p>
-<ol start="3">
-<li>数字格式</li>
-</ol>
-<hr>
+<h2 id="3-数字格式">3. 数字格式</h2>
 <p>Apache POI的<em>setCellValue方法只接受**double</em>作为输入或可以隐式转换为<em>double</em>并返回<em>double</em>作为数值的输入。setCellStyle<strong>方法用于添加所需的</strong><em><strong>样式</strong></em>。Excel 数字格式中的 # 字符意味着如果需要在此处放置一个数字，而字符 0 意味着始终在此处放置一个数字，即使它是不必要的 0。</p>
-<h3 id="31仅显示值的格式">3.1。仅显示值的格式</h3>
+<h3 id="31-仅显示值的格式">3.1 仅显示值的格式</h3>
 <p>让我们使用 0.00 或 #.## 等模式格式化*双精度值。*首先，我们将创建一个简单的实用方法来格式化单元格值：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">applyNumericFormat</span><span class="o">(</span><span class="n">Workbook</span> <span class="n">outWorkbook</span><span class="o">,</span> <span class="n">Row</span> <span class="n">row</span><span class="o">,</span> <span class="n">Cell</span> <span class="n">cell</span><span class="o">,</span> <span class="n">Double</span> <span class="n">value</span><span class="o">,</span> <span class="n">String</span> <span class="n">styleFormat</span><span class="o">)</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">CellStyle</span> <span class="n">style</span> <span class="o">=</span> <span class="n">outWorkbook</span><span class="o">.</span><span class="na">createCellStyle</span><span class="o">();</span>
@@ -159,14 +154,14 @@
 </span></span><span class="line"><span class="cl">    <span class="n">fileOut</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>这将在电子表格中添加数字单元格：</p>
-<p><a href="wp-content/uploads/2021/12/RoundedValue.png" rel=""><img
+<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="wp-content/uploads/2021/12/RoundedValue.png"
-        data-srcset="wp-content/uploads/2021/12/RoundedValue.png, wp-content/uploads/2021/12/RoundedValue.png 1.5x, wp-content/uploads/2021/12/RoundedValue.png 2x"
+        data-src="/uploads/apache_poi_numeric_format_2.png"
+        data-srcset="/uploads/apache_poi_numeric_format_2.png, /uploads/apache_poi_numeric_format_2.png 1.5x, /uploads/apache_poi_numeric_format_2.png 2x"
         data-sizes="auto"
-        alt="wp-content/uploads/2021/12/RoundedValue.png"
-        title="wp-content/uploads/2021/12/RoundedValue.png" /></a>
+        alt="/uploads/apache_poi_numeric_format_2.png"
+        title="/uploads/apache_poi_numeric_format_2.png" />
 注意：<strong>显示值为格式化后的值，实际值不变</strong>。如果我们尝试访问同一个单元格，我们仍然会得到 10.251。</p>
 <p>让我们验证实际值：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">try</span> <span class="o">(</span><span class="n">Workbook</span> <span class="n">inWorkbook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XSSFWorkbook</span><span class="o">(</span><span class="s">&#34;number_test.xlsx&#34;</span><span class="o">))</span> <span class="o">{</span>
@@ -188,30 +183,26 @@
 </span></span><span class="line"><span class="cl">    <span class="n">fileOut</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>这将在电子表格中添加数字单元格并显示格式化的值，并且<strong>还会更改实际值</strong>：</p>
-<p><a href="wp-content/uploads/2021/12/excel-numeric.png" rel=""><img
+<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
-        data-src="wp-content/uploads/2021/12/excel-numeric.png"
-        data-srcset="wp-content/uploads/2021/12/excel-numeric.png, wp-content/uploads/2021/12/excel-numeric.png 1.5x, wp-content/uploads/2021/12/excel-numeric.png 2x"
+        data-src="/uploads/apache_poi_numeric_format_1.png"
+        data-srcset="/uploads/apache_poi_numeric_format_1.png, /uploads/apache_poi_numeric_format_1.png 1.5x, /uploads/apache_poi_numeric_format_1.png 2x"
         data-sizes="auto"
-        alt="wp-content/uploads/2021/12/excel-numeric.png"
-        title="wp-content/uploads/2021/12/excel-numeric.png" /></a>
+        alt="/uploads/apache_poi_numeric_format_1.png"
+        title="/uploads/apache_poi_numeric_format_1.png" />
 让我们在上述情况下断言实际值：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">try</span> <span class="o">(</span><span class="n">Workbook</span> <span class="n">inWorkbook</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XSSFWorkbook</span><span class="o">(</span><span class="s">&#34;number_test.xlsx&#34;</span><span class="o">))</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Sheet</span> <span class="n">sheet</span> <span class="o">=</span> <span class="n">inWorkbook</span><span class="o">.</span><span class="na">cloneSheet</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Row</span> <span class="n">row</span> <span class="o">=</span> <span class="n">sheet</span><span class="o">.</span><span class="na">getRow</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Assertions</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">10</span><span class="o">.</span><span class="na">25</span><span class="o">,</span> <span class="n">row</span><span class="o">.</span><span class="na">getCell</span><span class="o">(</span><span class="n">0</span><span class="o">).</span><span class="na">getNumericCellValue</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h2 id="4结论">4。结论</h2>
-<p>在本文中，我们演示了如何在更改或不更改 Excel 工作表中数字单元格的实际值的情况下显示格式化值。</p>
-<p>通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

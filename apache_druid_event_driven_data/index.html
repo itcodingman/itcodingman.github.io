@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>使用 Apache Druid 的事件驱动数据 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="使用 Apache Druid 的事件驱动数据" />
-<meta property="og:description" content="简介 在本教程中，我们将了解如何使用事件数据和Apache Druid。我们将介绍事件数据和 Druid 架构的基础知识。作为其中的一部分，我们将创建一个简" />
+        <title>使用 Apache Druid 的事件驱动数据 - Coding Man</title><meta name="Description" content="在本教程中，我们了解了事件数据和 Apache Druid 架构的基础知识。"><meta property="og:title" content="使用 Apache Druid 的事件驱动数据" />
+<meta property="og:description" content="在本教程中，我们了解了事件数据和 Apache Druid 架构的基础知识。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_druid_event_driven_data/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-10T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用 Apache Druid 的事件驱动数据"/>
-<meta name="twitter:description" content="简介 在本教程中，我们将了解如何使用事件数据和Apache Druid。我们将介绍事件数据和 Druid 架构的基础知识。作为其中的一部分，我们将创建一个简"/>
+<meta name="twitter:description" content="在本教程中，我们了解了事件数据和 Apache Druid 架构的基础知识。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_druid_event_driven_data\/"
-        },"genre": "posts","wordcount":  6467 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_druid_event_driven_data\/","datePublished": "2018-05-10T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","wordcount":  6197 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_druid_event_driven_data\/","datePublished": "2018-05-10T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本教程中，我们了解了事件数据和 Apache Druid 架构的基础知识。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Apache Druid 的事件驱动数据</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-10">2018-05-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;6467 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-10">2018-05-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;6197 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;13 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -116,78 +116,78 @@
                 </div>
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#二基本概念">二、基本概念</a>
+    <li><a href="#1-简介">1. 简介</a></li>
+    <li><a href="#2基本概念">2.基本概念</a>
       <ul>
-        <li><a href="#21什么是事件数据">2.1。什么是事件数据？</a></li>
+        <li><a href="#21-什么是事件数据">2.1 什么是事件数据？</a></li>
         <li><a href="#22-什么是阿帕奇德鲁伊">2.2. 什么是阿帕奇德鲁伊？</a></li>
       </ul>
     </li>
-    <li><a href="#3德鲁伊架构">3.德鲁伊架构</a>
+    <li><a href="#3-druid架构">3. Druid架构</a>
       <ul>
-        <li><a href="#31数据存储设计">3.1。数据存储设计</a></li>
+        <li><a href="#31数据存储设计">3.1数据存储设计</a></li>
         <li><a href="#32-德鲁伊进程">3.2. 德鲁伊进程</a></li>
         <li><a href="#33-外部依赖">3.3. 外部依赖</a></li>
       </ul>
     </li>
-    <li><a href="#4德鲁伊设置">4.德鲁伊设置</a>
+    <li><a href="#4-druid设置">4. Druid设置</a></li>
+    <li><a href="#5-读取数据">5. 读取数据</a>
       <ul>
-        <li><a href="#51数据模型">5.1。数据模型</a></li>
-        <li><a href="#52-摄取方法">5.2. 摄取方法</a></li>
+        <li><a href="#51-数据模型">5.1 数据模型</a></li>
+        <li><a href="#52-读取方法">5.2. 读取方法</a></li>
         <li><a href="#53-定义任务规范">5.3. 定义任务规范</a></li>
         <li><a href="#54-提交任务规范">5.4. 提交任务规范</a></li>
-        <li><a href="#55-高级摄取概念">5.5. 高级摄取概念</a></li>
+        <li><a href="#55-高级读取概念">5.5. 高级读取概念</a></li>
       </ul>
     </li>
-    <li><a href="#6查询数据">6.查询数据</a>
+    <li><a href="#6-查询数据">6. 查询数据</a>
       <ul>
-        <li><a href="#61本机查询">6.1。本机查询</a></li>
-        <li><a href="#62-德鲁伊-sql">6.2. 德鲁伊 SQL</a></li>
+        <li><a href="#61-本机查询">6.1 本机查询</a></li>
+        <li><a href="#62-druid-sql">6.2. Druid SQL</a></li>
         <li><a href="#63-查询类型">6.3. 查询类型</a></li>
         <li><a href="#64-高级查询概念">6.4. 高级查询概念</a></li>
       </ul>
     </li>
+    <li><a href="#7-语言绑定">7. 语言绑定</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><ol>
-<li>简介</li>
-</ol>
-<hr>
+            </div><div class="content" id="content"><h2 id="1-简介">1. 简介</h2>
 <p>在本教程中，我们将了解如何使用事件数据和<a href="https://druid.apache.org/" target="_blank" rel="noopener noreffer">Apache Druid</a>。我们将介绍事件数据和 Druid 架构的基础知识。作为其中的一部分，我们将创建一个简单的数据管道，利用 Druid 的各种功能，涵盖各种数据摄取模式和查询准备数据的不同方式。</p>
-<h2 id="二基本概念">二、基本概念</h2>
+<h2 id="2基本概念">2.基本概念</h2>
 <p>在深入了解 Apache Druid 的操作细节之前，我们先来了解一些基本概念。我们感兴趣的领域是大规模事件数据的实时分析。</p>
 <p>因此，必须了解我们所说的事件数据的含义以及大规模实时分析它们需要什么。</p>
-<h3 id="21什么是事件数据">2.1。什么是事件数据？</h3>
+<h3 id="21-什么是事件数据">2.1 什么是事件数据？</h3>
 <p>事件数据是指<strong>关于在特定时间点发生的变化的一条信息</strong>。事件数据在当今的应用程序中几乎无处不在。从经典的应用程序日志到由事物生成的现代传感器数据，它几乎无处不在。这些通常以大规模生成的机器可读信息为特征。</p>
 <p>它们为预测、自动化、通信和集成等多种功能提供支持，仅举几例。此外，它们在事件驱动架构中也很重要。</p>
 <h3 id="22-什么是阿帕奇德鲁伊">2.2. 什么是阿帕奇德鲁伊？</h3>
 <p>Apache Druid 是<strong>一个实时分析数据库，旨在对面向事件的数据进行快速分析</strong>。Druid 于 2011 年启动，2012 年在 GPL 许可下开源，并于 2015 年迁移到 Apache 许可。它由 Apache 基金会管理，社区贡献了多个组织。它提供实时摄取、快速查询性能和高可用性。</p>
 <p>Druid 这个名字指的是它的架构可以转变来解决不同类型的数据问题。它通常用于商业智能应用程序以分析大量实时和历史数据。</p>
-<h2 id="3德鲁伊架构">3.德鲁伊架构</h2>
+<h2 id="3-druid架构">3. Druid架构</h2>
 <p>Druid 是<strong>一个用 Java 编写的面向列的分布式数据源</strong>。它能够摄取大量事件数据并在这些数据之上提供低延迟查询。此外，它提供了任意切片和切块数据的可能性。</p>
 <p>了解 Druid 架构如何支持这些特性非常有趣。在本节中，我们将介绍 Druid 架构的一些重要部分。</p>
-<h3 id="31数据存储设计">3.1。数据存储设计</h3>
+<h3 id="31数据存储设计">3.1数据存储设计</h3>
 <p>了解 Druid 如何构建和存储其数据非常重要，这允许分区和分布。Druid<strong>在处理过程中默认对数据进行分区，并将它们存储到块</strong>和段中：</p>
-<p><a href="wp-content/uploads/2020/06/Druid-Data-Storage.jpg" rel=""><img
+<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
         data-src="wp-content/uploads/2020/06/Druid-Data-Storage.jpg"
         data-srcset="wp-content/uploads/2020/06/Druid-Data-Storage.jpg, wp-content/uploads/2020/06/Druid-Data-Storage.jpg 1.5x, wp-content/uploads/2020/06/Druid-Data-Storage.jpg 2x"
         data-sizes="auto"
         alt="wp-content/uploads/2020/06/Druid-Data-Storage.jpg"
-        title="wp-content/uploads/2020/06/Druid-Data-Storage.jpg" /></a>
+        title="wp-content/uploads/2020/06/Druid-Data-Storage.jpg" />
 Druid**将数据存储在我们所知的“数据源”**中，这在逻辑上类似于关系数据库中的表。一个 Druid 集群可以并行处理多个数据源，从各种来源摄取。</p>
 <p>每个数据源都是分区的——默认情况下基于时间，如果配置了其他属性，则进一步基于其他属性。数据的<strong>时间范围称为“块”</strong> ——例如，如果数据按小时分区，则为一小时的数据。</p>
 <p>每个<strong>块进一步划分为一个或多个“段”</strong>，这些“段”是由多行数据组成的单个文件。一个数据源可能有从几个段到数百万个段的任何地方。</p>
 <h3 id="32-德鲁伊进程">3.2. 德鲁伊进程</h3>
 <p>Druid 具有<strong>多进程和分布式架构</strong>。因此，每个过程都可以独立扩展，从而使我们能够创建灵活的集群。让我们了解作为 Druid 一部分的重要过程：</p>
-<p><a href="wp-content/uploads/2020/06/Druid-Processes.jpg" rel=""><img
+<p><img
         class="lazyload"
         src="/svg/loading.min.svg"
         data-src="wp-content/uploads/2020/06/Druid-Processes.jpg"
         data-srcset="wp-content/uploads/2020/06/Druid-Processes.jpg, wp-content/uploads/2020/06/Druid-Processes.jpg 1.5x, wp-content/uploads/2020/06/Druid-Processes.jpg 2x"
         data-sizes="auto"
         alt="wp-content/uploads/2020/06/Druid-Processes.jpg"
-        title="wp-content/uploads/2020/06/Druid-Processes.jpg" /></a></p>
+        title="wp-content/uploads/2020/06/Druid-Processes.jpg" /></p>
 <ul>
 <li><strong>Coordinator</strong>：该进程主要负责段管理和分发，并与历史进程通信，根据配置加载或删除段</li>
 <li><strong>Overlord</strong>：这是负责接受任务、协调任务分发、围绕任务创建锁以及向调用者返回状态的主要进程</li>
@@ -210,7 +210,7 @@ Druid**将数据存储在我们所知的“数据源”**中，这在逻辑上�
 Druid 使用<strong>深度存储来存储已摄取</strong>到系统中的任何数据。这些不用于响应查询，而是用作数据备份和在进程之间传输数据。这些可以是从本地文件系统到分布式对象存储（如 S3 和 HDFS）的任何内容。</p>
 <p>元<strong>数据存储用于保存共享系统元数据</strong>，如段使用信息和任务信息。但是，它从未用于存储实际数据。它是一个关系数据库，如 Apache Derby、PostgreSQL 或 MySQL。</p>
 <p>Druid 使用 Apache <strong>Zookeeper 来管理当前的集群状态</strong>。它促进了 Druid 集群中的许多操作，例如协调者/霸主领导者选举、段发布协议和段加载/删除协议。</p>
-<h2 id="4德鲁伊设置">4.德鲁伊设置</h2>
+<h2 id="4-druid设置">4. Druid设置</h2>
 <p>Druid 旨在部署为可扩展的容错集群。但是，<strong>建立生产级 Druid 集群并非易事</strong>。正如我们之前看到的，有许多流程和外部依赖项需要设置和配置。由于可以以灵活的方式创建集群，因此我们必须注意我们的要求，以适当地设置各个流程。</p>
 <p>此外，Druid<strong>仅在类 Unix 环境中受支持，而不在 Windows 上受支持</strong>。此外，运行 Druid 进程需要 Java 8 或更高版本。有几种单服务器配置可用于在单台机器上设置 Druid 以运行教程和示例。但是，为了运行生产工作负载，建议设置一个具有多台机器的成熟 Druid 集群。</p>
 <p>出于本教程的目的，我们将借助<a href="https://hub.docker.com/r/apache/druid" target="_blank" rel="noopener noreffer">Docker Hub 上</a>发布<strong>的官方 Docker 镜像在单台机器上设置 Druid</strong>。这使我们也可以在 Windows 上运行 Druid，正如我们之前讨论的那样，它不受其他支持。有一个<a href="https://github.com/apache/druid/blob/master/distribution/docker/docker-compose.yml" target="_blank" rel="noopener noreffer">Docker compose 文件</a>可用，它为每个 Druid 进程及其外部依赖项创建一个容器。</p>
@@ -218,14 +218,11 @@ Druid 使用<strong>深度存储来存储已摄取</strong>到系统中的任何
 <p>一旦我们有了 Docker compose 和环境文件，启动 Druid 就像在同一目录中运行命令一样简单：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">docker-compose</span> <span class="n">up</span>
 </span></span></code></pre></div><p>这将调出单机 Druid 设置所需的所有容器。我们必须小心为 Docker 机器提供足够的内存，因为 Druid 会消耗大量资源。</p>
-<ol start="5">
-<li>摄取数据</li>
-</ol>
-<hr>
-<p>使用 Druid 构建数据管道的第一步是将数据加载到 Druid 中。这个<strong>过程在 Druid 架构中称为数据摄取或索引</strong>。我们必须找到合适的数据集才能继续本教程。</p>
+<h2 id="5-读取数据">5. 读取数据</h2>
+<p>使用 Druid 构建数据管道的第一步是将数据加载到 Druid 中。这个<strong>过程在 Druid 架构中称为数据读取或索引</strong>。我们必须找到合适的数据集才能继续本教程。</p>
 <p>现在，正如我们迄今为止所收集的那样，我们必须收集<strong>事件数据并具有一些时间性质</strong>，以充分利用 Druid 基础设施。</p>
 <p>Druid 的官方指南使用简单而优雅<a href="https://github.com/apache/druid/blob/master/examples/quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz" target="_blank" rel="noopener noreffer">的数据，其中包含特定日期的 Wikipedia 页面编辑</a>。我们将继续在此处的教程中使用它。</p>
-<h3 id="51数据模型">5.1。数据模型</h3>
+<h3 id="51-数据模型">5.1 数据模型</h3>
 <p>让我们首先检查我们拥有的数据的结构。我们创建的大多数数据管道对数据异常非常敏感，因此有必要尽可能地清理数据。</p>
 <p>尽管执行数据分析有复杂的方法和工具，但我们将从目视检查开始。快速分析表明，<strong>输入数据具有以 JSON 格式捕获的事件，其中单个事件包含典型属性</strong>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">{
@@ -259,18 +256,18 @@ Druid 使用<strong>深度存储来存储已摄取</strong>到系统中的任何
 <p>Druid 需要<strong>一个特定的属性来标识为时间戳列</strong>。在大多数情况下，Druid 的数据解析器能够自动检测出最佳候选者。但是我们总是有选择的余地，特别是如果我们的数据中没有合适的属性。</p>
 <p><strong>维度是 Druid 按原样存储的属性</strong>。我们可以将它们用于任何目的，例如分组、过滤或应用聚合器。我们可以在摄取规范中选择维度，我们将在本教程中进一步讨论。</p>
 <p>与维度不同，指标是默认**以聚合形式存储的属性。**我们可以为 Druid 选择一个聚合函数，以便在摄取期间应用到这些属性。与启用汇总一起，这些可以导致紧凑的数据表示。</p>
-<h3 id="52-摄取方法">5.2. 摄取方法</h3>
-<p>现在，我们将讨论在 Druid 中执行数据摄取的各种方法。通常，事件驱动的数据本质上是流式传输的，这意味着它们会随着时间的推移以不同的速度生成，就像维基百科的编辑一样。</p>
+<h3 id="52-读取方法">5.2. 读取方法</h3>
+<p>现在，我们将讨论在 Druid 中执行数据读取的各种方法。通常，事件驱动的数据本质上是流式传输的，这意味着它们会随着时间的推移以不同的速度生成，就像维基百科的编辑一样。</p>
 <p>但是，我们可能会在一段时间内对数据进行批处理，其中数据本质上更加静态，就像去年发生的所有 Wikipedia 编辑一样。</p>
 <p>我们可能还需要解决不同的数据用例，而 Druid 对其中的大多数都提供了出色的支持。让我们回顾一下在数据管道中使用 Druid 的两种最常见的方式：</p>
 <ul>
-<li>流式摄取</li>
-<li>批量摄取</li>
+<li>流式读取</li>
+<li>批量读取</li>
 </ul>
-<p>在 Druid 中摄取数据的<strong>最常见方式是通过 Apache Streaming 服务</strong>，Druid 可以直接从 Kafka 读取数据。Druid 也支持 Kinesis 等其他平台。我们必须在 Overload 进程上启动主管，该进程创建和管理 Kafka 索引任务。我们可以通过 Overload 进程的 HTTP POST 命令提交作为 JSON 文件的主管规范来启动主管。</p>
-<p>或者，我们可以<strong>批量摄取数据——例如，从本地或远程文件</strong>。它为基于 Hadoop 的批量摄取提供了一种选择，用于从 Hadoop 文件系统中以 Hadoop 文件格式摄取数据。更常见的是，我们可以选择顺序或并行的原生批量摄取。这是一种更方便、更简单的方法，因为它没有任何外部依赖项。</p>
+<p>在 Druid 中读取数据的<strong>最常见方式是通过 Apache Streaming 服务</strong>，Druid 可以直接从 Kafka 读取数据。Druid 也支持 Kinesis 等其他平台。我们必须在 Overload 进程上启动主管，该进程创建和管理 Kafka 索引任务。我们可以通过 Overload 进程的 HTTP POST 命令提交作为 JSON 文件的主管规范来启动主管。</p>
+<p>或者，我们可以<strong>批量读取数据——例如，从本地或远程文件</strong>。它为基于 Hadoop 的批量摄取提供了一种选择，用于从 Hadoop 文件系统中以 Hadoop 文件格式摄取数据。更常见的是，我们可以选择顺序或并行的原生批量摄取。这是一种更方便、更简单的方法，因为它没有任何外部依赖项。</p>
 <h3 id="53-定义任务规范">5.3. 定义任务规范</h3>
-<p>在本教程中，我们将为我们拥有<strong>的输入数据设置一个本机批量摄取任务</strong>。我们可以选择从 Druid 控制台配置任务，这为我们提供了直观的图形界面。或者，我们可以将任务规范定义为 JSON 文件，并使用脚本或命令行将<strong>其提交给霸主进程。</strong></p>
+<p>在本教程中，我们将为我们拥有<strong>的输入数据设置一个本机批量读取任务</strong>。我们可以选择从 Druid 控制台配置任务，这为我们提供了直观的图形界面。或者，我们可以将任务规范定义为 JSON 文件，并使用脚本或命令行将<strong>其提交给霸主进程。</strong></p>
 <p>让我们首先定义一个简单的任务规范，用于在名为<em>wikipedia-index.json</em>的文件中摄取我们的数据：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">{
 </span></span><span class="line"><span class="cl">  &#34;type&#34; : &#34;index_parallel&#34;,
@@ -348,15 +345,15 @@ Druid 使用<strong>深度存储来存储已摄取</strong>到系统中的任何
 <p><em>最后，我们可以使用curl</em>之类的工具通过命令行将此任务规范提交给霸主进程：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-powershell" data-lang="powershell"><span class="line"><span class="cl"><span class="nb">curl </span><span class="n">-X</span> <span class="s1">&#39;POST&#39;</span> <span class="n">-H</span> <span class="s1">&#39;Content-Type:application/json&#39;</span> <span class="n">-d</span> <span class="nv">@wikipedia</span><span class="n">-index</span><span class="p">.</span><span class="n">json</span> <span class="n">http</span><span class="err">:</span><span class="p">//</span><span class="n">localhost</span><span class="err">:</span><span class="n">8081</span><span class="p">/</span><span class="n">druid</span><span class="p">/</span><span class="n">indexer</span><span class="p">/</span><span class="n">v1</span><span class="p">/</span><span class="n">task</span>
 </span></span></code></pre></div><p>通常，如果提交成功，**上述命令会返回任务的 ID 。**我们可以通过 Druid 控制台或执行查询来验证我们的摄取任务的状态，我们将在下一节中介绍。</p>
-<h3 id="55-高级摄取概念">5.5. 高级摄取概念</h3>
+<h3 id="55-高级读取概念">5.5. 高级读取概念</h3>
 <p>Druid 最适合我们需要处理大量数据的情况——当然不是我们在本教程中看到的那种数据！现在，要大规模启用功能，Druid 架构必须提供合适的工具和技巧。</p>
 <p>虽然我们不会在本教程中使用它们，但让我们快速讨论汇总和分区。</p>
 <p>事件数据很快就会增长到海量，这会影响我们可以实现的查询性能。在许多情况下，我们可能会<strong>随着时间的推移汇总数据</strong>。这就是我们在 Druid 中所熟知的 roll-up。启用汇总后，Druid 会在摄取期间努力<strong>汇总具有相同维度和时间戳的行</strong>。虽然它可以节省空间，但roll-up确实会导致查询精度的损失，因此我们必须合理使用它。</p>
 <p>面对不断增长的数据量，实现更好性能的另一种潜在方法是分配数据，从而分配工作负载。默认情况下，Druid<strong>根据时间戳将数据划分为</strong>包含一个或多个段的时间块。此外，我们可以决定使用自然维度进行二次分区以提高数据局部性。此外，Druid 首先按时间戳对每个段内的数据进行排序，然后按我们配置的其他维度进行排序。</p>
-<h2 id="6查询数据">6.查询数据</h2>
+<h2 id="6-查询数据">6. 查询数据</h2>
 <p>一旦我们成功地执行了数据摄取，它应该可以供我们查询了。在 Druid 中有多种查询数据的方法。在 Druid 中执行查询的<strong>最简单方法是通过 Druid 控制台</strong>。但是，我们也可以通过发送 HTTP 命令或使用命令行工具来执行查询。</p>
 <p>在 Druid 中构造查询的两种突出方式是原生查询和类似 SQL 的查询。我们将以<strong>这两种方式构建一些基本查询，并</strong>使用<em>curl</em>通过 HTTP 发送它们。让我们看看如何对我们之前在 Druid 中摄取的数据创建一些简单的查询。</p>
-<h3 id="61本机查询">6.1。本机查询</h3>
+<h3 id="61-本机查询">6.1 本机查询</h3>
 <p>Druid 中的原生查询<strong>使用 JSON 对象，我们可以将其发送到代理或路由器进行处理</strong>。我们可以通过 HTTP POST 命令发送查询，以及其他方式来执行相同的操作。</p>
 <p>让我们创建一个名为<em>simple_query_native.json</em>的 JSON 文件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">{
@@ -412,7 +409,7 @@ Druid 使用<strong>深度存储来存储已摄取</strong>到系统中的任何
 </span></span><span class="line"><span class="cl">    &#34;page&#34; : &#34;Wikipedia:Requests for page protection&#34;
 </span></span><span class="line"><span class="cl">  } ]
 </span></span><span class="line"><span class="cl">} ]
-</span></span></code></pre></div><h3 id="62-德鲁伊-sql">6.2. 德鲁伊 SQL</h3>
+</span></span></code></pre></div><h3 id="62-druid-sql">6.2. Druid SQL</h3>
 <p>Druid 有一个<strong>内置的 SQL 层，它为我们提供了以熟悉的类似 SQL 的结构构建查询的自由</strong>。它利用 Apache Calcite 来解析和规划查询。但是，Druid SQL 将 SQL 查询转换为查询代理上的本机查询，然后再将它们发送到数据进程。</p>
 <p>让我们看看如何创建与以前相同的查询，但使用 Druid SQL。和以前一样，我们将创建一个名为<em>simple_query_sql.json</em>的 JSON 文件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">{
@@ -436,10 +433,7 @@ Druid 使用<strong>深度存储来存储已摄取</strong>到系统中的任何
 <p>Druid 支持两种加入数据的方式。第一个是连接运算符，第二个是查询时查找。但是，为了获得更好的查询性能，建议避免查询时连接。</p>
 <p>多租户是指在同一个 Druid 基础设施上支持多个租户的特性，同时仍然为它们提供逻辑隔离。在 Druid 中，可以通过每个租户的单独数据源或租户的数据分区来实现这一点。</p>
 <p>最后，查询缓存是数据密集型应用程序性能的关键。Druid 支持分段和查询结果级别的查询结果缓存。此外，缓存数据可以驻留在内存中或外部持久存储中。</p>
-<ol start="7">
-<li>语言绑定</li>
-</ol>
-<hr>
+<h2 id="7-语言绑定">7. 语言绑定</h2>
 <p>尽管 Druid 对在 JSON 中创建摄取规范和定义查询具有出色的支持，但<strong>有时在 JSON 中定义这些查询可能很乏味</strong>，尤其是在查询变得复杂时。不幸的是，Druid 没有提供任何特定语言的客户端库来帮助我们在这方面。但是<strong>社区已经开发了相当多的语言绑定</strong>。一个这样的客户端库也可用于 Java。</p>
 <p>我们将快速了解如何使用 Java 中的这个客户端库构建我们之前使用的<em>TopN查询。</em></p>
 <p>让我们首先<a href="https://search.maven.org/artifact/in.zapr.druid/druidry/2.14/jar" target="_blank" rel="noopener noreffer">在 Maven 中定义所需的依赖项</a>：</p>
@@ -467,22 +461,12 @@ Druid 使用<strong>深度存储来存储已摄取</strong>到系统中的任何
 </span></span></code></pre></div><p>在此之后，我们可以简单地生成所需的 JSON 结构，我们可以在 HTTP POST 调用中使用它：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ObjectMapper</span> <span class="n">mapper</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ObjectMapper</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">requiredJson</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="na">writeValueAsString</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
-</span></span></code></pre></div><ol start="8">
-<li>结论</li>
-</ol>
-<hr>
-<p>在本教程中，我们了解了事件数据和 Apache Druid 架构的基础知识。</p>
-<p>此外，我们在本地机器上使用 Docker 容器建立了一个主 Druid 集群。然后，我们还使用本机批处理任务完成了在 Druid 中摄取样本数据集的过程。在此之后，我们看到了在 Druid 中查询数据的不同方式。最后，我们通过 Java 中的客户端库来构建 Druid 查询。</p>
-<p>我们刚刚触及了 Druid 必须提供的功能的皮毛。Druid 可以通过多种可能性帮助我们构建数据管道并创建数据应用程序。先进的摄取和查询功能显然是接下来要学习的步骤，以有效利用 Druid 的力量。</p>
-<p>此外，创建一个合适的 Druid 集群以根据需要扩展各个进程应该是最大化收益的目标。</p>
-<p>通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
