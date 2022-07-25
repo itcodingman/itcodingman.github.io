@@ -4,20 +4,20 @@
         <link>http://itcodingman.github.io/categories/java-collections/</link>
         <description>Java Collections - Category - Coding Man</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 05 May 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/java-collections/" rel="self" type="application/rss+xml" /><item>
-    <title>Apache Commons 集合 SetUtils</title>
+    <title>Apache Commons Collections SetUtils</title>
     <link>http://itcodingman.github.io/apache_commons_setutils/</link>
     <pubDate>Sat, 05 May 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_commons_setutils/</guid>
-    <description><![CDATA[本文是系列文章的一部分： • Apache Commons 收藏包 • Apache Commons Collections SetUtils （当前文章）• Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 在本文中，我们将探索]]></description>
+    <description><![CDATA[1. 概述 在本文中，我们将探索 Apache Commons Collections 库的SetUtils API。简而言之，这些实用程序可用于对Java 中的Set数据结构执行某些操作。 2. 依赖安装]]></description>
 </item>
 <item>
-    <title>Apache Commons 集合 OrderedMap</title>
+    <title>Apache Commons Collections OrderedMap</title>
     <link>http://itcodingman.github.io/apache_commons_ordered_map/</link>
     <pubDate>Fri, 04 May 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_commons_ordered_map/</guid>
-    <description><![CDATA[本文是系列文章的一部分： • Apache Commons Collections 包 • Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap （当前文章）• Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 Apache Commons Collections 库提供了补充 Java Collections]]></description>
+    <description><![CDATA[1. 概述 Apache Commons Collections 库提供了补充 Java Collections Framework的有用类。 在本文中，我们将回顾接口OrderedMap，它扩展了java.util.Map。 2.]]></description>
 </item>
 <item>
     <title>Apache Commons MultiValuedMap 指南</title>
@@ -33,7 +33,7 @@
     <pubDate>Tue, 01 May 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_commons_map_utils/</guid>
-    <description><![CDATA[本文是系列文章的一部分： • Apache Commons Collections 包 • Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils （当前文章）• Apache Commons CircularFifoQueue 指南 1. 简介 MapUtils是 Apache Commons]]></description>
+    <description><![CDATA[1. 简介 MapUtils是 Apache Commons Collections 项目中可用的工具之一。 简单地说，它提供了实用方法和装饰器来处理java.util.Map和java.util.]]></description>
 </item>
 <item>
     <title>Apache Commons Collections 与 Google Guava</title>
@@ -44,20 +44,20 @@
     <description><![CDATA[1. 概述 在本教程中，我们将比较两个基于 Java 的开源库：Apache Commons和Google Guava。这两个库都具有丰富的功能集，其中包含大量]]></description>
 </item>
 <item>
-    <title>Apache Commons Collections CollectionUtils 指南</title>
+    <title>Apache Commons CollectionUtils 指南</title>
     <link>http://itcodingman.github.io/apache_commons_collection_utils/</link>
     <pubDate>Wed, 25 Apr 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_commons_collection_utils/</guid>
-    <description><![CDATA[本文是系列文章的一部分： • Apache Commons Collections 包 • Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南（当前文章）• Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 简而言之，Apache]]></description>
+    <description><![CDATA[1. 概述 简而言之，Apache CollectionUtils为常见操作提供了实用方法，涵盖了广泛的用例，并有助于避免编写样板代码。该库针对较旧]]></description>
 </item>
 <item>
-    <title>Apache Commons 收藏包</title>
+    <title>Apache Commons Bag</title>
     <link>http://itcodingman.github.io/apache_commons_bag/</link>
     <pubDate>Sun, 22 Apr 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_commons_bag/</guid>
-    <description><![CDATA[本文是系列文章的一部分： • Apache Commons Collections Bag （当前文章）• Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 简介 在这篇快速文章中，我们]]></description>
+    <description><![CDATA[1. 简介 在这篇快速文章中，我们将重点介绍如何使用 Apache 的Bag集合。 2. Maven依赖 在开始之前，我们需要从Maven Central导入最新的依赖项]]></description>
 </item>
 </channel>
 </rss>

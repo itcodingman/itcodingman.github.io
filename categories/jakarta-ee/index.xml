@@ -17,7 +17,7 @@
     <pubDate>Tue, 17 Apr 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_bval/</guid>
-    <description><![CDATA[1. 简介 在本文中，我们将看看Apache BVal库对Java Bean Validation规范 ( JSR 349 )**的实现。 2.Maven依赖 为了使用Apach]]></description>
+    <description><![CDATA[1. 简介 在本文中，我们将看看Apache BVal库对Java Bean Validation规范 ( JSR 349 )**的实现。 2. Maven依赖 为了使用Apache]]></description>
 </item>
 </channel>
 </rss>

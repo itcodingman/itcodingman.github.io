@@ -20,12 +20,12 @@
     <description><![CDATA[概述 在本教程中，我们将使用 Apache Kafka 进入事件驱动架构的数据建模领域。 设置 Kafka 集群由多个注册到 Zookeeper 集群的 Kafka 代理组成。为了简单起见，我们将使用由 Confluent 发布的*]]></description>
 </item>
 <item>
-    <title>具有 Apache Commons 频率的直方图</title>
+    <title>Apache Commons Frequency</title>
     <link>http://itcodingman.github.io/apache_commons_frequency/</link>
     <pubDate>Sun, 29 Apr 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_commons_frequency/</guid>
-    <description><![CDATA[概述 在本教程中，我们将了解如何借助 Apache Commons Frequency类在直方图上呈现数据。 Frequency 类是本文探讨的 Apache Commons Math 库的一部分。 直方图是连接条形图，显示数据]]></description>
+    <description><![CDATA[1. 概述 在本教程中，我们将了解如何借助 Apache Commons Frequency类在直方图上呈现数据。 Frequency 类是本文探讨的 Apache Commons Math 库的一部分。 直方图是连接条形图，显示数]]></description>
 </item>
 <item>
     <title>用 Java 解决 2048 游戏</title>

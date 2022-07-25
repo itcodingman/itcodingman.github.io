@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Commons 收藏包 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons 收藏包" />
-<meta property="og:description" content="本文是系列文章的一部分： • Apache Commons Collections Bag （当前文章）• Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 简介 在这篇快速文章中，我们" />
+        <title>Apache Commons Bag - Coding Man</title><meta name="Description" content="在这个简短的教程中，我们了解了Bag接口及其各种实现。"><meta property="og:title" content="Apache Commons Bag" />
+<meta property="og:description" content="在这个简短的教程中，我们了解了Bag接口及其各种实现。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_commons_bag/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-04-22T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Apache Commons 收藏包"/>
-<meta name="twitter:description" content="本文是系列文章的一部分： • Apache Commons Collections Bag （当前文章）• Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 简介 在这篇快速文章中，我们"/>
+<meta name="twitter:title" content="Apache Commons Bag"/>
+<meta name="twitter:description" content="在这个简短的教程中，我们了解了Bag接口及其各种实现。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -24,18 +24,18 @@
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Apache Commons 收藏包",
+        "headline": "Apache Commons Bag",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_commons_bag\/"
-        },"genre": "posts","wordcount":  1171 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_commons_bag\/","datePublished": "2018-04-22T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","wordcount":  954 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_bag\/","datePublished": "2018-04-22T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在这个简短的教程中，我们了解了Bag接口及其各种实现。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -105,10 +105,10 @@
                     <div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons 收藏包</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons Bag</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-22">2018-04-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1171 words&nbsp;
-                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-22">2018-04-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;954 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
                     <span>Contents</span>
@@ -117,48 +117,31 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
-    <li><a href="#进一步阅读">进一步阅读：</a></li>
-    <li><a href="#apache-commons-beanutilsapache-commons-beanutils"><a href="apache-commons-beanutils">Apache Commons BeanUtils</a></a></li>
-    <li><a href="#了解如何使用-apache-commons-beanutils-进行常见的-bean-操作阅读更多apache-commons-beanutilsapache-commons-ioapache-commons-io">了解如何使用 Apache Commons BeanUtils 进行常见的 bean 操作。<a href="apache-commons-beanutils">阅读更多</a>→<a href="apache-commons-io">Apache Commons IO</a></a></li>
-    <li><a href="#apache-commons-io-java-开源库的快速实用指南涵盖了其许多知名功能阅读更多apache-commons-ioapache-commons-文本简介java-apache-commons-text">Apache Commons IO Java 开源库的快速实用指南，涵盖了其许多知名功能。<a href="apache-commons-io">阅读更多</a>→<a href="java-apache-commons-text">Apache Commons 文本简介</a></a></li>
-    <li><a href="#2maven依赖">了解如何使用 Apache Commons Text 进行常见的字符串操作。<a href="java-apache-commons-text">阅读更多</a>→
-<strong>2.Maven依赖</strong></a></li>
-    <li><a href="#3-包袋与收藏品"><strong>3. 包袋与收藏品</strong></a>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
+    <li><a href="#3-bag与collection"><strong>3. Bag与Collection</strong></a>
       <ul>
-        <li><a href="#31违反收款合同"><strong>3.1。违反<em>收款</em>合同</strong></a></li>
+        <li><a href="#31-违反collection合同"><strong>3.1 违反<em>Collection</em>合同</strong></a></li>
       </ul>
     </li>
     <li><a href="#4-包的实现"><strong>4. 包的实现</strong></a>
       <ul>
-        <li><a href="#41哈希包"><strong>4.1。<em>哈希包</em></strong></a></li>
-        <li><a href="#42-树袋"><strong>4.2. <em>树袋</em></strong></a></li>
-        <li><a href="#43-同步排序袋"><strong>4.3. <em>同步排序袋</em></strong></a></li>
+        <li><a href="#41-哈希包"><strong>4.1 <em>哈希包</em></strong></a></li>
+        <li><a href="#42-treebag"><strong>4.2. TreeBag</strong></a></li>
+        <li><a href="#43-synchronizedsortedbag"><strong>4.3. SynchronizedSortedBag</strong></a></li>
       </ul>
     </li>
-    <li><a href="#5-结论"><strong>5. 结论</strong></a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p><a href="javascript:void%280%29;" rel="">本文是系列文章的一部分：</a>  • Apache Commons Collections Bag （当前文章）<a href="apache-commons-setutils" rel="">• Apache Commons Collections SetUtils</a><br>
-<a href="apache-commons-ordered-map" rel="">• Apache Commons Collections OrderedMap</a><br>
-<a href="commons-collections-bidi-map" rel="">• Apache Commons Collections BidiMap • Apache Commons Collections</a><br>
-<a href="apache-commons-collection-utils" rel="">CollectionUtils 指南</a><br>
-<a href="apache-commons-map-utils" rel="">• Apache Commons Collections MapUtils</a><br>
-<a href="commons-circular-fifo-queue" rel="">• Apache Commons CircularFifoQueue 指南</a></p>
-<h2 id="1-简介"><strong>1. 简介</strong></h2>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
 <p>在这篇快速文章中，我们将重点介绍如何使用 Apache 的<em>Bag</em>集合。</p>
-<h2 id="进一步阅读">进一步阅读：</h2>
-<h2 id="apache-commons-beanutilsapache-commons-beanutils"><a href="apache-commons-beanutils" rel="">Apache Commons BeanUtils</a></h2>
-<h2 id="了解如何使用-apache-commons-beanutils-进行常见的-bean-操作阅读更多apache-commons-beanutilsapache-commons-ioapache-commons-io">了解如何使用 Apache Commons BeanUtils 进行常见的 bean 操作。<a href="apache-commons-beanutils" rel="">阅读更多</a>→<a href="apache-commons-io" rel="">Apache Commons IO</a></h2>
-<h2 id="apache-commons-io-java-开源库的快速实用指南涵盖了其许多知名功能阅读更多apache-commons-ioapache-commons-文本简介java-apache-commons-text">Apache Commons IO Java 开源库的快速实用指南，涵盖了其许多知名功能。<a href="apache-commons-io" rel="">阅读更多</a>→<a href="java-apache-commons-text" rel="">Apache Commons 文本简介</a></h2>
-<h2 id="2maven依赖">了解如何使用 Apache Commons Text 进行常见的字符串操作。<a href="java-apache-commons-text" rel="">阅读更多</a>→
-<strong>2.Maven依赖</strong></h2>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
 <p>在开始之前，我们需要从<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.commons%22%20AND%20a%3A%22commons-collections4%22" target="_blank" rel="noopener noreffer">Maven Central</a>导入最新的依赖项：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-collections4<span class="nt">&lt;/artifactId&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.1<span class="nt">&lt;/version&gt;</span>
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
-</span></span></code></pre></div><h2 id="3-包袋与收藏品"><strong>3. 包袋与收藏品</strong></h2>
+</span></span></code></pre></div><h2 id="3-bag与collection"><strong>3. Bag与Collection</strong></h2>
 <p>简而言之，<em>Bag</em>是一个允许存储多个项目及其重复次数的集合：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenAdded_thenCountIsKept</span><span class="o">()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Bag</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">bag</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashBag</span><span class="o">&lt;&gt;(</span>
@@ -166,7 +149,7 @@
 </span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="n">bag</span><span class="o">.</span><span class="na">getCount</span><span class="o">(</span><span class="n">1</span><span class="o">)));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h3 id="31违反收款合同"><strong>3.1。违反<em>收款</em>合同</strong></h3>
+</span></span></code></pre></div><h3 id="31-违反collection合同"><strong>3.1 违反<em>Collection</em>合同</strong></h3>
 <p>在阅读<em>Bag</em>的 API 文档时，我们可能会注意到某些方法被标记为违反标准 Java 的 Collection 契约。</p>
 <p>例如，当我们使用 Java 集合中的<em>add()</em> API 时，即使项目已经在集合中，我们也会收到<em>true ：</em></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Collection</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">collection</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
@@ -186,7 +169,7 @@
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><h2 id="4-包的实现"><strong>4. 包的实现</strong></h2>
 <p>现在让我们在 Apache 的集合库中探索<em>Bag接口的各种实现。</em></p>
-<h3 id="41哈希包"><strong>4.1。<em>哈希包</em></strong></h3>
+<h3 id="41-哈希包"><strong>4.1 <em>哈希包</em></strong></h3>
 <p>我们可以添加一个元素并指示 API 该元素在我们的包集合中应具有的副本数：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenAdd_whenCountOfElementsDefined_thenCountAreAdded</span><span class="o">()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Bag</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">bag</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashBag</span><span class="o">&lt;&gt;();</span>
@@ -206,7 +189,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">bag</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">1</span><span class="o">);</span> <span class="c1">// remove all
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">assertThat</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="n">bag</span><span class="o">.</span><span class="na">getCount</span><span class="o">(</span><span class="n">1</span><span class="o">)));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h3 id="42-树袋"><strong>4.2. <em>树袋</em></strong></h3>
+</span></span></code></pre></div><h3 id="42-treebag"><strong>4.2. TreeBag</strong></h3>
 <p>TreeBag实现与任何其他树一样工作，另外还维护<em>Bag**语义</em>。</p>
 <p><em>我们可以自然地使用TreeBag</em>对整数数组进行排序，然后查询每个单独元素在集合中的实例数：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenTree_whenDuplicateElementsAdded_thenSort</span><span class="o">()</span> <span class="o">{</span>
@@ -227,7 +210,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">bag</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">1</span><span class="o">),</span> <span class="n">is</span><span class="o">((</span><span class="kc">true</span><span class="o">)));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h3 id="43-同步排序袋"><strong>4.3. <em>同步排序袋</em></strong></h3>
+</span></span></code></pre></div><h3 id="43-synchronizedsortedbag"><strong>4.3. SynchronizedSortedBag</strong></h3>
 <p><em>Bag</em>的另一个广泛使用的实现是<em>SynchronizedSortedBag</em>。准确地说，这是一个<em>SortedBag</em>实现的同步装饰器。</p>
 <p>我们可以将此装饰器与上一节中的<em>TreeBag</em>（SortedBag 的实现*）*一起使用，以同步对我们包的访问：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenSortedBag_whenDuplicateElementsAdded_thenSort</span><span class="o">()</span> <span class="o">{</span>
@@ -240,23 +223,18 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">bag</span><span class="o">.</span><span class="na">last</span><span class="o">(),</span> <span class="n">equalTo</span><span class="o">(</span><span class="n">7</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">bag</span><span class="o">.</span><span class="na">getCount</span><span class="o">(</span><span class="n">bag</span><span class="o">.</span><span class="na">last</span><span class="o">()),</span> <span class="n">equalTo</span><span class="o">(</span><span class="n">3</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>我们可以使用 API 的组合——Collections.synchronizedSortedMap <em>()<em>和</em>TreeMap——<em>来模拟我们在这里使用</em>SynchronizedSortedBag</em>所做的事情。</p>
-<h2 id="5-结论"><strong>5. 结论</strong></h2>
-<p>在这个简短的教程中，我们了解了<em>Bag</em>接口及其各种实现。</p>
-<p>下一个**»**<a href="apache-commons-setutils" rel="">Apache Commons 集合 SetUtils</a>
-通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>我们可以使用 API 的组合——<em>Collections.synchronizedSortedMap()<em>和</em>TreeMap</em>——来模拟我们在这里使用<em>SynchronizedSortedBag</em>所做的事情。
+&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_bag/" data-title="Apache Commons 收藏包"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_bag/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_bag/" data-title="Apache Commons 收藏包"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_bag/" data-title="Apache Commons 收藏包"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_bag/" data-title="Apache Commons 收藏包"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_bag/" data-title="Apache Commons Bag"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_bag/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_bag/" data-title="Apache Commons Bag"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_bag/" data-title="Apache Commons Bag"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_bag/" data-title="Apache Commons Bag"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>

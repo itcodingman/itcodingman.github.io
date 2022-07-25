@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Cayenne 中的高级查询 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Cayenne 中的高级查询" />
-<meta property="og:description" content="1. 概述 之前，我们专注于如何开始使用 Apache Cayenne。 在本文中，我们将介绍如何使用 ORM 编写简单和高级查询。 2. 设置 该设置类似于上一篇文章中使用的设" />
+        <title>Apache Cayenne 中的高级查询 - Coding Man</title><meta name="Description" content="在本文中，我们研究了使用 Cayenne 编写简单和更高级查询的多种方法。"><meta property="og:title" content="Apache Cayenne 中的高级查询" />
+<meta property="og:description" content="在本文中，我们研究了使用 Cayenne 编写简单和更高级查询的多种方法。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_cayenne_query/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-04-21T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Apache Cayenne 中的高级查询"/>
-<meta name="twitter:description" content="1. 概述 之前，我们专注于如何开始使用 Apache Cayenne。 在本文中，我们将介绍如何使用 ORM 编写简单和高级查询。 2. 设置 该设置类似于上一篇文章中使用的设"/>
+<meta name="twitter:description" content="在本文中，我们研究了使用 Cayenne 编写简单和更高级查询的多种方法。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_cayenne_query\/"
-        },"genre": "posts","wordcount":  2247 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_cayenne_query\/","datePublished": "2018-04-21T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","wordcount":  2093 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_cayenne_query\/","datePublished": "2018-04-21T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本文中，我们研究了使用 Cayenne 编写简单和更高级查询的多种方法。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Cayenne 中的高级查询</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/persistence/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Persistence</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-21">2018-04-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2247 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-21">2018-04-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2093 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -118,26 +118,19 @@
   <ul>
     <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
     <li><a href="#2-设置"><strong>2. 设置</strong></a></li>
-    <li><a href="#3对象选择"><strong>3.<em>对象选择</em></strong></a></li>
-    <li><a href="#4选择查询"><strong>4.<em>选择查询</em></strong></a></li>
-    <li><a href="#5sql模板"><strong>5.SQL<em>模板</em></strong></a></li>
-    <li><a href="#6-ejbql查询"><strong>6. <em>EJBQL查询</em></strong></a></li>
-    <li><a href="#7sql执行"><strong>7.SQL<em>执行</em></strong></a></li>
-    <li><a href="#8-结论"><strong>8. 结论</strong></a></li>
+    <li><a href="#3对象选择-">**3.<em>对象选择</em> **</a></li>
+    <li><a href="#4-selectquery"><strong>4. SelectQuery</strong></a></li>
+    <li><a href="#5-sqltemplate-">**5. SQLTemplate **</a></li>
+    <li><a href="#6-ejbql查询"><strong>6. EJBQL查询</strong></a></li>
+    <li><a href="#7-sqlexec"><strong>7. SQLExec</strong></a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
-<p><a href="apache-cayenne-orm" rel="">之前</a>，我们专注于如何开始使用 Apache Cayenne。</p>
+<p><a href="/apache-cayenne-orm" rel="">之前</a>，我们专注于如何开始使用 Apache Cayenne。</p>
 <p>在本文中，我们将介绍如何使用 ORM 编写简单和高级查询。</p>
 <h2 id="2-设置"><strong>2. 设置</strong></h2>
 <p>该设置类似于上一篇文章中使用的设置。</p>
-<p>此外，在每次测试之前，我们会保存三位作者，并在最后删除他们：</p>
-<ul>
-<li>保罗泽维尔</li>
-<li>保罗·史密斯</li>
-<li>维姬萨拉</li>
-</ul>
-<h2 id="3对象选择"><strong>3.<em>对象选择</em></strong></h2>
+<h2 id="3对象选择-">**3.<em>对象选择</em> **</h2>
 <p>让我们从简单的开始，看看我们如何获取名字中包含“Paul”的所有作者：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenContainsObjS_thenWeGetOneRecord</span><span class="o">()</span> <span class="o">{</span>
@@ -211,7 +204,7 @@
 <li><em>andExp</em>：用于用<em>and</em>运算符链接两个表达式</li>
 <li><em>orExp</em> : 使用<em>or</em>运算符链接两个表达式</li>
 </ul>
-<h2 id="4选择查询"><strong>4.<em>选择查询</em></strong></h2>
+<h2 id="4-selectquery"><strong>4. SelectQuery</strong></h2>
 <p>它是用户应用程序中使用最广泛的查询类型。<em>SelectQuery</em>描述了一个简单而强大的 API，其行为类似于 SQL 语法，但仍然使用 Java 对象和方法，然后使用构建器模式来构造更复杂的表达式。</p>
 <p>在这里，我们谈论的是一种表达式语言，其中我们使用<em>Expression</em>（用于构建表达式）又名限定符和<em>Ordering</em>（用于对结果排序）类构建查询，这些类接下来由 ORM 转换为原生 SQL。</p>
 <p>为了看到这一点，我们汇总了一些测试，在实践中展示了如何构建一些表达式和对数据进行排序。</p>
@@ -284,7 +277,7 @@
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>正如我们在前面的示例中看到的 - 设置此排序的另一种方法是：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">query</span><span class="o">.</span><span class="na">addOrdering</span><span class="o">(</span><span class="n">Author</span><span class="o">.</span><span class="na">NAME</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">SortOrder</span><span class="o">.</span><span class="na">DESCENDING</span><span class="o">);</span>
-</span></span></code></pre></div><h2 id="5sql模板"><strong>5.SQL<em>模板</em></strong></h2>
+</span></span></code></pre></div><h2 id="5-sqltemplate-">**5. SQLTemplate **</h2>
 <p><em>SQLTemplate</em>也是我们可以与 Cayenne 一起使用以不使用对象样式查询的一种替代方法。</p>
 <p><em>使用SQLTemplate</em>构建查询与使用某些参数编写本机 SQL 语句直接相关。让我们实现一些简单的例子。</p>
 <p>以下是我们在每次测试后删除所有作者的方法：</p>
@@ -314,7 +307,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">authors</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">1</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">author</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="s">&#34;Vicky Sarra&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h2 id="6-ejbql查询"><strong>6. <em>EJBQL查询</em></strong></h2>
+</span></span></code></pre></div><h2 id="6-ejbql查询"><strong>6. EJBQL查询</strong></h2>
 <p>接下来，让我们通过*EJBQLQuery 查询数据，*它是作为在 Cayenne 中采用 Java Persistence API 的实验的一部分而创建的。</p>
 <p>在这里，查询以参数化的对象样式应用；让我们看一些实际的例子。</p>
 <p>首先，所有已保存作者的搜索将如下所示：</p>
@@ -352,7 +345,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertNotNull</span><span class="o">(</span><span class="n">author</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>如果我们只想选择一列，我们应该使用这个查询*“select a.name FROM Author a”*。</p>
-<h2 id="7sql执行"><strong>7.SQL<em>执行</em></strong></h2>
+<h2 id="7-sqlexec"><strong>7. SQLExec</strong></h2>
 <p><em>SQLExec</em>也是从 Cayenne M4 版本引入的一个新的 Fluent 查询 API。</p>
 <p>一个简单的插入看起来像这样：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
@@ -373,20 +366,13 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">updated</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>我们可以从<a href="https://cayenne.apache.org/docs/4.0/index.html" target="_blank" rel="noopener noreffer">文档</a>中获得更多细节。</p>
-<h2 id="8-结论"><strong>8. 结论</strong></h2>
-<p>在本文中，我们研究了使用 Cayenne 编写简单和更高级查询的多种方法。</p>
-<p>坚持底 <strong>通过参考<em>学习 Spring Data JPA</em>课程开始使用 Spring Data JPA：</strong>
-<strong><a href="learn-spring-data-jpa-course/index.html#table" rel="">&raquo; 查看课程</a></strong>
-持久性页脚横幅</p>
-<p>使用 JPA 介绍 SPRING 数据、JPA<br>
-和事务语义详细信息使用 Spring 获得持久性</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>我们可以从<a href="https://cayenne.apache.org/docs/4.0/index.html" target="_blank" rel="noopener noreffer">文档</a>中获得更多细节。
+&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
@@ -404,7 +390,7 @@
     </div>
 
     <div class="post-nav"><a href="/apache_cayenne_orm/" class="prev" rel="prev" title="Apache Cayenne ORM 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Cayenne ORM 简介</a>
-            <a href="/apache_commons_bag/" class="next" rel="next" title="Apache Commons 收藏包">Apache Commons 收藏包<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+            <a href="/apache_commons_bag/" class="next" rel="next" title="Apache Commons Bag">Apache Commons Bag<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

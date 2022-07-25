@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>阿帕奇共享链 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="阿帕奇共享链" />
-<meta property="og:description" content="1. 简介 Apache Commons Chain是一个使用责任链模式的库——通常用于组织复杂的处理流程，其中多个接收者可以处理一个请求。 在这篇快速文章中，我们将通过一个" />
+        <title>Apache Commons Chain - Coding Man</title><meta name="Description" content="在本教程中，我们使用 Apache 的 Apache Commons Chain 库探索了一个实际场景"><meta property="og:title" content="Apache Commons Chain" />
+<meta property="og:description" content="在本教程中，我们使用 Apache 的 Apache Commons Chain 库探索了一个实际场景" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_commons_chain/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-04-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="阿帕奇共享链"/>
-<meta name="twitter:description" content="1. 简介 Apache Commons Chain是一个使用责任链模式的库——通常用于组织复杂的处理流程，其中多个接收者可以处理一个请求。 在这篇快速文章中，我们将通过一个"/>
+<meta name="twitter:title" content="Apache Commons Chain"/>
+<meta name="twitter:description" content="在本教程中，我们使用 Apache 的 Apache Commons Chain 库探索了一个实际场景"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -24,18 +24,18 @@
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "阿帕奇共享链",
+        "headline": "Apache Commons Chain",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_commons_chain\/"
-        },"genre": "posts","keywords": "Pattern","wordcount":  927 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_commons_chain\/","datePublished": "2018-04-24T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Pattern","wordcount":  907 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_chain\/","datePublished": "2018-04-24T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本教程中，我们使用 Apache 的 Apache Commons Chain 库探索了一个实际场景"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -105,9 +105,9 @@
                     <div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">阿帕奇共享链</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons Chain</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-24">2018-04-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;927 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-24">2018-04-24</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;907 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -117,21 +117,20 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
-    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
     <li><a href="#3-示例链"><strong>3. 示例链</strong></a></li>
-    <li><a href="#4链上下文"><strong>4.链上下文</strong></a></li>
+    <li><a href="#4-链上下文"><strong>4. 链上下文</strong></a></li>
     <li><a href="#5-命令"><strong>5. 命令</strong></a></li>
-    <li><a href="#6链条"><strong>6.链条</strong></a></li>
-    <li><a href="#7过滤"><strong>7.过滤</strong></a></li>
+    <li><a href="#6-链条"><strong>6. 链条</strong></a></li>
+    <li><a href="#7-过滤"><strong>7. 过滤</strong></a></li>
     <li><a href="#8-链目录"><strong>8. 链目录</strong></a></li>
     <li><a href="#9-使用链条"><strong>9. 使用链条</strong></a></li>
-    <li><a href="#10-结论"><strong>10. 结论</strong></a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
 <p><a href="https://commons.apache.org/proper/commons-chain/" target="_blank" rel="noopener noreffer">Apache Commons Chain</a>是一个使用责任链<a href="https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern" target="_blank" rel="noopener noreffer">模式</a>的库——通常用于组织复杂的处理流程，其中多个接收者可以处理一个请求。</p>
 <p>在这篇快速文章中，我们将通过一个表示从 ATM 取款的示例。</p>
-<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
 <p>首先，我们将使用 Maven 导入该库的最新版本：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>commons-chain<span class="nt">&lt;/groupId&gt;</span>
@@ -141,7 +140,7 @@
 </span></span></code></pre></div><p>要检查这个库的最新版本——<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22commons-chain%22%20AND%20a%3A%22commons-chain%22" target="_blank" rel="noopener noreffer">去这里</a>。</p>
 <h2 id="3-示例链"><strong>3. 示例链</strong></h2>
 <p>ATM 将一个数字作为输入并将其传递给负责执行不同操作的处理程序。这些包括计算要分发的钞票数量，并向银行和客户发送有关交易的通知。</p>
-<h2 id="4链上下文"><strong>4.链上下文</strong></h2>
+<h2 id="4-链上下文"><strong>4. 链上下文</strong></h2>
 <p>上下文表示应用程序的当前状态，存储有关事务的信息。</p>
 <p>对于我们的 ATM 取款请求，我们需要的信息是：</p>
 <ul>
@@ -162,7 +161,7 @@
 </span></span><span class="line"><span class="cl">    <span class="c1">// standard setters &amp; getters
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
 </span></span></code></pre></div><h2 id="5-命令"><strong>5. 命令</strong></h2>
-<p><em>Command</em>将<em>C**上下文</em>作为输入并对其进行处理。</p>
+<p><em>Command</em>将<em>Context</em>作为输入并对其进行处理。</p>
 <p>我们将把上面提到的每个步骤作为一个<em>命令来实现：</em></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HundredDenominationDispenser</span> <span class="kd">implements</span> <span class="n">Command</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">
@@ -176,9 +175,9 @@
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p><em>FiftyDenominationDispenser</em>和TenDenominationDispenser的<em>Command**类似</em>。</p>
-<h2 id="6链条"><strong>6.链条</strong></h2>
-<p><em>链</em>是按指定顺序执行的命令的集合。我们的<em>Chain</em>将由上述<em>Command</em>和最后的<em>AuditFilter 组成</em>：</p>
+</span></span></code></pre></div><p><em>FiftyDenominationDispenser</em>和TenDenominationDispenser<em>的</em>Command*类似。</p>
+<h2 id="6-链条"><strong>6. 链条</strong></h2>
+<p><em>Chain</em>是按指定顺序执行的命令的集合。我们的<em>Chain</em>将由上述<em>Command</em>和最后的<em>AuditFilter 组成</em>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AtmWithdrawalChain</span> <span class="kd">extends</span> <span class="n">ChainBase</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">AtmWithdrawalChain</span><span class="o">()</span> <span class="o">{</span>
@@ -189,10 +188,10 @@
 </span></span><span class="line"><span class="cl">        <span class="n">addCommand</span><span class="o">(</span><span class="k">new</span> <span class="n">AuditFilter</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p><em>当链</em>中的任何<em>命令</em>返回 true 时，它​​会强制<em>链</em>结束。</p>
-<h2 id="7过滤"><strong>7.过滤</strong></h2>
-<p>过滤器也是一个<em>命令</em>，但具有在<em>链</em>执行后调用的<em>postProcess方法。</em></p>
-<p>我们的<em>过滤器</em>将向客户和银行发送通知：</p>
+</span></span></code></pre></div><p>当<em>Chain</em>中的任何<em>命令</em>返回 true 时，它会强制<em>Chain</em>结束。</p>
+<h2 id="7-过滤"><strong>7. 过滤</strong></h2>
+<p>过滤器也是一个<em>命令</em>，但具有在<em>Chain</em>执行后调用的<em>postProcess方法</em>。</p>
+<p>我们的<em>Filter</em>将向客户和银行发送通知：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuditFilter</span> <span class="kd">implements</span> <span class="n">Filter</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
@@ -207,8 +206,8 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><h2 id="8-链目录"><strong>8. 链目录</strong></h2>
-<p>它是具有逻辑名称的<em>链</em>和<em>命令的集合。</em></p>
-<p>在我们的例子中，我们的<em>目录</em>将包含<em>AtmWithdrawalChain。</em></p>
+<p>它是具有逻辑名称的<em>Chain</em>和<em>命令</em>的集合。</p>
+<p>在我们的例子中，我们的<em>目录</em>将包含<em>AtmWithdrawalChain</em>。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AtmCatalog</span> <span class="kd">extends</span> <span class="n">CatalogBase</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">AtmCatalog</span><span class="o">()</span> <span class="o">{</span>
@@ -217,7 +216,7 @@
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><h2 id="9-使用链条"><strong>9. 使用链条</strong></h2>
-<p>让我们看看我们如何使用上述<em>链</em>来处理提款请求。我们将首先创建一个<em>上下文</em>，然后将其传递给<em>链。**链</em>将处理<em>上下文。</em></p>
+<p>让我们看看我们如何使用上述<em>Chain</em>来处理提款请求。我们将首先创建一个<em>Context</em>，然后将其传递给<em>Chain</em>。<em>Chain</em>将处理<em>Context。</em></p>
 <p>我们将编写一个测试用例来演示我们的<em>AtmWithdrawalChain：</em></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AtmChainTest</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">
@@ -239,21 +238,17 @@
 </span></span><span class="line"><span class="cl">        <span class="n">assertEquals</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">context</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;noOfTensDispensed&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">    <span class="o">}</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h2 id="10-结论"><strong>10. 结论</strong></h2>
-<p>在本教程中，我们使用 Apache 的 Apache Commons Chain 库探索了一个实际场景——您可以在<a href="https://commons.apache.org/proper/commons-chain/cookbook.html" target="_blank" rel="noopener noreffer">此处</a>阅读更多信息。</p>
-<p>Java底层</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_chain/" data-title="阿帕奇共享链" data-hashtags="Pattern"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_chain/" data-hashtag="Pattern"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_chain/" data-title="阿帕奇共享链"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_chain/" data-title="阿帕奇共享链"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_chain/" data-title="阿帕奇共享链"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_chain/" data-title="Apache Commons Chain" data-hashtags="Pattern"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_chain/" data-hashtag="Pattern"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_chain/" data-title="Apache Commons Chain"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_chain/" data-title="Apache Commons Chain"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_chain/" data-title="Apache Commons Chain"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -266,7 +261,7 @@
     </div>
 
     <div class="post-nav"><a href="/apache_commons_beanutils/" class="prev" rel="prev" title="Apache Commons BeanUtils"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons BeanUtils</a>
-            <a href="/apache_commons_collection_utils/" class="next" rel="next" title="Apache Commons Collections CollectionUtils 指南">Apache Commons Collections CollectionUtils 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+            <a href="/apache_commons_collection_utils/" class="next" rel="next" title="Apache Commons CollectionUtils 指南">Apache Commons CollectionUtils 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

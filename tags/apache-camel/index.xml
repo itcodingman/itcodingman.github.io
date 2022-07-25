@@ -17,7 +17,7 @@
     <pubDate>Wed, 18 Apr 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_camel_intro/</guid>
-    <description><![CDATA[1. 概述 在本文中，我们将介绍 Camel 并探讨其核心概念之一——消息路由。 我们将从介绍这些基本概念和术语开始，然后介绍定义路由的两个主要选项——Java]]></description>
+    <description><![CDATA[1. 概述 Apache Camel是一个开源集成框架，旨在简化集成系统。 它允许最终用户使用相同的 API 集成各种系统，提供对多种协议和数据类型的支持，同时具有可扩]]></description>
 </item>
 </channel>
 </rss>

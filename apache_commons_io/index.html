@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Commons IO - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons IO" />
-<meta property="og:description" content="1. 概述 创建 Apache Commons 项目的目的是为开发人员提供一组可以在日常代码中使用的通用库。 在本教程中，我们将探索 Commons IO 模块的一些关键实用程序类及其最著名的功能" />
+        <title>Apache Commons IO - Coding Man</title><meta name="Description" content="本文介绍了 Commons IO 包的一些常用组件。但是，该软件包还具有许多其他功能。"><meta property="og:title" content="Apache Commons IO" />
+<meta property="og:description" content="本文介绍了 Commons IO 包的一些常用组件。但是，该软件包还具有许多其他功能。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_commons_io/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-04-30T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Apache Commons IO"/>
-<meta name="twitter:description" content="1. 概述 创建 Apache Commons 项目的目的是为开发人员提供一组可以在日常代码中使用的通用库。 在本教程中，我们将探索 Commons IO 模块的一些关键实用程序类及其最著名的功能"/>
+<meta name="twitter:description" content="本文介绍了 Commons IO 包的一些常用组件。但是，该软件包还具有许多其他功能。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_commons_io\/"
-        },"genre": "posts","keywords": "Java IO","wordcount":  1618 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_commons_io\/","datePublished": "2018-04-30T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Java IO","wordcount":  1518 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_io\/","datePublished": "2018-04-30T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "本文介绍了 Commons IO 包的一些常用组件。但是，该软件包还具有许多其他功能。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons IO</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-30">2018-04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1618 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-30">2018-04-30</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1518 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -117,30 +117,29 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
-    <li><a href="#2maven依赖"><strong>2.Maven依赖</strong></a></li>
+    <li><a href="#-2maven依赖">** 2.Maven依赖**</a></li>
     <li><a href="#3-实用程序类"><strong>3. 实用程序类</strong></a>
       <ul>
-        <li><a href="#31文件实用程序"><strong>3.1。<em>文件实用程序</em></strong></a></li>
-        <li><a href="#32-文件名utils"><strong>3.2. <em>文件名Utils</em></strong></a></li>
-        <li><a href="#33-文件系统实用程序"><strong>3.3. <em>文件系统实用程序</em></strong></a></li>
+        <li><a href="#31-fileutils-">**3.1 <em>FileUtils</em> **</a></li>
+        <li><a href="#32-filenameutils"><strong>3.2. FilenameUtils</strong></a></li>
+        <li><a href="#33-filesystemutils"><strong>3.3. FileSystemUtils</strong></a></li>
       </ul>
     </li>
     <li><a href="#4输入输出"><strong>4.输入输出</strong></a></li>
     <li><a href="#5-过滤器"><strong>5. 过滤器</strong></a></li>
-    <li><a href="#6-比较器"><strong>6. 比较器</strong></a>
+    <li><a href="#6-comparator"><strong>6. Comparator</strong></a>
       <ul>
-        <li><a href="#61路径文件比较器"><strong>6.1。<em>路径文件比较器</em></strong></a></li>
-        <li><a href="#62-大小文件比较器"><strong>6.2. <em>大小文件比较器</em></strong></a></li>
+        <li><a href="#61-pathfilecomparator"><strong>6.1 PathFileComparator</strong></a></li>
+        <li><a href="#62-sizefilecomparator"><strong>6.2. SizeFileComparator</strong></a></li>
       </ul>
     </li>
-    <li><a href="#7文件监视器"><strong>7.文件监视器</strong></a></li>
-    <li><a href="#8-结论"><strong>8. 结论</strong></a></li>
+    <li><a href="#7-文件监视器"><strong>7. 文件监视器</strong></a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
 <p>创建 Apache Commons 项目的目的是为开发人员提供一组可以在日常代码中使用的通用库。</p>
 <p>在本教程中，我们将探索 Commons IO 模块的一些关键实用程序类及其最著名的功能。</p>
-<h2 id="2maven依赖"><strong>2.Maven依赖</strong></h2>
+<h2 id="-2maven依赖">** 2.Maven依赖**</h2>
 <p><em>要使用该库，让我们在pom.xml</em>中包含以下 Maven 依赖项：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>commons-io<span class="nt">&lt;/groupId&gt;</span>
@@ -150,7 +149,7 @@
 </span></span></code></pre></div><p>该库的最新版本可以在<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22commons-io%22%20AND%20a%3A%22commons-io%22" target="_blank" rel="noopener noreffer">Maven Central</a>中找到。</p>
 <h2 id="3-实用程序类"><strong>3. 实用程序类</strong></h2>
 <p>简单地说，实用程序类提供了一组静态方法，可用于<strong>对文件执行常见任务</strong>。</p>
-<h3 id="31文件实用程序"><strong>3.1。<em>文件实用程序</em></strong></h3>
+<h3 id="31-fileutils-">**3.1 <em>FileUtils</em> **</h3>
 <p>该类提供了对文件的不同操作，例如打开、读取、复制和移动。</p>
 <p>让我们看看<strong>如何</strong>使用<em>FileUtils</em>读取或复制文件：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="n">FileUtils</span><span class="o">.</span><span class="na">getFile</span><span class="o">(</span><span class="n">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">()</span>
@@ -161,12 +160,12 @@
 </span></span><span class="line"><span class="cl"><span class="n">File</span> <span class="n">newTempFile</span> <span class="o">=</span> <span class="n">FileUtils</span><span class="o">.</span><span class="na">getFile</span><span class="o">(</span><span class="n">tempDir</span><span class="o">,</span> <span class="n">file</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">data</span> <span class="o">=</span> <span class="n">FileUtils</span><span class="o">.</span><span class="na">readFileToString</span><span class="o">(</span><span class="n">newTempFile</span><span class="o">,</span>
 </span></span><span class="line"><span class="cl">  <span class="n">Charset</span><span class="o">.</span><span class="na">defaultCharset</span><span class="o">());</span>
-</span></span></code></pre></div><h3 id="32-文件名utils"><strong>3.2. <em>文件名Utils</em></strong></h3>
+</span></span></code></pre></div><h3 id="32-filenameutils"><strong>3.2. FilenameUtils</strong></h3>
 <p>此实用程序提供了一种与<strong>操作系统无关的方法来对文件名执行常用功能</strong>。让我们看看我们可以使用的一些不同的方法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">fullPath</span> <span class="o">=</span> <span class="n">FilenameUtils</span><span class="o">.</span><span class="na">getFullPath</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">extension</span> <span class="o">=</span> <span class="n">FilenameUtils</span><span class="o">.</span><span class="na">getExtension</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">baseName</span> <span class="o">=</span> <span class="n">FilenameUtils</span><span class="o">.</span><span class="na">getBaseName</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
-</span></span></code></pre></div><h3 id="33-文件系统实用程序"><strong>3.3. <em>文件系统实用程序</em></strong></h3>
+</span></span></code></pre></div><h3 id="33-filesystemutils"><strong>3.3. FileSystemUtils</strong></h3>
 <p>我们可以使用<em>FileSystemUtils</em>来<strong>检查给定卷或驱动器上的可用空间</strong>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">freeSpace</span> <span class="o">=</span> <span class="n">FileSystemUtils</span><span class="o">.</span><span class="na">freeSpaceKb</span><span class="o">(</span><span class="s">&#34;/&#34;</span><span class="o">);</span>
 </span></span></code></pre></div><h2 id="4输入输出"><strong>4.输入输出</strong></h2>
@@ -186,6 +185,7 @@
 </span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">str</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">outputStream1</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">str</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">outputStream2</span><span class="o">));</span>
 </span></span></code></pre></div><h2 id="5-过滤器"><strong>5. 过滤器</strong></h2>
+<hr>
 <p>Commons IO 包含一个有用的文件过滤器列表。当开发人员想要从异构<strong>文件列表中缩小到特定的所需文件列表</strong>时，这些可以派上用场。</p>
 <p>该库还支持对给定文件列表的<em>AND</em>和<em>OR</em>逻辑运算。因此，我们可以混合和匹配这些过滤器以获得所需的结果。</p>
 <p>让我们看一个使用<em>WildcardFileFilter</em>和<em>SuffixFileFilter</em>检索名称中带有“ <em>ple</em> ”且后缀为“ <em>txt ”的文件的示例。<em>请注意，我们使用</em>ANDFileFilter</em>包装上述过滤器：</p>
@@ -203,9 +203,10 @@
 </span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="n">WildcardFileFilter</span><span class="o">(</span><span class="s">&#34;*ple*&#34;</span><span class="o">,</span> <span class="n">IOCase</span><span class="o">.</span><span class="na">INSENSITIVE</span><span class="o">),</span>
 </span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="n">SuffixFileFilter</span><span class="o">(</span><span class="s">&#34;txt&#34;</span><span class="o">)))[</span><span class="n">0</span><span class="o">]);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h2 id="6-比较器"><strong>6. 比较器</strong></h2>
+</span></span></code></pre></div><h2 id="6-comparator"><strong>6. Comparator</strong></h2>
+<hr>
 <p><em>Comparator</em>包提供了<strong>不同类型的文件</strong>比较。我们将在这里探讨两种不同的比较器。</p>
-<h3 id="61路径文件比较器"><strong>6.1。<em>路径文件比较器</em></strong></h3>
+<h3 id="61-pathfilecomparator"><strong>6.1 PathFileComparator</strong></h3>
 <p>PathFileComparator类可用于以<em>区分</em>大小写、不区分大小写或系统相关的区分大小写的方式**按路径对文件列表或数组进行排序。**让我们看看如何使用此实用程序对资源目录中的文件路径进行排序：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenSortDirWithPathFileComparator_thenFirstFile_aaatxt</span><span class="o">()</span> 
@@ -226,7 +227,7 @@
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>请注意，我们使用了<em>IOCase.INSENSITIVE</em>配置。<em>PathFileComparator</em>还提供了许多<strong>具有不同区分大小写和反向排序选项的单例实例</strong>。</p>
 <p>这些静态字段包括<em>PATH_COMPARATOR、PATH_INSENSITIVE_COMPARATOR、PATH_INSENSITIVE_REVERSE、PATH_SYSTEM_COMPARATOR</em>等等。</p>
-<h3 id="62-大小文件比较器"><strong>6.2. <em>大小文件比较器</em></strong></h3>
+<h3 id="62-sizefilecomparator"><strong>6.2. SizeFileComparator</strong></h3>
 <p><em>SizeFileComparator</em>，顾名思义，是用来<strong>比较两个文件的大小（长度）的</strong>。如果第一个文件的大小小于第二个文件的大小，则返回一个负整数值。如果文件大小相等，则返回零，如果第一个文件的大小大于第二个文件的大小，则返回正值。</p>
 <p>让我们编写一个单元测试来演示文件大小的比较：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
@@ -245,7 +246,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">Assert</span><span class="o">.</span><span class="na">assertTrue</span><span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><h2 id="7文件监视器"><strong>7.文件监视器</strong></h2>
+</span></span></code></pre></div><h2 id="7-文件监视器"><strong>7. 文件监视器</strong></h2>
 <p>Commons IO 监视器包提供了<strong>跟踪文件或目录更改</strong>的能力。让我们看一个快速示例，说明如何将<em>FileAlterationMonitor与**FileAlterationObserver</em>和<em>FileAlterationListener</em>一起使用来监视文件或文件夹。</p>
 <p>当<em>FileAlterationMonitor</em>启动时，我们将开始接收有关正在监视的目录上的文件更改的通知*：*</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">FileAlterationObserver</span> <span class="n">observer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileAlterationObserver</span><span class="o">(</span><span class="n">folder</span><span class="o">);</span>
@@ -267,16 +268,12 @@
 </span></span><span class="line"><span class="cl"><span class="n">observer</span><span class="o">.</span><span class="na">addListener</span><span class="o">(</span><span class="n">fal</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">monitor</span><span class="o">.</span><span class="na">addObserver</span><span class="o">(</span><span class="n">observer</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">monitor</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
-</span></span></code></pre></div><h2 id="8-结论"><strong>8. 结论</strong></h2>
-<p>本文介绍了 Commons IO 包的一些常用组件。但是，该软件包还具有许多其他功能。有关详细信息，请参阅<a href="https://commons.apache.org/proper/commons-io/javadocs/api-2.5/index.html" target="_blank" rel="noopener noreffer">API 文档。</a></p>
-<p>Java底层</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
@@ -293,7 +290,7 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/apache_commons_frequency/" class="prev" rel="prev" title="具有 Apache Commons 频率的直方图"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>具有 Apache Commons 频率的直方图</a>
+    <div class="post-nav"><a href="/apache_commons_frequency/" class="prev" rel="prev" title="Apache Commons Frequency"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons Frequency</a>
             <a href="/apache_commons_map_utils/" class="next" rel="next" title="Apache Commons Collections MapUtils">Apache Commons Collections MapUtils<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>

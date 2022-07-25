@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Commons Collections 与 Google Guava - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons Collections 与 Google Guava" />
-<meta property="og:description" content="1. 概述 在本教程中，我们将比较两个基于 Java 的开源库：Apache Commons和Google Guava。这两个库都具有丰富的功能集，其中包含大量" />
+        <title>Apache Commons Collections 与 Google Guava - Coding Man</title><meta name="Description" content="在本教程中，我们比较了 Apache Commons 和 Google Guava 提供的一些功能，特别是在集合框架领域。"><meta property="og:title" content="Apache Commons Collections 与 Google Guava" />
+<meta property="og:description" content="在本教程中，我们比较了 Apache Commons 和 Google Guava 提供的一些功能，特别是在集合框架领域。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_commons_collections_vs_guava/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-04-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Apache Commons Collections 与 Google Guava"/>
-<meta name="twitter:description" content="1. 概述 在本教程中，我们将比较两个基于 Java 的开源库：Apache Commons和Google Guava。这两个库都具有丰富的功能集，其中包含大量"/>
+<meta name="twitter:description" content="在本教程中，我们比较了 Apache Commons 和 Google Guava 提供的一些功能，特别是在集合框架领域。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_commons_collections_vs_guava\/"
-        },"genre": "posts","wordcount":  2756 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_commons_collections_vs_guava\/","datePublished": "2018-04-26T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","wordcount":  2588 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_collections_vs_guava\/","datePublished": "2018-04-26T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本教程中，我们比较了 Apache Commons 和 Google Guava 提供的一些功能，特别是在集合框架领域。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons Collections 与 Google Guava</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/guava/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Guava</a>&nbsp;<a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-26">2018-04-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2756 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-26">2018-04-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2588 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -117,27 +117,33 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
-    <li><a href="#3-maven依赖"><strong>3. Maven依赖</strong></a>
+    <li><a href="#2-两个的简史">2. 两个的简史</a></li>
+    <li><a href="#3-maven依赖"><strong>3. Maven依赖</strong></a></li>
+    <li><a href="#4-双向map">4. 双向Map</a>
       <ul>
-        <li><a href="#41guava-的bimap">4.1。Guava 的<em>BiMap</em></a></li>
+        <li><a href="#41-guava-的bimap">4.1 Guava 的<em>BiMap</em></a></li>
         <li><a href="#42-apache-的bidimap">4.2. Apache 的<em>BidiMap</em></a></li>
-        <li><a href="#51guava-的multimap">5.1。Guava 的<em>MultiMap</em></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-将键映射到多个值">5. 将键映射到多个值</a>
+      <ul>
+        <li><a href="#51-guava-的multimap">5.1 Guava 的<em>MultiMap</em></a></li>
         <li><a href="#52-apache-的多值映射">5.2. Apache 的<em>多值映射</em></a></li>
-        <li><a href="#61番石榴的桌子">6.1。番石榴的<em>桌子</em></a></li>
+      </ul>
+    </li>
+    <li><a href="#6-将多个键映射到一个值">6. 将多个键映射到一个值</a>
+      <ul>
+        <li><a href="#61-guava的table">6.1 Guava的<em>Table</em></a></li>
         <li><a href="#62-apache-的multikeymap">6.2. Apache 的 <em>MultiKeyMap</em></a></li>
       </ul>
     </li>
-    <li><a href="#8-结论"><strong>8. 结论</strong></a></li>
+    <li><a href="#7-apache-commons-collections-与-google-guava">7. Apache Commons Collections 与 Google Guava</a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
 <p>在本教程中，我们将比较<strong>两个基于 Java 的开源库：<a href="https://commons.apache.org/" target="_blank" rel="noopener noreffer">Apache Commons</a>和<a href="https://github.com/google/guava" target="_blank" rel="noopener noreffer">Google Guava</a></strong>。这两个库都具有丰富的功能集，其中包含大量实用程序 API，主要位于集合和 I/O 领域。</p>
 <p>为简洁起见，这里我们将仅描述集合框架中最常用的几个以及代码示例。我们还将看到它们之间差异的摘要。</p>
-<p>此外，<strong>我们还收集了一系列文章，用于深入了解各种<a href="index.html@s=apache&#43;commons" rel="">公地</a>和<a href="guava-guide" rel="">Guava</a>实用程序</strong>。</p>
-<ol start="2">
-<li>两个图书馆的简史</li>
-</ol>
-<hr>
+<h2 id="2-两个的简史">2. 两个的简史</h2>
 <p>Google Guava 是 Google 的一个项目，主要由该组织的工程师开发，虽然现在已经开源。启动它的<strong>主要动机是将 JDK 1.5 中引入的泛型包含到 Java Collections Framework</strong>或<a href="https://en.wikipedia.org/wiki/Java_collections_framework" target="_blank" rel="noopener noreffer">JCF</a>中，并增强其功能。</p>
 <p>自成立以来，该库已扩展其功能，现在包括图形、函数式编程、范围对象、缓存和<em>字符串</em>操作。</p>
 <p>Apache Commons 最初是作为 Jakarta 项目的一个补充核心 Java 集合 API 的项目，最终成为 Apache 软件基金会的一个项目。多年来，它已扩展到其他各个领域的大量可重用 Java 组件，包括（但不限于）成像、I/O、密码学、缓存、网络、验证和对象池。</p>
@@ -158,13 +164,10 @@
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
 </span></span></code></pre></div><p>在我们的代码示例中，我们将使用<a href="https://search.maven.org/search?q=g:org.apache.commons%20AND%20a:commons-collections4" target="_blank" rel="noopener noreffer"><em>commons-collections4</em></a>。</p>
 <p>现在让我们进入有趣的部分吧！</p>
-<ol start="4">
-<li>双向地图</li>
-</ol>
-<hr>
+<h2 id="4-双向map">4. 双向Map</h2>
 <p>可以通过键和值访问的映射称为双向映射。JCF 没有此功能。</p>
 <p>让我们看看我们的两种技术如何提供它们。在这两种情况下，我们都会以一周中的几天为例来获取给定日期的日期名称，反之亦然。</p>
-<h3 id="41guava-的bimap">4.1。Guava 的<em>BiMap</em></h3>
+<h3 id="41-guava-的bimap">4.1 Guava 的<em>BiMap</em></h3>
 <p>Guava 提供了一个接口 - <a href="guava-bimap" rel=""><em>BiMap</em></a>，作为双向地图。<strong>它可以使用其实现<em>之一 EnumBiMap</em>、<em>EnumHashBiMap</em>、<em>HashBiMap</em>或<em>ImmutableBiMap</em></strong>来实例化。</p>
 <p>这里我们使用<em>HashBiMap</em>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BiMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">daysOfWeek</span> <span class="o">=</span> <span class="n">HashBiMap</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
@@ -202,12 +205,9 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Tuesday&#34;</span><span class="o">,</span> <span class="n">daysOfWeek</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">2</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>在一些简单的性能测试中，这个双向映射<strong>仅在插入方面落后于Guava 对应映射。获取键和值要快得多</strong>。</p>
-<ol start="5">
-<li>将键映射到多个值</li>
-</ol>
-<hr>
+<h2 id="5-将键映射到多个值">5. 将键映射到多个值</h2>
 <p>对于我们想要将多个键映射到不同值的用例，例如水果和蔬菜的购物车集合，这两个库为我们提供了独特的解决方案。</p>
-<h3 id="51guava-的multimap">5.1。Guava 的<em>MultiMap</em></h3>
+<h3 id="51-guava-的multimap">5.1 Guava 的<em>MultiMap</em></h3>
 <p>首先，让我们看看如何实例化和初始化<a href="guava-multimap" rel=""><em>MultiMap</em></a>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Multimap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">groceryCart</span> <span class="o">=</span> <span class="n">ArrayListMultimap</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">
@@ -257,7 +257,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">veggies</span><span class="o">,</span> <span class="n">groceryCart</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;Vegetables&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>我们可以看到，它的用法也是一样的！</p>
-<p>但是，在这种情况下，我们无法灵活地删除单个条目，例如<em>Apple</em> from <em>Fruits。</em> <strong>我们只能删除整组</strong>*<strong>Fruits</strong>：*</p>
+<p>但是，在这种情况下，我们无法灵活地删除单个条目，例如<em>Apple</em> from <em>Fruits</em>。 <strong>我们只能删除整组Fruits</strong>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenMultiValuedMap_whenFuitsRemoved_thenVeggiesPreserved</span><span class="o">()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="n">groceryCart</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
@@ -265,17 +265,14 @@
 </span></span><span class="line"><span class="cl">    <span class="n">groceryCart</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="s">&#34;Fruits&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">groceryCart</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><ol start="6">
-<li>将多个键映射到一个值</li>
-</ol>
-<hr>
+</span></span></code></pre></div><h2 id="6-将多个键映射到一个值">6. 将多个键映射到一个值</h2>
 <p>在这里，我们将举例说明要映射到各个城市的纬度和经度：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">cityCoordinates</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;40.7128° N&#34;</span><span class="o">,</span> <span class="s">&#34;74.0060° W&#34;</span><span class="o">,</span> <span class="s">&#34;New York&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">cityCoordinates</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;48.8566° N&#34;</span><span class="o">,</span> <span class="s">&#34;2.3522° E&#34;</span><span class="o">,</span> <span class="s">&#34;Paris&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">cityCoordinates</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;19.0760° N&#34;</span><span class="o">,</span> <span class="s">&#34;72.8777° E&#34;</span><span class="o">,</span> <span class="s">&#34;Mumbai&#34;</span><span class="o">);</span>
 </span></span></code></pre></div><p>现在，我们将看看如何实现这一目标。</p>
-<h3 id="61番石榴的桌子">6.1。番石榴的<em>桌子</em></h3>
-<p>Guava 提供了满足上述用例的<a href="guava-table" rel=""><em>Table ：</em></a></p>
+<h3 id="61-guava的table">6.1 Guava的<em>Table</em></h3>
+<p>Guava 提供了满足上述用例的<a href="/guava-table" rel=""><em>Table</em></a> ：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Table</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">cityCoordinates</span> <span class="o">=</span> <span class="n">HashBasedTable</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
 </span></span></code></pre></div><p>以下是我们可以从中得出的一些用法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
@@ -289,7 +286,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">cityCoordinates</span><span class="o">.</span><span class="na">rowKeySet</span><span class="o">().</span><span class="na">contains</span><span class="o">(</span><span class="s">&#34;48.8566° N&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>如我们所见，我们可以获得行、列和值的<em>Set视图。</em></p>
-<p><strong><em>表</em>还为我们提供了查询其行或列的能力</strong>。</p>
+<p><strong>Table还为我们提供了查询其行或列的能力</strong>。</p>
 <p>让我们考虑一个电影表来证明这一点：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Table</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">movies</span> <span class="o">=</span> <span class="n">HashBasedTable</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
 </span></span><span class="line"><span class="cl">
@@ -306,7 +303,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;A Star is Born&#34;</span><span class="o">,</span> <span class="n">movies</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;Bradley Cooper&#34;</span><span class="o">,</span> <span class="s">&#34;Lady Gaga&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">movies</span><span class="o">.</span><span class="na">containsValue</span><span class="o">(</span><span class="s">&#34;Speed&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>但是，<strong><em>Table</em>限制我们只能将两个键映射到一个值</strong>。在 Guava 中，我们还没有将两个以上的键映射到单个值的替代方法。</p>
+</span></span></code></pre></div><p>但是，<strong>Table限制我们只能将两个键映射到一个值</strong>。在 Guava 中，我们还没有将两个以上的键映射到单个值的替代方法。</p>
 <h3 id="62-apache-的multikeymap">6.2. Apache 的 <em>MultiKeyMap</em></h3>
 <p>回到我们的<em>cityCoordinates</em>示例，下面是我们如何使用<em>MultiKeyMap</em>来操作它：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
@@ -332,7 +329,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertArrayEquals</span><span class="o">(</span><span class="n">expectedCities</span><span class="o">.</span><span class="na">toArray</span><span class="o">(),</span> <span class="n">cities</span><span class="o">.</span><span class="na">toArray</span><span class="o">());</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>正如我们从上面的代码片段中看到的那样，要获得与 Guava 的<em>Table</em>相同的断言，我们必须遍历<em>MultiKeyMap</em>。</p>
-<p>然而，<strong><em>MultiKeyMap</em>也提供了将两个以上的键映射到一个值的可能性</strong>。例如，它使我们能够将一周中的几天映射为工作日或周末：</p>
+<p>然而，** <em>MultiKeyMap</em>也提供了将两个以上的键映射到一个值的可能性**。例如，它使我们能够将一周中的几天映射为工作日或周末：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenDaysMultiKeyMap_whenFetched_thenOK</span><span class="o">()</span> <span class="o">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">days</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MultiKeyMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;();</span>
@@ -341,25 +338,16 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="n">assertFalse</span><span class="o">(</span><span class="n">days</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;Saturday&#34;</span><span class="o">,</span> <span class="s">&#34;Sunday&#34;</span><span class="o">).</span><span class="na">equals</span><span class="o">(</span><span class="s">&#34;Weekday&#34;</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><ol start="7">
-<li>Apache Commons Collections 与 Google Guava</li>
-</ol>
-<hr>
+</span></span></code></pre></div><h2 id="7-apache-commons-collections-与-google-guava">7. Apache Commons Collections 与 Google Guava</h2>
 <p><a href="https://code.google.com/archive/p/google-collections/wikis/Faq.wiki" target="_blank" rel="noopener noreffer">根据其工程师</a>的说法，<strong>Google Guava 的诞生是出于在库中使用泛型的需要，而 Apache Commons 没有提供</strong>。它还遵循 tee 的集合 API 要求。另一个主要优势是它正在积极开发中，新版本经常发布。</p>
 <p>但是，在从集合中获取值时，Apache 在性能方面提供了优势。不过，就插入时间而言，番石榴仍然占据优势。</p>
-<p>尽管我们只比较了代码示例中的集合 API，<strong>但与 Guava 相比，Apache Commons 作为一个整体提供了更大范围的功能</strong>。</p>
-<h2 id="8-结论"><strong>8. 结论</strong></h2>
-<p>在本教程中，我们比较了 Apache Commons 和 Google Guava 提供的一些功能，特别是在集合框架领域。</p>
-<p>在这里，我们只是触及了这两个库必须提供的表面。</p>
-<p>此外，这不是一个非此即彼的比较。正如我们的代码示例所展示的，<strong>两者都有各自独特的功能，并且可能存在两者可以共存的情况</strong>。</p>
-<p>通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+<p>尽管我们只比较了代码示例中的集合 API，<strong>但与 Guava 相比，Apache Commons 作为一个整体提供了更大范围的功能</strong>。
+&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
@@ -376,7 +364,7 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/apache_commons_collection_utils/" class="prev" rel="prev" title="Apache Commons Collections CollectionUtils 指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons Collections CollectionUtils 指南</a>
+    <div class="post-nav"><a href="/apache_commons_collection_utils/" class="prev" rel="prev" title="Apache Commons CollectionUtils 指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons CollectionUtils 指南</a>
             <a href="/apache_commons_csv/" class="next" rel="next" title="Apache Commons CSV 简介">Apache Commons CSV 简介<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>

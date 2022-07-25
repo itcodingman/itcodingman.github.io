@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Commons Math 简介 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons Math 简介" />
-<meta property="og:description" content="1. 概述 我们经常需要使用数学工具，有时java.lang.Math根本不够用。幸运的是，Apache Commons 的目标是使用Apache Commons Math填补标" />
+        <title>Apache Commons Math 简介 - Coding Man</title><meta name="Description" content="在本教程中，我们介绍了使用 Apache Commons Math 可以做的一些有趣的事情。不幸的是，本文无法涵盖分析或线性代数的整个领域，因此仅提供最常见情况的示例。"><meta property="og:title" content="Apache Commons Math 简介" />
+<meta property="og:description" content="在本教程中，我们介绍了使用 Apache Commons Math 可以做的一些有趣的事情。不幸的是，本文无法涵盖分析或线性代数的整个领域，因此仅提供最常见情况的示例。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_commons_math/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-02T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Apache Commons Math 简介"/>
-<meta name="twitter:description" content="1. 概述 我们经常需要使用数学工具，有时java.lang.Math根本不够用。幸运的是，Apache Commons 的目标是使用Apache Commons Math填补标"/>
+<meta name="twitter:description" content="在本教程中，我们介绍了使用 Apache Commons Math 可以做的一些有趣的事情。不幸的是，本文无法涵盖分析或线性代数的整个领域，因此仅提供最常见情况的示例。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -29,13 +29,13 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_commons_math\/"
-        },"genre": "posts","keywords": "Math","wordcount":  3190 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_commons_math\/","datePublished": "2018-05-02T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Math","wordcount":  3044 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_math\/","datePublished": "2018-05-02T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本教程中，我们介绍了使用 Apache Commons Math 可以做的一些有趣的事情。不幸的是，本文无法涵盖分析或线性代数的整个领域，因此仅提供最常见情况的示例。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons Math 简介</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-02">2018-05-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3190 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-02">2018-05-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3044 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -119,20 +119,20 @@
     <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
     <li><a href="#2-从-apache-commons-math-开始"><strong>2. 从 Apache Commons Math 开始</strong></a>
       <ul>
-        <li><a href="#21apache-commons-math-的用法"><strong>2.1。Apache Commons Math 的用法</strong></a></li>
+        <li><a href="#21-apache-commons-math-的用法"><strong>2.1 Apache Commons Math 的用法</strong></a></li>
         <li><a href="#22-maven-配置"><strong>2.2. Maven 配置</strong></a></li>
         <li><a href="#23-包装概述"><strong>2.3. 包装概述</strong></a></li>
       </ul>
     </li>
     <li><a href="#3-统计概率和随机性"><strong>3. 统计、概率和随机性</strong></a>
       <ul>
-        <li><a href="#31统计数据"><strong>3.1。统计数据</strong></a></li>
+        <li><a href="#31-统计数据"><strong>3.1 统计数据</strong></a></li>
         <li><a href="#32-概率和分布"><strong>3.2. 概率和分布</strong></a></li>
       </ul>
     </li>
     <li><a href="#4分析"><strong>4.分析</strong></a>
       <ul>
-        <li><a href="#41寻根"><strong>4.1。寻根</strong></a></li>
+        <li><a href="#41-求根"><strong>4.1 求根</strong></a></li>
         <li><a href="#42-计算积分"><strong>4.2. 计算积分</strong></a></li>
       </ul>
     </li>
@@ -140,26 +140,25 @@
     <li><a href="#6几何"><strong>6.几何</strong></a></li>
     <li><a href="#7-优化遗传算法和机器学习"><strong>7. 优化、遗传算法和机器学习</strong></a>
       <ul>
-        <li><a href="#71优化"><strong>7.1。优化</strong></a></li>
+        <li><a href="#71-优化"><strong>7.1 优化</strong></a></li>
         <li><a href="#72-遗传算法"><strong>7.2. 遗传算法</strong></a></li>
         <li><a href="#73-机器学习"><strong>7.3. 机器学习</strong></a></li>
       </ul>
     </li>
     <li><a href="#8-实用程序"><strong>8. 实用程序</strong></a>
       <ul>
-        <li><a href="#81快速数学"><strong>8.1。快速数学</strong></a></li>
+        <li><a href="#81-快速数学"><strong>8.1 快速数学</strong></a></li>
         <li><a href="#82-常用和特殊功能"><strong>8.2. 常用和特殊功能</strong></a></li>
         <li><a href="#83-分数和复数"><strong>8.3. 分数和复数</strong></a></li>
       </ul>
     </li>
-    <li><a href="#9-结论"><strong>9. 结论</strong></a></li>
   </ul>
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
 <p>我们经常需要使用数学工具，有时<em>java.lang.Math</em>根本不够用。<a href="https://commons.apache.org/proper/commons-math/" target="_blank" rel="noopener noreffer">幸运的是，Apache Commons 的目标是使用Apache Commons Math</a>填补标准库的漏洞。</p>
 <p>Apache Commons Math 是最大的 Java 数学函数和实用程序开源库。鉴于本文只是一个介绍，我们将仅概述该库并展示最引人注目的用例。</p>
 <h2 id="2-从-apache-commons-math-开始"><strong>2. 从 Apache Commons Math 开始</strong></h2>
-<h3 id="21apache-commons-math-的用法"><strong>2.1。Apache Commons Math 的用法</strong></h3>
+<h3 id="21-apache-commons-math-的用法"><strong>2.1 Apache Commons Math 的用法</strong></h3>
 <p>Apache Commons Math 由数学函数（例如<em>erf</em>）、表示数学概念的结构（如复数、多项式、向量等）以及我们可以应用于这些结构的算法（求根、优化、曲线拟合、计算几何图形的交叉点等）。</p>
 <h3 id="22-maven-配置"><strong>2.2. Maven 配置</strong></h3>
 <p>如果您使用的是 Maven，只需添加<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22commons-math3%22" target="_blank" rel="noopener noreffer">此依赖</a>项：</p>
@@ -189,7 +188,7 @@
 <li>***org.apache.commons.math3.fraction -***有理数</li>
 </ul>
 <h2 id="3-统计概率和随机性"><strong>3. 统计、概率和随机性</strong></h2>
-<h3 id="31统计数据"><strong>3.1。统计数据</strong></h3>
+<h3 id="31-统计数据"><strong>3.1 统计数据</strong></h3>
 <p><em>org.apache.commons.math3.stat</em>包提供了多种统计计算工具。例如，要计算均值、标准差等，我们可以使用<em>DescriptiveStatistics</em>：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">double</span><span class="o">[]</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">65</span><span class="o">,</span> <span class="n">51</span> <span class="o">,</span> <span class="n">16</span><span class="o">,</span> <span class="n">11</span> <span class="o">,</span> <span class="n">6519</span><span class="o">,</span> <span class="n">191</span> <span class="o">,</span><span class="n">0</span> <span class="o">,</span> <span class="n">98</span><span class="o">,</span> <span class="n">19854</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">32</span><span class="o">};</span>
 </span></span><span class="line"><span class="cl"><span class="n">DescriptiveStatistics</span> <span class="n">descriptiveStatistics</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DescriptiveStatistics</span><span class="o">();</span>
@@ -210,7 +209,7 @@
 </span></span></code></pre></div><p>或者我们可以获得离散分布的值的概率<em>P(X = x) ，或连续分布的累积概率**P(X &lt;= x)</em>。</p>
 <h2 id="4分析"><strong>4.分析</strong></h2>
 <p>分析相关函数和算法可以在<em>org.apache.commons.math3.analysis</em>中找到。</p>
-<h3 id="41寻根"><strong>4.1。寻根</strong></h3>
+<h3 id="41-求根"><strong>4.1 求根</strong></h3>
 <p>根是函数值为 0 的值。Commons-Math 包括几种<a href="https://commons.apache.org/proper/commons-math/userguide/analysis.html#a4.3_Root-finding" target="_blank" rel="noopener noreffer">求根算法的实现</a>。</p>
 <p>在这里，我们尝试找到<em>v -&gt; (v * v) – 2</em>的根：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">UnivariateFunction</span> <span class="n">function</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">Math</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="n">2</span><span class="o">)</span> <span class="o">-</span> <span class="n">2</span><span class="o">;</span>
@@ -258,7 +257,7 @@
 </span></span></code></pre></div><p>使用这些结构来获取点到线的距离，或线到另一条线的最近点（在 3D 中）也是可行的。</p>
 <h2 id="7-优化遗传算法和机器学习"><strong>7. 优化、遗传算法和机器学习</strong></h2>
 <p>Commons-Math 还为与优化和机器学习相关的更复杂任务提供了一些工具和算法。</p>
-<h3 id="71优化"><strong>7.1。优化</strong></h3>
+<h3 id="71-优化"><strong>7.1 优化</strong></h3>
 <p>优化通常包括最小化或最大化成本函数。优化算法可以在<em>org.apache.commons.math3.optim</em>和<em>org.apache.commons.math3.optimimization</em>中找到。它包括线性和非线性优化算法。</p>
 <p><em>我们可以注意到optim</em>和<em>optimization</em>包中有重复的类：<em>优化</em>包大部分已被弃用，并将在 Commons Math 4 中删除。</p>
 <h3 id="72-遗传算法"><strong>7.2. 遗传算法</strong></h3>
@@ -275,7 +274,7 @@
 <p>聚类部分包括根据距离度量的相似性在向量上放置标签。提供的聚类算法基于 K-means 算法。</p>
 <p>神经网络部分给出了表示网络（<a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/index.html?org/apache/commons/math3/ml/neuralnet/Network.html" target="_blank" rel="noopener noreffer"><em>Network</em></a>）和神经元（<a href="https://commons.apache.org/proper/commons-math/javadocs/api-3.6.1/index.html?org/apache/commons/math3/ml/neuralnet/Neuron.html" target="_blank" rel="noopener noreffer"><em>Neuron</em></a>）的类。有人可能会注意到，与最常见的神经网络框架相比，提供的功能有限，但它对于要求不高的小型应用程序仍然有用。</p>
 <h2 id="8-实用程序"><strong>8. 实用程序</strong></h2>
-<h3 id="81快速数学"><strong>8.1。快速数学</strong></h3>
+<h3 id="81-快速数学"><strong>8.1 快速数学</strong></h3>
 <p><em>FastMath</em>是一个位于<em>org.apache.commons.math3.util中的静态类，其工作方式与**java.lang.Math</em>完全相同。</p>
 <p>它的目的是提供至少与我们在<em>java.lang.Math</em>中可以找到的功能相同的功能，但实现速度更快。因此，当程序严重依赖数学计算时，最好将对<em>Math.sin()<em>的调用（例如）替换为对</em>FastMath.sin()<em>的调用，以提高应用程序的性能。另一方面，请注意</em>FastMath</em>不如<em>java.lang.Math 准确。</em></p>
 <h3 id="82-常用和特殊功能"><strong>8.2. 常用和特殊功能</strong></h3>
@@ -296,18 +295,12 @@
 </span></span><span class="line"><span class="cl"><span class="n">Complex</span> <span class="n">second</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Complex</span><span class="o">(</span><span class="n">2</span><span class="o">.</span><span class="na">0</span><span class="o">,</span> <span class="n">5</span><span class="o">.</span><span class="na">0</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">Complex</span> <span class="n">power</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">second</span><span class="o">);</span>
-</span></span></code></pre></div><h2 id="9-结论"><strong>9. 结论</strong></h2>
-<p>在本教程中，我们介绍了使用 Apache Commons Math 可以做的一些有趣的事情。</p>
-<p>不幸的是，本文无法涵盖分析或线性代数的整个领域，因此仅提供最常见情况的示例。</p>
-<p>但是，要了解更多信息，我们可以阅读编写良好的<a href="https://commons.apache.org/proper/commons-math/userguide/" target="_blank" rel="noopener noreffer">文档</a>，该文档提供了该库各个方面的大量详细信息。</p>
-<p>Java底层</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>

@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Commons Collections CollectionUtils 指南 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons Collections CollectionUtils 指南" />
-<meta property="og:description" content="本文是系列文章的一部分： • Apache Commons Collections 包 • Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南（当前文章）• Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 简而言之，Apache" />
+        <title>Apache Commons CollectionUtils 指南 - Coding Man</title><meta name="Description" content="我们了解了CollectionUtils的一些常用方法——当我们在 Java 项目中使用集合时，这对于避免样板文件非常有用。"><meta property="og:title" content="Apache Commons CollectionUtils 指南" />
+<meta property="og:description" content="我们了解了CollectionUtils的一些常用方法——当我们在 Java 项目中使用集合时，这对于避免样板文件非常有用。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_commons_collection_utils/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-04-25T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Apache Commons Collections CollectionUtils 指南"/>
-<meta name="twitter:description" content="本文是系列文章的一部分： • Apache Commons Collections 包 • Apache Commons Collections SetUtils • Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南（当前文章）• Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 简而言之，Apache"/>
+<meta name="twitter:title" content="Apache Commons CollectionUtils 指南"/>
+<meta name="twitter:description" content="我们了解了CollectionUtils的一些常用方法——当我们在 Java 项目中使用集合时，这对于避免样板文件非常有用。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -24,18 +24,18 @@
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Apache Commons Collections CollectionUtils 指南",
+        "headline": "Apache Commons CollectionUtils 指南",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_commons_collection_utils\/"
-        },"genre": "posts","wordcount":  1778 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_commons_collection_utils\/","datePublished": "2018-04-25T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","wordcount":  1605 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_collection_utils\/","datePublished": "2018-04-25T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "我们了解了CollectionUtils的一些常用方法——当我们在 Java 项目中使用集合时，这对于避免样板文件非常有用。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -105,9 +105,9 @@
                     <div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons Collections CollectionUtils 指南</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons CollectionUtils 指南</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-25">2018-04-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1778 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-04-25">2018-04-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1605 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -117,11 +117,11 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
-    <li><a href="#2maven依赖">2.Maven依赖</a></li>
+    <li><a href="#2-maven依赖">2. Maven依赖</a></li>
     <li><a href="#3-设置"><strong>3. 设置</strong></a></li>
     <li><a href="#4-collectionutils"><strong>4. <em>CollectionUtils</em></strong></a>
       <ul>
-        <li><a href="#41仅添加非空元素"><strong>4.1。仅添加非空元素</strong></a></li>
+        <li><a href="#41-仅添加非空元素"><strong>4.1 仅添加非空元素</strong></a></li>
         <li><a href="#42-整理清单"><strong>4.2. 整理清单</strong></a></li>
         <li><a href="#43-变换对象"><strong>4.3. 变换对象</strong></a></li>
         <li><a href="#44-过滤对象"><strong>4.4. 过滤对象</strong></a></li>
@@ -129,21 +129,14 @@
         <li><a href="#46-检查包含"><strong>4.6. 检查包含</strong></a></li>
         <li><a href="#47-集合的交集"><strong>4.7. 集合的交集</strong></a></li>
         <li><a href="#48-减去集合"><strong>4.8. 减去集合</strong></a></li>
-        <li><a href="#49-收藏联盟"><strong>4.9. 收藏联盟</strong></a></li>
+        <li><a href="#49-集合合并"><strong>4.9. 集合合并</strong></a></li>
       </ul>
     </li>
-    <li><a href="#5-结论"><strong>5. 结论</strong></a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p><a href="javascript:void%280%29;" rel="">本文是系列文章的一部分：</a>  <a href="apache-commons-bag" rel="">• Apache Commons Collections 包</a><br>
-<a href="apache-commons-setutils" rel="">• Apache Commons Collections SetUtils</a><br>
-<a href="apache-commons-ordered-map" rel="">• Apache Commons Collections OrderedMap</a><br>
-<a href="commons-collections-bidi-map" rel="">• Apache Commons Collections BidiMap</a><br>
-• Apache Commons Collections CollectionUtils 指南（当前文章）<a href="apache-commons-map-utils" rel="">• Apache Commons Collections MapUtils</a><br>
-<a href="commons-circular-fifo-queue" rel="">• Apache Commons CircularFifoQueue 指南</a></p>
-<h2 id="1-概述"><strong>1. 概述</strong></h2>
-<p>简而言之，<em>Apache</em>  <em>CollectionUtils</em>为常见操作提供了实用方法，涵盖了广泛的用例，并有助于避免编写样板代码。该库针对较旧的 JVM 版本，因为目前 Java 8 的<em>Stream</em> API 提供了类似的功能。</p>
-<h2 id="2maven依赖">2.Maven依赖</h2>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>简而言之，<em>Apache CollectionUtils</em>为常见操作提供了实用方法，涵盖了广泛的用例，并有助于避免编写样板代码。该库针对较旧的 JVM 版本，因为目前 Java 8 的<em>Stream</em> API 提供了类似的功能。</p>
+<h2 id="2-maven依赖">2. Maven依赖</h2>
 <p>我们需要添加以下依赖项才能使用<em>CollectionUtils：</em></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
@@ -182,7 +175,7 @@
 </span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="n">linkedList1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;(</span><span class="n">list1</span><span class="o">);</span>
 </span></span></code></pre></div><h2 id="4-collectionutils"><strong>4. <em>CollectionUtils</em></strong></h2>
 <p><em>让我们来看看Apache Commons CollectionUtils</em>类中一些最常用的方法。</p>
-<h3 id="41仅添加非空元素"><strong>4.1。仅添加非空元素</strong></h3>
+<h3 id="41-仅添加非空元素"><strong>4.1 仅添加非空元素</strong></h3>
 <p><strong>我们可以使用<em>CollectionUtils 的 addIgnoreNull</em>方法仅将非空元素添加到提供的集合中。</strong></p>
 <p>这个方法的第一个参数是我们想要添加元素的集合，第二个参数是我们想要添加的元素：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
@@ -272,7 +265,7 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertFalse</span><span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">customer1</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></div><p>一个集合在结果中出现的次数是它在第一个集合中出现的次数减去它在第二个集合中出现的次数。</p>
-<h3 id="49-收藏联盟"><strong>4.9. 收藏联盟</strong></h3>
+<h3 id="49-集合合并"><strong>4.9. 集合合并</strong></h3>
 <p><em>CollectionUtils.union</em>合并两个集合并返回一个集合，该集合包含第一个或第二个集合中的所有元素。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
 </span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenTwoLists_whenUnioned_thenCheckElementPresentInResult</span><span class="o">()</span> <span class="o">{</span>
@@ -281,24 +274,18 @@
 </span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">union</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">customer1</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">union</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">customer4</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span></code></pre></div><p>元素在结果集合中出现的次数是它在每个给定集合中出现的次数的最大值。</p>
-<h2 id="5-结论"><strong>5. 结论</strong></h2>
-<p>我们完成了。</p>
-<p><em>我们了解了CollectionUtils</em>的一些常用方法——当我们在 Java 项目中使用集合时，这对于避免样板文件非常有用。</p>
-<p>下一个**»<strong><a href="apache-commons-map-utils" rel="">Apache Commons Collections MapUtils</a></strong>«**上一页<a href="commons-collections-bidi-map" rel="">Apache Commons Collections BidiMap</a>
-通用底部</p>
-<p>通用页脚横幅</p>
-<p>&quot;</p>
+</span></span></code></pre></div><p>元素在结果集合中出现的次数是它在每个给定集合中出现的次数的最大值。
+&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_collection_utils/" data-title="Apache Commons Collections CollectionUtils 指南"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_collection_utils/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_collection_utils/" data-title="Apache Commons Collections CollectionUtils 指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_collection_utils/" data-title="Apache Commons Collections CollectionUtils 指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_collection_utils/" data-title="Apache Commons Collections CollectionUtils 指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_collection_utils/" data-title="Apache Commons CollectionUtils 指南"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_collection_utils/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_collection_utils/" data-title="Apache Commons CollectionUtils 指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_collection_utils/" data-title="Apache Commons CollectionUtils 指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_collection_utils/" data-title="Apache Commons CollectionUtils 指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -310,7 +297,7 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/apache_commons_chain/" class="prev" rel="prev" title="阿帕奇共享链"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>阿帕奇共享链</a>
+    <div class="post-nav"><a href="/apache_commons_chain/" class="prev" rel="prev" title="Apache Commons Chain"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons Chain</a>
             <a href="/apache_commons_collections_vs_guava/" class="next" rel="next" title="Apache Commons Collections 与 Google Guava">Apache Commons Collections 与 Google Guava<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>

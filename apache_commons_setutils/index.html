@@ -4,16 +4,16 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title>Apache Commons 集合 SetUtils - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Apache Commons 集合 SetUtils" />
-<meta property="og:description" content="本文是系列文章的一部分： • Apache Commons 收藏包 • Apache Commons Collections SetUtils （当前文章）• Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 在本文中，我们将探索" />
+        <title>Apache Commons Collections SetUtils - Coding Man</title><meta name="Description" content="在本文中，我们探讨了SetUtils库的本质。实用程序类提供了静态方法，使使用一组数据结构变得简单而令人兴奋。它还提高了生产力。"><meta property="og:title" content="Apache Commons Collections SetUtils" />
+<meta property="og:description" content="在本文中，我们探讨了SetUtils库的本质。实用程序类提供了静态方法，使使用一组数据结构变得简单而令人兴奋。它还提高了生产力。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/apache_commons_setutils/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2018-05-05T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-07-23T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+<meta property="article:modified_time" content="2022-07-25T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Apache Commons 集合 SetUtils"/>
-<meta name="twitter:description" content="本文是系列文章的一部分： • Apache Commons 收藏包 • Apache Commons Collections SetUtils （当前文章）• Apache Commons Collections OrderedMap • Apache Commons Collections BidiMap • Apache Commons Collections CollectionUtils 指南 • Apache Commons Collections MapUtils • Apache Commons CircularFifoQueue 指南 1. 概述 在本文中，我们将探索"/>
+<meta name="twitter:title" content="Apache Commons Collections SetUtils"/>
+<meta name="twitter:description" content="在本文中，我们探讨了SetUtils库的本质。实用程序类提供了静态方法，使使用一组数据结构变得简单而令人兴奋。它还提高了生产力。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -24,18 +24,18 @@
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "Apache Commons 集合 SetUtils",
+        "headline": "Apache Commons Collections SetUtils",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/apache_commons_setutils\/"
-        },"genre": "posts","keywords": "Java Set","wordcount":  2472 ,
-        "url": "http:\/\/itcodingman.github.io\/apache_commons_setutils\/","datePublished": "2018-05-05T00:00:00+00:00","dateModified": "2022-07-23T00:00:00+00:00","publisher": {
+        },"genre": "posts","keywords": "Java Set","wordcount":  2291 ,
+        "url": "http:\/\/itcodingman.github.io\/apache_commons_setutils\/","datePublished": "2018-05-05T00:00:00+00:00","dateModified": "2022-07-25T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
                 "@type": "Person",
                 "name": "codingman"
-            },"description": ""
+            },"description": "在本文中，我们探讨了SetUtils库的本质。实用程序类提供了静态方法，使使用一组数据结构变得简单而令人兴奋。它还提高了生产力。"
     }
     </script></head>
     <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
@@ -105,9 +105,9 @@
                     <div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons 集合 SetUtils</h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Apache Commons Collections SetUtils</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-05">2018-05-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2472 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2018-05-05">2018-05-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2291 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -117,23 +117,17 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
-    <li><a href="#2依赖安装"><strong>2.依赖安装</strong></a></li>
-    <li><a href="#3谓词集"><strong>3.谓词集</strong></a></li>
+    <li><a href="#2-依赖安装"><strong>2. 依赖安装</strong></a></li>
+    <li><a href="#3-setutils"><strong>3. SetUtils</strong></a></li>
     <li><a href="#4-集合的并集差集和交集"><strong>4. 集合的并集、差集和交集</strong></a></li>
     <li><a href="#5-转换集合元素"><strong>5. 转换集合元素</strong></a></li>
-    <li><a href="#6设置析取">6.设置析取</a></li>
+    <li><a href="#6-disjunction">6. disjunction</a></li>
     <li><a href="#7-setutils库中的其他方法"><strong>7. <em>SetUtils</em>库中的其他方法</strong></a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><p><a href="javascript:void%280%29;" rel="">本文是系列文章的一部分：</a>  <a href="apache-commons-bag" rel="">• Apache Commons 收藏包</a><br>
-• Apache Commons Collections SetUtils （当前文章）<a href="apache-commons-ordered-map" rel="">• Apache Commons Collections OrderedMap</a><br>
-<a href="commons-collections-bidi-map" rel="">• Apache Commons Collections BidiMap</a><br>
-<a href="apache-commons-collection-utils" rel="">• Apache Commons Collections CollectionUtils 指南</a><br>
-<a href="apache-commons-map-utils" rel="">• Apache Commons Collections MapUtils</a><br>
-<a href="commons-circular-fifo-queue" rel="">• Apache Commons CircularFifoQueue 指南</a></p>
-<h2 id="1-概述"><strong>1. 概述</strong></h2>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
 <p>在本文中，我们将探索 Apache Commons Collections 库的<em>SetUtils</em> API。简而言之，这些实用程序可用于对Java 中的<em>Set数据结构执行某些操作。</em></p>
-<h2 id="2依赖安装"><strong>2.依赖安装</strong></h2>
+<h2 id="2-依赖安装"><strong>2. 依赖安装</strong></h2>
 <p>为了让我们在项目中使用<em>SetUtils</em>库，我们需要在项目的<em>pom.xml</em>文件中添加以下依赖项：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
 </span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
@@ -142,7 +136,7 @@
 </span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
 </span></span></code></pre></div><p>或者，如果我们的项目是基于 Gradle 的，我们应该将依赖项添加到项目的<em>build.gradle</em>文件中。此外，我们需要将<em>mavenCentral()添加到**build.gradle</em>文件的存储库部分：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">compile</span> <span class="s1">&#39;org.apache.commons:commons-collections4:4.1&#39;</span>
-</span></span></code></pre></div><h2 id="3谓词集"><strong>3.谓词集</strong></h2>
+</span></span></code></pre></div><h2 id="3-setutils"><strong>3. SetUtils</strong></h2>
 <p><em>SetUtils</em>库的<em>predicatedSet()<em>方法允许定义要插入到集合中的所有元素应满足的条件。它接受一个源</em>Set</em>对象和一个谓词。</p>
 <p>我们可以使用它来轻松验证<em>Set</em>的所有元素是否满足特定条件，这在开发第三方库/API 时会很方便。</p>
 <p>如果任何元素的验证失败，将抛出<em>IllegalArgumentException 。<em>下面的代码段<strong>防止将</strong> <strong>不以 &lsquo;L&rsquo; 开头的字符串</strong>添加到</em>sourceSet</em>或返回的<em>验证</em>集中：</p>
@@ -172,7 +166,7 @@
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">assertTrue</span><span class="o">(</span><span class="n">SetUtils</span><span class="o">.</span><span class="na">isEqualSet</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">intersect</span><span class="o">));</span>
 </span></span></code></pre></div><h2 id="5-转换集合元素"><strong>5. 转换集合元素</strong></h2>
-<p>让我们看看另一个令人兴奋的方法*——SetUtils。<strong>转换集（）<em>。此方法接受一个</em>Set<em>对象和一个</em>Transformer<em>接口。在源集合的支持下，它使用</em>Transformer接口的</strong>transform()*方法来转换集合的每个元素。</p>
+<p>让我们看看另一个令人兴奋的方法*——SetUtils*。<em>transformedSet（)</em>。此方法接受一个<em>Set</em>对象和一个<em>Transformer</em>接口。在源集合的支持下，它使用*Transformer接口的**transform()*方法来转换集合的每个元素。</p>
 <p>转换逻辑在*Transformer接口的**transform()*方法中定义，该方法应用于添加到集合中的每个元素。下面的代码片段将添加到集合中的每个元素乘以 2：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">SetUtils</span><span class="o">.</span><span class="na">transformedSet</span><span class="o">(</span><span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(),</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span> <span class="o">*</span> <span class="n">2</span>  <span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">a</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
@@ -188,8 +182,8 @@
 </span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">newSet</span><span class="o">.</span><span class="na">toArray</span><span class="o">()[</span><span class="n">0</span><span class="o">],</span> <span class="n">2</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">source</span><span class="o">.</span><span class="na">toArray</span><span class="o">()[</span><span class="n">0</span><span class="o">],</span> <span class="n">2</span><span class="o">);</span>
 </span></span></code></pre></div><p>请注意，源集中的元素被转换，结果被复制到返回的<em>newSet。</em></p>
-<h2 id="6设置析取">6.设置析取</h2>
-<p>SetUtils库提供了一个静态方法，可用于查找集合析取*。<em>集合 a 和集合 b的析取是集合</em>a<em>和集合</em>b*唯一的所有元素。</p>
+<h2 id="6-disjunction">6. disjunction</h2>
+<p>SetUtils库提供了一个静态方法，可用于查找集合析取。集合 a 和集合 b的析取是集合<em>a</em>和集合<em>b</em>唯一的所有元素。</p>
 <p>让我们看看如何使用<em>SetUtils</em>库的*disjunction()*方法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">5</span><span class="o">));</span>
 </span></span><span class="line"><span class="cl"><span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">));</span>
@@ -206,28 +200,20 @@
 <li>SetUtils.emptyIfNull <em>()<em>方法接受一个可为空的</em>Set</em>对象。如果提供的<em>Set</em>为空，则返回一个空的只读 S <em>et</em>；否则，它返回提供的<em>Set</em></li>
 <li><em>SetUtils.orderedSet()<em>将返回一个</em>Set</em>对象，该对象维护添加元素的顺序</li>
 <li>*SetUtils.hashCodeForSet()*可以为一个集合生成一个哈希码——这样两个相同元素的集合将具有相同的哈希码</li>
-<li><em>SetUtils.newIdentityHashSet()<em>将返回一个使用</em>==<em>而不是</em>equals()<em>方法来匹配元素的</em>HashSet 。</em><a href="https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/SetUtils.html#newIdentityHashSet--" target="_blank" rel="noopener noreffer">请在此处</a>阅读其注意事项</li>
+<li><em>SetUtils.newIdentityHashSet()<em>将返回一个使用</em>==<em>而不是</em>equals()<em>方法来匹配元素的</em>HashSet 。</em>
+<a href="https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/SetUtils.html#newIdentityHashSet--" target="_blank" rel="noopener noreffer">请在此处</a>阅读其注意事项
+&quot;</li>
 </ul>
-<ol start="8">
-<li>结论</li>
-</ol>
-<hr>
-<p>在本文中，我们探讨了<em>SetUtils</em>库的本质。实用程序类提供了静态方法，使使用一组数据结构变得简单而令人兴奋。它还提高了生产力。</p>
-<p><em>SetUtils</em> API的官方文档可以<a href="https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/SetUtils.html" target="_blank" rel="noopener noreffer">在这里找到</a>。</p>
-<p>下一个**»<strong><a href="apache-commons-ordered-map" rel="">Apache Commons 集合 OrderedMap</a></strong>«**上一页<a href="apache-commons-bag" rel="">Apache Commons 收藏包</a>
-Generic bottom</p>
-<p>Generic footer banner</p>
-<p>&quot;</p>
 </div><div class="post-footer" id="post-footer">
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>Updated on 2022-07-23</span>
+                <span>Updated on 2022-07-25</span>
             </div></div>
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons 集合 SetUtils" data-hashtags="Java Set"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-hashtag="Java Set"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons 集合 SetUtils"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons 集合 SetUtils"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons 集合 SetUtils"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons Collections SetUtils" data-hashtags="Java Set"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-hashtag="Java Set"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons Collections SetUtils"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons Collections SetUtils"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/apache_commons_setutils/" data-title="Apache Commons Collections SetUtils"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -239,7 +225,7 @@ Generic bottom</p>
         </section>
     </div>
 
-    <div class="post-nav"><a href="/apache_commons_ordered_map/" class="prev" rel="prev" title="Apache Commons 集合 OrderedMap"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons 集合 OrderedMap</a>
+    <div class="post-nav"><a href="/apache_commons_ordered_map/" class="prev" rel="prev" title="Apache Commons Collections OrderedMap"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Apache Commons Collections OrderedMap</a>
             <a href="/apache_crunch/" class="next" rel="next" title="Apache Crunch 指南">Apache Crunch 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>

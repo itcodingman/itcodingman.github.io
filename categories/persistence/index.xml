@@ -25,7 +25,7 @@
     <pubDate>Sat, 28 Apr 2018 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_commons_dbutils/</guid>
-    <description><![CDATA[1. 概述 Apache Commons DbUtils 是一个小型库，它使使用 JDBC 变得更加容易。 在本文中，我们将实施示例来展示其特性和功能。 2. 设置 2.1。Maven 依赖项 首先，我们需要将]]></description>
+    <description><![CDATA[1. 概述 Apache Commons DbUtils 是一个小型库，它使使用 JDBC 变得更加容易。 在本文中，我们将实施示例来展示其特性和功能。 2. 设置 2.1 Maven 依赖项 首先，我们需要将commons]]></description>
 </item>
 <item>
     <title>Apache Cayenne 中的高级查询</title>
