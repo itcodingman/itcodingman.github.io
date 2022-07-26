@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>NIO2 FileVisitor 指南 - Coding Man</title><meta name="Description" content="在本文中，我们探讨了 Java 7 NIO.2 文件系统 API 中一些不太常用的功能，尤其是FileVisitor接口。"><meta property="og:title" content="NIO2 FileVisitor 指南" />
+<meta property="og:description" content="在本文中，我们探讨了 Java 7 NIO.2 文件系统 API 中一些不太常用的功能，尤其是FileVisitor接口。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_nio2_file_visitor/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NIO2 FileVisitor 指南"/>
+<meta name="twitter:description" content="在本文中，我们探讨了 Java 7 NIO.2 文件系统 API 中一些不太常用的功能，尤其是FileVisitor接口。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_nio2_file_visitor/" /><link rel="prev" href="http://itcodingman.github.io/java_nio2_file_attribute/" /><link rel="next" href="http://itcodingman.github.io/java_nio2_watchservice/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "NIO2 FileVisitor 指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_nio2_file_visitor\/"
+        },"genre": "posts","keywords": "Java IO, Java NIO","wordcount":  2131 ,
+        "url": "http:\/\/itcodingman.github.io\/java_nio2_file_visitor\/","datePublished": "2022-07-11T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们探讨了 Java 7 NIO.2 文件系统 API 中一些不太常用的功能，尤其是FileVisitor接口。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">NIO2 FileVisitor 指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-11">2022-07-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2131 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-filevisitor-的工作原理"><strong>2. <em>FileVisitor 的</em>工作原理</strong></a></li>
+    <li><a href="#3-文件搜索示例"><strong>3. 文件搜索示例</strong></a>
+      <ul>
+        <li><a href="#31-类"><strong>3.1 类</strong></a></li>
+        <li><a href="#32-previsitdirectory-api"><strong>3.2. <em>preVisitDirectory</em> API</strong></a></li>
+        <li><a href="#33-visitfile-api"><strong>3.3. visitFile API</strong></a></li>
+        <li><a href="#34-visitfilefailed-api-_"><strong>3.4. <em>visitFileFailed</em> API _</strong></a></li>
+        <li><a href="#35-postvisitdirectory-api"><strong>3.5. <em>postVisitDirectory</em> API</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将探讨 NIO2 的一个有趣特性*——FileVisitor*接口。</p>
+<p>所有操作系统和一些第三方应用程序都具有文件搜索功能，用户可以在其中定义搜索条件。</p>
+<p>这个接口是我们在 Java 应用程序中实现这样的功能所需要的。如果您需要搜索所有*.mp3<em>文件，查找并删除</em>.class*文件或查找所有上个月没有访问过的文件，那么这个界面就是您所需要的。</p>
+<p>我们实现此功能所需的所有类都捆绑在一个包中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.nio.file.*</span><span class="o">;</span>
+</span></span></code></pre></div><h2 id="2-filevisitor-的工作原理"><strong>2. <em>FileVisitor 的</em>工作原理</strong></h2>
+<p>使用<em>FileVisitor</em>接口，您可以将文件树遍历到任何深度，并对在任何分支上找到的文件或目录执行任何操作。</p>
+<p><em>FileVisitor</em>接口的典型实现如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FileVisitorImpl</span> <span class="kd">implements</span> <span class="n">FileVisitor</span><span class="o">&lt;</span><span class="n">Path</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">FileVisitResult</span> <span class="nf">preVisitDirectory</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Path</span> <span class="n">dir</span><span class="o">,</span> <span class="n">BasicFileAttributes</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">FileVisitResult</span> <span class="nf">visitFile</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Path</span> <span class="n">file</span><span class="o">,</span> <span class="n">BasicFileAttributes</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">FileVisitResult</span> <span class="nf">visitFileFailed</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Path</span> <span class="n">file</span><span class="o">,</span> <span class="n">IOException</span> <span class="n">exc</span><span class="o">)</span> <span class="o">{</span>       
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">FileVisitResult</span> <span class="nf">postVisitDirectory</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Path</span> <span class="n">dir</span><span class="o">,</span> <span class="n">IOException</span> <span class="n">exc</span><span class="o">)</span> <span class="o">{</span>    
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这四种接口方法允许我们在遍历过程中的关键点指定所需的行为：分别是访问目录之前、访问文件时、发生故障时和访问目录之后。</p>
+<p>每个阶段的返回值都是<em>FileVisitResult</em>类型并控制遍历的流程。也许您想遍历文件树以查找特定目录并在找到时终止进程，或者您想跳过特定目录或文件。</p>
+<p><em>FileVisitResult是**FileVisitor</em>接口方法的四个可能返回值的枚举：</p>
+<ul>
+<li><em>FileVisitResult.CONTINUE</em> - 表示文件树遍历应该在返回它的方法退出后继续</li>
+<li><em>FileVisitResult.TERMINATE</em> – 停止文件树遍历并且不再访问目录或文件</li>
+<li><em>FileVisitResult.SKIP_SUBTREE</em> – 此结果仅在从<em>preVisitDirectory</em> API返回时才有意义，在其他地方，它的工作方式类似于<em>CONTINUE</em>。它表示应跳过当前目录及其所有子目录</li>
+<li><em>FileVisitResult.SKIP_SIBLINGS</em> – 表示应该继续遍历而不访问当前文件或目录的同级。如果在<em>preVisitDirectory</em>阶段调用，那么即使是当前目录也会被跳过并且不会调用<em>postVisitDirectory</em></li>
+</ul>
+<p>最后，必须有一种方法来触发遍历过程，可能是当用户在定义搜索条件后从图形用户界面单击*搜索按钮时。*这是最简单的部分。</p>
+<p>我们只需要调用<em>Files类的静态**walkFileTree</em> API并将<em>Path</em>类的实例传递给它，该实例表示遍历的起点，然后是<em>FileVisitor</em>的实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">startingDir</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;pathToDir&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">FileVisitorImpl</span> <span class="n">visitor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileVisitorImpl</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Files</span><span class="o">.</span><span class="na">walkFileTree</span><span class="o">(</span><span class="n">startingDir</span><span class="o">,</span> <span class="n">visitor</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="3-文件搜索示例"><strong>3. 文件搜索示例</strong></h2>
+<p>在本节中，我们将使用<em>FileVisitor</em>接口实现一个文件搜索应用程序。我们希望用户可以指定完整的文件名以及扩展名和要查看的起始目录。</p>
+<p>当我们找到文件时，我们会在屏幕上打印一条成功消息，当搜索整个文件树但没有找到该文件时，我们还会打印一条相应的失败消息。</p>
+<h3 id="31-类"><strong>3.1 类</strong></h3>
+<p>我们将调用这个类<em>FileSearchExample.java</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FileSearchExample</span> <span class="kd">implements</span> <span class="n">FileVisitor</span><span class="o">&lt;</span><span class="n">Path</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">fileName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Path</span> <span class="n">startDir</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard constructors
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>我们还没有实现接口方法。请注意，我们创建了一个构造函数，它获取要搜索的文件的名称和开始搜索的路径。我们将仅使用起始路径作为基本情况来得出未找到该文件的结论。</p>
+<p>在下面的小节中，我们将实现每个接口方法并讨论它在这个特定示例应用程序中的作用。</p>
+<h3 id="32-previsitdirectory-api"><strong>3.2. <em>preVisitDirectory</em> API</strong></h3>
+<p>让我们从实现<em>preVisitDirectory</em> API 开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">FileVisitResult</span> <span class="nf">preVisitDirectory</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Path</span> <span class="n">dir</span><span class="o">,</span> <span class="n">BasicFileAttributes</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">CONTINUE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们之前所说，每次进程在树中遇到新目录时都会调用此 API。它的返回值根据我们的决定决定接下来会发生什么。这是我们将跳过特定目录并将它们从搜索样本空间中删除的点。</p>
+<p>让我们选择不区分任何目录，只搜索所有目录。</p>
+<h3 id="33-visitfile-api"><strong>3.3. visitFile API</strong></h3>
+<p>接下来，我们将实现<em>visitFile</em> API。这是主要动作发生的地方。每次遇到文件时都会调用此 API。我们利用这一点来检查文件属性并与我们的标准进行比较并返回适当的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">FileVisitResult</span> <span class="nf">visitFile</span><span class="o">(</span><span class="n">Path</span> <span class="n">file</span><span class="o">,</span> <span class="n">BasicFileAttributes</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="na">getFileName</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">FILE_NAME</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">fileName</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;File found: &#34;</span> <span class="o">+</span> <span class="n">file</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">TERMINATE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">CONTINUE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在我们的例子中，我们只检查正在访问的文件的名称，以了解它是否是用户正在搜索的文件。如果名称匹配，我们会打印一条成功消息并终止该过程。</p>
+<p>但是，在这里可以做很多事情，尤其是在阅读了<em>文件属性</em>部分之后。您可以检查创建时间、上次修改时间或上次访问时间或<em>attrs</em>参数中可用的几个属性并做出相应决定。</p>
+<h3 id="34-visitfilefailed-api-_"><strong>3.4. <em>visitFileFailed</em> API _</strong></h3>
+<p>接下来，我们将实现<em>visitFileFailed</em> API。当 JVM 无法访问特定文件时调用此 API。也许它已被另一个应用程序锁定，或者它可能只是一个权限问题：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">FileVisitResult</span> <span class="nf">visitFileFailed</span><span class="o">(</span><span class="n">Path</span> <span class="n">file</span><span class="o">,</span> <span class="n">IOException</span> <span class="n">exc</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Failed to access file: &#34;</span> <span class="o">+</span> <span class="n">file</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">CONTINUE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们只需记录一条失败消息并继续遍历目录树的其余部分。在图形应用程序中，您可以选择询问用户是否继续使用对话框，或者只是在某处记录消息并编译报告以供以后使用。</p>
+<h3 id="35-postvisitdirectory-api"><strong>3.5. <em>postVisitDirectory</em> API</strong></h3>
+<p>最后，我们将实现<em>postVisitDirectory</em> API。每次完全遍历目录时都会调用此 API：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">FileVisitResult</span> <span class="nf">postVisitDirectory</span><span class="o">(</span><span class="n">Path</span> <span class="n">dir</span><span class="o">,</span> <span class="n">IOException</span> <span class="n">exc</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">boolean</span> <span class="n">finishedSearch</span> <span class="o">=</span> <span class="n">Files</span><span class="o">.</span><span class="na">isSameFile</span><span class="o">(</span><span class="n">dir</span><span class="o">,</span> <span class="n">START_DIR</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">finishedSearch</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;File:&#34;</span> <span class="o">+</span> <span class="n">FILE_NAME</span> <span class="o">+</span> <span class="s">&#34; not found&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">TERMINATE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">CONTINUE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们使用<em>Files.isSameFile</em> API 来检查刚刚遍历的目录是否是我们开始遍历的目录。如果返回值为<em>true</em>，则表示搜索已完成，尚未找到该文件。所以我们用失败消息终止进程。</p>
+<p>但是，如果返回值为<em>false</em>，则意味着我们刚刚完成了对子目录的遍历，并且仍有可能在其他子目录中找到该文件。所以我们继续遍历。</p>
+<p>我们现在可以添加我们的 main 方法来执行<em>FileSearchExample</em>应用程序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">startingDir</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;C:/Users/user/Desktop&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">fileToSearch</span> <span class="o">=</span> <span class="s">&#34;hibernate-guide.txt&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FileSearchExample</span> <span class="n">crawler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileSearchExample</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">fileToSearch</span><span class="o">,</span> <span class="n">startingDir</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Files</span><span class="o">.</span><span class="na">walkFileTree</span><span class="o">(</span><span class="n">startingDir</span><span class="o">,</span> <span class="n">crawler</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>您可以通过更改<em>startingDir</em>和<em>fileToSearch</em>变量的值来玩转这个示例。当<em>fileToSearch</em>存在于<em>startingDir</em>或其任何子目录中时，您将收到一条成功消息，否则将收到一条失败消息。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_nio2_file_visitor/" data-title="NIO2 FileVisitor 指南" data-hashtags="Java IO,Java NIO"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_nio2_file_visitor/" data-hashtag="Java IO"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_nio2_file_visitor/" data-title="NIO2 FileVisitor 指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_nio2_file_visitor/" data-title="NIO2 FileVisitor 指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_nio2_file_visitor/" data-title="NIO2 FileVisitor 指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-io/">Java IO</a>,&nbsp;<a href="/tags/java-nio/">Java NIO</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_nio2_file_attribute/" class="prev" rel="prev" title="NIO2 文件属性 API 指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>NIO2 文件属性 API 指南</a>
+            <a href="/java_nio2_watchservice/" class="next" rel="next" title="Java NIO2 中的 WatchService 指南">Java NIO2 中的 WatchService 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

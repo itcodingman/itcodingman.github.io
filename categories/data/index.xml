@@ -3,7 +3,23 @@
         <title>Data - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/data/</link>
         <description>Data - Category - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 10 Jun 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/data/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 28 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/data/" rel="self" type="application/rss+xml" /><item>
+    <title>Netflix 观众指南</title>
+    <link>http://itcodingman.github.io/java_netflix_spectator/</link>
+    <pubDate>Tue, 28 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_netflix_spectator/</guid>
+    <description><![CDATA[1. 概述 **Spectator是一个用于检测代码和为维度时间序列后端系统收集数据的库。**Spectator 起源于 Netflix，用于各种指标]]></description>
+</item>
+<item>
+    <title>Netflix 螳螂简介</title>
+    <link>http://itcodingman.github.io/java_netflix_mantis/</link>
+    <pubDate>Mon, 27 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_netflix_mantis/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将了解 Netflix 开发的 Mantis 平台。 我们将通过创建、运行和调查流处理作业来探索主要的 Mantis 概念。 2. 什么是Mantis？ Mantis 是一个用于构建流处]]></description>
+</item>
+<item>
     <title>使用 Apache Tika 进行内容分析</title>
     <link>http://itcodingman.github.io/apache_tika/</link>
     <pubDate>Sun, 10 Jun 2018 00:00:00 &#43;0000</pubDate>
@@ -66,22 +82,6 @@
     <author>codingman</author>
     <guid>http://itcodingman.github.io/apache_poi_change_cell_font/</guid>
     <description><![CDATA[1. 简介 Apache POI是一个开源库，供软件开发人员创建和操作 Microsoft Office 文档。除其他功能外，它还允许开发人员以编程方式更改文档格式。 在本文中，我们将讨论在使]]></description>
-</item>
-<item>
-    <title>使用 Apache POI 设置单元格的背景颜色</title>
-    <link>http://itcodingman.github.io/apache_poi_background_color/</link>
-    <pubDate>Fri, 25 May 2018 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/apache_poi_background_color/</guid>
-    <description><![CDATA[1. 概述 在 Excel 工作表上，当我们通过更改表头的背景颜色来突出显示表头时，它总是看起来很优雅。本文介绍如何使用Apache POI更改单元格背景颜色。]]></description>
-</item>
-<item>
-    <title>Apache Flink 与 Java 简介</title>
-    <link>http://itcodingman.github.io/apache_flink/</link>
-    <pubDate>Fri, 11 May 2018 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/apache_flink/</guid>
-    <description><![CDATA[1. 概述 Apache Flink 是一个大数据处理框架，它允许程序员以非常高效和可扩展的方式处理大量数据。 在本文中，我们将介绍***Apache Flink*** Java API****中]]></description>
 </item>
 </channel>
 </rss>

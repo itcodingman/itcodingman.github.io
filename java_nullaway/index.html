@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 NullAway 避免 NullPointerExceptions - Coding Man</title><meta name="Description" content="在本教程中，我们研究了如何使用 NullAway 来限制遇到NullPointerException的可能性。"><meta property="og:title" content="使用 NullAway 避免 NullPointerExceptions" />
+<meta property="og:description" content="在本教程中，我们研究了如何使用 NullAway 来限制遇到NullPointerException的可能性。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_nullaway/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 NullAway 避免 NullPointerExceptions"/>
+<meta name="twitter:description" content="在本教程中，我们研究了如何使用 NullAway 来限制遇到NullPointerException的可能性。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_nullaway/" /><link rel="prev" href="http://itcodingman.github.io/java_null_safe_streams_from_collections/" /><link rel="next" href="http://itcodingman.github.io/java_number_class/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 NullAway 避免 NullPointerExceptions",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_nullaway\/"
+        },"genre": "posts","keywords": "Exception, Java Null","wordcount":  965 ,
+        "url": "http:\/\/itcodingman.github.io\/java_nullaway\/","datePublished": "2022-07-19T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们研究了如何使用 NullAway 来限制遇到NullPointerException的可能性。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 NullAway 避免 NullPointerExceptions</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-19">2022-07-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;965 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-安装">2. 安装</a></li>
+    <li><a href="#3-用法">3. 用法</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>多年来，我们一直在采取多种策略，从 Elvis 运算符到*<a href="/java-optional" rel="">Optional</a><em>，以帮助从我们的应用程序中删除</em>NullPointerException 。*在本教程中，我们将了解 Uber 对对话<a href="https://github.com/uber/NullAway" target="_blank" rel="noopener noreffer">NullAway</a>的贡献以及如何使用它。</p>
+<p><strong>NullAway 是一个构建工具，可帮助我们消除Java 代码中的<em>NullPointerException</em> (NPE)。</strong></p>
+<p>此工具执行一系列基于类型的本地检查，以确保在您的代码中被取消引用的任何指针都不能为<em>null</em>。它具有低构建时间开销，并且可以配置为在您的代码的每个构建中运行。</p>
+<h2 id="2-安装">2. 安装</h2>
+<p>下面我们来看看如何安装 NullAway 及其依赖项。在此示例中，我们将使用 Gradle 配置 NullAway。</p>
+<p>NullAway 依赖于 <a href="http://errorprone.info/" target="_blank" rel="noopener noreffer">Error Prone</a>。因此，我们将添加<em>容易出错</em>的插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">plugins</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">id</span> <span class="s2">&#34;net.ltgt.errorprone&#34;</span> <span class="n">version</span> <span class="s2">&#34;1.1.1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们还将在不同的范围内添加四个依赖项：<em>annotationProcessor</em>、<em>compileOnly</em>、<em>errorprone</em>和<em>errorproneJavac</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="n">dependencies</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">annotationProcessor</span> <span class="s2">&#34;com.uber.nullaway:nullaway:0.7.9&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">compileOnly</span> <span class="s2">&#34;com.google.code.findbugs:jsr305:3.0.2&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">errorprone</span> <span class="s2">&#34;com.google.errorprone:error_prone_core:2.3.4&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">errorproneJavac</span> <span class="s2">&#34;com.google.errorprone:javac:9+181-r4173-1&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，我们将添加配置 NullAway 在编译期间如何工作的 Gradle 任务：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-groovy" data-lang="groovy"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">net.ltgt.gradle.errorprone.CheckSeverity</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">tasks</span><span class="o">.</span><span class="na">withType</span><span class="o">(</span><span class="n">JavaCompile</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">options</span><span class="o">.</span><span class="na">errorprone</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">check</span><span class="o">(</span><span class="s2">&#34;NullAway&#34;</span><span class="o">,</span> <span class="n">CheckSeverity</span><span class="o">.</span><span class="na">ERROR</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">option</span><span class="o">(</span><span class="s2">&#34;NullAway:AnnotatedPackages&#34;</span><span class="o">,</span> <span class="s2">&#34;com.codingman&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>上述任务将 NullAway 严重性设置为错误级别，这意味着我们可以配置 NullAway 以停止生成错误。默认情况下，NullAway 只会在编译时警告用户。</p>
+<p>此外，该任务设置要检查空取消引用的包。</p>
+<p>就是这样，我们现在可以在我们的 Java 代码中使用该工具了。</p>
+<p>同样，我们可以使用<a href="https://github.com/uber/NullAway/wiki/Configuration#other-build-systems" target="_blank" rel="noopener noreffer">其他构建系统</a>Maven 或 Bazel<em>来</em>集成该工具。</p>
+<h2 id="3-用法">3. 用法</h2>
+<p>假设我们有一个<em>Person</em>类，其中包含一个<em>age</em>属性。此外，我们还有一个<em>getAge</em>方法，它接受一个<em>Person</em>实例作为参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Integer</span> <span class="nf">getAge</span><span class="o">(</span><span class="n">Person</span> <span class="n">person</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">person</span><span class="o">.</span><span class="na">getAge</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此时，我们可以看到如果<em>person</em>为<em>null ，</em> <em>getAge</em>将抛出<em>NullPointerException</em>。</p>
+<p>NullAway 假定每个方法参数、返回值和字段都是非<em>空的。<em>因此，它将期望</em>person</em>实例为非<em>null</em>。</p>
+<p>我们还假设在我们的代码中确实有一个地方将空引用传递给<em>getAge</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Integer</span> <span class="nf">yearsToRetirement</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Person</span> <span class="n">p</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... p never gets set correctly...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">65</span> <span class="o">-</span> <span class="n">getAge</span><span class="o">(</span><span class="n">p</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然后，运行构建将产生以下错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nl">error:</span> <span class="o">[</span><span class="n">NullAway</span><span class="o">]</span> <span class="n">passing</span> <span class="nd">@Nullable</span> <span class="n">parameter</span> <span class="err">&#39;</span><span class="kc">null</span><span class="err">&#39;</span> <span class="n">where</span> <span class="nd">@NonNull</span> <span class="n">is</span> <span class="n">required</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">getAge</span><span class="o">(</span><span class="n">p</span><span class="o">);</span>
+</span></span></code></pre></div><p>我们可以通过向参数添加*@Nullable*注释来修复此错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Integer</span> <span class="nf">getAge</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">Person</span> <span class="n">person</span><span class="o">)</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... same as earlier
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>现在，当我们运行构建时，我们会看到一个新错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nl">error:</span> <span class="o">[</span><span class="n">NullAway</span><span class="o">]</span> <span class="n">dereferenced</span> <span class="n">expression</span> <span class="n">person</span> <span class="n">is</span> <span class="nd">@Nullable</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">person</span><span class="o">.</span><span class="na">getAge</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">^</span>
+</span></span></code></pre></div><p>这告诉我们<em>person</em>实例有可能为<em>null</em>。我们可以通过添加一个标准的空检查来解决这个问题：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Integer</span> <span class="nf">getAge</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">Person</span> <span class="n">person</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">person</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">person</span><span class="o">.</span><span class="na">getAge</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_nullaway/" data-title="使用 NullAway 避免 NullPointerExceptions" data-hashtags="Exception,Java Null"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_nullaway/" data-hashtag="Exception"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_nullaway/" data-title="使用 NullAway 避免 NullPointerExceptions"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_nullaway/" data-title="使用 NullAway 避免 NullPointerExceptions"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_nullaway/" data-title="使用 NullAway 避免 NullPointerExceptions"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/exception/">Exception</a>,&nbsp;<a href="/tags/java-null/">Java Null</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_null_safe_streams_from_collections/" class="prev" rel="prev" title="来自集合的 Java 空安全流"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>来自集合的 Java 空安全流</a>
+            <a href="/java_number_class/" class="next" rel="next" title="Java中的数字类指南">Java中的数字类指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

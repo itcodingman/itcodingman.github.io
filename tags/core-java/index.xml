@@ -12,6 +12,46 @@
     <description><![CDATA[1. 概述 有时我们需要确定一个对象是否是原始类型，特别是对于包装原始类型。但是，标准 JDK 中没有内置方法来实现这一点。 在本快速教程中，我们将了解如何]]></description>
 </item>
 <item>
+    <title>Java中的数字类指南</title>
+    <link>http://itcodingman.github.io/java_number_class/</link>
+    <pubDate>Wed, 20 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_number_class/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将讨论 Java 的*Number类*。首先，我们将了解 Number类的作用以及它包含的方法。然后，我们将深入研究这个抽象类的各]]></description>
+</item>
+<item>
+    <title>在 Java 中计算第 n 个根</title>
+    <link>http://itcodingman.github.io/java_nth_root/</link>
+    <pubDate>Sat, 16 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_nth_root/</guid>
+    <description><![CDATA[1. 概述 在某些情况下，尝试使用*pow()*在 Java 中查找第 n 个根是不准确的。原因是双精度数可能会在途中丢失精度。因此，我们可能需要对结果进行润色]]></description>
+</item>
+<item>
+    <title>在 Java 中创建自定义异常</title>
+    <link>http://itcodingman.github.io/java_new_custom_exception/</link>
+    <pubDate>Fri, 01 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_new_custom_exception/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将介绍如何在 Java 中创建自定义异常。 我们将展示如何实现用户定义的异常并将其用于已检查和未检查的异常。 2. 自定义例外的需要 Java 异]]></description>
+</item>
+<item>
+    <title>Java中的嵌套类</title>
+    <link>http://itcodingman.github.io/java_nested_classes/</link>
+    <pubDate>Fri, 24 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_nested_classes/</guid>
+    <description><![CDATA[1. 简介 本教程对 Java 语言中的嵌套类进行了快速而中肯的介绍。 简而言之，Java 允许我们在其他类中定义类。嵌套类使我们能够对仅在一个地方使用的类进行]]></description>
+</item>
+<item>
+    <title>如何获取正在执行的方法的名称？</title>
+    <link>http://itcodingman.github.io/java_name_of_executing_method/</link>
+    <pubDate>Sat, 18 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_name_of_executing_method/</guid>
+    <description><![CDATA[1. 概述 有时我们需要知道当前正在执行的 Java 方法的名称。 这篇快速文章介绍了几种在当前执行堆栈中获取方法名称的简单方法。 2. Java 9：堆栈行走 API **Java 9 引入了]]></description>
+</item>
+<item>
     <title>Java 枚举指南</title>
     <link>http://itcodingman.github.io/a_guide_to_java_enums/</link>
     <pubDate>Tue, 27 Mar 2018 00:00:00 &#43;0000</pubDate>

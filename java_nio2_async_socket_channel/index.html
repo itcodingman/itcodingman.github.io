@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>NIO2 异步套接字通道指南 - Coding Man</title><meta name="Description" content="在本文中，我们探索了 Java NIO.2 异步套接字通道 API。我们已经能够逐步完成使用这些新 API 构建服务器和客户端的过程。"><meta property="og:title" content="NIO2 异步套接字通道指南" />
+<meta property="og:description" content="在本文中，我们探索了 Java NIO.2 异步套接字通道 API。我们已经能够逐步完成使用这些新 API 构建服务器和客户端的过程。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_nio2_async_socket_channel/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NIO2 异步套接字通道指南"/>
+<meta name="twitter:description" content="在本文中，我们探索了 Java NIO.2 异步套接字通道 API。我们已经能够逐步完成使用这些新 API 构建服务器和客户端的过程。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_nio2_async_socket_channel/" /><link rel="prev" href="http://itcodingman.github.io/java_nio2_async_file_channel/" /><link rel="next" href="http://itcodingman.github.io/java_nio2_file_attribute/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "NIO2 异步套接字通道指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_nio2_async_socket_channel\/"
+        },"genre": "posts","keywords": "Java IO, Java NIO","wordcount":  2137 ,
+        "url": "http:\/\/itcodingman.github.io\/java_nio2_async_socket_channel\/","datePublished": "2022-07-09T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们探索了 Java NIO.2 异步套接字通道 API。我们已经能够逐步完成使用这些新 API 构建服务器和客户端的过程。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">NIO2 异步套接字通道指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-09">2022-07-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2137 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-有future的服务器"><strong>2. 有<em>Future</em>的服务器</strong></a></li>
+    <li><a href="#3-带有completionhandler的服务器"><strong>3. 带有<em>CompletionHandler</em>的服务器</strong></a></li>
+    <li><a href="#4-客户"><strong>4. 客户</strong></a></li>
+    <li><a href="#5-测试"><strong>5. 测试</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将演示如何使用 Java 7 NIO.2 通道 API 构建简单的服务器及其客户端。</p>
+<p>我们将看看<em>AsynchronousServerSocketChannel</em>和<em>AsynchronousSocketChannel</em>类，它们是分别用于实现服务器和客户端的关键类。</p>
+<p>如果您是 NIO.2 通道 API 的新手，我们在此站点上有一篇介绍性文章。您可以通过以下<a href="/java_nio2_async_channels" rel="">链接</a>阅读它。</p>
+<p>使用 NIO.2 通道 API 所需的所有类都捆绑在<em>java.nio.channels</em>包中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.nio.channels.*</span><span class="o">;</span>
+</span></span></code></pre></div><h2 id="2-有future的服务器"><strong>2. 有<em>Future</em>的服务器</strong></h2>
+<p><em>AsynchronousServerSocketChannel</em>的实例是通过调用其类的静态开放 API 来创建的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">AsynchronousServerSocketChannel</span> <span class="n">server</span>
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">AsynchronousServerSocketChannel</span><span class="o">.</span><span class="na">open</span><span class="o">();</span>
+</span></span></code></pre></div><p>一个新创建的异步服务器套接字通道已打开但尚未绑定，因此我们必须将其绑定到本地地址并可选地选择一个端口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">server</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="s">&#34;127.0.0.1&#34;</span><span class="o">,</span> <span class="n">4555</span><span class="o">));</span>
+</span></span></code></pre></div><p>我们也可以传入 null 以便它使用本地地址并绑定到任意端口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">server</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+</span></span></code></pre></div><p>绑定后，<em>accept</em> API 用于启动对通道套接字的连接的接受：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Future</span><span class="o">&lt;</span><span class="n">AsynchronousSocketChannel</span><span class="o">&gt;</span> <span class="n">acceptFuture</span> <span class="o">=</span> <span class="n">server</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+</span></span></code></pre></div><p>与异步通道操作一样，上述调用立即返回并继续执行。</p>
+<p>接下来，我们可以使用<em>get</em> API 来查询来自<em>Future</em>对象的响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">AsynchronousSocketChannel</span> <span class="n">worker</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span></code></pre></div><p>如有必要，此调用将阻塞以等待来自客户端的连接请求。或者，如果我们不想永远等待，我们可以指定超时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">AsynchronousSocketChannel</span> <span class="n">worker</span> <span class="o">=</span> <span class="n">acceptFuture</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">10</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
+</span></span></code></pre></div><p>在上述调用返回并且操作成功后，我们可以创建一个循环，在其中我们侦听传入的消息并将它们回显给客户端。</p>
+<p>让我们创建一个名为<em>runServer</em>的方法，在该方法中我们将等待并处理任何传入的消息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">runServer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">clientChannel</span> <span class="o">=</span> <span class="n">acceptResult</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">((</span><span class="n">clientChannel</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">clientChannel</span><span class="o">.</span><span class="na">isOpen</span><span class="o">()))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">32</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">readResult</span>  <span class="o">=</span> <span class="n">clientChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="c1">// perform other computations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            
+</span></span><span class="line"><span class="cl">            <span class="n">readResult</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="n">buffer</span><span class="o">.</span><span class="na">flip</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">writeResult</span> <span class="o">=</span> <span class="n">clientChannel</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1">// perform other computations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">            <span class="n">writeResult</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">buffer</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">clientChannel</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">serverChannel</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在循环内部，我们所做的只是根据操作创建一个用于读取和写入的缓冲区。</p>
+<p>然后，每次我们进行读取或写入时，我们都可以继续执行任何其他代码，当我们准备好处理结果时，我们调用<em>Future</em>对象的<em>get()</em> API 。</p>
+<p>要启动服务器，我们调用它的构造函数，然后调用<em>main中的**runServer</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">AsyncEchoServer</span> <span class="n">server</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AsyncEchoServer</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">server</span><span class="o">.</span><span class="na">runServer</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="3-带有completionhandler的服务器"><strong>3. 带有<em>CompletionHandler</em>的服务器</strong></h2>
+<p>在本节中，我们将看到如何使用<em>CompletionHandler</em>方法而不是<em>Future</em>方法来实现相同的服务器。</p>
+<p>在构造函数中，我们创建了一个<em>AsynchronousServerSocketChannel</em>并将其绑定到本地地址，就像我们之前所做的那样：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">serverChannel</span> <span class="o">=</span> <span class="n">AsynchronousServerSocketChannel</span><span class="o">.</span><span class="na">open</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">InetSocketAddress</span> <span class="n">hostAddress</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="n">4999</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">serverChannel</span><span class="o">.</span><span class="na">bind</span><span class="o">(</span><span class="n">hostAddress</span><span class="o">);</span>
+</span></span></code></pre></div><p>接下来，仍然在构造函数内部，我们创建一个 while 循环，在该循环中我们接受来自客户端的任何传入连接。此 while 循环严格用于<strong>防止服务器在与客户端建立连接之前退出</strong>。</p>
+<p>为了<strong>防止循环无休止地运行</strong>，我们在其末尾调用*System.in.read()*来阻止执行，直到从标准输入流中读取传入连接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">serverChannel</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="kc">null</span><span class="o">,</span> <span class="k">new</span> <span class="n">CompletionHandler</span><span class="o">&lt;</span><span class="n">AsynchronousSocketChannel</span><span class="o">,</span><span class="n">Object</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">completed</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">AsynchronousSocketChannel</span> <span class="n">result</span><span class="o">,</span> <span class="n">Object</span> <span class="n">attachment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">serverChannel</span><span class="o">.</span><span class="na">isOpen</span><span class="o">()){</span>
+</span></span><span class="line"><span class="cl">                <span class="n">serverChannel</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">clientChannel</span> <span class="o">=</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">((</span><span class="n">clientChannel</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">clientChannel</span><span class="o">.</span><span class="na">isOpen</span><span class="o">()))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ReadWriteHandler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReadWriteHandler</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">32</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">readInfo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">                <span class="n">readInfo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;action&#34;</span><span class="o">,</span> <span class="s">&#34;read&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">readInfo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;buffer&#34;</span><span class="o">,</span> <span class="n">buffer</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="n">clientChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">readInfo</span><span class="o">,</span> <span class="n">handler</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">             <span class="o">}</span>
+</span></span><span class="line"><span class="cl">         <span class="o">}</span>
+</span></span><span class="line"><span class="cl">         <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">         <span class="kd">public</span> <span class="kt">void</span> <span class="nf">failed</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">exc</span><span class="o">,</span> <span class="n">Object</span> <span class="n">attachment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">             <span class="c1">// process error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>         <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">in</span><span class="o">.</span><span class="na">read</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当建立连接时，调用accept操作的<em>CompletionHandler中的**完成</em>回调方法。</p>
+<p>它的返回类型是<em>AsynchronousSocketChannel</em>的一个实例。如果服务器套接字通道仍然打开，我们再次调用<em>接受</em>API 以准备另一个传入连接，同时重用相同的处理程序。</p>
+<p>接下来，我们将返回的套接字通道分配给一个全局实例。然后我们检查它是否不为空，并且在对其执行操作之前它是打开的。</p>
+<p>我们可以开始读取和写入操作的点是在<em>接受</em>操作的处理程序的<em>完成</em>回调 API 中。此步骤取代了之前我们使用<em>get</em> API 轮询通道的方法。</p>
+<p>请注意，除非我们明确关闭它，否则<strong>在建立连接后服务器将不再退出。</strong></p>
+<p>还要注意，我们创建了一个单独的内部类来处理读写操作；<em>读写处理程序</em>。此时，我们将看到附件对象如何派上用场。</p>
+<p>首先，让我们看一下<em>ReadWriteHandler</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">class</span> <span class="nc">ReadWriteHandler</span> <span class="kd">implements</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">CompletionHandler</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">completed</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">Integer</span> <span class="n">result</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">attachment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">actionInfo</span> <span class="o">=</span> <span class="n">attachment</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">actionInfo</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;action&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="s">&#34;read&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="o">(</span><span class="n">ByteBuffer</span><span class="o">)</span> <span class="n">actionInfo</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;buffer&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">buffer</span><span class="o">.</span><span class="na">flip</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">actionInfo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;action&#34;</span><span class="o">,</span> <span class="s">&#34;write&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">clientChannel</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">actionInfo</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">buffer</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s">&#34;write&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">32</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">actionInfo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;action&#34;</span><span class="o">,</span> <span class="s">&#34;read&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">actionInfo</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;buffer&#34;</span><span class="o">,</span> <span class="n">buffer</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">clientChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">actionInfo</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">failed</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">exc</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">attachment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>ReadWriteHandler</em>类中附件的通用类型是映射。我们特别需要通过它传递两个重要参数——操作（动作）的类型和缓冲区。</p>
+<p>接下来，我们将看到如何使用这些参数。</p>
+<p>我们执行的第一个操作是<em>读取</em>，因为这是一个仅响应客户端消息的回显服务器。在<em>ReadWriteHandler</em>的<em>完成</em>回调方法中，我们检索附加的数据并决定相应地做什么。</p>
+<p>如果是<em>读</em>操作已经完成，我们检索缓冲区，更改附件的动作参数并立即执行<em>写</em>操作以将消息回显给客户端。</p>
+<p>如果是刚刚完成的<em>写入操作，我们再次调用**读取</em>API 以准备服务器接收另一条传入消息。</p>
+<h2 id="4-客户"><strong>4. 客户</strong></h2>
+<p>设置服务器后，我们现在可以通过调用<em>AsyncronousSocketChannel</em>类上的<em>开放</em>API 来设置客户端。此调用创建客户端套接字通道的新实例，然后我们使用它来建立与服务器的连接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">AsynchronousSocketChannel</span> <span class="n">client</span> <span class="o">=</span> <span class="n">AsynchronousSocketChannel</span><span class="o">.</span><span class="na">open</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">InetSocketAddress</span> <span class="n">hostAddress</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="n">4999</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Future</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span> <span class="n">future</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="n">hostAddress</span><span class="o">);</span>
+</span></span></code></pre></div><p><em>连接</em>操作成功时不返回任何内容。但是，我们仍然可以使用<em>Future</em>对象来监控异步操作的状态。</p>
+<p>让我们调用<em>get</em> API 来等待连接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">future</span><span class="o">.</span><span class="na">get</span><span class="o">()</span>
+</span></span></code></pre></div><p>在这一步之后，我们可以开始向服务器发送消息并接收相同的回声。<em>sendMessage</em>方法如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">sendMessage</span><span class="o">(</span><span class="n">String</span> <span class="n">message</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">byte</span><span class="o">[]</span> <span class="n">byteMsg</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">message</span><span class="o">).</span><span class="na">getBytes</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">wrap</span><span class="o">(</span><span class="n">byteMsg</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">writeResult</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// do some computation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="n">writeResult</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="o">.</span><span class="na">flip</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">readResult</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// do some computation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="n">readResult</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">echo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">buffer</span><span class="o">.</span><span class="na">array</span><span class="o">()).</span><span class="na">trim</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">echo</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-测试"><strong>5. 测试</strong></h2>
+<p>为了确认我们的服务器和客户端应用程序按预期执行，我们可以使用测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenServerClient_whenServerEchosMessage_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">resp1</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="s">&#34;hello&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">resp2</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="s">&#34;world&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;hello&#34;</span><span class="o">,</span> <span class="n">resp1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;world&#34;</span><span class="o">,</span> <span class="n">resp2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_nio2_async_socket_channel/" data-title="NIO2 异步套接字通道指南" data-hashtags="Java IO,Java NIO"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_nio2_async_socket_channel/" data-hashtag="Java IO"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_nio2_async_socket_channel/" data-title="NIO2 异步套接字通道指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_nio2_async_socket_channel/" data-title="NIO2 异步套接字通道指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_nio2_async_socket_channel/" data-title="NIO2 异步套接字通道指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-io/">Java IO</a>,&nbsp;<a href="/tags/java-nio/">Java NIO</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_nio2_async_file_channel/" class="prev" rel="prev" title="NIO2 异步文件通道指南"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>NIO2 异步文件通道指南</a>
+            <a href="/java_nio2_file_attribute/" class="next" rel="next" title="NIO2 文件属性 API 指南">NIO2 文件属性 API 指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

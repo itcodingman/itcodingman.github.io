@@ -12,76 +12,76 @@
     <description><![CDATA[1. 概述 有时我们需要确定一个对象是否是原始类型，特别是对于包装原始类型。但是，标准 JDK 中没有内置方法来实现这一点。 在本快速教程中，我们将了解如何]]></description>
 </item>
 <item>
-    <title>20分钟学习Tomcat</title>
-    <link>http://itcodingman.github.io/20_mins_tomcat/</link>
-    <pubDate>Fri, 17 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <title>Java中整数中的位数</title>
+    <link>http://itcodingman.github.io/java_number_of_digits_in_int/</link>
+    <pubDate>Sat, 23 Jul 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/20_mins_tomcat/</guid>
-    <description><![CDATA[20分钟学习Tomcat]]></description>
+    <guid>http://itcodingman.github.io/java_number_of_digits_in_int/</guid>
+    <description><![CDATA[1. 简介 在这个快速教程中，我们将探索在 Java中获取整数位数的不同方法。 我们还将分析不同的方法，以确定哪种算法最适合每种情况。 2.整数位数 对于]]></description>
 </item>
 <item>
-    <title>Visual Studio Code Spring Boot 的安装及使用</title>
-    <link>http://itcodingman.github.io/vscode_spring_boot_install_introduce/</link>
-    <pubDate>Fri, 10 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <title>了解 Java 中的 NumberFormatException</title>
+    <link>http://itcodingman.github.io/java_number_format_exception/</link>
+    <pubDate>Thu, 21 Jul 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/vscode_spring_boot_install_introduce/</guid>
-    <description><![CDATA[Visual Studio Code Spring Boot 的安装及使用 Visual Studio Code和Spring Boot的安装及使用]]></description>
+    <guid>http://itcodingman.github.io/java_number_format_exception/</guid>
+    <description><![CDATA[1. 简介 当Java无法将String转换为数字类型时，它会抛出NumberFormatException—— 一个未经检查的异常。 由于它是unc]]></description>
 </item>
 <item>
-    <title>推箱子——pygame项目实战</title>
-    <link>http://itcodingman.github.io/pygame_sokoban/</link>
-    <pubDate>Fri, 10 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <title>Java中的数字类指南</title>
+    <link>http://itcodingman.github.io/java_number_class/</link>
+    <pubDate>Wed, 20 Jul 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/pygame_sokoban/</guid>
-    <description><![CDATA[推箱子——pygame项目实战]]></description>
+    <guid>http://itcodingman.github.io/java_number_class/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将讨论 Java 的*Number类*。首先，我们将了解 Number类的作用以及它包含的方法。然后，我们将深入研究这个抽象类的各]]></description>
 </item>
 <item>
-    <title>10分钟学习Java Log</title>
-    <link>http://itcodingman.github.io/10_mins_java_log/</link>
-    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <title>使用 NullAway 避免 NullPointerExceptions</title>
+    <link>http://itcodingman.github.io/java_nullaway/</link>
+    <pubDate>Tue, 19 Jul 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/10_mins_java_log/</guid>
-    <description><![CDATA[10分钟学习Java Log]]></description>
+    <guid>http://itcodingman.github.io/java_nullaway/</guid>
+    <description><![CDATA[1. 概述 多年来，我们一直在采取多种策略，从 Elvis 运算符到*Optional，以帮助从我们的应用程序中删除NullPointerException 。]]></description>
 </item>
 <item>
-    <title>一小时学习Servlet</title>
-    <link>http://itcodingman.github.io/1_hour_servlet/</link>
-    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <title>来自集合的 Java 空安全流</title>
+    <link>http://itcodingman.github.io/java_null_safe_streams_from_collections/</link>
+    <pubDate>Mon, 18 Jul 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/1_hour_servlet/</guid>
-    <description><![CDATA[一小时学习Servlet 本教程将讲解如何使用 Java Servlet 来开发基于 web 的应用程序。]]></description>
+    <guid>http://itcodingman.github.io/java_null_safe_streams_from_collections/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将看到如何从 Java 集合创建空安全流。 首先，需要对 Java 8 的方法参考、Lambda 表达式、可选 和流 API 有一定的了解才能完全理解本材]]></description>
 </item>
 <item>
-    <title>conda的安装和使用、国内源、常用命令</title>
-    <link>http://itcodingman.github.io/conda_install_introduce/</link>
-    <pubDate>Fri, 27 May 2022 00:00:00 &#43;0000</pubDate>
+    <title>在 Java 中计算第 n 个根</title>
+    <link>http://itcodingman.github.io/java_nth_root/</link>
+    <pubDate>Sat, 16 Jul 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/conda_install_introduce/</guid>
-    <description><![CDATA[conda的安装和使用、国内源、常用命令 conda的安装和使用、国内源、常用命令]]></description>
+    <guid>http://itcodingman.github.io/java_nth_root/</guid>
+    <description><![CDATA[1. 概述 在某些情况下，尝试使用*pow()*在 Java 中查找第 n 个根是不准确的。原因是双精度数可能会在途中丢失精度。因此，我们可能需要对结果进行润色]]></description>
 </item>
 <item>
-    <title>扫雷——pygame项目实战</title>
-    <link>http://itcodingman.github.io/pygame_minesweeper/</link>
-    <pubDate>Fri, 27 May 2022 00:00:00 &#43;0000</pubDate>
+    <title>Java NIO2 中的 WatchService 指南</title>
+    <link>http://itcodingman.github.io/java_nio2_watchservice/</link>
+    <pubDate>Tue, 12 Jul 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/pygame_minesweeper/</guid>
-    <description><![CDATA[扫雷——pygame项目实战]]></description>
+    <guid>http://itcodingman.github.io/java_nio2_watchservice/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将探索 Java NIO.2 文件系统 API 的WatchService接口。这是 Java 7 中与FileVisitor接口一起引入的较新 IO API 的鲜为人知的]]></description>
 </item>
 <item>
-    <title>PIP安装和使用、国内源、常用命令</title>
-    <link>http://itcodingman.github.io/pip_install_introduce/</link>
-    <pubDate>Mon, 23 May 2022 00:00:00 &#43;0000</pubDate>
+    <title>NIO2 FileVisitor 指南</title>
+    <link>http://itcodingman.github.io/java_nio2_file_visitor/</link>
+    <pubDate>Mon, 11 Jul 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/pip_install_introduce/</guid>
-    <description><![CDATA[PIP安装和使用、国内源、常用命令 PIP安装和使用、国内源、常用命令]]></description>
+    <guid>http://itcodingman.github.io/java_nio2_file_visitor/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将探讨 NIO2 的一个有趣特性*——FileVisitor*接口。 所有操作系统和一些第三方应用程序都具有文件搜索功能，用户可以在]]></description>
 </item>
 <item>
-    <title>C&#43;&#43;中地址和引用的区别</title>
-    <link>http://itcodingman.github.io/c_plus_point_reference_diffrence/</link>
-    <pubDate>Fri, 20 May 2022 00:00:00 &#43;0000</pubDate>
+    <title>NIO2 文件属性 API 指南</title>
+    <link>http://itcodingman.github.io/java_nio2_file_attribute/</link>
+    <pubDate>Sun, 10 Jul 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/c_plus_point_reference_diffrence/</guid>
-    <description><![CDATA[C++中地址和引用的区别]]></description>
+    <guid>http://itcodingman.github.io/java_nio2_file_attribute/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将探讨 Java 7 NIO.2 文件系统 API 的高级特性之一——特别是文件属性 API。 如果您想先深入了解这些基础部分，我们之前已经介绍了文件和路]]></description>
 </item>
 </channel>
 </rss>

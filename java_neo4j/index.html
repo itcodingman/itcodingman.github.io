@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>使用 Java 的 Neo4J 指南 - Coding Man</title><meta name="Description" content="本文介绍了面向图的数据库 Neo4j 的一些基础知识。"><meta property="og:title" content="使用 Java 的 Neo4J 指南" />
+<meta property="og:description" content="本文介绍了面向图的数据库 Neo4j 的一些基础知识。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_neo4j/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 Java 的 Neo4J 指南"/>
+<meta name="twitter:description" content="本文介绍了面向图的数据库 Neo4j 的一些基础知识。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_neo4j/" /><link rel="prev" href="http://itcodingman.github.io/java_native/" /><link rel="next" href="http://itcodingman.github.io/java_nest_based_access_control/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "使用 Java 的 Neo4J 指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_neo4j\/"
+        },"genre": "posts","wordcount":  2250 ,
+        "url": "http:\/\/itcodingman.github.io\/java_neo4j\/","datePublished": "2022-06-22T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本文介绍了面向图的数据库 Neo4j 的一些基础知识。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 Java 的 Neo4J 指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/persistence/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Persistence</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-22">2022-06-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2250 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
+    <li><a href="#2-嵌入式-neo4j"><strong>2. 嵌入式 Neo4j</strong></a></li>
+    <li><a href="#3-cypher-查询语言"><strong>3. Cypher 查询语言</strong></a>
+      <ul>
+        <li><a href="#31-创建节点"><strong>3.1 创建节点</strong></a></li>
+        <li><a href="#32-创建关系"><strong>3.2. 创建关系</strong></a></li>
+        <li><a href="#33-检索数据"><strong>3.3. 检索数据</strong></a></li>
+        <li><a href="#34-更新节点"><strong>3.4. 更新节点</strong></a></li>
+        <li><a href="#35-删除节点"><strong>3.5. 删除节点</strong></a></li>
+        <li><a href="#36-参数绑定"><strong>3.6. 参数绑定</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-java驱动"><strong>4. Java驱动</strong></a></li>
+    <li><a href="#5-jdbc驱动"><strong>5. JDBC驱动</strong></a></li>
+    <li><a href="#6-对象-图-映射"><strong>6. 对象-图-映射</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
+<p>这篇文章是关于<a href="https://neo4j.com/" target="_blank" rel="noopener noreffer"><em>Neo4j——</em></a>当今市场上最成熟、功能最齐全的图形数据库之一。图数据库处理数据建模任务的观点是，生活中的许多事物都可以表示为<em>节点</em>（V）的集合，它们之间的连接称为<em>边</em>（E）。</p>
+<h2 id="2-嵌入式-neo4j"><strong>2. 嵌入式 Neo4j</strong></h2>
+<p>开始使用<em>Neo4j的最简单方法是使用**Neo4j</em>在与您的应用程序相同的 JVM 中运行的嵌入式版本。</p>
+<p>首先，我们需要添加一个 Maven 依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.neo4j<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>neo4j<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.4.6<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>您可以查看<a href="https://search.maven.org/search?q=g:org.neo4j%20AND%20a:neo4j&amp;core=gav" target="_blank" rel="noopener noreffer">此链接</a>以下载最新版本。</p>
+<p>接下来，让我们创建一个工厂：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">GraphDatabaseFactory</span> <span class="n">graphDbFactory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GraphDatabaseFactory</span><span class="o">();</span>
+</span></span></code></pre></div><p>最后，我们创建一个嵌入式数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">GraphDatabaseService</span> <span class="n">graphDb</span> <span class="o">=</span> <span class="n">graphDbFactory</span><span class="o">.</span><span class="na">newEmbeddedDatabase</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">&#34;data/cars&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><p>现在可以开始真正的行动了！首先，我们需要在我们的图中创建一些节点，为此，我们需要启动一个事务，因为<em>Neo4j</em>将拒绝任何破坏性操作，除非一个事务已经启动：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">graphDb</span><span class="o">.</span><span class="na">beginTx</span><span class="o">();</span>
+</span></span></code></pre></div><p>一旦我们有一个正在进行的事务，我们就可以开始添加节点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Node</span> <span class="n">car</span> <span class="o">=</span> <span class="n">graphDb</span><span class="o">.</span><span class="na">createNode</span><span class="o">(</span><span class="n">Label</span><span class="o">.</span><span class="na">label</span><span class="o">(</span><span class="s">&#34;Car&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">car</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&#34;make&#34;</span><span class="o">,</span> <span class="s">&#34;tesla&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">car</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&#34;model&#34;</span><span class="o">,</span> <span class="s">&#34;model3&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Node</span> <span class="n">owner</span> <span class="o">=</span> <span class="n">graphDb</span><span class="o">.</span><span class="na">createNode</span><span class="o">(</span><span class="n">Label</span><span class="o">.</span><span class="na">label</span><span class="o">(</span><span class="s">&#34;Person&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">owner</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&#34;firstName&#34;</span><span class="o">,</span> <span class="s">&#34;ann&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">owner</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">&#34;lastName&#34;</span><span class="o">,</span> <span class="s">&#34;bob&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们添加了具有属性<em>make</em>和<em>model</em>的节点<em>Car</em>以及具有属性<em>firstName</em>和<em>lastName</em>的节点<em>Person</em></p>
+<p>现在我们可以添加一个关系：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">owner</span><span class="o">.</span><span class="na">createRelationshipTo</span><span class="o">(</span><span class="n">car</span><span class="o">,</span> <span class="n">RelationshipType</span><span class="o">.</span><span class="na">withName</span><span class="o">(</span><span class="s">&#34;owner&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><p>上面的语句添加了一条连接两个节点的边，带有<em>所有者</em>标签。我们可以通过运行一个用<em>Neo4j</em>强大的<em>Cypher</em>语言编写的查询来验证这种关系：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Result</span> <span class="n">result</span> <span class="o">=</span> <span class="n">graphDb</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;MATCH (c:Car) &lt;-[owner]- (p:Person) &#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;WHERE c.make = &#39;tesla&#39;&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;RETURN p.firstName, p.lastName&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们要求为任何品牌为特斯拉的汽车寻找车主，并将他/她的名字和姓氏返回给我们。不出所料，这会返回：<em>{p.firstName=ann, p.lastName=bob}</em></p>
+<h2 id="3-cypher-查询语言"><strong>3. Cypher 查询语言</strong></h2>
+<p><em>Neo4j</em>提供了一种非常强大且非常直观的查询语言，它支持人们期望从数据库中获得的全部功能。让我们检查一下如何完成标准的创建、检索、更新和删除任务。</p>
+<h3 id="31-创建节点"><strong>3.1 创建节点</strong></h3>
+<p>Create 关键字可用于创建节点和关系。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CREATE</span> <span class="o">(</span><span class="n">self</span><span class="o">:</span><span class="n">Company</span> <span class="o">{</span><span class="n">name</span><span class="o">:</span><span class="s">&#34;Toyota&#34;</span><span class="o">})</span>
+</span></span><span class="line"><span class="cl"><span class="n">RETURN</span> <span class="n">self</span>
+</span></span></code></pre></div><p>在这里，我们创建了一个具有单一属性<em>name</em>的公司。节点定义用圆括号标记，其属性用大括号括起来。在这种情况下，<em>self</em>是节点的别名，<em>Company</em>是节点标签。</p>
+<h3 id="32-创建关系"><strong>3.2. 创建关系</strong></h3>
+<p>可以在单个查询中创建一个节点和与该节点的关系：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Result</span> <span class="n">result</span> <span class="o">=</span> <span class="n">graphDb</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;CREATE (tt:Company {name:\&#34;Toyota\&#34;}) &#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;-[:owns]-&gt; (tesla:Car {make: &#39;tesla&#39;, model: &#39;modelX&#39;})&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;RETURN tt, tesla&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们创建了节点<em>tt</em>和<em>tesla</em>，并在它们之间建立了所有权关系。当然，与预先存在的节点建立关系也是可能的。</p>
+<h3 id="33-检索数据"><strong>3.3. 检索数据</strong></h3>
+<p><em>MATCH</em>关键字用于查找数据，结合<em>RETURN</em>来控制返回哪些数据点。<em>WHERE</em>子句可用于仅过滤掉那些具有我们想要的属性的节点。</p>
+<p>让我们弄清楚拥有特斯拉modelX的公司的名称：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Result</span> <span class="n">result</span> <span class="o">=</span> <span class="n">graphDb</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;MATCH (company:Company)-[:owns]-&gt; (car:Car)&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;WHERE car.make=&#39;tesla&#39; and car.model=&#39;modelX&#39;&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;RETURN company.name&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="34-更新节点"><strong>3.4. 更新节点</strong></h3>
+<p><em>SET</em>关键字可用于更新节点属性或标签。让我们为我们的特斯拉增加里程：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Result</span> <span class="n">result</span> <span class="o">=</span> <span class="n">graphDb</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="s">&#34;MATCH (car:Car)&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;WHERE car.make=&#39;tesla&#39;&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34; SET car.milage=120&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34; SET car :Car:Electro&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34; SET car.model=NULL&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34; RETURN car&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们添加了一个名为<em>milage</em>的新属性，将标签修改为<em>Car</em>和<em>Electro</em>，最后，我们完全删除了<em>模型</em>属性。</p>
+<h3 id="35-删除节点"><strong>3.5. 删除节点</strong></h3>
+<p>DELETE 关键字可用于从图中永久删除节点或关系：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">graphDb</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="s">&#34;MATCH (company:Company)&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34; WHERE company.name=&#39;Toyota&#39;&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34; DELETE company&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们删除了一家名为 Toyota 的公司。</p>
+<h3 id="36-参数绑定"><strong>3.6. 参数绑定</strong></h3>
+<p>在上面的示例中，我们有硬编码的参数值，这不是最佳实践。幸运的是，<em>Neo4j</em>提供了将变量绑定到查询的工具：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;tt&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;make&#34;</span><span class="o">,</span> <span class="s">&#34;tesla&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;model&#34;</span><span class="o">,</span> <span class="s">&#34;modelS&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Result</span> <span class="n">result</span> <span class="o">=</span> <span class="n">graphDb</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="s">&#34;CREATE (tt:Company {name:$name}) &#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;-[:owns]-&gt; (tesla:Car {make: $make, model: $model})&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;RETURN tt, tesla&#34;</span><span class="o">,</span> <span class="n">params</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="4-java驱动"><strong>4. Java驱动</strong></h2>
+<p>到目前为止，我们一直在研究与嵌入式<em>Neo4j</em>实例的交互，但是，在生产环境中，我们很可能希望运行一个独立的服务器并通过提供的驱动程序连接到它。首先，我们需要在 maven <em>pom.xml</em>中添加另一个依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.neo4j.driver<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>neo4j-java-driver<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.6.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>您可以点击<a href="https://search.maven.org/search?q=a:neo4j-java-driver" target="_blank" rel="noopener noreffer">此链接</a>检查此驱动程序的最新版本。</p>
+<p>现在我们可以建立连接了：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Driver</span> <span class="n">driver</span> <span class="o">=</span> <span class="n">GraphDatabase</span><span class="o">.</span><span class="na">driver</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;bolt://localhost:7687&#34;</span><span class="o">,</span> <span class="n">AuthTokens</span><span class="o">.</span><span class="na">basic</span><span class="o">(</span><span class="s">&#34;neo4j&#34;</span><span class="o">,</span> <span class="s">&#34;12345&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><p>然后，创建一个会话：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="na">session</span><span class="o">();</span>
+</span></span></code></pre></div><p>最后，我们可以运行一些查询：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">session</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="s">&#34;CREATE (tt:Company {name:\&#34;Toyota\&#34;}) &#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;-[:owns]-&gt; (tesla:Car {make: &#39;tesla&#39;, model: &#39;modelX&#39;})&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;RETURN tt, tesla&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>完成所有工作后，我们需要关闭会话和驱动程序：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">session</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">driver</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="5-jdbc驱动"><strong>5. JDBC驱动</strong></h2>
+<p>也可以通过 JDBC 驱动程序与<em>Neo4j交互。**我们的pom.xml</em>的另一个依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.neo4j<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>neo4j-jdbc-driver<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.4.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>您可以点击<a href="https://search.maven.org/search?q=a:neo4j-jdbc-driver" target="_blank" rel="noopener noreffer">此链接</a>下载此驱动程序的最新版本。</p>
+<p>接下来，让我们建立一个 JDBC 连接：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl">Connection con = DriverManager.getConnection(
+</span></span><span class="line"><span class="cl">  &#34;jdbc:neo4j:bolt://localhost/?user=neo4j,password=12345,scheme=basic&#34;);
+</span></span></code></pre></div><p>这里的<em>con</em>是一个常规的 JDBC 连接，可用于创建和执行语句或准备好的语句：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">try</span> <span class="o">(</span><span class="n">Statement</span> <span class="n">stmt</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl">  <span class="n">stmt</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="s">&#34;CREATE (tt:Company {name:\&#34;Toyota\&#34;}) &#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">+</span> <span class="s">&#34;-[:owns]-&gt; (tesla:Car {make: &#39;tesla&#39;, model: &#39;modelX&#39;})&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">+</span> <span class="s">&#34;RETURN tt, tesla&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;MATCH (company:Company)-[:owns]-&gt; (car:Car)&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;WHERE car.make=&#39;tesla&#39; and car.model=&#39;modelX&#39;&#34;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;RETURN company.name&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">&#34;company.name&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-对象-图-映射"><strong>6. 对象-图-映射</strong></h2>
+<p>Object-Graph-Mapping 或 OGM 是一种使我们能够将域 POJO 用作<em>Neo4j</em>数据库中的实体的技术。让我们来看看这是如何工作的。第一步，像往常一样，我们向<em>pom.xml</em>添加新的依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.neo4j<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>neo4j-ogm-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.1.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span> 
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.neo4j<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>neo4j-ogm-embedded-driver<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.1.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>您可以检查<a href="https://search.maven.org/classic/#artifactdetails%7Corg.neo4j%7Cneo4j-ogm%7C2.1.1%7Cpom" target="_blank" rel="noopener noreffer">OGM Core Link</a>和<a href="https://search.maven.org/classic/#artifactdetails%7Corg.neo4j%7Cneo4j-ogm-embedded-driver%7C2.1.1%7Cjar" target="_blank" rel="noopener noreffer">OGM Embedded Driver Link</a>以检查这些库的最新版本。</p>
+<p>其次，我们用 OGM 注释来注释我们的 POJO：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@NodeEntity</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Company</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Relationship</span><span class="o">(</span><span class="n">type</span><span class="o">=</span><span class="s">&#34;owns&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Car</span> <span class="n">car</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@NodeEntity</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">make</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Relationship</span><span class="o">(</span><span class="n">direction</span> <span class="o">=</span> <span class="s">&#34;INCOMING&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Company</span> <span class="n">company</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>@NodeEntity</em>通知<em>Neo4j</em>这个对象需要由结果图中的一个节点来表示。<em>@Relationship</em>传达了与表示相关类型的节点创建关系的需要。在这种情况下，一家<em>公司</em>拥有一辆<em>汽车</em>。</p>
+<p>请注意，<em>Neo4j</em>要求每个实体都有一个主键，默认选择一个名为<em>id的字段。<em>可以通过使用</em>@Id @GeneratedValue 对其进行注释来使用替代命名的字段。</em></p>
+<p>然后，我们需要创建一个用于引导<em>Neo4j</em>的 OGM 的配置。为简单起见，让我们使用嵌入式内存数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Configuration</span> <span class="n">conf</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Configuration</span><span class="o">.</span><span class="na">Builder</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+</span></span></code></pre></div><p>之后，我们使用我们创建的配置和我们注释的 POJO 所在的包名称初始化<em>SessionFactory ：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SessionFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SessionFactory</span><span class="o">(</span><span class="n">conf</span><span class="o">,</span> <span class="s">&#34;com.codingman.graph&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>最后，我们可以创建一个<em>Session</em>并开始使用它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">openSession</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Car</span> <span class="n">tesla</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Car</span><span class="o">(</span><span class="s">&#34;tesla&#34;</span><span class="o">,</span> <span class="s">&#34;modelS&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Company</span> <span class="n">company</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Company</span><span class="o">(</span><span class="s">&#34;Toyota&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">company</span><span class="o">.</span><span class="na">setCar</span><span class="o">(</span><span class="n">tesla</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">session</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">company</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们启动了一个会话，创建了我们的 POJO，并要求 OGM 会话将它们持久化。<em>Neo4j</em> OGM 运行时透明地将对象转换为一组<em>Cypher</em>查询，这些查询在数据库中创建了适当的节点和边。</p>
+<p>如果这个过程看起来很熟悉，那是因为它是！这正是 JPA 的工作方式，唯一的区别是对象是被转换为持久化到 RDBMS 的行，还是被持久化到图形数据库的一系列节点和边。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_neo4j/" data-title="使用 Java 的 Neo4J 指南"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_neo4j/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_neo4j/" data-title="使用 Java 的 Neo4J 指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_neo4j/" data-title="使用 Java 的 Neo4J 指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_neo4j/" data-title="使用 Java 的 Neo4J 指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_native/" class="prev" rel="prev" title="Java Native 关键字和方法"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Java Native 关键字和方法</a>
+            <a href="/java_nest_based_access_control/" class="next" rel="next" title="Java 11 基于嵌套的访问控制">Java 11 基于嵌套的访问控制<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

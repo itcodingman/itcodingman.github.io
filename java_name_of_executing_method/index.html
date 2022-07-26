@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>如何获取正在执行的方法的名称？ - Coding Man</title><meta name="Description" content="在本教程中，我们提供了一些示例来说明如何获取当前执行的方法的名称。示例基于堆栈跟踪和getEnclosureMethod()。"><meta property="og:title" content="如何获取正在执行的方法的名称？" />
+<meta property="og:description" content="在本教程中，我们提供了一些示例来说明如何获取当前执行的方法的名称。示例基于堆栈跟踪和getEnclosureMethod()。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_name_of_executing_method/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="如何获取正在执行的方法的名称？"/>
+<meta name="twitter:description" content="在本教程中，我们提供了一些示例来说明如何获取当前执行的方法的名称。示例基于堆栈跟踪和getEnclosureMethod()。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_name_of_executing_method/" /><link rel="prev" href="http://itcodingman.github.io/20_mins_tomcat/" /><link rel="next" href="http://itcodingman.github.io/java_nashorn/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "如何获取正在执行的方法的名称？",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_name_of_executing_method\/"
+        },"genre": "posts","keywords": "Core Java","wordcount":  818 ,
+        "url": "http:\/\/itcodingman.github.io\/java_name_of_executing_method\/","datePublished": "2022-06-18T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们提供了一些示例来说明如何获取当前执行的方法的名称。示例基于堆栈跟踪和getEnclosureMethod()。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">如何获取正在执行的方法的名称？</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-18">2022-06-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;818 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-java-9堆栈行走-api">2. Java 9：堆栈行走 API</a>
+      <ul>
+        <li><a href="#21-优点">2.1 优点</a></li>
+      </ul>
+    </li>
+    <li><a href="#3使用getenclosuremethod"><strong>3.使用<em>getEnclosureMethod</em></strong></a></li>
+    <li><a href="#4-使用throwable-stack-trace"><strong>4. 使用<em>Throwable</em> Stack Trace</strong></a></li>
+    <li><a href="#5-使用线程堆栈跟踪"><strong>5. 使用线程堆栈跟踪</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>有时我们需要知道当前正在执行的 Java 方法的名称。</p>
+<p>这篇快速文章介绍了几种在当前执行堆栈中获取方法名称的简单方法。</p>
+<h2 id="2-java-9堆栈行走-api">2. Java 9：堆栈行走 API</h2>
+<p>**Java 9 引入了<a href="/java-9-stackwalking-api" rel="">Stack-Walking API</a>以一种惰性且高效的方式遍历 JVM 堆栈帧。**为了使用这个 API 找到当前正在执行的方法，我们可以编写一个简单的测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenJava9_whenWalkingTheStack_thenFindMethod</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StackWalker</span> <span class="n">walker</span> <span class="o">=</span> <span class="n">StackWalker</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">walker</span><span class="o">.</span><span class="na">walk</span><span class="o">(</span><span class="n">frames</span> <span class="o">-&gt;</span> <span class="n">frames</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">findFirst</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">StackWalker</span><span class="o">.</span><span class="na">StackFrame</span><span class="o">::</span><span class="n">getMethodName</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">methodName</span><span class="o">.</span><span class="na">isPresent</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;givenJava9_whenWalkingTheStack_thenFindMethod&#34;</span><span class="o">,</span> <span class="n">methodName</span><span class="o">.</span><span class="na">get</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>首先，我们 使用*<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/StackWalker.html#getInstance%28%29" target="_blank" rel="noopener noreffer">getInstance()</a><em>工厂方法获得一个</em><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/StackWalker.html" target="_blank" rel="noopener noreffer">StackWalker</a><em>实例 。然后我们使用</em><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/StackWalker.html#walk%28java.util.function.Function%29" target="_blank" rel="noopener noreffer">walk()</a>*方法从上到下遍历栈帧：</p>
+<ul>
+<li>*walk()*方法可以将 堆栈帧流 -  *Stream&lt; <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/StackWalker.StackFrame.html" target="_blank" rel="noopener noreffer">StackFrame</a> &gt; -*转换为任何东西</li>
+<li>给定流中的第一个元素是栈顶帧</li>
+<li>栈顶帧总是代表当前正在执行的方法</li>
+</ul>
+<p>因此，如果我们从流中获取第一个元素，我们就会知道当前正在执行的方法的详细信息。更具体地说，<em><em>我们可以使用</em><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/StackWalker.StackFrame.html#getMethodName%28%29" target="_blank" rel="noopener noreffer">StackFrame.getMethodName()</a><em>来查找方法名称。</em></em></p>
+<h3 id="21-优点">2.1 优点</h3>
+<p>与其他方法相比（稍后会详细介绍），Stack-Walking API 有几个优点：</p>
+<ul>
+<li>无需创建虚拟匿名内部类实例 —  <em>new Object().getClass() {}</em></li>
+<li>无需创建虚拟异常 —  <em>new Throwable()</em></li>
+<li>无需急切地捕获整个堆栈跟踪，这可能会很昂贵</li>
+</ul>
+<p>相反，  <em>StackWalker</em>只是以一种懒惰的方式逐个遍历堆栈。在这种情况下，它只获取顶部帧，而不是堆栈跟踪方法，它急切地捕获所有帧。</p>
+<p>最重要的是，如果您使用的是 Java 9+，请使用 Stack-Walking API。</p>
+<h2 id="3使用getenclosuremethod"><strong>3.使用<em>getEnclosureMethod</em></strong></h2>
+<p><em>我们可以使用getEnclosureMethod()</em> API找到正在执行的方法的名称：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenObject_whenGetEnclosingMethod_thenFindMethod</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">methodName</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">()</span> <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getClass</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getEnclosingMethod</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">       
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;givenObject_whenGetEnclosingMethod_thenFindMethod&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">methodName</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4-使用throwable-stack-trace"><strong>4. 使用<em>Throwable</em> Stack Trace</strong></h2>
+<p>使用<em>Throwable</em>堆栈跟踪为我们提供了当前正在执行的方法的堆栈跟踪：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenThrowable_whenGetStacktrace_thenFindMethod</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StackTraceElement</span><span class="o">[]</span> <span class="n">stackTrace</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Throwable</span><span class="o">().</span><span class="na">getStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;givenThrowable_whenGetStacktrace_thenFindMethod&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">stackTrace</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">getMethodName</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-使用线程堆栈跟踪"><strong>5. 使用线程堆栈跟踪</strong></h2>
+<p>此外，当前线程（从 JDK 1.5 开始）的堆栈跟踪通常包括正在执行的方法的名称：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenCurrentThread_whenGetStackTrace_thenFindMethod</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StackTraceElement</span><span class="o">[]</span> <span class="n">stackTrace</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">getStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;givenCurrentThread_whenGetStackTrace_thenFindMethod&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="n">stackTrace</span><span class="o">[</span><span class="n">1</span><span class="o">].</span><span class="na">getMethodName</span><span class="o">());</span> 
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>但是，我们需要记住，这种解决方案有一个明显的缺点。一些虚拟机可能会跳过一个或多个堆栈帧。虽然这并不常见，但我们应该意识到这可能会发生。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_name_of_executing_method/" data-title="如何获取正在执行的方法的名称？" data-hashtags="Core Java"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_name_of_executing_method/" data-hashtag="Core Java"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_name_of_executing_method/" data-title="如何获取正在执行的方法的名称？"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_name_of_executing_method/" data-title="如何获取正在执行的方法的名称？"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_name_of_executing_method/" data-title="如何获取正在执行的方法的名称？"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/core-java/">Core Java</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/20_mins_tomcat/" class="prev" rel="prev" title="20分钟学习Tomcat"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>20分钟学习Tomcat</a>
+            <a href="/java_nashorn/" class="next" rel="next" title="Nashorn 简介">Nashorn 简介<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

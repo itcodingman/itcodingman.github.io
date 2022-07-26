@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Java NIO2 路径 API - Coding Man</title><meta name="Description" content="在本文中，我们展示了作为 Java 7 的一部分发布的新文件系统 API (NIO2) 中的路径操作，并且看到了其中的大部分操作。"><meta property="og:title" content="Java NIO2 路径 API" />
+<meta property="og:description" content="在本文中，我们展示了作为 Java 7 的一部分发布的新文件系统 API (NIO2) 中的路径操作，并且看到了其中的大部分操作。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_nio2_path/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java NIO2 路径 API"/>
+<meta name="twitter:description" content="在本文中，我们展示了作为 Java 7 的一部分发布的新文件系统 API (NIO2) 中的路径操作，并且看到了其中的大部分操作。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_nio2_path/" /><link rel="prev" href="http://itcodingman.github.io/java_nio2_file_api/" /><link rel="next" href="http://itcodingman.github.io/java_nio_selector/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Java NIO2 路径 API",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_nio2_path\/"
+        },"genre": "posts","keywords": "Java IO, Java NIO","wordcount":  2587 ,
+        "url": "http:\/\/itcodingman.github.io\/java_nio2_path\/","datePublished": "2022-07-04T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们展示了作为 Java 7 的一部分发布的新文件系统 API (NIO2) 中的路径操作，并且看到了其中的大部分操作。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Java NIO2 路径 API</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-04">2022-07-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2587 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-设置"><strong>2. 设置</strong></a></li>
+    <li><a href="#3-路径操作"><strong>3. 路径操作</strong></a></li>
+    <li><a href="#4-创建路径"><strong>4. 创建路径</strong></a></li>
+    <li><a href="#5-检索路径信息"><strong>5. 检索路径信息</strong></a></li>
+    <li><a href="#6-规范化路径"><strong>6. 规范化路径</strong></a></li>
+    <li><a href="#7-路径转换"><strong>7. 路径转换</strong></a></li>
+    <li><a href="#8-加入路径"><strong>8. 加入路径</strong></a></li>
+    <li><a href="#9-相对化路径"><strong>9. <em>相对化</em>路径</strong></a></li>
+    <li><a href="#10-比较路径"><strong>10. 比较路径</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将学习如何在 Java中使用新的 I/O (NIO2) <em>Path API。</em></p>
+<p>NIO2 中的<em>Path</em> API 构成了 Java 7 附带的主要新功能区域之一，特别是新文件系统 API 与文件 API 的子集。</p>
+<h2 id="2-设置"><strong>2. 设置</strong></h2>
+<p>NIO2 支持捆绑在<em>java.nio.file</em>包中。因此，设置您的项目以使用<em>Path</em> API 只需导入此包中的所有内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.nio.file.*</span><span class="o">;</span>
+</span></span></code></pre></div><p>由于本文中的代码示例可能会在不同的环境中运行，我们先来了解一下用户的主目录：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">HOME</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">&#34;user.home&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>此变量将指向任何环境中的有效位置。</p>
+<p><em>Paths</em>类是涉及文件系统路径的所有操作的主要入口点。它允许我们创建和操作文件和目录的路径。</p>
+<p>值得注意的是，路径操作本质上主要是句法操作；它们对底层文件系统没有影响，文件系统对它们是成功还是失败也没有任何影响。这意味着将不存在的路径作为路径操作的参数传递与它是成功还是失败无关。</p>
+<h2 id="3-路径操作"><strong>3. 路径操作</strong></h2>
+<p>在本节中，我们将介绍路径操作中使用的主要语法。顾名思义，<em>Path</em>类是文件系统中路径的编程表示。</p>
+<p><em>Path</em>对象包含用于构造路径的文件名和目录列表，用于检查、定位和操作文件。</p>
+<p>辅助类<em>java.nio.file.Paths</em>（复数形式）是创建<em>Path</em>对象的正式方式。它有两种从路径字符串创建<em>路径</em>的静态方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;path string&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p><em>无论我们在路径String</em>中使用正斜杠还是反斜杠，都没有关系，API会根据底层文件系统的要求来解析这个参数。</p>
+<p>从<em>java.net.URI</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">URI</span> <span class="n">object</span><span class="o">);</span>
+</span></span></code></pre></div><p>我们现在可以继续看看这些在行动。</p>
+<h2 id="4-创建路径"><strong>4. 创建路径</strong></h2>
+<p>从路径字符串<strong>创建<em>Path对象：</em></strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPathString_whenCreatesPathObject_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/articles/demo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\articles\\demo&#34;</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>除了第一部分（在本例中为<em>articles</em>）之外， <em>get</em> API 还可以采用路径字符串部分（在本例中为<em>articles</em>和<em>demo</em> ）的可变参数参数。</p>
+<p>如果我们提供这些部分而不是完整的路径字符串，它们将用于构造 Path 对象，我们不需要在变量参数部分中包含名称分隔符（斜杠）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPathParts_whenCreatesPathObject_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/articles&#34;</span><span class="o">,</span> <span class="s">&#34;demo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\articles\\demo&#34;</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="5-检索路径信息"><strong>5. 检索路径信息</strong></h2>
+<p>您可以将 Path 对象视为序列的名称元素。诸如<em>E:\demo\articles\java</em>这样的路径<em>字符串</em>由三个名称元素组成，即<em>demo</em>、<em>articles</em>和<em>java</em>。目录结构中的最高元素将位于索引 0，在本例中为<em>demo</em>。</p>
+<p>目录结构中的最低元素将位于索引*[n-1]<em>处，其中</em>n*是路径中名称元素的数量。这个最低的元素称为<strong>文件名</strong>，无论它是否是实际文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenRetrievesFileName_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/articles/demo/logs&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">getFileName</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;logs&#34;</span><span class="o">,</span> <span class="n">fileName</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>方法可用于按索引检索单个元素：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenRetrievesNameByIndex_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/articles/demo/logs&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">name0</span> <span class="o">=</span> <span class="n">getName</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">name1</span> <span class="o">=</span> <span class="n">getName</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">name2</span> <span class="o">=</span> <span class="n">getName</span><span class="o">(</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;articles&#34;</span><span class="o">,</span> <span class="n">name0</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;demo&#34;</span><span class="o">,</span> <span class="n">name1</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;logs&#34;</span><span class="o">,</span> <span class="n">name2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>或使用这些索引范围的路径的子序列：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenCanRetrieveSubsequenceByIndex_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/articles/demo/logs&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">subPath1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">subpath</span><span class="o">(</span><span class="n">0</span><span class="o">,</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">subPath2</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">subpath</span><span class="o">(</span><span class="n">0</span><span class="o">,</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;articles&#34;</span><span class="o">,</span> <span class="n">subPath1</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;articles\\demo&#34;</span><span class="o">,</span> <span class="n">subPath2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;articles\\demo\\logs&#34;</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="na">subpath</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">3</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;demo&#34;</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="na">subpath</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;demo\\logs&#34;</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="na">subpath</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">3</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;logs&#34;</span><span class="o">,</span> <span class="n">p</span><span class="o">.</span><span class="na">subpath</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>每个路径都与父路径相关联，如果该路径没有父路径，则为<em>null 。<em>路径对象的父级由路径的根组件（如果有）和路径中除文件名之外的每个元素组成。例如，</em>/a/b/c 的父路径为 /a/b</em>，<em>/</em> a<em>的</em>父路径为 null：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenRetrievesParent_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/articles/demo/logs&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/articles/demo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p3</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p4</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">parent1</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="na">getParent</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">parent2</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="na">getParent</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">parent3</span> <span class="o">=</span> <span class="n">p3</span><span class="o">.</span><span class="na">getParent</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">parent4</span> <span class="o">=</span> <span class="n">p4</span><span class="o">.</span><span class="na">getParenth</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\articles\\demo&#34;</span><span class="o">,</span> <span class="n">parent1</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\articles&#34;</span><span class="o">,</span> <span class="n">parent2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\&#34;</span><span class="o">,</span> <span class="n">parent3</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="n">parent4</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们还可以获取路径的根元素：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenRetrievesRoot_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/articles/demo/logs&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;c:/articles/demo/logs&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">root1</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="na">getRoot</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">root2</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="na">getRoot</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\&#34;</span><span class="o">,</span> <span class="n">root1</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;c:\\&#34;</span><span class="o">,</span> <span class="n">root2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-规范化路径"><strong>6. 规范化路径</strong></h2>
+<p>许多文件系统使用*“.”* 符号表示当前目录，*“..”*表示父目录。您可能会遇到路径包含冗余目录信息的情况。</p>
+<p>例如，考虑以下路径字符串：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">/demo/./articles
+</span></span><span class="line"><span class="cl">/demo/authors/../articles
+</span></span><span class="line"><span class="cl">/demo/articles
+</span></span></code></pre></div><p>它们都解析到相同的位置*/demo/articles*。前两个有冗余，而最后一个没有。</p>
+<p>规范化路径涉及删除其中的冗余。为此目的提供了Path.normalize <em>()操作。</em></p>
+<p>这个例子现在应该是不言自明的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenRemovesRedundancies_thenCorrect1</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/home/./demo/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">cleanPath</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">normalize</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\home\\demo\\articles&#34;</span><span class="o">,</span> <span class="n">cleanPath</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这个也是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenRemovesRedundancies_thenCorrect2</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/home/demo/../articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">cleanPath</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">normalize</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\home\\articles&#34;</span><span class="o">,</span> <span class="n">cleanPath</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="7-路径转换"><strong>7. 路径转换</strong></h2>
+<p>有一些操作可以将路径转换为选定的演示格式。要将任何路径转换为可以从浏览器打开的字符串，我们使用<em>toUri</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenConvertsToBrowseablePath_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/home/demo/articles.html&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">URI</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">toUri</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;file:///E:/home/demo/articles.html&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">uri</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们还可以将路径转换为其绝对表示。<em>toAbsolutePath</em>方法根据文件系统默认目录解析路径：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenConvertsToAbsolutePath_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/home/demo/articles.html&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">absPath</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">toAbsolutePath</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;E:\\home\\demo\\articles.html&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">absPath</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>但是，当检测到要解析的路径已经是绝对路径时，该方法按原样返回：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenAbsolutePath_whenRetainsAsAbsolute_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;E:\\home\\demo\\articles.html&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">absPath</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">toAbsolutePath</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;E:\\home\\demo\\articles.html&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="n">absPath</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们还可以通过调用<em>toRealPath</em>方法将任何路径转换为其实际等效路径。此方法尝试通过将其元素映射到文件系统中的实际目录和文件来解析路径。</p>
+<p>是时候使用我们在<strong>设置</strong>部分创建的变量了，该变量指向登录用户在文件系统中的主位置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenExistingPath_whenGetsRealPathToFile_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">HOME</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">realPath</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">toRealPath</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">HOME</span><span class="o">,</span> <span class="n">realPath</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>上面的测试并没有真正告诉我们这个操作的行为。最明显的结果是，如果文件系统中不存在该路径，那么该操作将抛出一个<em>IOException</em>，继续阅读。</p>
+<p>由于缺乏更好的方法来驱动这一点，请看下一个测试，它试图将不存在的路径转换为真实路径：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span><span class="o">(</span><span class="n">expected</span> <span class="o">=</span> <span class="n">NoSuchFileException</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenInExistentPath_whenFailsToConvert_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;E:\\home\\demo\\articles.html&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">p</span><span class="o">.</span><span class="na">toRealPath</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当我们捕获到<em>IOException</em>时，测试成功。此操作引发的<em>IOException</em>的实际子类是<em>NoSuchFileException</em>。</p>
+<h2 id="8-加入路径"><strong>8. 加入路径</strong></h2>
+<p>可以使用<em>resolve</em>方法连接任意两条路径。</p>
+<p>简单地说，我们可以在任何<em>Path上调用**resolve</em>方法，并传入<em>部分路径</em>作为参数。该部分路径附加到原始路径：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenTwoPaths_whenJoinsAndResolves_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">resolve</span><span class="o">(</span><span class="s">&#34;java&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\demo\\articles\\java&#34;</span><span class="o">,</span> <span class="n">p2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>但是，当传递给<em>resolve</em>方法的路径字符串不是*部分路径时；*最值得注意的是绝对路径，然后返回传入的路径：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenAbsolutePath_whenResolutionRetainsIt_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">resolve</span><span class="o">(</span><span class="s">&#34;C:\\demo\\articles\java&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;C:\\demo\\articles\\java&#34;</span><span class="o">,</span> <span class="n">p2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>任何具有根元素的路径都会发生同样的事情。路径字符串*“java”<em>没有根元素，而路径字符串</em>“/java”*有根元素。因此，当您传入带有根元素的路径时，它会按原样返回：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPathWithRoot_whenResolutionRetainsIt_thenCorrect2</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">resolve</span><span class="o">(</span><span class="s">&#34;/java&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;\\java&#34;</span><span class="o">,</span> <span class="n">p2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="9-相对化路径"><strong>9. <em>相对化</em>路径</strong></h2>
+<p><em>相对</em>化一词仅意味着在两条已知路径之间创建直接路径。例如，如果我们有一个目录*/demo<em>并且在其中，我们还有另外两个目录，例如</em>/demo/authors<em>和</em>/demo/articles*是有效路径。</p>
+<p>相对于<em>作者的**文章</em>路径将被描述为*“在目录层次结构中向上移动一级，然后进入文章目录”<em>或</em>..\articles：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenSiblingPaths_whenCreatesPathToOther_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;authors&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p1_rel_p2</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="na">relativize</span><span class="o">(</span><span class="n">p2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2_rel_p1</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="na">relativize</span><span class="o">(</span><span class="n">p1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;..\\authors&#34;</span><span class="o">,</span> <span class="n">p1_rel_p2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;..\\articles&#34;</span><span class="o">,</span> <span class="n">p2_rel_p1</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>假设我们将<em>文章</em>目录移动到<em>作者</em>文件夹，这样它们就不再是兄弟了。以下相对化操作涉及在<em>demo</em>和<em>文章</em>之间创建路径，反之亦然：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenNonSiblingPaths_whenCreatesPathToOther_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo/authors/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p1_rel_p2</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="na">relativize</span><span class="o">(</span><span class="n">p2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2_rel_p1</span> <span class="o">=</span> <span class="n">p2</span><span class="o">.</span><span class="na">relativize</span><span class="o">(</span><span class="n">p1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;authors\\articles&#34;</span><span class="o">,</span> <span class="n">p1_rel_p2</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;..\\..&#34;</span><span class="o">,</span> <span class="n">p2_rel_p1</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="10-比较路径"><strong>10. 比较路径</strong></h2>
+<p><em>Path</em>类有一个直观的 equals 方法实现，它<em>使</em>我们能够比较两条路径是否相等：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenTwoPaths_whenTestsEquality_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p3</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo/authors&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">p1</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">p2</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertFalse</span><span class="o">(</span><span class="n">p1</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">p3</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>您还可以检查路径是否以给定字符串开头：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenInspectsStart_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">p1</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">&#34;/demo&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>或以其他字符串结尾：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenPath_whenInspectsEnd_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/demo/articles&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">p1</span><span class="o">.</span><span class="na">endsWith</span><span class="o">(</span><span class="s">&#34;articles&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_nio2_path/" data-title="Java NIO2 路径 API" data-hashtags="Java IO,Java NIO"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_nio2_path/" data-hashtag="Java IO"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_nio2_path/" data-title="Java NIO2 路径 API"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_nio2_path/" data-title="Java NIO2 路径 API"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_nio2_path/" data-title="Java NIO2 路径 API"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-io/">Java IO</a>,&nbsp;<a href="/tags/java-nio/">Java NIO</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_nio2_file_api/" class="prev" rel="prev" title="Java NIO2 文件 API 简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Java NIO2 文件 API 简介</a>
+            <a href="/java_nio_selector/" class="next" rel="next" title="Java NIO 选择器简介">Java NIO 选择器简介<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

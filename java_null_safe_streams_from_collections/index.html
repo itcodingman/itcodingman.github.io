@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>来自集合的 Java 空安全流 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="来自集合的 Java 空安全流" />
+<meta property="og:description" content="1. 概述 在本教程中，我们将看到如何从 Java 集合创建空安全流。 首先，需要对 Java 8 的方法参考、Lambda 表达式、可选 和流 API 有一定的了解才能完全理解本材" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_null_safe_streams_from_collections/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="来自集合的 Java 空安全流"/>
+<meta name="twitter:description" content="1. 概述 在本教程中，我们将看到如何从 Java 集合创建空安全流。 首先，需要对 Java 8 的方法参考、Lambda 表达式、可选 和流 API 有一定的了解才能完全理解本材"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_null_safe_streams_from_collections/" /><link rel="prev" href="http://itcodingman.github.io/java_nth_root/" /><link rel="next" href="http://itcodingman.github.io/java_nullaway/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "来自集合的 Java 空安全流",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_null_safe_streams_from_collections\/"
+        },"genre": "posts","keywords": "Java Null, Java Streams","wordcount":  1400 ,
+        "url": "http:\/\/itcodingman.github.io\/java_null_safe_streams_from_collections\/","datePublished": "2022-07-18T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">来自集合的 Java 空安全流</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a>&nbsp;<a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-18">2022-07-18</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1400 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
+    <li><a href="#3-从集合创建流"><strong>3. 从集合创建流</strong></a></li>
+    <li><a href="#4-使创建的集合流为空安全"><strong>4. 使创建的集合流为空安全</strong></a>
+      <ul>
+        <li><a href="#41-添加检查以防止空引用"><strong>4.1 添加检查以防止<em>空</em>引用</strong></a></li>
+        <li><a href="#42-使用collectionutils库中的emptyifnull方法"><strong>4.2. 使用<em>CollectionUtils</em>库中的<em>emptyIfNull</em>方法</strong></a></li>
+        <li><a href="#43-使用-java-8-的可选"><strong>4.3. 使用 Java 8 的<em>可选</em></strong></a></li>
+        <li><a href="#44-使用-java-9-的stream--ofnullable">4.4. 使用 Java 9 的<em>Stream</em>  <em>OfNullable</em></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本教程中，我们将看到如何从 Java 集合创建空安全流。</p>
+<p>首先，需要对 Java 8 的方法参考、Lambda 表达式、<em>可选</em> 和流 API 有一定的了解才能完全理解本材料。</p>
+<p>如果您不熟悉这些主题中的任何一个，请先查看我们之前的文章：<a href="java-8-new-features" rel="">Java 8 中的新特性、</a> Java <a href="java-optional" rel="">8 可选指南</a>和<a href="java-8-streams-introduction" rel="">Java 8 流简介</a>。</p>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
+<p>在我们开始之前，我们需要在某些场景下需要一个 Maven 依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-collections4<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>4.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>*<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.apache.commons%22%20AND%20a%3A%22commons-collections4%22" target="_blank" rel="noopener noreffer">commons-collections4</a>*库可以从 Maven Central 下载。</p>
+<h2 id="3-从集合创建流"><strong>3. 从集合创建流</strong></h2>
+<p>从任何类型的<em>Collection</em>创建<a href="java-8-streams-introduction" rel=""><em>Stream</em></a>的基本方法是根据所需的流类型在集合上调用*stream()<em>或</em>parallelStream()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">collection</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;a&#34;</span><span class="o">,</span> <span class="s">&#34;b&#34;</span><span class="o">,</span> <span class="s">&#34;c&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">streamOfCollection</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="na">stream</span><span class="o">();</span>
+</span></span></code></pre></div><p>我们的集合很可能在某个时候有一个外部源，当从集合创建流时，我们可能最终会使用类似于下面的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">collectionAsStream</span><span class="o">(</span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">collection</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">collection</span><span class="o">.</span><span class="na">stream</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这可能会导致一些问题。当提供的集合指向<em>空</em>引用时，代码将在运行时抛出 <em>NullPointerException</em>。</p>
+<p>以下部分介绍了我们如何防止这种情况。</p>
+<h2 id="4-使创建的集合流为空安全"><strong>4. 使创建的集合流为空安全</strong></h2>
+<h3 id="41-添加检查以防止空引用"><strong>4.1 添加检查以防止<em>空</em>引用</strong></h3>
+<p>为了防止意外的<em>空</em>指针异常，我们可以选择在从集合创建流时<strong>添加检查以防止<em>空</em> 引用：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">collectionAsStream</span><span class="o">(</span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">collection</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">collection</span> <span class="o">==</span> <span class="kc">null</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">?</span> <span class="n">Stream</span><span class="o">.</span><span class="na">empty</span><span class="o">()</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">:</span> <span class="n">collection</span><span class="o">.</span><span class="na">stream</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然而，这种方法有几个问题。</p>
+<p>首先，<em>空值</em>检查妨碍了业务逻辑，降低了程序的整体可读性。</p>
+<p>其次，在 Java SE 8 之后，使用<em>null</em>表示值的缺失被认为是错误的方法：有更好的方法来模拟值的缺失和存在。</p>
+<p>请务必记住，空<em>Collection</em>与 <em>null</em>  <em>Collection</em>不同。虽然第一个表示我们的查询没有要显示的结果或元素，但第二个表示在此过程中刚刚发生了一种错误。</p>
+<h3 id="42-使用collectionutils库中的emptyifnull方法"><strong>4.2. 使用<em>CollectionUtils</em>库中的<em>emptyIfNull</em>方法</strong></h3>
+<p>我们可以选择使用 Apache Commons 的<a href="https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/CollectionUtils.html" target="_blank" rel="noopener noreffer"><em>CollectionUtils</em></a>库来确保我们的流是<em>空</em>安全的。这个库提供了一个<em>emptyIfNull</em>方法，它返回一个不可变的空集合，给定一个空集合<em>作为</em>参数，否则返回集合本身：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">collectionAsStream</span><span class="o">(</span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">collection</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">emptyIfNull</span><span class="o">(</span><span class="n">collection</span><span class="o">).</span><span class="na">stream</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是一个非常简单的策略。但是，它依赖于外部库。如果软件开发策略限制使用此类库，则此解决方案<em>无效</em>。</p>
+<h3 id="43-使用-java-8-的可选"><strong>4.3. 使用 Java 8 的<em>可选</em></strong></h3>
+<p>Java SE 8 的<a href="java-optional" rel=""><em>Optional</em></a>是一个单值容器，它要么包含值，要么不包含值。如果缺少值，则称<em>Optional</em>容器为空。</p>
+<p>使用<em>Optional</em>可以说是从流中创建空安全集合的最佳整体策略。</p>
+<p>让我们看看如何使用它，然后在下面进行快速讨论：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">collectionToStream</span><span class="o">(</span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">collection</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="n">collection</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">Collection</span><span class="o">::</span><span class="n">stream</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">orElseGet</span><span class="o">(</span><span class="n">Stream</span><span class="o">::</span><span class="n">empty</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><ul>
+<li>**<em>Optional.ofNullable(collection)<em><em><em>从传入的集合中创建一个</em>Optional对象。<em>如果集合为空，则创建一个空的</em>Optional</em>对象</em>。</em></li>
+<li>**<em>map(Collection::stream)<em><em><em>提取</em>Optional</em>对象中包含的值作为</em>map</em>方法 ( <em>Collection.stream()</em> )</li>
+<li>***orElseGet(Stream::empty)*<em><em><em>在Optional</em>对象为空的情况下返回回退值，即传入的集合为</em>null</em>。</li>
+</ul>
+<p>因此，我们主动保护我们的代码免受意外<em>空</em>指针异常的影响。</p>
+<h3 id="44-使用-java-9-的stream--ofnullable">4.4. 使用 Java 9 的<em>Stream</em>  <em>OfNullable</em></h3>
+<p>在 4.1 节中检查我们之前的三元示例。并且考虑到某些元素可能是<em>null</em>而不是<em>Collection</em>，我们可以使用<em>Stream</em> 类中的<em>ofNullable</em>方法 。</p>
+<p>我们可以将上面的示例转换为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">collectionAsStream</span><span class="o">(</span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">collection</span><span class="o">)</span> <span class="o">{</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">collection</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">flatMap</span><span class="o">(</span><span class="n">s</span> <span class="o">-&gt;</span> <span class="n">Stream</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="n">s</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>5. 结论</strong></p>
+<p>在本文中，我们简要回顾了如何从给定集合创建流。然后，我们继续探索三个关键策略，以确保在从集合创建时创建的流是空安全的。</p>
+<p>最后，我们指出了在相关时使用每种策略的弱点。</p>
+<p>Java底层</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_null_safe_streams_from_collections/" data-title="来自集合的 Java 空安全流" data-hashtags="Java Null,Java Streams"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_null_safe_streams_from_collections/" data-hashtag="Java Null"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_null_safe_streams_from_collections/" data-title="来自集合的 Java 空安全流"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_null_safe_streams_from_collections/" data-title="来自集合的 Java 空安全流"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_null_safe_streams_from_collections/" data-title="来自集合的 Java 空安全流"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-null/">Java Null</a>,&nbsp;<a href="/tags/java-streams/">Java Streams</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_nth_root/" class="prev" rel="prev" title="在 Java 中计算第 n 个根"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>在 Java 中计算第 n 个根</a>
+            <a href="/java_nullaway/" class="next" rel="next" title="使用 NullAway 避免 NullPointerExceptions">使用 NullAway 避免 NullPointerExceptions<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

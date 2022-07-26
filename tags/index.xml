@@ -12,75 +12,75 @@
     <description><![CDATA[]]></description>
 </item>
 <item>
+    <title>Exception</title>
+    <link>http://itcodingman.github.io/tags/exception/</link>
+    <pubDate>Tue, 19 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/tags/exception/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Java Null</title>
+    <link>http://itcodingman.github.io/tags/java-null/</link>
+    <pubDate>Tue, 19 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/tags/java-null/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Java Streams</title>
+    <link>http://itcodingman.github.io/tags/java-streams/</link>
+    <pubDate>Mon, 18 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/tags/java-streams/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Java IO</title>
+    <link>http://itcodingman.github.io/tags/java-io/</link>
+    <pubDate>Tue, 12 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/tags/java-io/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Java NIO</title>
+    <link>http://itcodingman.github.io/tags/java-nio/</link>
+    <pubDate>Tue, 12 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/tags/java-nio/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Metrics</title>
+    <link>http://itcodingman.github.io/tags/metrics/</link>
+    <pubDate>Tue, 28 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/tags/metrics/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Netflix</title>
+    <link>http://itcodingman.github.io/tags/netflix/</link>
+    <pubDate>Mon, 27 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/tags/netflix/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
+    <title>Java 11</title>
+    <link>http://itcodingman.github.io/tags/java-11/</link>
+    <pubDate>Thu, 23 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/tags/java-11/</guid>
+    <description><![CDATA[]]></description>
+</item>
+<item>
     <title>Commons logging</title>
     <link>http://itcodingman.github.io/tags/commons-logging/</link>
     <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
     <guid>http://itcodingman.github.io/tags/commons-logging/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>JCL</title>
-    <link>http://itcodingman.github.io/tags/jcl/</link>
-    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/jcl/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>JUL</title>
-    <link>http://itcodingman.github.io/tags/jul/</link>
-    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/jul/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Log4j</title>
-    <link>http://itcodingman.github.io/tags/log4j/</link>
-    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/log4j/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Log4j2</title>
-    <link>http://itcodingman.github.io/tags/log4j2/</link>
-    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/log4j2/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Logback</title>
-    <link>http://itcodingman.github.io/tags/logback/</link>
-    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/logback/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>Slf4j</title>
-    <link>http://itcodingman.github.io/tags/slf4j/</link>
-    <pubDate>Fri, 03 Jun 2022 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/slf4j/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>EasyOCR</title>
-    <link>http://itcodingman.github.io/tags/easyocr/</link>
-    <pubDate>Fri, 24 Dec 2021 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/easyocr/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>OCR</title>
-    <link>http://itcodingman.github.io/tags/ocr/</link>
-    <pubDate>Fri, 24 Dec 2021 00:00:00 &#43;0000</pubDate>
-    <author>codingman</author>
-    <guid>http://itcodingman.github.io/tags/ocr/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Java中整数中的位数 - Coding Man</title><meta name="Description" content="This is my cool site"><meta property="og:title" content="Java中整数中的位数" />
+<meta property="og:description" content="1. 简介 在这个快速教程中，我们将探索在 Java中获取整数位数的不同方法。 我们还将分析不同的方法，以确定哪种算法最适合每种情况。 2.整数位数 对于" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_number_of_digits_in_int/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java中整数中的位数"/>
+<meta name="twitter:description" content="1. 简介 在这个快速教程中，我们将探索在 Java中获取整数位数的不同方法。 我们还将分析不同的方法，以确定哪种算法最适合每种情况。 2.整数位数 对于"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_number_of_digits_in_int/" /><link rel="prev" href="http://itcodingman.github.io/java_number_format_exception/" /><link rel="next" href="http://itcodingman.github.io/java_object_primitive_type/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Java中整数中的位数",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_number_of_digits_in_int\/"
+        },"genre": "posts","wordcount":  1659 ,
+        "url": "http:\/\/itcodingman.github.io\/java_number_of_digits_in_int\/","datePublished": "2022-07-23T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Java中整数中的位数</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-23">2022-07-23</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1659 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
+    <li><a href="#2整数位数"><strong><em>2.整数</em>位数</strong></a>
+      <ul>
+        <li><a href="#21-基于字符串的解决方案"><strong>2.1 <em>基于字符串</em>的解决方案</strong></a></li>
+        <li><a href="#22-对数法"><strong>2.2. 对数法</strong></a></li>
+        <li><a href="#23-重复乘法"><strong>2.3. 重复乘法</strong></a></li>
+        <li><a href="#24-以二的幂除"><strong>2.4. 以二的幂除</strong></a></li>
+        <li><a href="#25-分而治之"><strong>2.5. 分而治之</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-基准测试"><strong>3. 基准测试</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
+<p>在这个快速教程中，我们将探索在 Java中获取<em><strong>整数</strong></em><strong>位数的不同方法。</strong></p>
+<p>我们还将分析不同的方法，以确定哪种算法最适合每种情况。</p>
+<h2 id="2整数位数"><strong><em>2.整数</em>位数</strong></h2>
+<p>对于这里讨论的方法，我们只考虑正整数。如果我们期望任何负输入，那么我们可以在使用任何这些方法之前先使用<em>Math.abs(number) 。</em></p>
+<h3 id="21-基于字符串的解决方案"><strong>2.1 <em>基于字符串</em>的解决方案</strong></h3>
+<p><em>获取Integer</em>中位数的最简单方法可能是将其转换为<em>String</em>，然后调用*length()*方法。<em>这将返回我们数字的字符串</em>表示的长度：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">number</span><span class="o">).</span><span class="na">length</span><span class="o">();</span>
+</span></span></code></pre></div><p>**但是，这可能是一种次优方法，因为该语句涉及为每个评估分配一个*字符串的内存。**<em>JVM 必须解析我们的数字并将其数字复制到单独的</em>字符串中，*并执行许多其他不同的操作（如保留临时副本、处理 Unicode 转换等）。</p>
+<p>如果我们只有几个数字要评估，那么我们可以使用这个解决方案，因为这种方法与任何其他方法之间的差异可以忽略不计，即使对于大量数字也是如此。</p>
+<h3 id="22-对数法"><strong>2.2. 对数法</strong></h3>
+<p>对于以十进制形式表示的数字，如果我们以 10 为底数取其对数并将其四舍五入，我们将得到该数字的位数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">log10</span><span class="o">(</span><span class="n">number</span><span class="o">)</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>
+</span></span></code></pre></div><p>请注意，未定义任何数字的<em>log 10 0 ，因此如果我们期望任何值为**0</em>的输入，那么我们也可以对其进行检查。</p>
+<p>**对数方法比基于<em>字符串</em>的方法快得多，因为它不需要经过任何数据转换的过程。**它只涉及一个简单、直接的计算，没有任何额外的对象初始化或循环。</p>
+<h3 id="23-重复乘法"><strong>2.3. 重复乘法</strong></h3>
+<p>在这个方法中，我们将取一个临时变量（初始化为 1）并不断地将它乘以 10，直到它变得大于我们的数字。在此过程中，我们还将使用一个<em>长度</em>变量，它将跟踪数字的长度：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="n">temp</span> <span class="o">&lt;=</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">length</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">temp</span> <span class="o">*=</span> <span class="n">10</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="n">length</span><span class="o">;</span>
+</span></span></code></pre></div><p>在此代码中，<em>temp *= 10</em>与编写*temp = (temp &laquo; 3) + (temp &laquo; 1)*相同。由于与移位运算符相比，在某些处理器上乘法通常是一种更昂贵的运算，因此后者可能更有效一些。</p>
+<h3 id="24-以二的幂除"><strong>2.4. 以二的幂除</strong></h3>
+<p>如果我们知道我们的数字的范围，那么我们可以使用一个可以进一步减少我们比较的变体。此方法将数字除以 2 的幂（例如 1、2、4、8 等）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="n">100000000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">length</span> <span class="o">+=</span> <span class="n">8</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">number</span> <span class="o">/=</span> <span class="n">100000000</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="n">10000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">length</span> <span class="o">+=</span> <span class="n">4</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">number</span> <span class="o">/=</span> <span class="n">10000</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="n">100</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">length</span> <span class="o">+=</span> <span class="n">2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">number</span> <span class="o">/=</span> <span class="n">100</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="n">10</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">length</span> <span class="o">+=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="n">length</span><span class="o">;</span>
+</span></span></code></pre></div><p>它利用了任何数字都可以用 2 的幂表示的事实。例如，15 可以表示为 8+4+2+1，它们都是 2 的幂。</p>
+<p>对于 15 位数字，我们将在之前的方法中进行 15 次比较，而在此方法中只有 4 次。</p>
+<h3 id="25-分而治之"><strong>2.5. 分而治之</strong></h3>
+<p>与此处描述的所有其他方法相比，这可能是<strong>最笨重的方法；<strong>但是，它也是</strong>最快</strong>的，因为我们不执行任何类型的转换、乘法、加法或对象初始化。</p>
+<p>我们只需三到四个简单的<em>if</em>语句就可以得到答案：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">100000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">100</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">10</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">1000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">3</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">10000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">4</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">5</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">10000000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">1000000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">6</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">7</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">100000000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">8</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">1000000000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">9</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">10</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>与前面的方法类似，我们只有知道我们的数字的范围才能使用这种方法。</p>
+<h2 id="3-基准测试"><strong>3. 基准测试</strong></h2>
+<p>现在我们对潜在的解决方案有了很好的理解，让我们使用<a href="java-microbenchmark-harness" rel="">Java Microbenchmark Harness (JMH)</a>对我们的方法进行一些简单的基准测试。</p>
+<p>下表显示了每个操作的平均处理时间（以纳秒为单位）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Benchmark                            Mode  Cnt   Score   Error  Units
+</span></span><span class="line"><span class="cl">Benchmarking.stringBasedSolution     avgt  200  32.736 ± 0.589  ns/op
+</span></span><span class="line"><span class="cl">Benchmarking.logarithmicApproach     avgt  200  26.123 ± 0.064  ns/op
+</span></span><span class="line"><span class="cl">Benchmarking.repeatedMultiplication  avgt  200   7.494 ± 0.207  ns/op
+</span></span><span class="line"><span class="cl">Benchmarking.dividingWithPowersOf2   avgt  200   1.264 ± 0.030  ns/op
+</span></span><span class="line"><span class="cl">Benchmarking.divideAndConquer        avgt  200   0.956 ± 0.011  ns/op
+</span></span></code></pre></div><p>基于<em>String</em>的方案是最简单的，也是最昂贵的操作，因为它是唯一需要数据转换和新对象初始化的方案。</p>
+<p>对数方法比以前的解决方案效率更高，因为它不涉及任何数据转换。此外，作为单行解决方案，它可以很好地替代基于<em>字符串</em>的方法。</p>
+<p>重复乘法涉及与数字长度成比例的简单乘法；例如，如果一个数字是 15 位长，那么这个方法将涉及 15 次乘法。</p>
+<p>然而，下一个方法利用了每个数字都可以用 2 的幂表示的事实（类似于 BCD 的方法）。它将相同的方程简化为四个除法运算，因此它比前者更有效。</p>
+<p>最后，正如我们可以推断的那样，**最有效的算法是冗长的分而治之的实现，**它只需三到四个简单的<em>if</em>语句即可提供答案。如果我们有大量需要分析的数字数据集，我们可以使用它。</p>
+<p><strong>4。结论</strong></p>
+<p><em>在这篇简短的文章中，我们概述了一些在整数</em>中查找位数的方法，并比较了每种方法的效率。</p>
+<p>Java底层</p>
+<p>通用页脚横幅</p>
+<p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_number_of_digits_in_int/" data-title="Java中整数中的位数"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_number_of_digits_in_int/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_number_of_digits_in_int/" data-title="Java中整数中的位数"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_number_of_digits_in_int/" data-title="Java中整数中的位数"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_number_of_digits_in_int/" data-title="Java中整数中的位数"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_number_format_exception/" class="prev" rel="prev" title="了解 Java 中的 NumberFormatException"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>了解 Java 中的 NumberFormatException</a>
+            <a href="/java_object_primitive_type/" class="next" rel="next" title="确定对象是否为原始类型">确定对象是否为原始类型<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

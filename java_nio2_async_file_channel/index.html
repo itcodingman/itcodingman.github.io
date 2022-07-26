@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>NIO2 异步文件通道指南 - Coding Man</title><meta name="Description" content="在本文中，我们探讨了 Java NIO2 的异步文件通道 API 的一些最重要的特性。"><meta property="og:title" content="NIO2 异步文件通道指南" />
+<meta property="og:description" content="在本文中，我们探讨了 Java NIO2 的异步文件通道 API 的一些最重要的特性。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_nio2_async_file_channel/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NIO2 异步文件通道指南"/>
+<meta name="twitter:description" content="在本文中，我们探讨了 Java NIO2 的异步文件通道 API 的一些最重要的特性。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_nio2_async_file_channel/" /><link rel="prev" href="http://itcodingman.github.io/java_nio_selector/" /><link rel="next" href="http://itcodingman.github.io/java_nio2_async_socket_channel/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "NIO2 异步文件通道指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_nio2_async_file_channel\/"
+        },"genre": "posts","keywords": "Java IO, Java NIO","wordcount":  2312 ,
+        "url": "http:\/\/itcodingman.github.io\/java_nio2_async_file_channel\/","datePublished": "2022-07-08T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们探讨了 Java NIO2 的异步文件通道 API 的一些最重要的特性。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">NIO2 异步文件通道指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-08">2022-07-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2312 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-asynchronousfilechannel-">**2. <em>AsynchronousFileChannel</em> **</a></li>
+    <li><a href="#3-从文件中读取"><strong>3. 从文件中读取</strong></a>
+      <ul>
+        <li><a href="#31-future的方法"><strong>3.1 Future的方法</strong></a></li>
+        <li><a href="#32-completionhandler方法"><strong>3.2. <em>CompletionHandler</em>方法</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-写入文件"><strong>4. 写入文件</strong></a>
+      <ul>
+        <li><a href="#41-特别注意事项"><strong>4.1 特别注意事项</strong></a></li>
+        <li><a href="#42-future的方法"><strong>4.2. <em>Future</em>的方法</strong></a></li>
+        <li><a href="#43-completionhandler方法"><strong>4.3. <em>CompletionHandler</em>方法</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将探讨 Java 7 中新 I/O (NIO2) 的关键附加 API 之一，即异步文件通道 API。</p>
+<p>如果您是一般异步通道 API 的新手，我们在此站点上有一篇介绍性文章，您可以在继续之前<a href="/java-nio-2-async-channels" rel="">点击此链接阅读该文章。</a></p>
+<p>您还可以阅读更多关于 NIO.2<a href="/java-nio-2-file-api" rel="">文件操作</a>和<a href="/java-nio-2-path" rel="">路径操作</a>的信息——理解这些将使本文更容易理解。</p>
+<p>要在我们的项目中使用 NIO2 异步文件通道，我们必须导入<em>java.nio.channels</em>包，因为它捆绑了所有必需的类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.nio.channels.*</span><span class="o">;</span>
+</span></span></code></pre></div><h2 id="2-asynchronousfilechannel-">**2. <em>AsynchronousFileChannel</em> **</h2>
+<p>在本节中，我们将探讨如何使用使我们能够对文件执行异步操作的主类<em>AsynchronousFileChannel</em>类。要创建它的实例，我们调用静态<em>open</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">filePath</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/path/to/file&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span> <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">filePath</span><span class="o">,</span> <span class="n">READ</span><span class="o">,</span> <span class="n">WRITE</span><span class="o">,</span> <span class="n">CREATE</span><span class="o">,</span> <span class="n">DELETE_ON_CLOSE</span><span class="o">);</span>
+</span></span></code></pre></div><p>所有枚举值都来自<em>StandardOpenOption</em>。</p>
+<p>open API 的第一个参数是表示文件位置的<em>Path</em>对象。要了解有关 NIO2 中路径操作的更多信息，请点击<a href="/java-nio-2-path" rel="">此链接</a>。其他参数组成了一组指定选项，这些选项应该可用于返回的文件通道。</p>
+<p>我们创建的异步文件通道可用于对文件执行所有已知操作。要仅执行操作的子集，我们将仅指定这些操作的选项。例如，只阅读：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">filePath</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/path/to/file&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span> <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">filePath</span><span class="o">,</span> <span class="n">StandardOpenOption</span><span class="o">.</span><span class="na">READ</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="3-从文件中读取"><strong>3. 从文件中读取</strong></h2>
+<p>就像 NIO2 中的所有异步操作一样，读取文件内容可以通过两种方式完成。使用<em>Future</em>和使用<em>CompletionHandler</em>。在每种情况下，我们都使用返回通道的<em>read</em>API。</p>
+<p>在 maven 的测试资源文件夹中或在源目录中，如果不使用 maven，让我们创建一个名为<em>file.txt</em>的文件，其开头只有文本<em>abcdefghijk</em> 。我们现在将演示如何阅读此内容。</p>
+<h3 id="31-future的方法"><strong>3.1 Future的方法</strong></h3>
+<p>首先，我们将看到如何使用<em>Future</em>类异步读取文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenFilePath_whenReadsContentWithFuture_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">URI</span><span class="o">.</span><span class="na">create</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getResource</span><span class="o">(</span><span class="s">&#34;/file.txt&#34;</span><span class="o">).</span><span class="na">toString</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span> <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">path</span><span class="o">,</span> <span class="n">StandardOpenOption</span><span class="o">.</span><span class="na">READ</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">1024</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">operation</span> <span class="o">=</span> <span class="n">fileChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// run other code as operation continues in background
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">operation</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">fileContent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">buffer</span><span class="o">.</span><span class="na">array</span><span class="o">()).</span><span class="na">trim</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">fileContent</span><span class="o">,</span> <span class="s">&#34;abcdefghijk&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上面的代码中，在创建了一个文件通道之后，我们使用了<em>read</em> API——它接受一个<em>ByteBuffer</em>来存储从通道中读取的内容作为它的第一个参数。</p>
+<p>第二个参数是一个 long 指示文件中开始读取的位置。</p>
+<p>无论文件是否已被读取，该方法都会立即返回。</p>
+<p>接下来，我们可以在后台继续操作时执行任何其他代码。当我们执行完其他代码时，我们可以调用<em>get()</em> API，如果我们正在执行其他代码时操作已经完成，它会立即返回，否则它会阻塞直到操作完成。</p>
+<p>我们的断言确实证明文件中的内容已被读取。</p>
+<p>如果我们将<em>read</em>API 调用中的位置参数从零更改为其他值，我们也会看到效果。例如，字符串<em>abcdefghijk</em>中的第七个字符是<em>g</em>。因此，将 position 参数更改为 7 会导致缓冲区包含字符串<em>ghijk</em>。</p>
+<h3 id="32-completionhandler方法"><strong>3.2. <em>CompletionHandler</em>方法</strong></h3>
+<p>接下来，我们将看到如何使用<em>CompletionHandler</em>实例读取文件的内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">givenPath_whenReadsContentWithCompletionHandler_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">URI</span><span class="o">.</span><span class="na">create</span><span class="o">(</span> <span class="k">this</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getResource</span><span class="o">(</span><span class="s">&#34;/file.txt&#34;</span><span class="o">).</span><span class="na">toString</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="n">path</span><span class="o">,</span> <span class="n">StandardOpenOption</span><span class="o">.</span><span class="na">READ</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">1024</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">fileChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">buffer</span><span class="o">,</span> <span class="k">new</span> <span class="n">CompletionHandler</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">ByteBuffer</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">completed</span><span class="o">(</span><span class="n">Integer</span> <span class="n">result</span><span class="o">,</span> <span class="n">ByteBuffer</span> <span class="n">attachment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// result is number of bytes read
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// attachment is the buffer containing content
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">failed</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">exc</span><span class="o">,</span> <span class="n">ByteBuffer</span> <span class="n">attachment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">});</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上面的代码中，我们使用了<em>读取</em>API 的第二个变体。它仍然将<em>ByteBuffer</em>和<em>读取</em>操作的开始位置分别作为第一个和第二个参数。第三个参数是<em>CompletionHandler</em>实例。</p>
+<p>完成处理程序的第一个通用类型是操作的返回类型，在这种情况下，一个表示读取的字节数的整数。</p>
+<p>第二个是附件的类型。我们选择附加缓冲区，这样当<em>读取</em>完成时，我们可以在<em>完成</em>的回调 API 中使用文件的内容。</p>
+<p>从语义上讲，这不是一个真正有效的单元测试，因为我们不能在<em>完成</em>的回调方法中进行断言。然而，我们这样做是为了保持一致性，并且因为我们希望我们的代码尽可能地<em>复制粘贴运行</em>。</p>
+<h2 id="4-写入文件"><strong>4. 写入文件</strong></h2>
+<p>Java NIO2 还允许我们对文件执行写操作。正如我们对其他操作所做的那样，我们可以通过两种方式写入文件。使用<em>Future</em>和使用<em>CompletionHandler</em>。在每种情况下，我们都使用返回通道的<em>写入</em>API。</p>
+<p>可以像这样创建用于写入文件的<em>AsynchronousFileChannel ：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span>
+</span></span><span class="line"><span class="cl">  <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="n">path</span><span class="o">,</span> <span class="n">StandardOpenOption</span><span class="o">.</span><span class="na">WRITE</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="41-特别注意事项"><strong>4.1 特别注意事项</strong></h3>
+<p>注意传递给<em>open</em>API 的选项。如果我们希望创建由<em>路径</em>表示的文件以防它尚不存在，我们还可以添加另一个选项<em>StandardOpenOption.CREATE 。<em>另一个常见选项是</em>StandardOpenOption.APPEND</em>，它不会覆盖文件中的现有内容。</p>
+<p>我们将使用以下行来创建我们的文件通道用于测试目的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span> <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">path</span><span class="o">,</span> <span class="n">WRITE</span><span class="o">,</span> <span class="n">CREATE</span><span class="o">,</span> <span class="n">DELETE_ON_CLOSE</span><span class="o">);</span>
+</span></span></code></pre></div><p>这样，我们将提供任意路径并确保创建文件。测试退出后，创建的文件将被删除。为确保创建的文件在测试退出后不被删除，您可以删除最后一个选项。</p>
+<p>要运行断言，我们需要在写入文件后尽可能读取文件内容。让我们将读取的逻辑隐藏在一个单独的方法中以避免冗余：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">readContent</span><span class="o">(</span><span class="n">Path</span> <span class="n">file</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span> <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">file</span><span class="o">,</span> <span class="n">StandardOpenOption</span><span class="o">.</span><span class="na">READ</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">1024</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">operation</span> <span class="o">=</span> <span class="n">fileChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// run other code as operation continues in background
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">operation</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>     
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">fileContent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">buffer</span><span class="o">.</span><span class="na">array</span><span class="o">()).</span><span class="na">trim</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">fileContent</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="42-future的方法"><strong>4.2. <em>Future</em>的方法</strong></h3>
+<p>使用<em>Future</em>类异步写入文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">givenPathAndContent_whenWritesToFileWithFuture_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fileName</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span> <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">path</span><span class="o">,</span> <span class="n">WRITE</span><span class="o">,</span> <span class="n">CREATE</span><span class="o">,</span> <span class="n">DELETE_ON_CLOSE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">1024</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;hello world&#34;</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="o">.</span><span class="na">flip</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">operation</span> <span class="o">=</span> <span class="n">fileChannel</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//run other code as operation continues in background
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">operation</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">content</span> <span class="o">=</span> <span class="n">readContent</span><span class="o">(</span><span class="n">path</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;hello world&#34;</span><span class="o">,</span> <span class="n">content</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们检查一下上面代码中发生了什么。我们创建一个随机文件名并使用它来获取一个<em>Path</em>对象。我们使用此路径打开带有前面提到的选项的异步文件通道。</p>
+<p>然后，我们将要写入文件的内容放入缓冲区并执行<em>write</em>。我们使用我们的辅助方法来读取文件的内容，并确实确认它是我们所期望的。</p>
+<h3 id="43-completionhandler方法"><strong>4.3. <em>CompletionHandler</em>方法</strong></h3>
+<p>我们还可以使用完成处理程序，这样我们就不必在 while 循环中等待操作完成：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> 
+</span></span><span class="line"><span class="cl">  <span class="nf">givenPathAndContent_whenWritesToFileWithHandler_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Path</span> <span class="n">path</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">fileName</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span> <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">path</span><span class="o">,</span> <span class="n">WRITE</span><span class="o">,</span> <span class="n">CREATE</span><span class="o">,</span> <span class="n">DELETE_ON_CLOSE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ByteBuffer</span> <span class="n">buffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="n">1024</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;hello world&#34;</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buffer</span><span class="o">.</span><span class="na">flip</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">fileChannel</span><span class="o">.</span><span class="na">write</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">buffer</span><span class="o">,</span> <span class="n">0</span><span class="o">,</span> <span class="n">buffer</span><span class="o">,</span> <span class="k">new</span> <span class="n">CompletionHandler</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">ByteBuffer</span><span class="o">&gt;()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">completed</span><span class="o">(</span><span class="n">Integer</span> <span class="n">result</span><span class="o">,</span> <span class="n">ByteBuffer</span> <span class="n">attachment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// result is number of bytes written
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="c1">// attachment is the buffer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">failed</span><span class="o">(</span><span class="n">Throwable</span> <span class="n">exc</span><span class="o">,</span> <span class="n">ByteBuffer</span> <span class="n">attachment</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">});</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这次我们调用 <em>write</em> API 时，唯一的新东西是第三个参数，我们在其中传递了<em>CompletionHandler</em>类型的匿名内部类。</p>
+<p>当操作完成时，类调用它的完成方法，我们可以在其中定义应该发生的事情。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_nio2_async_file_channel/" data-title="NIO2 异步文件通道指南" data-hashtags="Java IO,Java NIO"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_nio2_async_file_channel/" data-hashtag="Java IO"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_nio2_async_file_channel/" data-title="NIO2 异步文件通道指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_nio2_async_file_channel/" data-title="NIO2 异步文件通道指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_nio2_async_file_channel/" data-title="NIO2 异步文件通道指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-io/">Java IO</a>,&nbsp;<a href="/tags/java-nio/">Java NIO</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_nio_selector/" class="prev" rel="prev" title="Java NIO 选择器简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Java NIO 选择器简介</a>
+            <a href="/java_nio2_async_socket_channel/" class="next" rel="next" title="NIO2 异步套接字通道指南">NIO2 异步套接字通道指南<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

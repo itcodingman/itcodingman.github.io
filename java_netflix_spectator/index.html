@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Netflix 观众指南 - Coding Man</title><meta name="Description" content="在本文中，我们介绍了 Spectator，它是 Netflix 的一个用于度量度量的库。此外，我们还研究了其各种有源和无源仪表的使用情况。我们可以将检测数据推送并发布到时间序列数据库Atlas。"><meta property="og:title" content="Netflix 观众指南" />
+<meta property="og:description" content="在本文中，我们介绍了 Spectator，它是 Netflix 的一个用于度量度量的库。此外，我们还研究了其各种有源和无源仪表的使用情况。我们可以将检测数据推送并发布到时间序列数据库Atlas。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_netflix_spectator/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-26T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Netflix 观众指南"/>
+<meta name="twitter:description" content="在本文中，我们介绍了 Spectator，它是 Netflix 的一个用于度量度量的库。此外，我们还研究了其各种有源和无源仪表的使用情况。我们可以将检测数据推送并发布到时间序列数据库Atlas。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_netflix_spectator/" /><link rel="prev" href="http://itcodingman.github.io/java_netflix_mantis/" /><link rel="next" href="http://itcodingman.github.io/java_network_interfaces/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Netflix 观众指南",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_netflix_spectator\/"
+        },"genre": "posts","keywords": "Metrics","wordcount":  1916 ,
+        "url": "http:\/\/itcodingman.github.io\/java_netflix_spectator\/","datePublished": "2022-06-28T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们介绍了 Spectator，它是 Netflix 的一个用于度量度量的库。此外，我们还研究了其各种有源和无源仪表的使用情况。我们可以将检测数据推送并发布到时间序列数据库Atlas。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Netflix 观众指南</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-28">2022-06-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1916 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-maven依赖">2. Maven依赖</a></li>
+    <li><a href="#3-registrymeter和-metrics的基础知识">3. <em>Registry</em>、<em>Meter</em>和 Metrics的基础知识</a></li>
+    <li><a href="#4-registry">4. <em>Registry</em></a></li>
+    <li><a href="#5-meters">5. <em>Meters</em></a>
+      <ul>
+        <li><a href="#51-active-meters">5.1 Active Meters</a></li>
+        <li><a href="#52-passive-meters">5.2. Passive Meters</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-counter">6. <em>Counter</em></a></li>
+    <li><a href="#7-计时器">7. 计时器</a>
+      <ul>
+        <li><a href="#71-timer">7.1 <em>Timer</em></a></li>
+        <li><a href="#72-longtasktimer">7.2. <em>LongTaskTimer</em></a></li>
+      </ul>
+    </li>
+    <li><a href="#8-gauges">8. Gauges</a>
+      <ul>
+        <li><a href="#81-polled-gauges">8.1 Polled Gauges</a></li>
+        <li><a href="#82-active-gauges">8.2. Active Gauges</a></li>
+      </ul>
+    </li>
+    <li><a href="#9-distributionsummary">9. <em>DistributionSummary</em></a></li>
+    <li><a href="#10-spectator-vs-servo-vs-micrometer">10. Spectator vs. Servo vs. Micrometer</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>**<a href="https://github.com/Netflix/spectator" target="_blank" rel="noopener noreffer">Spectator</a>是一个用于检测代码和为维度时间序列后端系统收集数据的库。**Spectator 起源于 Netflix，用于各种指标收集，与之配套使用的后端系统主要是<a href="https://github.com/Netflix/atlas" target="_blank" rel="noopener noreffer">Atlas</a>。</p>
+<p>在本教程中，我们将了解 Spectator 提供的内容以及我们如何使用它来收集指标。</p>
+<h2 id="2-maven依赖">2. Maven依赖</h2>
+<p>在我们深入实际实现之前，让我们将<a href="https://search.maven.org/artifact/com.netflix.spectator/spectator-api" target="_blank" rel="noopener noreffer">Spectator</a>依赖添加到 <em>pom.xml</em> 文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>com.netflix.spectator<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>spectator-api<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.0.11<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p><em>spectator-api</em>是核心的观众库。</p>
+<h2 id="3-registrymeter和-metrics的基础知识">3. <em>Registry</em>、<em>Meter</em>和 Metrics的基础知识</h2>
+<p>在我们开始深入研究这个库之前，我们应该首先了解<em>Registry、Meter</em>和 Metrics的基础知识*。*</p>
+<ul>
+<li><a href="https://www.javadoc.io/doc/com.netflix.spectator/spectator-api/0.70.2/com/netflix/spectator/api/Registry.html" target="_blank" rel="noopener noreffer"><em>Registry</em></a>是我们维护一组仪表的地方</li>
+<li><a href="https://www.javadoc.io/static/com.netflix.spectator/spectator-api/0.38.1/com/netflix/spectator/api/Meter.html" target="_blank" rel="noopener noreffer"><em>Meter</em></a>用于收集有关我们应用程序的一组测量值，例如<em>Counter、Timer、Gauge</em>等。</li>
+<li><em>指标是我们在仪表</em>上显示的单个测量值，例如计数、持续时间、最大值、平均值等。</li>
+</ul>
+<p>让我们进一步探索这些并了解它们在 Spectator 库中的使用方式。</p>
+<h2 id="4-registry">4. <em>Registry</em></h2>
+<p>Spectator 库带有<em>Registry</em>作为接口，并带有一些内置实现，例如<em>DefaultRegistry 和</em> <em>NoopRegistry</em>。我们还可以根据我们的要求创建自定义<em>注册表实现。</em></p>
+<p><em>注册表</em>实现可以如下使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Registry</span> <span class="n">registry</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultRegistry</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="5-meters">5. <em>Meters</em></h2>
+<p>** <em>仪表</em>主要有两种类型，即主动式和被动式。**</p>
+<h3 id="51-active-meters">5.1 Active Meters</h3>
+<p>这些仪表用于测量某些事件的发生。我们有三种类型的仪表：</p>
+<ul>
+<li><a href="https://www.javadoc.io/static/com.netflix.spectator/spectator-api/0.38.1/com/netflix/spectator/api/Counter.html" target="_blank" rel="noopener noreffer"><em>Counter</em></a></li>
+<li>计时器</li>
+<li><a href="https://www.javadoc.io/static/com.netflix.spectator/spectator-api/0.38.1/com/netflix/spectator/api/DistributionSummary.html" target="_blank" rel="noopener noreffer"><em>DistributionSummary</em></a></li>
+</ul>
+<h3 id="52-passive-meters">5.2. Passive Meters</h3>
+<p>这些计量器用于在需要时获取指标的值。例如，运行线程的数量可能是我们想要衡量的指标。我们只有一种此类仪表，即<em>Gauge。</em></p>
+<p>接下来，让我们详细探索这些不同类型的仪表。</p>
+<h2 id="6-counter">6. <em>Counter</em></h2>
+<p>这些仪表测量事件发生的速率。例如，假设我们想要测量从列表中插入或删除元素的速率。</p>
+<p>让我们首先在初始化时向<em>Registry</em>对象注册一个计数器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">insertCounter</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="na">counter</span><span class="o">(</span><span class="s">&#34;list.insert.count&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">removeCounter</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="na">counter</span><span class="o">(</span><span class="s">&#34;list.remove.count&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们可以允许用户使用依赖注入的任何<em>注册表实现。</em></p>
+<p>现在，我们可以分别递增或递减<em>计数器</em>计量器以添加到列表或从列表中删除：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">requestList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">element</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">insertCounter</span><span class="o">.</span><span class="na">increment</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">requestList</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">removeCounter</span><span class="o">.</span><span class="na">increment</span><span class="o">();</span>
+</span></span></code></pre></div><p>这样，我们就可以生成两个meter，然后，我们可以将metrics推送到<em>Atlas</em>进行可视化。</p>
+<h2 id="7-计时器">7. 计时器</h2>
+<p>这些仪表测量在某些事件上花费的时间。Spectator 支持两种类型的计时器：</p>
+<ul>
+<li><a href="https://www.javadoc.io/static/com.netflix.spectator/spectator-api/0.38.1/com/netflix/spectator/api/Timer.html" target="_blank" rel="noopener noreffer"><em>定时器</em></a></li>
+<li><a href="https://www.javadoc.io/static/com.netflix.spectator/spectator-api/0.38.1/com/netflix/spectator/api/LongTaskTimer.html" target="_blank" rel="noopener noreffer"><em>长任务定时器</em></a></li>
+</ul>
+<h3 id="71-timer">7.1 <em>Timer</em></h3>
+<p>这些定时器主要用于测量短期事件。因此，他们通常衡量事件完成后所花费的时间。</p>
+<p>首先，我们需要在<em>Registry</em>中注册这个仪表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">requestLatency</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="na">timer</span><span class="o">(</span><span class="s">&#34;app.request.latency&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>接下来，我们可以调用*Timer的**record()*方法来测量处理请求所花费的时间：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">requestLatency</span><span class="o">.</span><span class="na">record</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">handleRequest</span><span class="o">(</span><span class="n">input</span><span class="o">));</span>
+</span></span></code></pre></div><h3 id="72-longtasktimer">7.2. <em>LongTaskTimer</em></h3>
+<p>这些计时器主要用于测量长时间运行的任务的持续时间。因此，即使事件正在进行中，我们也可以查询这些计时器。这也是<em>量规的一种。</em> 当事件正在进行时，我们可以看到 <em>持续时间</em> 和<em>activeTasks等指标。</em></p>
+<p>同样，作为第一步，我们需要注册这个仪表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">refreshDuration</span> <span class="o">=</span> <span class="n">LongTaskTimer</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">registry</span><span class="o">,</span> <span class="n">registry</span><span class="o">.</span><span class="na">createId</span><span class="o">(</span><span class="s">&#34;metadata.refreshDuration&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><p>接下来，我们可以使用<em>LongTaskTimer</em>来启动和停止长时间运行任务的测量：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">taskId</span> <span class="o">=</span> <span class="n">refreshDuration</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">try</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="s">&#34;Done&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">throw</span> <span class="n">e</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">refreshDuration</span><span class="o">.</span><span class="na">stop</span><span class="o">(</span><span class="n">taskId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="8-gauges">8. Gauges</h2>
+<p>正如我们之前讨论的，仪表是无源仪表。因此，这些给出了一个在任何时间点为正在运行的任务采样的值。因此，例如，如果我们想知道 JVM 中正在运行的线程数或任何时间点的堆内存使用情况，我们会使用它。</p>
+<p>我们有两种类型的仪表：</p>
+<ul>
+<li>Polled Gauges</li>
+<li>Active Gauges</li>
+</ul>
+<h3 id="81-polled-gauges">8.1 Polled Gauges</h3>
+<p>这种类型的仪表在后台轮询正在运行的任务的值。它在它监视的任务上创建一个钩子。因此，无需更新此仪表中的值。</p>
+<p>现在，让我们看看如何使用这个量规来监控<em>List</em>的大小：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PolledMeter</span><span class="o">.</span><span class="na">using</span><span class="o">(</span><span class="n">registry</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">withName</span><span class="o">(</span><span class="s">&#34;list.size&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">monitorValue</span><span class="o">(</span><span class="n">listSize</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，  <em>PolledMeter</em>是允许 使用*monitorValue()<em>方法对</em>listSize进行后台轮询的类。*此外，<em>listSize</em> 是跟踪样本列表大小的变量。</p>
+<h3 id="82-active-gauges">8.2. Active Gauges</h3>
+<p>这种类型的仪表需要定期手动更新与监控任务更新相关的值。这是使用主动仪表的示例*：*</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">gauge</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="na">gauge</span><span class="o">(</span><span class="s">&#34;list.size&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p><em>我们首先在Registry</em>中注册这个仪表。然后，我们在列表中添加或删除元素时手动更新它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">element</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">gauge</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">listSize</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">list</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">gauge</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">listSize</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="9-distributionsummary">9. <em>DistributionSummary</em></h2>
+<p>现在，我们将研究另一个称为<em>DistributionSummary 的仪表。<em>它跟踪事件的分布。该仪表可以测量请求有效负载的大小。例如，我们将使用</em>DistributionSummary</em>来衡量请求的大小。</p>
+<p><em>首先，和往常一样，我们在Registry</em>中注册这个仪表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">distributionSummary</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="na">distributionSummary</span><span class="o">(</span><span class="s">&#34;app.request.size&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>现在，我们可以使用类似于<em>Timer</em>的仪表来记录请求的大小：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">distributionSummary</span><span class="o">.</span><span class="na">record</span><span class="o">((</span><span class="kt">long</span><span class="o">)</span> <span class="n">input</span><span class="o">.</span><span class="na">length</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">handleRequest</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="10-spectator-vs-servo-vs-micrometer">10. Spectator vs. Servo vs. Micrometer</h2>
+<p><a href="/netflix-servo" rel="">Servo</a>也是一个衡量不同代码指标的库。Spectator 是 Netflix 打造的 Servo 的继任者。Spectator 最初是为 Java 8 推出的，从未来支持的角度来看，它是一个更好的选择。</p>
+<p>这些 Netflix 库是市场上用于衡量不同指标的各种选项之一。我们总是可以单独使用它们，或者我们可以使用像<a href="/micrometer" rel="">Micrometer</a>这样的外观。Micrometer 让用户可以轻松地在不同的度量标准测量库之间切换。因此，它还允许选择不同的后端监控系统。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-26</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_netflix_spectator/" data-title="Netflix 观众指南" data-hashtags="Metrics"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_netflix_spectator/" data-hashtag="Metrics"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_netflix_spectator/" data-title="Netflix 观众指南"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_netflix_spectator/" data-title="Netflix 观众指南"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_netflix_spectator/" data-title="Netflix 观众指南"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/metrics/">Metrics</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_netflix_mantis/" class="prev" rel="prev" title="Netflix 螳螂简介"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Netflix 螳螂简介</a>
+            <a href="/java_network_interfaces/" class="next" rel="next" title="在 Java 中使用网络接口">在 Java 中使用网络接口<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

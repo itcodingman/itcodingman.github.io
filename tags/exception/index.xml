@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Exception - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/exception/</link>
+        <description>Exception - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 19 Jul 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/exception/" rel="self" type="application/rss+xml" /><item>
+    <title>使用 NullAway 避免 NullPointerExceptions</title>
+    <link>http://itcodingman.github.io/java_nullaway/</link>
+    <pubDate>Tue, 19 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_nullaway/</guid>
+    <description><![CDATA[1. 概述 多年来，我们一直在采取多种策略，从 Elvis 运算符到*Optional，以帮助从我们的应用程序中删除NullPointerException 。]]></description>
+</item>
+<item>
+    <title>在 Java 中创建自定义异常</title>
+    <link>http://itcodingman.github.io/java_new_custom_exception/</link>
+    <pubDate>Fri, 01 Jul 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_new_custom_exception/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将介绍如何在 Java 中创建自定义异常。 我们将展示如何实现用户定义的异常并将其用于已检查和未检查的异常。 2. 自定义例外的需要 Java 异]]></description>
+</item>
+</channel>
+</rss>
