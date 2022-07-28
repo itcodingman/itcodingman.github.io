@@ -4,7 +4,7 @@
         <link>http://itcodingman.github.io/categories/reactive/</link>
         <description>Reactive - Category - Coding Man</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 07 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/reactive/" rel="self" type="application/rss+xml" /><item>
-    <title></title>
+    <title>如何将 Mono&lt;List&lt;T&gt;&gt; 转换为 Flux&lt;T&gt;</title>
     <link>http://itcodingman.github.io/java_mono_list_to_flux/</link>
     <pubDate>Tue, 07 Jun 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -12,7 +12,7 @@
     <description><![CDATA[1. 概述 有时在反应式编程中，我们可能有一个发布大量项目的发布者。在某些情况下，此发布者的消费者可能无法一次性处理所有项目。因此，我们可能需要异]]></description>
 </item>
 <item>
-    <title></title>
+    <title>Mono.defer() 做什么？</title>
     <link>http://itcodingman.github.io/java_mono_defer/</link>
     <pubDate>Mon, 06 Jun 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>

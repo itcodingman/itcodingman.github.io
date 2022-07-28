@@ -12,7 +12,7 @@
     <description><![CDATA[1. 概述 在本教程中，我们将看到如何从 Java 集合创建空安全流。 首先，需要对 Java 8 的方法参考、Lambda 表达式、可选 和流 API 有一定的了解才能完全理解本材]]></description>
 </item>
 <item>
-    <title></title>
+    <title>Java中的多维数组列表</title>
     <link>http://itcodingman.github.io/java_multi_dimensional_arraylist/</link>
     <pubDate>Sat, 11 Jun 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -20,7 +20,7 @@
     <description><![CDATA[1. 概述 创建多维ArrayList经常出现在编程过程中。在许多情况下，需要创建二维ArrayList或三维ArrayList。 在本教程中，我们]]></description>
 </item>
 <item>
-    <title></title>
+    <title>使用 ModelMapper 映射列表</title>
     <link>http://itcodingman.github.io/java_modelmapper_lists/</link>
     <pubDate>Thu, 26 May 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -28,7 +28,7 @@
     <description><![CDATA[1. 概述 在本教程中，我们将解释如何使用ModelMapper框架映射不同元素类型的列表。这涉及使用 Java 中的泛型类型作为将不同类型的数据从一个列表]]></description>
 </item>
 <item>
-    <title></title>
+    <title>使用 Java 8 合并两个地图</title>
     <link>http://itcodingman.github.io/java_merge_maps/</link>
     <pubDate>Sun, 01 May 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -36,7 +36,7 @@
     <description><![CDATA[1. 简介 在本快速教程中，我们将演示如何使用 Java 8 功能合并两个地图。 更具体地说，我们将检查不同的合并场景，包括具有重复条目的地图。 2. 初始化 首先，让]]></description>
 </item>
 <item>
-    <title></title>
+    <title>使用流处理地图</title>
     <link>http://itcodingman.github.io/java_maps_streams/</link>
     <pubDate>Sat, 16 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -44,7 +44,7 @@
     <description><![CDATA[1. 简介 在本教程中，我们将讨论如何使用 Java Stream与 Map一起工作的一些示例。值得注意的是，其中一些练习可以使用双向Map数据结构来解决，但]]></description>
 </item>
 <item>
-    <title></title>
+    <title>具有不区分大小写键的 Java 映射</title>
     <link>http://itcodingman.github.io/java_map_with_case_insensitive_keys/</link>
     <pubDate>Wed, 13 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -52,7 +52,7 @@
     <description><![CDATA[1. 概述 Map是 Java 中最常见的数据结构之一，而String是最常见的 map 键类型之一。默认情况下，此类映射具有区分大小写的键。 在这个简短的教程中，我]]></description>
 </item>
 <item>
-    <title></title>
+    <title>Java中Map和HashMap的区别</title>
     <link>http://itcodingman.github.io/java_map_vs_hashmap/</link>
     <pubDate>Tue, 12 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -60,7 +60,7 @@
     <description><![CDATA[1. 概述 Map和 HashMap的区别在于第一个是接口，第二个是实现。但是，在本文中，我们将深入挖掘并解释接口为何有用。此外，我们将学习如何使用]]></description>
 </item>
 <item>
-    <title></title>
+    <title>Java中的基元映射</title>
     <link>http://itcodingman.github.io/java_map_primitives/</link>
     <pubDate>Sun, 10 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -68,7 +68,7 @@
     <description><![CDATA[1. 概述 在本教程中，我们将学习如何使用原始键和值构建映射。 众所周知，核心 Java Map不允许存储原始键或值。这就是为什么我们将介绍一些提供原始地图实]]></description>
 </item>
 <item>
-    <title></title>
+    <title>如何在地图中创建新条目</title>
     <link>http://itcodingman.github.io/java_map_new_entry/</link>
     <pubDate>Sat, 09 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -76,7 +76,7 @@
     <description><![CDATA[1. 概述 在本教程中，我们将讨论如何使用 Java 的内置类、第三方库和我们的自定义实现来创建一个表示Map中键值关联的Entry对象。 2.使用Java内]]></description>
 </item>
 <item>
-    <title></title>
+    <title>从 Java 映射中获取值的键</title>
     <link>http://itcodingman.github.io/java_map_key_from_value/</link>
     <pubDate>Fri, 08 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>

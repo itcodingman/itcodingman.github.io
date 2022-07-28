@@ -12,7 +12,7 @@
     <description><![CDATA[1. 概述 在本教程中，我们将看到如何从 Java 集合创建空安全流。 首先，需要对 Java 8 的方法参考、Lambda 表达式、可选 和流 API 有一定的了解才能完全理解本材]]></description>
 </item>
 <item>
-    <title></title>
+    <title>在 Java 中合并流</title>
     <link>http://itcodingman.github.io/java_merge_streams/</link>
     <pubDate>Thu, 05 May 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -20,7 +20,7 @@
     <description><![CDATA[1. 概述 在这篇快速文章中，我们解释了合并 Java Streams的不同方法——这不是一个非常直观的操作。 2. 使用纯 Java JDK 8 Stream类有一些有用的静态实]]></description>
 </item>
 <item>
-    <title></title>
+    <title>使用流处理地图</title>
     <link>http://itcodingman.github.io/java_maps_streams/</link>
     <pubDate>Sat, 16 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -28,7 +28,7 @@
     <description><![CDATA[1. 简介 在本教程中，我们将讨论如何使用 Java Stream与 Map一起工作的一些示例。值得注意的是，其中一些练习可以使用双向Map数据结构来解决，但]]></description>
 </item>
 <item>
-    <title></title>
+    <title>Stream API 中的 mapMulti 指南</title>
     <link>http://itcodingman.github.io/java_mapmulti/</link>
     <pubDate>Thu, 14 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>

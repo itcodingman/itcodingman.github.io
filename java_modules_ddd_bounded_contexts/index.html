@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title> - Coding Man</title><meta name="Description" content="在本文中，我们讨论了一些关键的 DDD 概念：限界上下文、无处不在的语言和上下文映射。虽然将系统划分为限界上下文有很多好处，但同时也没有必要在任何地方都应用这种方法。接下来，我们看到了如何使用 Java 9 模块系统和限界上下文来创建强封装的模块。此外，我们还介绍了用于发现依赖项的默认ServiceLoader机制。"><meta property="og:title" content="" />
+        <title>DDD 有界上下文和 Java 模块 - Coding Man</title><meta name="Description" content="在本文中，我们讨论了一些关键的 DDD 概念：限界上下文、无处不在的语言和上下文映射。虽然将系统划分为限界上下文有很多好处，但同时也没有必要在任何地方都应用这种方法。接下来，我们看到了如何使用 Java 9 模块系统和限界上下文来创建强封装的模块。此外，我们还介绍了用于发现依赖项的默认ServiceLoader机制。"><meta property="og:title" content="DDD 有界上下文和 Java 模块" />
 <meta property="og:description" content="在本文中，我们讨论了一些关键的 DDD 概念：限界上下文、无处不在的语言和上下文映射。虽然将系统划分为限界上下文有很多好处，但同时也没有必要在任何地方都应用这种方法。接下来，我们看到了如何使用 Java 9 模块系统和限界上下文来创建强封装的模块。此外，我们还介绍了用于发现依赖项的默认ServiceLoader机制。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" /><meta property="article:section" content="posts" />
@@ -12,19 +12,19 @@
 <meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta name="twitter:title" content="DDD 有界上下文和 Java 模块"/>
 <meta name="twitter:description" content="在本文中，我们讨论了一些关键的 DDD 概念：限界上下文、无处不在的语言和上下文映射。虽然将系统划分为限界上下文有很多好处，但同时也没有必要在任何地方都应用这种方法。接下来，我们看到了如何使用 Java 9 模块系统和限界上下文来创建强封装的模块。此外，我们还介绍了用于发现依赖项的默认ServiceLoader机制。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" /><link rel="prev" href="http://itcodingman.github.io/java_modify_xml_attribute/" /><link rel="next" href="http://itcodingman.github.io/java_modules_decoupling_design_strategies/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" /><link rel="prev" href="http://itcodingman.github.io/conda_install_introduce/" /><link rel="next" href="http://itcodingman.github.io/java_modules_decoupling_design_strategies/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "",
+        "headline": "DDD 有界上下文和 Java 模块",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -105,7 +105,7 @@
                     <div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">DDD 有界上下文和 Java 模块</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/architecture/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Architecture</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-28">2022-05-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4717 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;10 minutes&nbsp;</div>
@@ -615,7 +615,7 @@
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title="" data-hashtags="DDD,Java 9"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-hashtag="DDD"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title="DDD 有界上下文和 Java 模块" data-hashtags="DDD,Java 9"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-hashtag="DDD"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title="DDD 有界上下文和 Java 模块"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title="DDD 有界上下文和 Java 模块"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title="DDD 有界上下文和 Java 模块"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -627,8 +627,8 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/java_modify_xml_attribute/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
-            <a href="/java_modules_decoupling_design_strategies/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/conda_install_introduce/" class="prev" rel="prev" title="conda的安装和使用、国内源、常用命令"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>conda的安装和使用、国内源、常用命令</a>
+            <a href="/java_modules_decoupling_design_strategies/" class="next" rel="next" title="解耦 Java 模块的设计策略">解耦 Java 模块的设计策略<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

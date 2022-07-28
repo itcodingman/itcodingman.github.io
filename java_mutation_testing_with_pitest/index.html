@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title> - Coding Man</title><meta name="Description" content="请注意，代码覆盖率仍然是一个重要指标，但有时不足以保证代码经过良好测试。因此，在本文中，我们使用PITest 库将突变测试作为一种更复杂的方法来确保测试质量和认可测试用例。我们还看到了如何在提高变异覆盖率分数的同时分析基本的 PITest 报告。即使变异测试揭示了代码中的缺陷，也应该明智地使用它，因为它是一个极其昂贵和耗时的过程。"><meta property="og:title" content="" />
+        <title>使用 PITest 进行突变测试 - Coding Man</title><meta name="Description" content="请注意，代码覆盖率仍然是一个重要指标，但有时不足以保证代码经过良好测试。因此，在本文中，我们使用PITest 库将突变测试作为一种更复杂的方法来确保测试质量和认可测试用例。我们还看到了如何在提高变异覆盖率分数的同时分析基本的 PITest 报告。即使变异测试揭示了代码中的缺陷，也应该明智地使用它，因为它是一个极其昂贵和耗时的过程。"><meta property="og:title" content="使用 PITest 进行突变测试" />
 <meta property="og:description" content="请注意，代码覆盖率仍然是一个重要指标，但有时不足以保证代码经过良好测试。因此，在本文中，我们使用PITest 库将突变测试作为一种更复杂的方法来确保测试质量和认可测试用例。我们还看到了如何在提高变异覆盖率分数的同时分析基本的 PITest 报告。即使变异测试揭示了代码中的缺陷，也应该明智地使用它，因为它是一个极其昂贵和耗时的过程。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/java_mutation_testing_with_pitest/" /><meta property="article:section" content="posts" />
@@ -12,19 +12,19 @@
 <meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta name="twitter:title" content="使用 PITest 进行突变测试"/>
 <meta name="twitter:description" content="请注意，代码覆盖率仍然是一个重要指标，但有时不足以保证代码经过良好测试。因此，在本文中，我们使用PITest 库将突变测试作为一种更复杂的方法来确保测试质量和认可测试用例。我们还看到了如何在提高变异覆盖率分数的同时分析基本的 PITest 报告。即使变异测试揭示了代码中的缺陷，也应该明智地使用它，因为它是一个极其昂贵和耗时的过程。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
      crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_mutation_testing_with_pitest/" /><link rel="prev" href="http://itcodingman.github.io/java_multiverse_stm/" /><link rel="next" href="http://itcodingman.github.io/20_mins_tomcat/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_mutation_testing_with_pitest/" /><link rel="prev" href="http://itcodingman.github.io/java_multiverse_stm/" /><link rel="next" href="http://itcodingman.github.io/java_mutex/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "",
+        "headline": "使用 PITest 进行突变测试",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -105,7 +105,7 @@
                     <div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">使用 PITest 进行突变测试</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/testing/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Testing</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-16">2022-06-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1833 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
@@ -264,7 +264,7 @@
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title="使用 PITest 进行突变测试"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title="使用 PITest 进行突变测试"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title="使用 PITest 进行突变测试"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title="使用 PITest 进行突变测试"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -276,8 +276,8 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/java_multiverse_stm/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
-            <a href="/20_mins_tomcat/" class="next" rel="next" title="20分钟学习Tomcat">20分钟学习Tomcat<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/java_multiverse_stm/" class="prev" rel="prev" title="使用 Multiverse 的 Java 软件事务内存"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>使用 Multiverse 的 Java 软件事务内存</a>
+            <a href="/java_mutex/" class="next" rel="next" title="在 Java 中使用互斥对象">在 Java 中使用互斥对象<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

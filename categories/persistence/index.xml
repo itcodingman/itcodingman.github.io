@@ -12,7 +12,7 @@
     <description><![CDATA[1. 简介 这篇文章是关于Neo4j——当今市场上最成熟、功能最齐全的图形数据库之一。图数据库处理数据建模任务的观点是，生活中的许多事物都可以表示]]></description>
 </item>
 <item>
-    <title></title>
+    <title>使用 Java 驱动程序在 MongoDB 中获取最后插入的文档 ID</title>
     <link>http://itcodingman.github.io/java_mongodb_last_inserted_id/</link>
     <pubDate>Sat, 04 Jun 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -20,7 +20,7 @@
     <description><![CDATA[1. 概述 有时，我们需要刚刚插入MongoDB数据库的文档的 ID。例如，我们可能希望将 ID 作为响应发回给调用者，或者记录创建的对象以进行调试。 在本]]></description>
 </item>
 <item>
-    <title></title>
+    <title>使用 Java 的 MongoDB 指南</title>
     <link>http://itcodingman.github.io/java_mongodb/</link>
     <pubDate>Wed, 01 Jun 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>

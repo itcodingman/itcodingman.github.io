@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title> - Coding Man</title><meta name="Description" content="在本文中，我们讨论了使用运算符flatMapMany和flatMapIterable将Mono&lt;List&lt;T&gt;&gt;转换为Flux&lt;T&gt;的不同方法。两者都是易于使用的运算符。虽然flatMapMany对于更通用的发布者很有用，但flatMapIterable更适合这种目的。"><meta property="og:title" content="" />
+        <title>如何将 Mono&lt;List&lt;T&gt;&gt; 转换为 Flux&lt;T&gt; - Coding Man</title><meta name="Description" content="在本文中，我们讨论了使用运算符flatMapMany和flatMapIterable将Mono&lt;List&lt;T&gt;&gt;转换为Flux&lt;T&gt;的不同方法。两者都是易于使用的运算符。虽然flatMapMany对于更通用的发布者很有用，但flatMapIterable更适合这种目的。"><meta property="og:title" content="如何将 Mono&lt;List&lt;T&gt;&gt; 转换为 Flux&lt;T&gt;" />
 <meta property="og:description" content="在本文中，我们讨论了使用运算符flatMapMany和flatMapIterable将Mono&lt;List&lt;T&gt;&gt;转换为Flux&lt;T&gt;的不同方法。两者都是易于使用的运算符。虽然flatMapMany对于更通用的发布者很有用，但flatMapIterable更适合这种目的。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/java_mono_list_to_flux/" /><meta property="article:section" content="posts" />
@@ -12,7 +12,7 @@
 <meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta name="twitter:title" content="如何将 Mono&lt;List&lt;T&gt;&gt; 转换为 Flux&lt;T&gt;"/>
 <meta name="twitter:description" content="在本文中，我们讨论了使用运算符flatMapMany和flatMapIterable将Mono&lt;List&lt;T&gt;&gt;转换为Flux&lt;T&gt;的不同方法。两者都是易于使用的运算符。虽然flatMapMany对于更通用的发布者很有用，但flatMapIterable更适合这种目的。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
@@ -24,7 +24,7 @@
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "",
+        "headline": "如何将 Mono\u003cList\u003cT\u003e\u003e 转换为 Flux\u003cT\u003e",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -105,7 +105,7 @@
                     <div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">如何将 Mono<List<T>> 转换为 Flux<T></h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/reactive/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Reactive</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-07">2022-06-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1074 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
@@ -177,7 +177,7 @@
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mono_list_to_flux/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mono_list_to_flux/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mono_list_to_flux/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mono_list_to_flux/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mono_list_to_flux/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mono_list_to_flux/" data-title="如何将 Mono&lt;List&lt;T&gt;&gt; 转换为 Flux&lt;T&gt;"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mono_list_to_flux/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mono_list_to_flux/" data-title="如何将 Mono&lt;List&lt;T&gt;&gt; 转换为 Flux&lt;T&gt;"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mono_list_to_flux/" data-title="如何将 Mono&lt;List&lt;T&gt;&gt; 转换为 Flux&lt;T&gt;"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mono_list_to_flux/" data-title="如何将 Mono&lt;List&lt;T&gt;&gt; 转换为 Flux&lt;T&gt;"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -189,8 +189,8 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/java_mono_defer/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
-            <a href="/java_monte_carlo_tree_search/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/java_mono_defer/" class="prev" rel="prev" title="Mono.defer() 做什么？"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Mono.defer() 做什么？</a>
+            <a href="/java_monte_carlo_tree_search/" class="next" rel="next" title="蒙特卡洛树在 Java 中搜索井字游戏">蒙特卡洛树在 Java 中搜索井字游戏<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

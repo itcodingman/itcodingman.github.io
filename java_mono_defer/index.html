@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noodp" />
-        <title> - Coding Man</title><meta name="Description" content="在本文中，我们讨论了Mono.defer()方法和热/冷发布者。此外，我们如何将热发布者转换为冷发布者。最后，我们还讨论了它在示例用例中的工作。"><meta property="og:title" content="" />
+        <title>Mono.defer() 做什么？ - Coding Man</title><meta name="Description" content="在本文中，我们讨论了Mono.defer()方法和热/冷发布者。此外，我们如何将热发布者转换为冷发布者。最后，我们还讨论了它在示例用例中的工作。"><meta property="og:title" content="Mono.defer() 做什么？" />
 <meta property="og:description" content="在本文中，我们讨论了Mono.defer()方法和热/冷发布者。此外，我们如何将热发布者转换为冷发布者。最后，我们还讨论了它在示例用例中的工作。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://itcodingman.github.io/java_mono_defer/" /><meta property="article:section" content="posts" />
@@ -12,7 +12,7 @@
 <meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta name="twitter:title" content="Mono.defer() 做什么？"/>
 <meta name="twitter:description" content="在本文中，我们讨论了Mono.defer()方法和热/冷发布者。此外，我们如何将热发布者转换为冷发布者。最后，我们还讨论了它在示例用例中的工作。"/>
 <meta name="application-name" content="My cool site">
 <meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
@@ -24,7 +24,7 @@
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "",
+        "headline": "Mono.defer() 做什么？",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
@@ -105,7 +105,7 @@
                     <div class="toc" id="toc-auto">
             <h2 class="toc-title">Contents</h2>
             <div class="toc-content" id="toc-content-auto"></div>
-        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Mono.defer() 做什么？</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/reactive/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Reactive</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-06">2022-06-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1131 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
@@ -242,7 +242,7 @@
         <div class="post-info-line">
             <div class="post-info-md"></div>
             <div class="post-info-share">
-                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mono_defer/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mono_defer/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mono_defer/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mono_defer/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mono_defer/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mono_defer/" data-title="Mono.defer() 做什么？"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mono_defer/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mono_defer/" data-title="Mono.defer() 做什么？"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mono_defer/" data-title="Mono.defer() 做什么？"><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mono_defer/" data-title="Mono.defer() 做什么？"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
             </div>
         </div>
     </div>
@@ -254,8 +254,8 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/java_mongodb_push_set/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
-            <a href="/java_mono_list_to_flux/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+    <div class="post-nav"><a href="/java_mongodb_push_set/" class="prev" rel="prev" title="在同一 MongoDB 更新中推送和设置操作"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>在同一 MongoDB 更新中推送和设置操作</a>
+            <a href="/java_mono_list_to_flux/" class="next" rel="next" title="如何将 Mono&lt;List&lt;T&gt;&gt; 转换为 Flux&lt;T&gt;">如何将 Mono<List<T>> 转换为 Flux<T><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 </article></div>
             </main><footer class="footer">

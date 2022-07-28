@@ -12,7 +12,7 @@
     <description><![CDATA[1. 概述 在本文中，我们将描述观察者模式并查看一些 Java 实现替代方案。 2.什么是观察者模式？ 观察者是一种行为设计模式。它指定对象之间的通信：obse]]></description>
 </item>
 <item>
-    <title></title>
+    <title>Java中的备忘录设计模式</title>
     <link>http://itcodingman.github.io/java_memento_design_pattern/</link>
     <pubDate>Wed, 27 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
@@ -20,7 +20,7 @@
     <description><![CDATA[1. 概述 在本教程中，我们将了解 Memento 设计模式是什么以及如何使用它。 首先，我们将通过一些理论。然后，我们将创建一个示例来说明该模式的用法。 2. 什么是纪]]></description>
 </item>
 <item>
-    <title></title>
+    <title>Java中的中介者模式</title>
     <link>http://itcodingman.github.io/java_mediator_pattern/</link>
     <pubDate>Tue, 26 Apr 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
