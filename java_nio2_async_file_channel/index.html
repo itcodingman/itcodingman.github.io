@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/itcodingman.github.io\/java_nio2_async_file_channel\/"
-        },"genre": "posts","keywords": "Java IO, Java NIO","wordcount":  2312 ,
+        },"genre": "posts","keywords": "Java IO, Java NIO","wordcount":  2310 ,
         "url": "http:\/\/itcodingman.github.io\/java_nio2_async_file_channel\/","datePublished": "2022-07-08T00:00:00+00:00","dateModified": "2022-07-26T00:00:00+00:00","publisher": {
             "@type": "Organization",
             "name": ""},"author": {
@@ -107,7 +107,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">NIO2 异步文件通道指南</h1><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-08">2022-07-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2312 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-07-08">2022-07-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2310 words&nbsp;
                 <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  data-kept="">
                 <div class="details-summary toc-title">
@@ -117,7 +117,7 @@
                 <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
     <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
-    <li><a href="#2-asynchronousfilechannel-">**2. <em>AsynchronousFileChannel</em> **</a></li>
+    <li><a href="#2-asynchronousfilechannel"><strong>2. AsynchronousFileChannel</strong></a></li>
     <li><a href="#3-从文件中读取"><strong>3. 从文件中读取</strong></a>
       <ul>
         <li><a href="#31-future的方法"><strong>3.1 Future的方法</strong></a></li>
@@ -135,18 +135,18 @@
 </nav></div>
             </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
 <p>在本文中，我们将探讨 Java 7 中新 I/O (NIO2) 的关键附加 API 之一，即异步文件通道 API。</p>
-<p>如果您是一般异步通道 API 的新手，我们在此站点上有一篇介绍性文章，您可以在继续之前<a href="/java-nio-2-async-channels" rel="">点击此链接阅读该文章。</a></p>
-<p>您还可以阅读更多关于 NIO.2<a href="/java-nio-2-file-api" rel="">文件操作</a>和<a href="/java-nio-2-path" rel="">路径操作</a>的信息——理解这些将使本文更容易理解。</p>
+<p>如果您是一般异步通道 API 的新手，我们在此站点上有一篇介绍性文章，您可以在继续之前<a href="/java_nio2_async_channels" rel="">点击此链接</a>阅读该文章。</p>
+<p>您还可以阅读更多关于 NIO2<a href="/java_nio2_file_api" rel="">文件操作</a>和<a href="/java_nio2_path" rel="">路径操作</a>的信息——理解这些将使本文更容易理解。</p>
 <p>要在我们的项目中使用 NIO2 异步文件通道，我们必须导入<em>java.nio.channels</em>包，因为它捆绑了所有必需的类：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">java.nio.channels.*</span><span class="o">;</span>
-</span></span></code></pre></div><h2 id="2-asynchronousfilechannel-">**2. <em>AsynchronousFileChannel</em> **</h2>
+</span></span></code></pre></div><h2 id="2-asynchronousfilechannel"><strong>2. AsynchronousFileChannel</strong></h2>
 <p>在本节中，我们将探讨如何使用使我们能够对文件执行异步操作的主类<em>AsynchronousFileChannel</em>类。要创建它的实例，我们调用静态<em>open</em>方法：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">filePath</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/path/to/file&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="n">AsynchronousFileChannel</span> <span class="n">fileChannel</span> <span class="o">=</span> <span class="n">AsynchronousFileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span>
 </span></span><span class="line"><span class="cl">  <span class="n">filePath</span><span class="o">,</span> <span class="n">READ</span><span class="o">,</span> <span class="n">WRITE</span><span class="o">,</span> <span class="n">CREATE</span><span class="o">,</span> <span class="n">DELETE_ON_CLOSE</span><span class="o">);</span>
 </span></span></code></pre></div><p>所有枚举值都来自<em>StandardOpenOption</em>。</p>
-<p>open API 的第一个参数是表示文件位置的<em>Path</em>对象。要了解有关 NIO2 中路径操作的更多信息，请点击<a href="/java-nio-2-path" rel="">此链接</a>。其他参数组成了一组指定选项，这些选项应该可用于返回的文件通道。</p>
+<p>open API 的第一个参数是表示文件位置的<em>Path</em>对象。要了解有关 NIO2 中路径操作的更多信息，请点击<a href="/java_nio2_path" rel="">此链接</a>。其他参数组成了一组指定选项，这些选项应该可用于返回的文件通道。</p>
 <p>我们创建的异步文件通道可用于对文件执行所有已知操作。要仅执行操作的子集，我们将仅指定这些操作的选项。例如，只阅读：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">filePath</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;/path/to/file&#34;</span><span class="o">);</span>
 </span></span><span class="line"><span class="cl">

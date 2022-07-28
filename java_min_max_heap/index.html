@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本教程中，我们看到了在 Java 中实现最小-最大堆并探索了一些最常见的操作。首先，我们了解了究竟什么是最小-最大堆，包括一些最常见的特征。然后，我们看到了如何在我们的 min-max 堆实现中创建、插入、find-min、find-max、remove-min 和 remove-max 项。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本教程中，我们看到了在 Java 中实现最小-最大堆并探索了一些最常见的操作。首先，我们了解了究竟什么是最小-最大堆，包括一些最常见的特征。然后，我们看到了如何在我们的 min-max 堆实现中创建、插入、find-min、find-max、remove-min 和 remove-max 项。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_min_max_heap/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本教程中，我们看到了在 Java 中实现最小-最大堆并探索了一些最常见的操作。首先，我们了解了究竟什么是最小-最大堆，包括一些最常见的特征。然后，我们看到了如何在我们的 min-max 堆实现中创建、插入、find-min、find-max、remove-min 和 remove-max 项。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_min_max_heap/" /><link rel="prev" href="http://itcodingman.github.io/java_microsoft_word_with_apache_poi/" /><link rel="next" href="http://itcodingman.github.io/java_minimax_algorithm/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_min_max_heap\/"
+        },"genre": "posts","keywords": "Data Structures","wordcount":  2293 ,
+        "url": "http:\/\/itcodingman.github.io\/java_min_max_heap\/","datePublished": "2022-05-21T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们看到了在 Java 中实现最小-最大堆并探索了一些最常见的操作。首先，我们了解了究竟什么是最小-最大堆，包括一些最常见的特征。然后，我们看到了如何在我们的 min-max 堆实现中创建、插入、find-min、find-max、remove-min 和 remove-max 项。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-21">2022-05-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2293 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-最小-最大堆">2. 最小-最大堆</a></li>
+    <li><a href="#3-java实现">3. Java实现</a>
+      <ul>
+        <li><a href="#31-创造">3.1 创造</a></li>
+        <li><a href="#32-插入">3.2. 插入</a></li>
+        <li><a href="#33-查找最小值">3.3. 查找最小值</a></li>
+        <li><a href="#34-找到最大">3.4. 找到最大</a></li>
+        <li><a href="#35-删除最小值">3.5. 删除最小值</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>在本教程中，我们将了解如何在 Java中实现最小-最大<a href="/heap_vs_binary_search_tree" rel="">堆</a>。</p>
+<h2 id="2-最小-最大堆">2. 最小-最大堆</h2>
+<p>首先，我们来看看堆的定义和特点。min-max heap 是一棵完全<a href="/binary_tree_intro" rel="">二叉树</a>，同时具有 min heap 和 max heap 的特征：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2021/06/Screenshot-from-2021-06-14-22-37-11.png"
+        data-srcset="wp-content/uploads/2021/06/Screenshot-from-2021-06-14-22-37-11.png, wp-content/uploads/2021/06/Screenshot-from-2021-06-14-22-37-11.png 1.5x, wp-content/uploads/2021/06/Screenshot-from-2021-06-14-22-37-11.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2021/06/Screenshot-from-2021-06-14-22-37-11.png"
+        title="wp-content/uploads/2021/06/Screenshot-from-2021-06-14-22-37-11.png" /></p>
+<p>正如我们在上面看到的，<strong>树中偶数层的每个节点都小于其所有后代，而树中奇数层的每个节点都大于其所有后代，其中根位于零层。</strong></p>
+<p>最小-最大堆中的每个节点都有一个通常称为键的数据成员。根在最小-最大<em>堆中</em>具有最小的<em>键</em>，第二级的两个节点之一是最大的<em>键</em>。对于最小-最大堆中的每个节点（如<em>X ）：</em></p>
+<ul>
+<li>如果<em>X</em>处于最小（甚至）级别，则<em>X.key是具有根**X</em>的子树中所有键中的最小键</li>
+<li>如果<em>X</em>处于最大（或奇数）级别，则<em>X.key是具有根**X</em>的子树中所有键中的最大键</li>
+</ul>
+<p>像 min-heap 或 max-heap 一样，插入和删除可以在<em>O(logN)的</em><a href="/time_vs_space_complexity" rel="">时间复杂度</a>内发生。</p>
+<h2 id="3-java实现">3. Java实现</h2>
+<p>让我们从一个代表我们的 min-max 堆的简单类开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MinMaxHeap</span><span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">array</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">capacity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">indicator</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们在上面看到的，我们使用一个<em>指标</em>来计算添加到数组中的最后一项索引。但在我们继续之前，我们需要记住<strong>数组索引从零开始，但我们假设索引从堆中的一开始。</strong></p>
+<p>我们可以使用以下方法找到左右孩子的索引：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">getLeftChildIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="n">2</span> <span class="o">*</span> <span class="n">i</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">getRightChildIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">((</span><span class="n">2</span> <span class="o">*</span> <span class="n">i</span><span class="o">)</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>同样，我们可以通过以下代码找到数组中项的父辈和祖辈的索引：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">getParentIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="n">i</span> <span class="o">/</span> <span class="n">2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">getGrandparentIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="k">return</span> <span class="n">i</span> <span class="o">/</span> <span class="n">4</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们继续完成我们简单的 min-max 堆类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MinMaxHeap</span><span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">array</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">capacity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">indicator</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">MinMaxHeap</span><span class="o">(</span><span class="kt">int</span> <span class="n">capacity</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">capacity</span> <span class="o">=</span> <span class="n">capacity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">indicator</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">MinMaxHeap</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">array</span> <span class="o">=</span> <span class="n">array</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">capacity</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">indicator</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">+</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以在这里以两种方式创建最小-最大堆的实例。首先，我们使用<a href="/java_arraylist" rel=""><em>ArrayList</em></a>和特定容量初始化一个数组，其次，我们从现有数组中创建一个最小-最大堆。</p>
+<p>现在，让我们讨论堆上的操作。</p>
+<h3 id="31-创造">3.1 创造</h3>
+<p>让我们首先看一下从现有数组构建一个最小-最大堆。在这里，我们使用了弗洛伊德算法，并进行了一些调整，例如<a href="/binary_tree_max_heapify" rel="">Heapify 算法</a>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">create</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">floorDiv</span><span class="o">(</span><span class="n">array</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">2</span><span class="o">);</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pushDown</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">array</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>让我们仔细看看下面代码中的pushDown</em> ，看看上面代码中到底发生了什么：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">pushDown</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">array</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">isEvenLevel</span><span class="o">(</span><span class="n">i</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pushDownMin</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pushDownMax</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们所见，对于所有偶数级别，我们使用<em>pushDownMin 检查数组项。<em>这个算法就像我们将用于</em>removeMin</em>和<em>removeMax</em>的 heapify-down ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">pushDownMin</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">h</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">getLeftChildIndex</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">indicator</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">       <span class="kt">int</span> <span class="n">indexOfSmallest</span> <span class="o">=</span> <span class="n">getIndexOfSmallestChildOrGrandChild</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">          <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>          <span class="n">i</span> <span class="o">=</span> <span class="n">indexOfSmallest</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"> <span class="o">}</span>
+</span></span></code></pre></div><p><em>首先，我们找到“ i”</em> 元素的最小子或孙的索引。然后我们根据以下条件进行。</p>
+<p><strong>如果最小的子或孙不小于当前元素，我们就中断。换句话说，当前的元素排列就像最小堆：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">indexOfSmallest</span> <span class="o">-</span> <span class="n">1</span><span class="o">).</span><span class="na">compareTo</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">))</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>如果最小的子元素或孙子元素小于当前元素，我们将其与其父元素或祖父元素交换：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">getParentIndex</span><span class="o">(</span><span class="n">getParentIndex</span><span class="o">(</span><span class="n">indexOfSmallest</span><span class="o">))</span> <span class="o">==</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">       <span class="k">if</span> <span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">indexOfSmallest</span> <span class="o">-</span> <span class="n">1</span><span class="o">).</span><span class="na">compareTo</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">))</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">swap</span><span class="o">(</span><span class="n">indexOfSmallest</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">h</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">          <span class="k">if</span> <span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">indexOfSmallest</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getParentIndex</span><span class="o">(</span><span class="n">indexOfSmallest</span><span class="o">)</span> <span class="o">-</span> <span class="n">1</span><span class="o">))</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">             <span class="n">swap</span><span class="o">(</span><span class="n">indexOfSmallest</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">getParentIndex</span><span class="o">(</span><span class="n">indexOfSmallest</span><span class="o">)</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">h</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">           <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">indexOfSmallest</span> <span class="o">-</span> <span class="n">1</span><span class="o">).</span><span class="na">compareTo</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">))</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="n">swap</span><span class="o">(</span><span class="n">indexOfSmallest</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">h</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"> <span class="o">}</span>
+</span></span></code></pre></div><p><strong>我们将继续上述操作，直到找到元素“i”的子元素。</strong></p>
+<p>现在，让我们看看<em>getIndexOfSmallestChildOrGrandChild</em>是如何工作的。这很容易！首先，我们假设左孩子的值最小，然后将其与其他孩子进行比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">getIndexOfSmallestChildOrGrandChild</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">h</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">minIndex</span> <span class="o">=</span> <span class="n">getLeftChildIndex</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">T</span> <span class="n">minValue</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">minIndex</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// rest of the implementation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p><strong>在每一步中，如果指标大于指标，则找到的最后一个最小值就是答案。</strong></p>
+<p>例如，让我们将<em>min-value</em>与右孩子进行比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">getRightChildIndex</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">indicator</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getRightChildIndex</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">1</span><span class="o">).</span><span class="na">compareTo</span><span class="o">(</span><span class="n">minValue</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">minValue</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getRightChildIndex</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">minIndex</span> <span class="o">=</span> <span class="n">getRightChildIndex</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="n">minIndex</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们创建一个测试来验证从无序数组创建最小-最大堆是否正常工作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenUnOrderedArray_WhenCreateMinMaxHeap_ThenIsEqualWithMinMaxHeapOrdered</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">34</span><span class="o">,</span> <span class="n">12</span><span class="o">,</span> <span class="n">28</span><span class="o">,</span> <span class="n">9</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">19</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">40</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MinMaxHeap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">minMaxHeap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MinMaxHeap</span><span class="o">&lt;&gt;(</span><span class="n">list</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">40</span><span class="o">,</span> <span class="n">34</span><span class="o">,</span> <span class="n">9</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">19</span><span class="o">,</span> <span class="n">28</span><span class="o">,</span> <span class="n">12</span><span class="o">),</span> <span class="n">list</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em><em><em>pushDownMax</em>的算法与</em>pushDownMin</em>的算法相同，但在所有比较中，运算符都颠倒了。**</p>
+<h3 id="32-插入">3.2. 插入</h3>
+<p>让我们看看如何向 min-max Heap 添加元素：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">insert</span><span class="o">(</span><span class="n">T</span> <span class="n">item</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">array</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">item</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">indicator</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(!</span><span class="n">isFull</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">array</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">item</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pushUp</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">indicator</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">indicator</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">throw</span> <span class="k">new</span> <span class="n">RuntimeException</span><span class="o">(</span><span class="s">&#34;invalid operation !!!&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"> <span class="o">}</span>
+</span></span></code></pre></div><p>首先，我们检查堆是否为空。如果堆为空，我们追加新元素并增加指示符。否则，新添加的元素可能会改变 min-max 堆的顺序，所以我们需要使用<em>pushUp</em>调整堆：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">pushUp</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="n">h</span><span class="o">,</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">!=</span> <span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">isEvenLevel</span><span class="o">(</span><span class="n">i</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">).</span><span class="na">compareTo</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getParentIndex</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">1</span><span class="o">))</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pushUpMin</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">swap</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">getParentIndex</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">h</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">i</span> <span class="o">=</span> <span class="n">getParentIndex</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pushUpMax</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">).</span><span class="na">compareTo</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getParentIndex</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">1</span><span class="o">))</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pushUpMax</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">swap</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">getParentIndex</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">h</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">i</span> <span class="o">=</span> <span class="n">getParentIndex</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pushUpMin</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们在上面看到的，新元素比较它的父元素，然后：</p>
+<ul>
+<li>如果发现它小于（大于）父元素，那么它肯定小于（大于）位于堆根路径上的最大（最小）级别上的所有其他元素</li>
+<li>从新元素到根的路径（仅考虑最小/最大级别）应该按照插入之前的降序（升序）顺序。所以，我们需要将新元素二进制插入到这个序列中</li>
+</ul>
+<p>现在，让我们看一下<em>pushUpMin</em>，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">pushUpMin</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">h</span> <span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span><span class="o">(</span><span class="n">hasGrandparent</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">h</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">getGrandparentIndex</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">1</span><span class="o">))</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">swap</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">getGrandparentIndex</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">-</span> <span class="n">1</span><span class="o">,</span> <span class="n">h</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i</span> <span class="o">=</span> <span class="n">getGrandparentIndex</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>从技术上讲，当父元素更大时，将新元素与其父元素交换更简单。此外，<em>pushUpMax</em>与<em>pushUpMin</em>相同，但在所有比较中，运算符都颠倒了。</strong></p>
+<p>现在，让我们创建一个测试来验证将新元素插入到 min-max 堆中是否正常工作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenNewElement_WhenInserted_ThenIsEqualWithMinMaxHeapOrdered</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MinMaxHeap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">minMaxHeap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MinMaxHeap</span><span class="o">(</span><span class="n">8</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">34</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">12</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">28</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">9</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">30</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">19</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">40</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="n">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">40</span><span class="o">,</span> <span class="n">28</span><span class="o">,</span> <span class="n">12</span><span class="o">,</span> <span class="n">30</span><span class="o">,</span> <span class="n">19</span><span class="o">,</span> <span class="n">9</span><span class="o">,</span> <span class="n">34</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="n">minMaxHeap</span><span class="o">.</span><span class="na">getMinMaxHeap</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="33-查找最小值">3.3. 查找最小值</h3>
+<p>最小-最大堆中的主要元素始终位于根，因此我们可以在时间复杂度 O(1) 中找到它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">T</span> <span class="nf">min</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(!</span><span class="n">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="34-找到最大">3.4. 找到最大</h3>
+<p>最小-最大堆中的最大元素始终位于第一个奇数级别，因此我们可以通过简单的比较以时间复杂度 O(1) 找到它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">T</span> <span class="nf">max</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(!</span><span class="n">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">indicator</span> <span class="o">==</span> <span class="n">2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">indicator</span> <span class="o">==</span> <span class="n">3</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">).</span><span class="na">compareTo</span><span class="o">(</span><span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">2</span><span class="o">))</span> <span class="o">&lt;</span> <span class="n">0</span> <span class="o">?</span> <span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">2</span><span class="o">)</span> <span class="o">:</span> <span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="35-删除最小值">3.5. 删除最小值</h3>
+<p>在这种情况下，我们将找到 min 元素，然后将其替换为数组的最后一个元素：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">T</span> <span class="nf">removeMin</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">T</span> <span class="n">min</span> <span class="o">=</span> <span class="n">min</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">min</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">       <span class="k">if</span> <span class="o">(</span><span class="n">indicator</span> <span class="o">==</span> <span class="n">2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">         <span class="n">array</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">indicator</span><span class="o">--);</span>
+</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">min</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">       <span class="o">}</span>
+</span></span><span class="line"><span class="cl">       <span class="n">array</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(--</span><span class="n">indicator</span> <span class="o">-</span> <span class="n">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">       <span class="n">array</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">indicator</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">       <span class="n">pushDown</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">min</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>3.6. 删除最大值</strong></p>
+<p>删除最大元素与删除最小元素相同，唯一的变化是我们找到最大元素的索引然后调用<em>pushDown</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">T</span> <span class="nf">removeMax</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">T</span> <span class="n">max</span> <span class="o">=</span> <span class="n">max</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">max</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">maxIndex</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">indicator</span> <span class="o">==</span> <span class="n">2</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">maxIndex</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">array</span><span class="o">.</span><span class="na">remove</span><span class="o">(--</span><span class="n">indicator</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">max</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">indicator</span> <span class="o">==</span> <span class="n">3</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">maxIndex</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">array</span><span class="o">.</span><span class="na">remove</span><span class="o">(--</span><span class="n">indicator</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">max</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">maxIndex</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">).</span><span class="na">compareTo</span><span class="o">(</span><span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">2</span><span class="o">))</span> <span class="o">&lt;</span> <span class="n">0</span> <span class="o">?</span> <span class="n">2</span> <span class="o">:</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">array</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">maxIndex</span><span class="o">,</span> <span class="n">array</span><span class="o">.</span><span class="na">get</span><span class="o">(--</span><span class="n">indicator</span> <span class="o">-</span> <span class="n">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">array</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">indicator</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pushDown</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">maxIndex</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">max</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_min_max_heap/" data-title="" data-hashtags="Data Structures"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_min_max_heap/" data-hashtag="Data Structures"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_min_max_heap/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_min_max_heap/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_min_max_heap/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/data-structures/">Data Structures</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_microsoft_word_with_apache_poi/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_minimax_algorithm/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

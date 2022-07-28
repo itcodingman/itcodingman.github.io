@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们学习了如何在 Java 中使用自己或使用外部库来乘法矩阵。在探索了所有解决方案之后，我们对所有解决方案进行了基准测试，发现除了 ND4J 之外，它们在小矩阵上的表现都非常好。另一方面，在更大的矩阵上，ND4J 处于领先地位。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们学习了如何在 Java 中使用自己或使用外部库来乘法矩阵。在探索了所有解决方案之后，我们对所有解决方案进行了基准测试，发现除了 ND4J 之外，它们在小矩阵上的表现都非常好。另一方面，在更大的矩阵上，ND4J 处于领先地位。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_matrix_multiplication/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们学习了如何在 Java 中使用自己或使用外部库来乘法矩阵。在探索了所有解决方案之后，我们对所有解决方案进行了基准测试，发现除了 ND4J 之外，它们在小矩阵上的表现都非常好。另一方面，在更大的矩阵上，ND4J 处于领先地位。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_matrix_multiplication/" /><link rel="prev" href="http://itcodingman.github.io/15_mins_mybatis_generator/" /><link rel="next" href="http://itcodingman.github.io/java_maximum_subarray/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_matrix_multiplication\/"
+        },"genre": "posts","keywords": "Math","wordcount":  3572 ,
+        "url": "http:\/\/itcodingman.github.io\/java_matrix_multiplication\/","datePublished": "2022-04-22T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们学习了如何在 Java 中使用自己或使用外部库来乘法矩阵。在探索了所有解决方案之后，我们对所有解决方案进行了基准测试，发现除了 ND4J 之外，它们在小矩阵上的表现都非常好。另一方面，在更大的矩阵上，ND4J 处于领先地位。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/algorithms/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Algorithms</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-22">2022-04-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3572 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;8 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-例子">2. 例子</a></li>
+    <li><a href="#3-矩阵乘法">3. 矩阵乘法</a>
+      <ul>
+        <li><a href="#31-自己的实现">3.1 自己的实现</a></li>
+        <li><a href="#32-ejml">3.2. EJML</a></li>
+        <li><a href="#33-nd4j">3.3. ND4J</a></li>
+        <li><a href="#34-apache-commons-math3">3.4. Apache Commons Math3</a></li>
+        <li><a href="#35-la4j">3.5. LA4J</a></li>
+        <li><a href="#36-colt">3.6. Colt</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-基准测试">4. 基准测试</a>
+      <ul>
+        <li><a href="#41-小矩阵">4.1 小矩阵</a></li>
+        <li><a href="#42-大型矩阵">4.2. 大型矩阵</a></li>
+        <li><a href="#43-分析">4.3. 分析</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>在本教程中，我们将了解如何在 Java 中将两个矩阵相乘。</p>
+<p>由于矩阵概念在语言中不存在，我们将自己实现它，我们还将与一些库一起工作，看看它们如何处理矩阵乘法。</p>
+<p>最后，我们将对我们探索的不同解决方案进行一些基准测试，以确定最快的解决方案。</p>
+<h2 id="2-例子">2. 例子</h2>
+<p>让我们从设置一个我们可以在本教程中引用的示例开始。</p>
+<p>首先，我们将想象一个 3×2 矩阵：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2019/07/firstMatrix-1.png"
+        data-srcset="wp-content/uploads/2019/07/firstMatrix-1.png, wp-content/uploads/2019/07/firstMatrix-1.png 1.5x, wp-content/uploads/2019/07/firstMatrix-1.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2019/07/firstMatrix-1.png"
+        title="wp-content/uploads/2019/07/firstMatrix-1.png" /></p>
+<p>现在让我们想象第二个矩阵，这次是两行四列：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2019/07/secondMatrux-1.png"
+        data-srcset="wp-content/uploads/2019/07/secondMatrux-1.png, wp-content/uploads/2019/07/secondMatrux-1.png 1.5x, wp-content/uploads/2019/07/secondMatrux-1.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2019/07/secondMatrux-1.png"
+        title="wp-content/uploads/2019/07/secondMatrux-1.png" /></p>
+<p>然后，将第一个矩阵与第二个矩阵相乘，得到一个 3×4 矩阵：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2019/07/multiplicatedMatrix-1.png"
+        data-srcset="wp-content/uploads/2019/07/multiplicatedMatrix-1.png, wp-content/uploads/2019/07/multiplicatedMatrix-1.png 1.5x, wp-content/uploads/2019/07/multiplicatedMatrix-1.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2019/07/multiplicatedMatrix-1.png"
+        title="wp-content/uploads/2019/07/multiplicatedMatrix-1.png" /></p>
+<p>提醒一下，<strong>此结果是通过使用以下公式计算结果矩阵的每个单元格获得的</strong>：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2019/07/multiplicationAlgorithm-1.png"
+        data-srcset="wp-content/uploads/2019/07/multiplicationAlgorithm-1.png, wp-content/uploads/2019/07/multiplicationAlgorithm-1.png 1.5x, wp-content/uploads/2019/07/multiplicationAlgorithm-1.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2019/07/multiplicationAlgorithm-1.png"
+        title="wp-content/uploads/2019/07/multiplicationAlgorithm-1.png" /></p>
+<p>其中 <em>r</em>是矩阵 <em>A</em>的行数，<em>c</em>是矩阵 <em>B</em>的列数，  <em>n</em>是矩阵<em>A的列数，它必须与矩阵**B</em>的行数匹配。</p>
+<h2 id="3-矩阵乘法">3. 矩阵乘法</h2>
+<h3 id="31-自己的实现">3.1 自己的实现</h3>
+<p>让我们从我们自己的矩阵实现开始。</p>
+<p>我们将保持简单，只<strong>使用二维<em>double</em>数组</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">double</span><span class="o">[][]</span> <span class="n">firstMatrix</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="n">1d</span><span class="o">,</span> <span class="n">5d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="n">2d</span><span class="o">,</span> <span class="n">3d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="n">1d</span><span class="o">,</span> <span class="n">7d</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">double</span><span class="o">[][]</span> <span class="n">secondMatrix</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="n">1d</span><span class="o">,</span> <span class="n">2d</span><span class="o">,</span> <span class="n">3d</span><span class="o">,</span> <span class="n">7d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="n">5d</span><span class="o">,</span> <span class="n">2d</span><span class="o">,</span> <span class="n">8d</span><span class="o">,</span> <span class="n">1d</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">};</span>
+</span></span></code></pre></div><p>这些是我们示例的两个矩阵。让我们创建一个预期作为它们相乘结果的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">double</span><span class="o">[][]</span> <span class="n">expected</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="n">26d</span><span class="o">,</span> <span class="n">12d</span><span class="o">,</span> <span class="n">43d</span><span class="o">,</span> <span class="n">12d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="n">17d</span><span class="o">,</span> <span class="n">10d</span><span class="o">,</span> <span class="n">30d</span><span class="o">,</span> <span class="n">17d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="n">36d</span><span class="o">,</span> <span class="n">16d</span><span class="o">,</span> <span class="n">59d</span><span class="o">,</span> <span class="n">14d</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">};</span>
+</span></span></code></pre></div><p>现在一切都设置好了，让我们实现乘法算法。<strong>我们将首先创建一个空的结果数组并遍历其单元格以在每个单元格中存储预期值：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">double</span><span class="o">[][]</span> <span class="nf">multiplyMatrices</span><span class="o">(</span><span class="kt">double</span><span class="o">[][]</span> <span class="n">firstMatrix</span><span class="o">,</span> <span class="kt">double</span><span class="o">[][]</span> <span class="n">secondMatrix</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span><span class="o">[][]</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">firstMatrix</span><span class="o">.</span><span class="na">length</span><span class="o">][</span><span class="n">secondMatrix</span><span class="o">[</span><span class="n">0</span><span class="o">].</span><span class="na">length</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">result</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">row</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">result</span><span class="o">[</span><span class="n">row</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="n">col</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">result</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">]</span> <span class="o">=</span> <span class="n">multiplyMatricesCell</span><span class="o">(</span><span class="n">firstMatrix</span><span class="o">,</span> <span class="n">secondMatrix</span><span class="o">,</span> <span class="n">row</span><span class="o">,</span> <span class="n">col</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，让我们实现单个单元格的计算。为了实现这一点，<strong>我们将使用前面示例演示中显示的公式</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">double</span> <span class="nf">multiplyMatricesCell</span><span class="o">(</span><span class="kt">double</span><span class="o">[][]</span> <span class="n">firstMatrix</span><span class="o">,</span> <span class="kt">double</span><span class="o">[][]</span> <span class="n">secondMatrix</span><span class="o">,</span> <span class="kt">int</span> <span class="n">row</span><span class="o">,</span> <span class="kt">int</span> <span class="n">col</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">secondMatrix</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cell</span> <span class="o">+=</span> <span class="n">firstMatrix</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">*</span> <span class="n">secondMatrix</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">col</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">cell</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，让我们检查一下算法的结果是否符合我们的预期结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">double</span><span class="o">[][]</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">multiplyMatrices</span><span class="o">(</span><span class="n">firstMatrix</span><span class="o">,</span> <span class="n">secondMatrix</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="32-ejml">3.2. EJML</h3>
+<p>我们要看的第一个库是 EJML，它代表<a href="http://ejml.org/wiki/index.php?title=Main_Page" target="_blank" rel="noopener noreffer">Efficient Java Matrix Library</a>。在编写本教程时，它是<strong>最近更新的 Java 矩阵库之一</strong>。其目的是在计算和内存使用方面尽可能高效。</p>
+<p>我们必须在<em>pom.xml</em><a href="https://search.maven.org/search?q=g:org.ejml%20AND%20a:ejml-all" target="_blank" rel="noopener noreffer">中将依赖项添加到库</a>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.ejml<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>ejml-all<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>0.38<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>我们将使用与之前几乎相同的模式：根据我们的示例创建两个矩阵，并检查它们相乘的结果是否是我们之前计算的结果。</p>
+<p>因此，让我们使用 EJML 创建矩阵。为了实现这一点，<strong>我们将使用库提供的 <em>SimpleMatrix</em>类</strong>。</p>
+<p>它可以将二维<em>双</em>精度数组作为其构造函数的输入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SimpleMatrix</span> <span class="n">firstMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleMatrix</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[][]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">1d</span><span class="o">,</span> <span class="n">5d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">2d</span><span class="o">,</span> <span class="n">3d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">1d</span> <span class="o">,</span><span class="n">7d</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">SimpleMatrix</span> <span class="n">secondMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleMatrix</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[][]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">1d</span><span class="o">,</span> <span class="n">2d</span><span class="o">,</span> <span class="n">3d</span><span class="o">,</span> <span class="n">7d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">5d</span><span class="o">,</span> <span class="n">2d</span><span class="o">,</span> <span class="n">8d</span><span class="o">,</span> <span class="n">1d</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">);</span>
+</span></span></code></pre></div><p>现在，让我们定义我们期望的乘法矩阵：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SimpleMatrix</span> <span class="n">expected</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleMatrix</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="kt">double</span><span class="o">[][]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">26d</span><span class="o">,</span> <span class="n">12d</span><span class="o">,</span> <span class="n">43d</span><span class="o">,</span> <span class="n">12d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">17d</span><span class="o">,</span> <span class="n">10d</span><span class="o">,</span> <span class="n">30d</span><span class="o">,</span> <span class="n">17d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">36d</span><span class="o">,</span> <span class="n">16d</span><span class="o">,</span> <span class="n">59d</span><span class="o">,</span> <span class="n">14d</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">);</span>
+</span></span></code></pre></div><p>现在我们都设置好了，让我们看看如何将两个矩阵相乘。**SimpleMatrix 类提供了一个 <em>mult()<em>方法</em></em>，将另一个<em>SimpleMatrix</em>作为参数并返回两个矩阵的乘积：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SimpleMatrix</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">firstMatrix</span><span class="o">.</span><span class="na">mult</span><span class="o">(</span><span class="n">secondMatrix</span><span class="o">);</span>
+</span></span></code></pre></div><p>让我们检查获得的结果是否与预期的结果相符。</p>
+<p>由于 <em>SimpleMatrix</em>没有覆盖 <em>equals()<em>方法，我们不能依赖它来进行验证。但是，<strong>它提供了另一种选择：  *isIdentical()*方法</strong>不仅采用另一个矩阵参数，而且采用</em>双</em>容错方法来忽略由于双精度引起的微小差异：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">matches</span><span class="o">(</span><span class="n">m</span> <span class="o">-&gt;</span> <span class="n">m</span><span class="o">.</span><span class="na">isIdentical</span><span class="o">(</span><span class="n">expected</span><span class="o">,</span> <span class="n">0d</span><span class="o">));</span>
+</span></span></code></pre></div><p>使用 EJML 库的矩阵乘法到此结束。让我们看看其他人提供了什么。</p>
+<h3 id="33-nd4j">3.3. ND4J</h3>
+<p>现在让我们试试<a href="https://deeplearning4j.konduit.ai/nd4j/tutorials/quickstart" target="_blank" rel="noopener noreffer">ND4J 库</a>。ND4J 是一个计算库，是<a href="https://deeplearning4j.konduit.ai/" target="_blank" rel="noopener noreffer">deeplearning4j</a>项目的一部分。除其他外，ND4J 还提供矩阵计算功能。</p>
+<p>首先，我们必须得到<a href="https://search.maven.org/search?q=g:org.nd4j%20AND%20a:nd4j-native" target="_blank" rel="noopener noreffer">库依赖</a>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.nd4j<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>nd4j-native<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.0.0-beta4<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>请注意，我们在这里使用的是 beta 版本，因为 GA 版本似乎存在一些错误。</p>
+<p>为简洁起见，我们不会重写二维<em>双</em>精度数组，而只关注它们如何与每个库一起使用。因此，对于 ND4J，我们必须创建一个<em>INDArray</em>。为了做到这一点，<strong>我们将调用 <em>Nd4j.create()<em>工厂方法并向其传递一个表示矩阵的</em>双</em></strong>精度数组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">INDArray</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">Nd4j</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="cm">/* a two dimensions double array */</span><span class="o">);</span>
+</span></span></code></pre></div><p>与上一节一样，我们将创建三个矩阵：我们将要相乘的两个矩阵和一个作为预期结果的矩阵。</p>
+<p>之后，我们想要使用*INDArray.mmul()*方法实际执行前两个矩阵之间的乘法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">INDArray</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">firstMatrix</span><span class="o">.</span><span class="na">mmul</span><span class="o">(</span><span class="n">secondMatrix</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后，我们再次检查实际结果是否与预期结果相符。这次我们可以依靠相等性检查：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+</span></span></code></pre></div><p>这演示了如何使用 ND4J 库进行矩阵计算。</p>
+<h3 id="34-apache-commons-math3">3.4. Apache Commons Math3</h3>
+<p>现在让我们谈谈<a href="https://commons.apache.org/proper/commons-math/" target="_blank" rel="noopener noreffer">Apache Commons Math3 模块</a>，它为我们提供了包括矩阵操作在内的数学计算。</p>
+<p>同样，我们必须在<em>pom.xml中指定</em><a href="https://search.maven.org/search?q=g:org.apache.commons%20AND%20a:commons-math3" target="_blank" rel="noopener noreffer">依赖</a>项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-math3<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.6.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>设置完成后，我们可以使用<em>RealMatrix</em>接口及其 <em>Array2DRowRealMatrix</em>实现来创建我们常用的矩阵。实现类的构造函数以一个二维<em>双</em>精度数组为参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">RealMatrix</span> <span class="n">matrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Array2DRowRealMatrix</span><span class="o">(</span><span class="cm">/* a two dimensions double array */</span><span class="o">);</span>
+</span></span></code></pre></div><p>至于矩阵乘法，*RealMatrix <em>接口提供了一个</em>以另一个 <em>RealMatrix参数为参数的</em>multiply()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">RealMatrix</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">firstMatrix</span><span class="o">.</span><span class="na">multiply</span><span class="o">(</span><span class="n">secondMatrix</span><span class="o">);</span>
+</span></span></code></pre></div><p>我们终于可以验证结果是否与我们期望的一样：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+</span></span></code></pre></div><p>让我们看看下一个图书馆！</p>
+<h3 id="35-la4j">3.5. LA4J</h3>
+<p>这个被命名为 LA4J，代表<a href="http://la4j.org/" target="_blank" rel="noopener noreffer">Java 的线性代数</a>。</p>
+<p>让我们也为这个添加<a href="https://search.maven.org/search?q=g:org.la4j%20AND%20a:la4j" target="_blank" rel="noopener noreffer">依赖项：</a></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.la4j<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>la4j<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>0.6.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>现在，LA4J 的工作方式与其他库非常相似。<strong>它提供了一个 带有 <em>Basic2DMatrix</em>实现的<em>Matrix</em></strong>接口，该实现将二维<em>双</em>精度数组作为输入：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Matrix</span> <span class="n">matrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Basic2DMatrix</span><span class="o">(</span><span class="cm">/* a two dimensions double array */</span><span class="o">);</span>
+</span></span></code></pre></div><p>与 Apache Commons Math3 模块中一样，乘法方法是 *multiply()*并将另一个 <em>Matrix</em>作为其参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Matrix</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">firstMatrix</span><span class="o">.</span><span class="na">multiply</span><span class="o">(</span><span class="n">secondMatrix</span><span class="o">);</span>
+</span></span></code></pre></div><p>再一次，我们可以检查结果是否符合我们的预期：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+</span></span></code></pre></div><p>现在让我们看看我们的最后一个库：Colt。</p>
+<h3 id="36-colt">3.6. Colt</h3>
+<p><a href="https://dst.lbl.gov/ACSSoftware/colt/" target="_blank" rel="noopener noreffer">Colt</a>是 CERN 开发的一个库。它提供了支持高性能科学和技术计算的功能。</p>
+<p>与之前的库一样，我们必须获得<a href="https://search.maven.org/search?q=g:colt%20AND%20a:colt" target="_blank" rel="noopener noreffer">正确的依赖项</a>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>colt<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>colt<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.2.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>为了使用 Colt 创建矩阵，<strong>我们必须使用<em>DoubleFactory2D 类</em></strong>。它带有三个工厂实例：<em>dense、sparse</em>和 <em>rowCompressed</em>。每个都经过优化以创建匹配类型的矩阵。</p>
+<p>出于我们的目的，我们将使用<em>密集</em>实例。这一次，<strong>调用的方法是 <em>make()</em></strong>，它再次接受一个二维<em>双精度数组</em>，生成一个<em>DoubleMatrix2D</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DoubleMatrix2D</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">doubleFactory2D</span><span class="o">.</span><span class="na">make</span><span class="o">(</span><span class="cm">/* a two dimensions double array */</span><span class="o">);</span>
+</span></span></code></pre></div><p>一旦我们的矩阵被实例化，我们就会想要将它们相乘。这一次，矩阵对象上没有方法可以做到这一点。我们必须创建一个**Algebra类的实例，它有一个 <em>mult()<em>方法</em></em>，采用两个矩阵作为参数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Algebra</span> <span class="n">algebra</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Algebra</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">DoubleMatrix2D</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">algebra</span><span class="o">.</span><span class="na">mult</span><span class="o">(</span><span class="n">firstMatrix</span><span class="o">,</span> <span class="n">secondMatrix</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后，我们可以将实际结果与预期结果进行比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">actual</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">expected</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="4-基准测试">4. 基准测试</h2>
+<p>现在我们已经完成了对矩阵乘法不同可能性的探索，让我们来看看哪些是性能最高的。</p>
+<h3 id="41-小矩阵">4.1 小矩阵</h3>
+<p>让我们从小矩阵开始。在这里，一个 3×2 和一个 2×4 矩阵。</p>
+<p>为了实现性能测试，我们将使用<a href="/java_microbenchmark_harness" rel=""><strong>JMH 基准测试库</strong></a>。让我们使用以下选项配置一个基准测试类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Options</span> <span class="n">opt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OptionsBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">include</span><span class="o">(</span><span class="n">MatrixMultiplicationBenchmarking</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">mode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">AverageTime</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">forks</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">warmupIterations</span><span class="o">(</span><span class="n">5</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">measurementIterations</span><span class="o">(</span><span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">timeUnit</span><span class="o">(</span><span class="n">TimeUnit</span><span class="o">.</span><span class="na">MICROSECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">Runner</span><span class="o">(</span><span class="n">opt</span><span class="o">).</span><span class="na">run</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这样，JMH 将为使用*@Benchmark*注释的每种方法进行两次完整运行，每次运行五次预热迭代（不计入平均计算）和十次测量迭代。至于测量，它将收集不同库的平均执行时间，以微秒为单位。</p>
+<p>然后我们必须创建一个包含我们的数组的状态对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@State</span><span class="o">(</span><span class="n">Scope</span><span class="o">.</span><span class="na">Benchmark</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MatrixProvider</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span><span class="o">[][]</span> <span class="n">firstMatrix</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span><span class="o">[][]</span> <span class="n">secondMatrix</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MatrixProvider</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">firstMatrix</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">          <span class="k">new</span> <span class="kt">double</span><span class="o">[][]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">1d</span><span class="o">,</span> <span class="n">5d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">            <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">2d</span><span class="o">,</span> <span class="n">3d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">            <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">1d</span> <span class="o">,</span><span class="n">7d</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">          <span class="o">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">secondMatrix</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl">          <span class="k">new</span> <span class="kt">double</span><span class="o">[][]</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">1d</span><span class="o">,</span> <span class="n">2d</span><span class="o">,</span> <span class="n">3d</span><span class="o">,</span> <span class="n">7d</span><span class="o">},</span>
+</span></span><span class="line"><span class="cl">            <span class="k">new</span> <span class="kt">double</span><span class="o">[]</span> <span class="o">{</span><span class="n">5d</span><span class="o">,</span> <span class="n">2d</span><span class="o">,</span> <span class="n">8d</span><span class="o">,</span> <span class="n">1d</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">          <span class="o">};</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这样，我们确保数组初始化不是基准测试的一部分。之后，我们仍然需要创建执行矩阵乘法的方法，使用<em>MatrixProvider</em>对象作为数据源。我们不会在这里重复代码，因为我们之前看到了每个库。</p>
+<p>最后，我们将使用我们的 <em>main</em>方法运行基准测试过程。这给了我们以下结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Benchmark                                                           Mode  Cnt   Score   Error  Units
+</span></span><span class="line"><span class="cl">MatrixMultiplicationBenchmarking.apacheCommonsMatrixMultiplication  avgt   20   1,008 ± 0,032  us/op
+</span></span><span class="line"><span class="cl">MatrixMultiplicationBenchmarking.coltMatrixMultiplication           avgt   20   0,219 ± 0,014  us/op
+</span></span><span class="line"><span class="cl">MatrixMultiplicationBenchmarking.ejmlMatrixMultiplication           avgt   20   0,226 ± 0,013  us/op
+</span></span><span class="line"><span class="cl">MatrixMultiplicationBenchmarking.homemadeMatrixMultiplication       avgt   20   0,389 ± 0,045  us/op
+</span></span><span class="line"><span class="cl">MatrixMultiplicationBenchmarking.la4jMatrixMultiplication           avgt   20   0,427 ± 0,016  us/op
+</span></span><span class="line"><span class="cl">MatrixMultiplicationBenchmarking.nd4jMatrixMultiplication           avgt   20  12,670 ± 2,582  us/op
+</span></span></code></pre></div><p>正如我们所看到的，  <em>EJML</em>和<em>Colt</em>的性能非常好，每次操作大约五分之一微秒，而<em>ND4j</em>的性能较差，每次操作超过十微秒。其他图书馆的表演介于两者之间。</p>
+<p>此外，值得注意的是，当预热迭代次数从 5 次增加到 10 次时，所有库的性能都在提高。</p>
+<h3 id="42-大型矩阵">4.2. 大型矩阵</h3>
+<p>现在，如果我们采用更大的矩阵，比如 3000×3000，会发生什么？为了检查会发生什么，让我们首先创建另一个状态类，提供该大小的生成矩阵：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@State</span><span class="o">(</span><span class="n">Scope</span><span class="o">.</span><span class="na">Benchmark</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BigMatrixProvider</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span><span class="o">[][]</span> <span class="n">firstMatrix</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span><span class="o">[][]</span> <span class="n">secondMatrix</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">BigMatrixProvider</span><span class="o">()</span> <span class="o">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Setup</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setup</span><span class="o">(</span><span class="n">BenchmarkParams</span> <span class="n">parameters</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">firstMatrix</span> <span class="o">=</span> <span class="n">createMatrix</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">secondMatrix</span> <span class="o">=</span> <span class="n">createMatrix</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span><span class="o">[][]</span> <span class="nf">createMatrix</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span><span class="o">[][]</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">3000</span><span class="o">][</span><span class="n">3000</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">row</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">result</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">row</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">col</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="n">result</span><span class="o">[</span><span class="n">row</span><span class="o">].</span><span class="na">length</span><span class="o">;</span> <span class="n">col</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">result</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="na">nextDouble</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们所见，我们将创建 3000×3000 的二维双精度数组，其中填充了随机实数。</p>
+<p>现在让我们创建基准测试类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BigMatrixMultiplicationBenchmarking</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">parameters</span> <span class="o">=</span> <span class="n">parseParameters</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">ChainedOptionsBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OptionsBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">include</span><span class="o">(</span><span class="n">BigMatrixMultiplicationBenchmarking</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getSimpleName</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">mode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">AverageTime</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">forks</span><span class="o">(</span><span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">warmupIterations</span><span class="o">(</span><span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">measurementIterations</span><span class="o">(</span><span class="n">10</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">timeUnit</span><span class="o">(</span><span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="n">Runner</span><span class="o">(</span><span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">()).</span><span class="na">run</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">homemadeMatrixMultiplication</span><span class="o">(</span><span class="n">BigMatrixProvider</span> <span class="n">matrixProvider</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">HomemadeMatrix</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">multiplyMatrices</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getFirstMatrix</span><span class="o">(),</span> <span class="n">matrixProvider</span><span class="o">.</span><span class="na">getSecondMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">ejmlMatrixMultiplication</span><span class="o">(</span><span class="n">BigMatrixProvider</span> <span class="n">matrixProvider</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SimpleMatrix</span> <span class="n">firstMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleMatrix</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getFirstMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SimpleMatrix</span> <span class="n">secondMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SimpleMatrix</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getSecondMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">firstMatrix</span><span class="o">.</span><span class="na">mult</span><span class="o">(</span><span class="n">secondMatrix</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">apacheCommonsMatrixMultiplication</span><span class="o">(</span><span class="n">BigMatrixProvider</span> <span class="n">matrixProvider</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">RealMatrix</span> <span class="n">firstMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Array2DRowRealMatrix</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getFirstMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">RealMatrix</span> <span class="n">secondMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Array2DRowRealMatrix</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getSecondMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">firstMatrix</span><span class="o">.</span><span class="na">multiply</span><span class="o">(</span><span class="n">secondMatrix</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">la4jMatrixMultiplication</span><span class="o">(</span><span class="n">BigMatrixProvider</span> <span class="n">matrixProvider</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Matrix</span> <span class="n">firstMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Basic2DMatrix</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getFirstMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Matrix</span> <span class="n">secondMatrix</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Basic2DMatrix</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getSecondMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">firstMatrix</span><span class="o">.</span><span class="na">multiply</span><span class="o">(</span><span class="n">secondMatrix</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">nd4jMatrixMultiplication</span><span class="o">(</span><span class="n">BigMatrixProvider</span> <span class="n">matrixProvider</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">INDArray</span> <span class="n">firstMatrix</span> <span class="o">=</span> <span class="n">Nd4j</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getFirstMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">INDArray</span> <span class="n">secondMatrix</span> <span class="o">=</span> <span class="n">Nd4j</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getSecondMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">firstMatrix</span><span class="o">.</span><span class="na">mmul</span><span class="o">(</span><span class="n">secondMatrix</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">coltMatrixMultiplication</span><span class="o">(</span><span class="n">BigMatrixProvider</span> <span class="n">matrixProvider</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DoubleFactory2D</span> <span class="n">doubleFactory2D</span> <span class="o">=</span> <span class="n">DoubleFactory2D</span><span class="o">.</span><span class="na">dense</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">DoubleMatrix2D</span> <span class="n">firstMatrix</span> <span class="o">=</span> <span class="n">doubleFactory2D</span><span class="o">.</span><span class="na">make</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getFirstMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DoubleMatrix2D</span> <span class="n">secondMatrix</span> <span class="o">=</span> <span class="n">doubleFactory2D</span><span class="o">.</span><span class="na">make</span><span class="o">(</span><span class="n">matrixProvider</span><span class="o">.</span><span class="na">getSecondMatrix</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Algebra</span> <span class="n">algebra</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Algebra</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">algebra</span><span class="o">.</span><span class="na">mult</span><span class="o">(</span><span class="n">firstMatrix</span><span class="o">,</span> <span class="n">secondMatrix</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当我们运行这个基准测试时，我们会得到完全不同的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Benchmark                                                              Mode  Cnt    Score    Error  Units
+</span></span><span class="line"><span class="cl">BigMatrixMultiplicationBenchmarking.apacheCommonsMatrixMultiplication  avgt   20  511.140 ± 13.535   s/op
+</span></span><span class="line"><span class="cl">BigMatrixMultiplicationBenchmarking.coltMatrixMultiplication           avgt   20  197.914 ±  2.453   s/op
+</span></span><span class="line"><span class="cl">BigMatrixMultiplicationBenchmarking.ejmlMatrixMultiplication           avgt   20   25.830 ±  0.059   s/op
+</span></span><span class="line"><span class="cl">BigMatrixMultiplicationBenchmarking.homemadeMatrixMultiplication       avgt   20  497.493 ±  2.121   s/op
+</span></span><span class="line"><span class="cl">BigMatrixMultiplicationBenchmarking.la4jMatrixMultiplication           avgt   20   35.523 ±  0.102   s/op
+</span></span><span class="line"><span class="cl">BigMatrixMultiplicationBenchmarking.nd4jMatrixMultiplication           avgt   20    0.548 ±  0.006   s/op
+</span></span></code></pre></div><p>正如我们所看到的，自制的实现和 Apache 库现在比以前差了很多，需要将近 10 分钟来执行两个矩阵的乘法。</p>
+<p>Colt 用了 3 分钟多一点，这更好，但仍然很长。EJML 和 LA4J 的表现相当不错，因为它们的运行时间接近 30 秒。但是，是 ND4J 在<a href="https://deeplearning4j.konduit.ai/v/en-1.0.0-beta7/config/backends/performance-issues" target="_blank" rel="noopener noreffer">CPU 后端</a> 上在一秒钟内赢得了这个基准测试。</p>
+<h3 id="43-分析">4.3. 分析</h3>
+<p>这向我们表明，基准测试结果确实取决于矩阵的特征，因此很难指出一个赢家。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_matrix_multiplication/" data-title="" data-hashtags="Math"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_matrix_multiplication/" data-hashtag="Math"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_matrix_multiplication/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_matrix_multiplication/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_matrix_multiplication/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/math/">Math</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/15_mins_mybatis_generator/" class="prev" rel="prev" title="15分钟学习MyBatis Generator"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>15分钟学习MyBatis Generator</a>
+            <a href="/java_maximum_subarray/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

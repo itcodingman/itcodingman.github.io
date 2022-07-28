@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们介绍了MethodHandles API、它们是什么以及我们如何使用它们。我们还讨论了它与反射 API 的关系，并且由于方法句柄允许低级操作，因此最好避免使用它们，除非它们完全适合工作范围。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们介绍了MethodHandles API、它们是什么以及我们如何使用它们。我们还讨论了它与反射 API 的关系，并且由于方法句柄允许低级操作，因此最好避免使用它们，除非它们完全适合工作范围。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_method_handles/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-28T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们介绍了MethodHandles API、它们是什么以及我们如何使用它们。我们还讨论了它与反射 API 的关系，并且由于方法句柄允许低级操作，因此最好避免使用它们，除非它们完全适合工作范围。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_method_handles/" /><link rel="prev" href="http://itcodingman.github.io/java_merging_properties/" /><link rel="next" href="http://itcodingman.github.io/eclipse_tomcat_java_web_install_introduce/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_method_handles\/"
+        },"genre": "posts","wordcount":  3111 ,
+        "url": "http:\/\/itcodingman.github.io\/java_method_handles\/","datePublished": "2022-05-07T00:00:00+00:00","dateModified": "2022-07-28T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们介绍了MethodHandles API、它们是什么以及我们如何使用它们。我们还讨论了它与反射 API 的关系，并且由于方法句柄允许低级操作，因此最好避免使用它们，除非它们完全适合工作范围。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-07">2022-05-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;3111 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;7 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
+    <li><a href="#2-什么是方法句柄"><strong>2. 什么是方法句柄？</strong></a>
+      <ul>
+        <li><a href="#21-方法句柄与反射"><strong>2.1 方法句柄与反射</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-创建查找"><strong>3. 创建查找</strong></a></li>
+    <li><a href="#4-创建一个methodtype"><strong>4. 创建一个MethodType</strong></a></li>
+    <li><a href="#5-寻找methodhandle"><strong>5. 寻找MethodHandle</strong></a>
+      <ul>
+        <li><a href="#51-方法的方法句柄"><strong>5.1 方法的方法句柄</strong></a></li>
+        <li><a href="#52-静态方法的方法句柄"><strong>5.2. 静态方法的方法句柄</strong></a></li>
+        <li><a href="#53-构造函数的方法句柄"><strong>5.3. 构造函数的方法句柄</strong></a></li>
+        <li><a href="#54-字段的方法句柄"><strong>5.4. 字段的方法句柄</strong></a></li>
+        <li><a href="#55私有方法的方法句柄"><strong>5.5。私有方法的方法句柄</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#6调用方法句柄"><strong>6.调用方法句柄</strong></a>
+      <ul>
+        <li><a href="#61-调用方法句柄"><strong>6.1 调用方法句柄</strong></a></li>
+        <li><a href="#62-使用参数调用"><strong>6.2. 使用参数调用</strong></a></li>
+        <li><a href="#63-调用精确"><strong>6.3. 调用精确</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-使用数组"><strong>7. 使用数组</strong></a></li>
+    <li><a href="#8-增强方法句柄"><strong>8. 增强方法句柄</strong></a></li>
+    <li><a href="#9-java-9-增强功能"><strong>9. Java 9 增强功能</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
+<p>在本文中，我们将探讨 Java 7 中引入并在以下版本中得到增强的重要 API，即*<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/invoke/MethodHandles.html" target="_blank" rel="noopener noreffer">java.lang.invoke.MethodHandles</a>*。</p>
+<p>特别是，我们将学习什么是方法句柄，如何创建它们以及如何使用它们。</p>
+<h2 id="2-什么是方法句柄"><strong>2. 什么是方法句柄？</strong></h2>
+<p>如API文档中所述，对其定义进行了说明：</p>
+<blockquote>
+<p>方法句柄是对底层方法、构造函数、字段或类似的低级操作的类型化、直接可执行的引用，具有参数或返回值的可选转换。</p>
+</blockquote>
+<p>以更简单的方式，<strong>方法句柄是一种用于查找、调整和调用方法的低级机制</strong>。</p>
+<p>方法句柄是不可变的并且没有可见状态。</p>
+<p>要创建和使用<em>MethodHandle</em>，需要 4 个步骤：</p>
+<ul>
+<li>创建查找</li>
+<li>创建方法类型</li>
+<li>查找方法句柄</li>
+<li>调用方法句柄</li>
+</ul>
+<h3 id="21-方法句柄与反射"><strong>2.1 方法句柄与反射</strong></h3>
+<p>引入方法句柄是为了与现有的*<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/reflect/package-summary.html" target="_blank" rel="noopener noreffer">java.lang.reflect</a>* API 一起工作，因为它们服务于不同的目的并具有不同的特性。</p>
+<p>从性能的角度来看，<strong>MethodHandles API 可以比 Reflection API 快得多，因为访问检查是在创建时而不是在执行时进行的</strong>。如果存在安全管理器，则这种差异会被放大，因为成员和类查找需要进行额外检查。</p>
+<p>然而，考虑到性能并不是任务的唯一适用性衡量标准，我们还必须考虑<em>MethodHandles</em> API 更难使用，因为缺少成员类枚举、可访问性标志检查等机制。</p>
+<p>即便如此，<em>MethodHandles</em> API 提供了对方法进行柯里化、更改参数类型和更改顺序的可能性。</p>
+<p>有了<em>MethodHandles</em> API 的明确定义和目标，我们现在可以开始使用它们，从查找开始。</p>
+<h2 id="3-创建查找"><strong>3. 创建查找</strong></h2>
+<p>当我们想要创建方法句柄时，首先要做的是检索查找，工厂对象负责为查找类可见的方法、构造函数和字段创建方法句柄。</p>
+<p>通过<em>MethodHandles</em> API，可以创建具有不同访问模式的查找对象。</p>
+<p>让我们创建提供对<em>公共</em>方法的访问的查找：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodHandles</span><span class="o">.</span><span class="na">Lookup</span> <span class="n">publicLookup</span> <span class="o">=</span> <span class="n">MethodHandles</span><span class="o">.</span><span class="na">publicLookup</span><span class="o">();</span>
+</span></span></code></pre></div><p>但是，如果我们还想访问<em>私有</em>和<em>受保护</em>的方法，我们可以使用*lookup()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodHandles</span><span class="o">.</span><span class="na">Lookup</span> <span class="n">lookup</span> <span class="o">=</span> <span class="n">MethodHandles</span><span class="o">.</span><span class="na">lookup</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="4-创建一个methodtype"><strong>4. 创建一个MethodType</strong></h2>
+<p>为了能够创建<em>MethodHandle</em>，查找对象需要定义其类型，这是通过<em>MethodType</em>类实现的。</p>
+<p>特别是，<strong>MethodType表示方法句柄接受和返回的参数和返回类型，或者方法句柄调用者传递和预期的参数和返回类型</strong>。</p>
+<p><em>MethodType</em>的结构很简单，它由返回类型和适当数量的参数类型组成，这些参数类型必须在方法句柄及其所有调用者之间正确匹配。</p>
+<p>与<em>MethodHandle</em> 一样，即使是<em>MethodType</em>的实例也是不可变的。</p>
+<p>让我们看看如何定义一个<em>MethodType</em>，将<em>java.util.List</em>类指定为返回类型，将<em>Object</em>数组指定为输入类型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="n">List</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Object</span><span class="o">[].</span><span class="na">class</span><span class="o">);</span>
+</span></span></code></pre></div><p>如果方法返回原始类型或<em>void</em>作为其返回类型，我们将使用表示这些类型的类（void.class、int.class &hellip;）。</p>
+<p>让我们定义一个<em>MethodType</em>，它返回一个 int 值并接受一个<em>Object</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span></code></pre></div><p>我们现在可以继续创建<em>MethodHandle</em>。</p>
+<h2 id="5-寻找methodhandle"><strong>5. 寻找MethodHandle</strong></h2>
+<p>一旦我们定义了我们的方法类型，为了创建一个<em>MethodHandle</em>，我们必须通过<em>查找</em>或<em>publicLookup</em>对象找到它，同时提供原始类和方法名称。</p>
+<p>特别是，查找工厂提供了一<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/invoke/MethodHandles.Lookup.html#lookups" target="_blank" rel="noopener noreffer">组方法</a>，允许我们在考虑方法范围的情况下以适当的方式查找方法句柄。从最简单的场景开始，让我们探索主要的场景。</p>
+<h3 id="51-方法的方法句柄"><strong>5.1 方法的方法句柄</strong></h3>
+<p>使用*findVirtual()<em>方法允许我们为对象方法创建 MethodHandle。<em>让我们根据String</em>类的</em>concat()*方法创建一个：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">concatMH</span> <span class="o">=</span> <span class="n">publicLookup</span><span class="o">.</span><span class="na">findVirtual</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;concat&#34;</span><span class="o">,</span> <span class="n">mt</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="52-静态方法的方法句柄"><strong>5.2. 静态方法的方法句柄</strong></h3>
+<p>当我们想要访问静态方法时，我们可以使用*findStatic()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="n">List</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Object</span><span class="o">[].</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">asListMH</span> <span class="o">=</span> <span class="n">publicLookup</span><span class="o">.</span><span class="na">findStatic</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;asList&#34;</span><span class="o">,</span> <span class="n">mt</span><span class="o">);</span>
+</span></span></code></pre></div><p><em>在这种情况下，我们创建了一个方法句柄，将对象</em>数组转换为它们的<em>列表</em>。</p>
+<h3 id="53-构造函数的方法句柄"><strong>5.3. 构造函数的方法句柄</strong></h3>
+<p>可以使用*findConstructor()*方法访问构造函数。</p>
+<p>让我们创建一个方法句柄，其行为类似于<em>Integer</em>类的构造函数，接受<em>String</em>属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="kt">void</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">newIntegerMH</span> <span class="o">=</span> <span class="n">publicLookup</span><span class="o">.</span><span class="na">findConstructor</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">mt</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="54-字段的方法句柄"><strong>5.4. 字段的方法句柄</strong></h3>
+<p>使用方法句柄也可以访问字段。</p>
+<p>让我们开始定义<em>Book</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Book</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// constructor
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>以方法句柄和声明的属性之间的直接访问可见性为前提，我们可以创建一个充当 getter 的方法句柄：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">getTitleMH</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="na">findGetter</span><span class="o">(</span><span class="n">Book</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;title&#34;</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span></code></pre></div><p>有关处理变量/字段的更多信息，请查看<a href="java-variable-handles" rel="">Java 9 Variable Handles Demystified</a>，其中我们讨论了Java 9 中添加的<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/invoke/VarHandle.html" target="_blank" rel="noopener noreffer">java.lang.invoke.VarHandle</a> API。</p>
+<h3 id="55私有方法的方法句柄"><strong>5.5。私有方法的方法句柄</strong></h3>
+<p><em><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/reflect/package-summary.html" target="_blank" rel="noopener noreffer">在java.lang.reflect</a></em> API的帮助下，可以为私有方法创建方法句柄。</p>
+<p><em>让我们开始为Book</em>类添加一个<em>私有</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">String</span> <span class="nf">formatBook</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">id</span> <span class="o">+</span> <span class="s">&#34; &gt; &#34;</span> <span class="o">+</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>*现在我们可以创建一个与formatBook()*方法完全相同的方法句柄：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Method</span> <span class="n">formatBookMethod</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getDeclaredMethod</span><span class="o">(</span><span class="s">&#34;formatBook&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">formatBookMethod</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">formatBookMH</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="na">unreflect</span><span class="o">(</span><span class="n">formatBookMethod</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="6调用方法句柄"><strong>6.调用方法句柄</strong></h2>
+<p>一旦我们创建了方法句柄，下一步就是使用它们。特别是，<em>MethodHandle</em>类提供了 3 种不同的方式来执行方法句柄：<em>invoke()</em>、<em>invokeWithArugments()<em>和</em>invokeExact()</em>。</p>
+<p>让我们从<em>调用</em>选项开始。</p>
+<h3 id="61-调用方法句柄"><strong>6.1 调用方法句柄</strong></h3>
+<p>使用*invoke()*方法时，我们强制参数的数量（arity）是固定的，但我们允许对参数和返回类型进行强制转换和装箱/拆箱。</p>
+<p>让我们看看如何将*invoke()*与盒装参数一起使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="kt">char</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="kt">char</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">replaceMH</span> <span class="o">=</span> <span class="n">publicLookup</span><span class="o">.</span><span class="na">findVirtual</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;replace&#34;</span><span class="o">,</span> <span class="n">mt</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">output</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">replaceMH</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="s">&#34;jovo&#34;</span><span class="o">,</span> <span class="n">Character</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="sc">&#39;o&#39;</span><span class="o">),</span> <span class="sc">&#39;a&#39;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;java&#34;</span><span class="o">,</span> <span class="n">output</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这种情况下，<em>replaceMH</em>需要<em>char</em>参数，但<em>invoke()在执行之前对**Character</em>参数执行拆箱。</p>
+<h3 id="62-使用参数调用"><strong>6.2. 使用参数调用</strong></h3>
+<p><em>使用invokeWithArguments</em>方法调用方法句柄是三个选项中限制最少的。</p>
+<p>事实上，除了参数和返回类型的强制转换和装箱/拆箱外，它还允许变量 arity 调用。</p>
+<p>开始实践，这允许我们从一个int<em>值</em>数组<em>开始</em>创建一个<em>整数**列表：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="n">List</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Object</span><span class="o">[].</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">asList</span> <span class="o">=</span> <span class="n">publicLookup</span><span class="o">.</span><span class="na">findStatic</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;asList&#34;</span><span class="o">,</span> <span class="n">mt</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;)</span> <span class="n">asList</span><span class="o">.</span><span class="na">invokeWithArguments</span><span class="o">(</span><span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">),</span> <span class="n">is</span><span class="o">(</span><span class="n">list</span><span class="o">));</span>
+</span></span></code></pre></div><h3 id="63-调用精确"><strong>6.3. 调用精确</strong></h3>
+<p>如果我们希望在执行方法句柄（参数的数量及其类型）的方式上更加严格，我们必须使用*invokeExact()*方法。</p>
+<p>事实上，它不提供对提供的类的任何转换，并且需要固定数量的参数。</p>
+<p>让我们看看如何使用方法句柄对两个<em>int值**求和：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="kt">int</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">sumMH</span> <span class="o">=</span> <span class="n">lookup</span><span class="o">.</span><span class="na">findStatic</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;sum&#34;</span><span class="o">,</span> <span class="n">mt</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">sumMH</span><span class="o">.</span><span class="na">invokeExact</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">11</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">12</span><span class="o">,</span> <span class="n">sum</span><span class="o">);</span>
+</span></span></code></pre></div><p>如果在这种情况下，我们决定向<em>invokeExact</em>方法传递一个不是<em>int</em>的数字，则调用将导致<em>WrongMethodTypeException。</em></p>
+<h2 id="7-使用数组"><strong>7. 使用数组</strong></h2>
+<p><em>MethodHandles</em>不仅适用于字段或对象，还适用于数组。事实上，使用<em>asSpreader()</em> API，可以处理数组扩展方法。</p>
+<p>在这种情况下，方法句柄接受一个数组参数，将其元素作为位置参数展开，并且可以选择数组的长度。</p>
+<p>让我们看看如何传播方法句柄来检查数组中的元素是否相等：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="kt">boolean</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Object</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">equals</span> <span class="o">=</span> <span class="n">publicLookup</span><span class="o">.</span><span class="na">findVirtual</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;equals&#34;</span><span class="o">,</span> <span class="n">mt</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">methodHandle</span> <span class="o">=</span> <span class="n">equals</span><span class="o">.</span><span class="na">asSpreader</span><span class="o">(</span><span class="n">Object</span><span class="o">[].</span><span class="na">class</span><span class="o">,</span> <span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertTrue</span><span class="o">((</span><span class="kt">boolean</span><span class="o">)</span> <span class="n">methodHandle</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="k">new</span> <span class="n">Object</span><span class="o">[]</span> <span class="o">{</span> <span class="s">&#34;java&#34;</span><span class="o">,</span> <span class="s">&#34;java&#34;</span> <span class="o">}));</span>
+</span></span></code></pre></div><h2 id="8-增强方法句柄"><strong>8. 增强方法句柄</strong></h2>
+<p>一旦我们定义了一个方法句柄，就可以通过将方法句柄绑定到一个参数而不实际调用它来增强它。</p>
+<p>例如，在 Java 9 中，这种行为用于优化<em>字符串</em>连接。</p>
+<p>让我们看看如何执行连接，将后缀绑定到我们的<em>concatMH</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MethodType</span> <span class="n">mt</span> <span class="o">=</span> <span class="n">MethodType</span><span class="o">.</span><span class="na">methodType</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">concatMH</span> <span class="o">=</span> <span class="n">publicLookup</span><span class="o">.</span><span class="na">findVirtual</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&#34;concat&#34;</span><span class="o">,</span> <span class="n">mt</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">MethodHandle</span> <span class="n">bindedConcatMH</span> <span class="o">=</span> <span class="n">concatMH</span><span class="o">.</span><span class="na">bindTo</span><span class="o">(</span><span class="s">&#34;Hello &#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Hello World!&#34;</span><span class="o">,</span> <span class="n">bindedConcatMH</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="s">&#34;World!&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><h2 id="9-java-9-增强功能"><strong>9. Java 9 增强功能</strong></h2>
+<p>在 Java 9 中，对<em>MethodHandles</em> API 进行了一些改进，目的是使其更易于使用。</p>
+<p>增强功能影响了 3 个主要主题：</p>
+<ul>
+<li><strong>查找函数</strong>——允许从不同的上下文中查找类并支持接口中的非抽象方法</li>
+<li><strong>论点处理</strong>——改进论点折叠、论点收集和论点传播功能</li>
+<li><strong>其他组合</strong>——添加循环（<em>loop</em>、<em>whileLoop、<strong>doWhileLoop… ）以及使用</strong>tryFinally</em>提供更好的异常处理支持</li>
+</ul>
+<p>这些变化带来了一些额外的好处：</p>
+<ul>
+<li>增加了 JVM 编译器优化</li>
+<li>实例化减少</li>
+<li><em>在MethodHandles</em> API的使用中启用精度</li>
+</ul>
+<p><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/invoke/MethodHandles.html" target="_blank" rel="noopener noreffer"><em>MethodHandles</em> API Javadoc</a>中提供了增强的详细信息。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_method_handles/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_method_handles/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_method_handles/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_method_handles/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_method_handles/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_merging_properties/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/eclipse_tomcat_java_web_install_introduce/" class="next" rel="next" title="Eclipse、Tomcat和Java Web的安装、配置及开发">Eclipse、Tomcat和Java Web的安装、配置及开发<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

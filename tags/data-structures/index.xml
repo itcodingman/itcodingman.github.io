@@ -1,0 +1,23 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Data Structures - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/data-structures/</link>
+        <description>Data Structures - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 08 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/data-structures/" rel="self" type="application/rss+xml" /><item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_monte_carlo_tree_search/</link>
+    <pubDate>Wed, 08 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_monte_carlo_tree_search/</guid>
+    <description><![CDATA[1. 概述 在本文中，我们将探索蒙特卡洛树搜索 (MCTS) 算法及其应用。 我们将通过在 Java 中实现井字游戏来详细了解它的各个阶段。我们将设计一个通用的解决方案，它]]></description>
+</item>
+<item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_min_max_heap/</link>
+    <pubDate>Sat, 21 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_min_max_heap/</guid>
+    <description><![CDATA[1. 概述 在本教程中，我们将了解如何在 Java中实现最小-最大堆。 2. 最小-最大堆 首先，我们来看看堆的定义和特点。min-max heap 是一棵完全二叉树]]></description>
+</item>
+</channel>
+</rss>

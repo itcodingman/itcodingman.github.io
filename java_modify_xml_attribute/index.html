@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本快速教程中，我们介绍了如何使用 JAXP、dom4j 和 jOOX 修改 XML 属性。此外，我们使用 JMH 基准测试了这些库的性能。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本快速教程中，我们介绍了如何使用 JAXP、dom4j 和 jOOX 修改 XML 属性。此外，我们使用 JMH 基准测试了这些库的性能。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_modify_xml_attribute/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本快速教程中，我们介绍了如何使用 JAXP、dom4j 和 jOOX 修改 XML 属性。此外，我们使用 JMH 基准测试了这些库的性能。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_modify_xml_attribute/" /><link rel="prev" href="http://itcodingman.github.io/conda_install_introduce/" /><link rel="next" href="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_modify_xml_attribute\/"
+        },"genre": "posts","wordcount":  1743 ,
+        "url": "http:\/\/itcodingman.github.io\/java_modify_xml_attribute\/","datePublished": "2022-05-27T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本快速教程中，我们介绍了如何使用 JAXP、dom4j 和 jOOX 修改 XML 属性。此外，我们使用 JMH 基准测试了这些库的性能。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a>&nbsp;<a href="/categories/xml/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>XML</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-27">2022-05-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1743 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
+    <li><a href="#2-依赖"><strong>2. 依赖</strong></a></li>
+    <li><a href="#3-使用-jaxp"><strong>3. 使用 JAXP</strong></a></li>
+    <li><a href="#4-使用dom4j"><strong>4. 使用dom4j</strong></a>
+      <ul>
+        <li><a href="#41-maven-依赖"><strong>4.1 Maven 依赖</strong></a></li>
+        <li><a href="#42-使用orgdom4jelementaddattribute"><strong>4.2. 使用org.dom4j.Element.addAttribute</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-使用-joox"><strong>5. 使用 jOOX</strong></a>
+      <ul>
+        <li><a href="#51-maven-依赖"><strong>5.1 Maven 依赖</strong></a></li>
+        <li><a href="#52-使用orgw3cdomelementsetattribute"><strong>5.2. 使用<em>org.w3c.dom.Element.setAttribute</em></strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#6-基准"><strong>6. 基准</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
+<p>当我们使用 XML 时，一项常见的活动是使用它的属性。在本教程中，我们将探讨如何使用 Java 修改 XML 属性。</p>
+<h2 id="2-依赖"><strong>2. 依赖</strong></h2>
+<p>为了运行我们的测试，我们需要将<a href="https://search.maven.org/search?q=g:org.junit.jupiter%20AND%20a:junit-jupiter" target="_blank" rel="noopener noreffer">JUnit</a>和*<a href="https://search.maven.org/search?q=g:org.xmlunit%20AND%20a:xmlunit-assertj" target="_blank" rel="noopener noreffer">xmlunit-assertj</a>* 依赖项添加到我们的<a href="/maven" rel="">Maven</a>项目中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.junit.jupiter<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>junit-jupiter<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>5.8.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.xmlunit<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>xmlunit-assertj<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.6.3<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h2 id="3-使用-jaxp"><strong>3. 使用 JAXP</strong></h2>
+<p>让我们从一个 XML 文档开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;notification</span> <span class="na">id=</span><span class="s">&#34;5&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;to</span> <span class="na">customer=</span><span class="s">&#34;true&#34;</span><span class="nt">&gt;</span>[[email protected]](cdn-cgi/l/email-protection)<span class="nt">&lt;/to&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;from&gt;</span>[[email protected]](cdn-cgi/l/email-protection)<span class="nt">&lt;/from&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/notification&gt;</span>
+</span></span></code></pre></div><p>为了处理它，我们将<strong>使用 Java API for XML Processing (JAXP)</strong>，它从 1.4 版开始与 Java 捆绑在一起。</p>
+<p>让我们修改<em>customer</em>属性并将其值更改为<em>false</em>。</p>
+<p>首先，我们需要从 XML 文件构建一个<em>Document</em>对象，为此，我们将使用<em>DocumentBuilderFactory</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DocumentBuilderFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="n">DocumentBuilderFactory</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">factory</span><span class="o">.</span><span class="na">setFeature</span><span class="o">(</span><span class="n">XMLConstants</span><span class="o">.</span><span class="na">FEATURE_SECURE_PROCESSING</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">factory</span><span class="o">.</span><span class="na">setFeature</span><span class="o">(</span><span class="s">&#34;http://apache.org/xml/features/disallow-doctype-decl&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Document</span> <span class="n">input</span> <span class="o">=</span> <span class="n">factory</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">newDocumentBuilder</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">resourcePath</span><span class="o">);</span>
+</span></span></code></pre></div><p>请注意，为了<strong>禁用</strong> <em>DocumentBuilderFactory</em>类的**[外部实体处理 (XXE)](<a href="https://owasp.org/www-community/vulnerabilities/XML_External_Entity_%28XXE" target="_blank" rel="noopener noreffer">https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE</a>)_Processing)** ，我们配置了<em>XMLConstants.FEATURE_SECURE_PROCESSING</em>和<em><a href="http://apache.org/xml/features/disallow-doctype-decl" target="_blank" rel="noopener noreffer">http://apache.org/xml/features/disallow-doctype-decl</a></em> 特征。当我们解析不受信任的 XML 文件时，配置它是一个很好的做法。</p>
+<p>初始化我们的<em>输入</em>对象后，我们需要找到具有我们想要更改的属性的节点。让我们使用<a href="/java_xpath" rel="">XPath 表达式</a>来选择它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XPath</span> <span class="n">xpath</span> <span class="o">=</span> <span class="n">XPathFactory</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">newXPath</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">expr</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;//*[contains(@%s, &#39;%s&#39;)]&#34;</span><span class="o">,</span> <span class="n">attribute</span><span class="o">,</span> <span class="n">oldValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">NodeList</span> <span class="n">nodes</span> <span class="o">=</span> <span class="o">(</span><span class="n">NodeList</span><span class="o">)</span> <span class="n">xpath</span><span class="o">.</span><span class="na">evaluate</span><span class="o">(</span><span class="n">expr</span><span class="o">,</span> <span class="n">input</span><span class="o">,</span> <span class="n">XPathConstants</span><span class="o">.</span><span class="na">NODESET</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这种情况下，XPath<em>评估</em>方法返回给我们一个包含匹配节点的节点列表。</p>
+<p>让我们遍历列表以更改值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nodes</span><span class="o">.</span><span class="na">getLength</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Element</span> <span class="n">value</span> <span class="o">=</span> <span class="o">(</span><span class="n">Element</span><span class="o">)</span> <span class="n">nodes</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">value</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="n">attribute</span><span class="o">,</span> <span class="n">newValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>或者，我们可以使用<em>IntStream</em>来代替<em>for</em>循环：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IntStream</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">nodes</span><span class="o">.</span><span class="na">getLength</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">mapToObj</span><span class="o">(</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">Element</span><span class="o">)</span> <span class="n">nodes</span><span class="o">.</span><span class="na">item</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">value</span> <span class="o">-&gt;</span> <span class="n">value</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="n">attribute</span><span class="o">,</span> <span class="n">newValue</span><span class="o">));</span>
+</span></span></code></pre></div><p>现在，让我们使用<em>Transformer</em>对象来应用更改：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">TransformerFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="n">TransformerFactory</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">factory</span><span class="o">.</span><span class="na">setFeature</span><span class="o">(</span><span class="n">XMLConstants</span><span class="o">.</span><span class="na">FEATURE_SECURE_PROCESSING</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Transformer</span> <span class="n">xformer</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">newTransformer</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">xformer</span><span class="o">.</span><span class="na">setOutputProperty</span><span class="o">(</span><span class="n">OutputKeys</span><span class="o">.</span><span class="na">INDENT</span><span class="o">,</span> <span class="s">&#34;yes&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Writer</span> <span class="n">output</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringWriter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">xformer</span><span class="o">.</span><span class="na">transform</span><span class="o">(</span><span class="k">new</span> <span class="n">DOMSource</span><span class="o">(</span><span class="n">input</span><span class="o">),</span> <span class="k">new</span> <span class="n">StreamResult</span><span class="o">(</span><span class="n">output</span><span class="o">));</span>
+</span></span></code></pre></div><p>如果我们打印<em>输出</em>对象的内容，我们将得到修改了<em>客户</em>属性的结果 XML：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;notification</span> <span class="na">id=</span><span class="s">&#34;5&#34;</span><span class="nt">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;to</span> <span class="na">customer=</span><span class="s">&#34;false&#34;</span><span class="nt">&gt;</span>[[email protected]](cdn-cgi/l/email-protection)<span class="nt">&lt;/to&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;from&gt;</span>[[email protected]](cdn-cgi/l/email-protection)<span class="nt">&lt;/from&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/notification&gt;</span>
+</span></span></code></pre></div><p>此外，如果我们需要在单元测试中验证它，我们可以使用<a href="/xmlunit2" rel="">XMLUnit的</a><em>assertThat</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">output</span><span class="o">.</span><span class="na">toString</span><span class="o">()).</span><span class="na">hasXPath</span><span class="o">(</span><span class="s">&#34;//*[contains(@customer, &#39;false&#39;)]&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="4-使用dom4j"><strong>4. 使用dom4j</strong></h2>
+<p><a href="https://dom4j.github.io/" target="_blank" rel="noopener noreffer">dom4j</a>是一个用于处理 XML 的开源框架，它与 XPath 集成并完全支持 DOM、SAX、JAXP 和 Java 集合。</p>
+<h3 id="41-maven-依赖"><strong>4.1 Maven 依赖</strong></h3>
+<p>我们需要将<a href="https://search.maven.org/search?q=g:org.dom4j%20AND%20a:dom4j" target="_blank" rel="noopener noreffer">dom4j</a>和<a href="https://search.maven.org/search?q=g:jaxen%20AND%20a:jaxen" target="_blank" rel="noopener noreffer">jaxen</a>依赖项添加到我们的<em>pom.xml</em>以在我们的项目中使用 dom4j：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.dom4j<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>dom4j<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.1.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>jaxen<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>jaxen<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.2.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>我们可以<a href="/java_xml_libraries" rel="">在我们的 XML 库支持文章中了解更多关于 dom4j 的信息</a>。</p>
+<h3 id="42-使用orgdom4jelementaddattribute"><strong>4.2. 使用org.dom4j.Element.addAttribute</strong></h3>
+<p>dom4j 提供<em>Element</em>接口作为 XML 元素的抽象。我们将使用<em>addAttribute</em>方法来更新我们的<em>客户</em>属性。</p>
+<p>让我们看看这是如何工作的。</p>
+<p>首先，我们需要从 XML 文件构建一个<em>Document</em>对象——这一次，我们将使用<em>SAXReader</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">SAXReader</span> <span class="n">xmlReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SAXReader</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Document</span> <span class="n">input</span> <span class="o">=</span> <span class="n">xmlReader</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">resourcePath</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">xmlReader</span><span class="o">.</span><span class="na">setFeature</span><span class="o">(</span><span class="s">&#34;http://apache.org/xml/features/disallow-doctype-decl&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">xmlReader</span><span class="o">.</span><span class="na">setFeature</span><span class="o">(</span><span class="s">&#34;http://xml.org/sax/features/external-general-entities&#34;</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">xmlReader</span><span class="o">.</span><span class="na">setFeature</span><span class="o">(</span><span class="s">&#34;http://xml.org/sax/features/external-parameter-entities&#34;</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</span></span></code></pre></div><p>我们设置附加功能是为了防止 XXE。</p>
+<p>像 JAXP 一样，我们可以使用 XPath 表达式来选择节点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">expr</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;//*[contains(@%s, &#39;%s&#39;)]&#34;</span><span class="o">,</span> <span class="n">attribute</span><span class="o">,</span> <span class="n">oldValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">XPath</span> <span class="n">xpath</span> <span class="o">=</span> <span class="n">DocumentHelper</span><span class="o">.</span><span class="na">createXPath</span><span class="o">(</span><span class="n">expr</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span> <span class="n">nodes</span> <span class="o">=</span> <span class="n">xpath</span><span class="o">.</span><span class="na">selectNodes</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</span></span></code></pre></div><p>现在，我们可以迭代和更新属性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nodes</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Element</span> <span class="n">element</span> <span class="o">=</span> <span class="o">(</span><span class="n">Element</span><span class="o">)</span> <span class="n">nodes</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">element</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="n">attribute</span><span class="o">,</span> <span class="n">newValue</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，使用此方法，如果给定名称的属性已存在，它将被替换。否则，它将被添加。</p>
+<p>为了打印结果，我们可以重用前面 JAXP 部分的代码。</p>
+<h2 id="5-使用-joox"><strong>5. 使用 jOOX</strong></h2>
+<p><a href="https://github.com/jOOQ/jOOX" target="_blank" rel="noopener noreffer">jOOX</a> (jOOX Object-Oriented XML) 是<em>org.w3c.dom</em>包的包装器，允许在需要 DOM 但过于冗长的情况下流畅地创建和操作 XML 文档。jOOX 仅包装底层文档，可用于增强 DOM，而不是作为替代方案。</p>
+<h3 id="51-maven-依赖"><strong>5.1 Maven 依赖</strong></h3>
+<p>我们需要将依赖项添加到我们的<em>pom.xml</em>以在我们的项目中使用 jOOX。</p>
+<p>对于 Java 9+，我们可以使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.jooq<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>joox<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.6.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>或者使用 Java 6+，我们有：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.jooq<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>joox-java-6<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.6.2<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>我们可以在 Maven 中央存储库中找到最新版本的*<a href="https://search.maven.org/search?q=g:org.jooq%20AND%20a:joox" target="_blank" rel="noopener noreffer">joox</a>* 和*<a href="https://search.maven.org/search?q=g:org.jooq%20AND%20a:joox-java-6" target="_blank" rel="noopener noreffer">joox-java-6</a>* 。</p>
+<h3 id="52-使用orgw3cdomelementsetattribute"><strong>5.2. 使用<em>org.w3c.dom.Element.setAttribute</em></strong></h3>
+<p>jOOX API 本身受到<a href="https://jquery.com/" target="_blank" rel="noopener noreffer">jQuery</a>的启发，我们可以在下面的示例中看到。让我们看看如何使用它。</p>
+<p>首先，我们需要加载<em>Document</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DocumentBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">JOOX</span><span class="o">.</span><span class="na">builder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">Document</span> <span class="n">input</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">resourcePath</span><span class="o">);</span>
+</span></span></code></pre></div><p>现在，我们需要选择它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Match</span> <span class="n">$</span> <span class="o">=</span> <span class="n">$</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+</span></span></code></pre></div><p>为了选择<em>客户元素，<em>我们可以使用</em>find</em>方法或 XPath 表达式。在这两种情况下，我们都会得到一个匹配它的元素列表。</p>
+<p>让我们看看实际的<em>find</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">$</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="s">&#34;to&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">get</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="n">attribute</span><span class="o">,</span> <span class="n">newValue</span><span class="o">));</span>
+</span></span></code></pre></div><p>要获得<em>String</em>形式的结果，我们只需要调用*toString()*方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">$</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="6-基准"><strong>6. 基准</strong></h2>
+<p>为了比较这些库的性能，我们使用了<a href="/java_microbenchmark_harness" rel="">JMH</a>基准。</p>
+<p>让我们看看结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">| Benchmark                          Mode  Cnt  Score   Error  Units |
+</span></span><span class="line"><span class="cl">|--------------------------------------------------------------------|
+</span></span><span class="line"><span class="cl">| AttributeBenchMark.dom4jBenchmark  avgt    5  0.150 ± 0.003  ms/op |
+</span></span><span class="line"><span class="cl">| AttributeBenchMark.jaxpBenchmark   avgt    5  0.166 ± 0.003  ms/op |
+</span></span><span class="line"><span class="cl">| AttributeBenchMark.jooxBenchmark   avgt    5  0.230 ± 0.033  ms/op |
+</span></span></code></pre></div><p>正如我们所见，对于这个用例和我们的实现，dom4j 和 JAXP 比 jOOX 得分更高。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_modify_xml_attribute/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_modify_xml_attribute/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_modify_xml_attribute/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_modify_xml_attribute/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_modify_xml_attribute/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/conda_install_introduce/" class="prev" rel="prev" title="conda的安装和使用、国内源、常用命令"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>conda的安装和使用、国内源、常用命令</a>
+            <a href="/java_modules_ddd_bounded_contexts/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

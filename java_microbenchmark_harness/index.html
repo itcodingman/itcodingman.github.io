@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="本教程重点介绍并展示了 Java 的微基准测试工具。"><meta property="og:title" content="" />
+<meta property="og:description" content="本教程重点介绍并展示了 Java 的微基准测试工具。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_microbenchmark_harness/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="本教程重点介绍并展示了 Java 的微基准测试工具。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_microbenchmark_harness/" /><link rel="prev" href="http://itcodingman.github.io/java_metrics/" /><link rel="next" href="http://itcodingman.github.io/java_microsoft_excel/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_microbenchmark_harness\/"
+        },"genre": "posts","wordcount":  1765 ,
+        "url": "http:\/\/itcodingman.github.io\/java_microbenchmark_harness\/","datePublished": "2022-05-17T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本教程重点介绍并展示了 Java 的微基准测试工具。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-17">2022-05-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1765 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介"><strong>1. 简介</strong></a></li>
+    <li><a href="#2-入门"><strong>2. 入门</strong></a></li>
+    <li><a href="#3-基准类型"><strong>3. 基准类型</strong></a></li>
+    <li><a href="#4-配置预热和执行"><strong>4. 配置预热和执行</strong></a></li>
+    <li><a href="#5-状态"><strong>5. 状态</strong></a></li>
+    <li><a href="#6-死代码消除">6. 死代码消除</a></li>
+    <li><a href="#7-恒定折叠">7. 恒定折叠</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介"><strong>1. 简介</strong></h2>
+<p>这篇快速文章的重点是 JMH（Java Microbenchmark Harness）。首先，我们熟悉 API 并了解其基础知识。然后我们会看到一些在编写微基准测试时应该考虑的最佳实践。</p>
+<p>简而言之，JMH 负责诸如 JVM 预热和代码优化路径之类的事情，使基准测试尽可能简单。</p>
+<h2 id="2-入门"><strong>2. 入门</strong></h2>
+<p>首先，我们实际上可以继续使用 Java 8 并简单地定义依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.openjdk.jmh<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>jmh-core<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.33<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.openjdk.jmh<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>jmh-generator-annprocess<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.33<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>可以在 Maven Central 中找到最新版本的<a href="https://search.maven.org/classic/#artifactdetails%7Corg.openjdk.jmh%7Cjmh-core%7C1.19%7Cjar" target="_blank" rel="noopener noreffer">JMH Core</a>和<a href="https://search.maven.org/classic/#artifactdetails%7Corg.openjdk.jmh%7Cjmh-generator-annprocess%7C1.19%7Cjar" target="_blank" rel="noopener noreffer">JMH Annotation Processor 。</a></p>
+<p>接下来，通过使用*@Benchmark*注释（在任何公共类中）创建一个简单的基准：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>然后我们添加启动基准测试过程的主类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BenchmarkRunner</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">org</span><span class="o">.</span><span class="na">openjdk</span><span class="o">.</span><span class="na">jmh</span><span class="o">.</span><span class="na">Main</span><span class="o">.</span><span class="na">main</span><span class="o">(</span><span class="n">args</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在运行<em>BenchmarkRunner</em>将执行我们可以说有些无用的基准测试。运行完成后，将显示一个汇总表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"># Run complete. Total time: 00:06:45
+</span></span><span class="line"><span class="cl">Benchmark      Mode  Cnt Score            Error        Units
+</span></span><span class="line"><span class="cl">BenchMark.init thrpt 200 3099210741.962 ± 17510507.589 ops/s
+</span></span></code></pre></div><h2 id="3-基准类型"><strong>3. 基准类型</strong></h2>
+<p>JMH 支持一些可能的基准测试：<em>Throughput、</em> <em>AverageTime、</em> <em>SampleTime</em>和<em>SingleShotTime</em>。这些可以通过*@BenchmarkMode*注释进行配置：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">AverageTime</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>结果表将具有平均时间度量（而不是吞吐量）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"># Run complete. Total time: 00:00:40
+</span></span><span class="line"><span class="cl">Benchmark Mode Cnt  Score Error Units
+</span></span><span class="line"><span class="cl">BenchMark.init avgt 20 ≈ 10⁻⁹ s/op
+</span></span></code></pre></div><h2 id="4-配置预热和执行"><strong>4. 配置预热和执行</strong></h2>
+<p>通过使用*@Fork*注解，我们可以设置基准测试的执行方式：<em>value</em>参数控制基准测试将执行多少次，<em>warmup</em>参数控制基准测试在收集结果之前将运行多少次，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Fork</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">1</span><span class="o">,</span> <span class="n">warmups</span> <span class="o">=</span> <span class="n">2</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">Throughput</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// Do nothing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>这指示 JMH 在进行实时基准测试之前运行两个预热分叉并丢弃结果。</p>
+<p>此外，<em>@Warmup</em>注释可用于控制预热迭代的次数。例如，*@Warmup(iterations = 5)*告诉 JMH 5 次预热迭代就足够了，而不是默认的 20 次。</p>
+<h2 id="5-状态"><strong>5. 状态</strong></h2>
+<p><em>现在让我们看看如何通过利用State</em>来执行对哈希算法进行基准测试的不那么琐碎和更具指示性的任务。假设我们决定通过对密码进行数百次散列处理来增加对密码数据库的字典攻击的额外保护。</p>
+<p>我们可以通过使用<em>State</em>对象来探索性能影响：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@State</span><span class="o">(</span><span class="n">Scope</span><span class="o">.</span><span class="na">Benchmark</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExecutionPlan</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Param</span><span class="o">({</span> <span class="s">&#34;100&#34;</span><span class="o">,</span> <span class="s">&#34;200&#34;</span><span class="o">,</span> <span class="s">&#34;300&#34;</span><span class="o">,</span> <span class="s">&#34;500&#34;</span><span class="o">,</span> <span class="s">&#34;1000&#34;</span> <span class="o">})</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">iterations</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Hasher</span> <span class="n">murmur3</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="n">password</span> <span class="o">=</span> <span class="s">&#34;4v3rys3kur3p455w0rd&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Setup</span><span class="o">(</span><span class="n">Level</span><span class="o">.</span><span class="na">Invocation</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">murmur3</span> <span class="o">=</span> <span class="n">Hashing</span><span class="o">.</span><span class="na">murmur3_128</span><span class="o">().</span><span class="na">newHasher</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们的基准测试方法将如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Fork</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">1</span><span class="o">,</span> <span class="n">warmups</span> <span class="o">=</span> <span class="n">1</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">Throughput</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">benchMurmur3_128</span><span class="o">(</span><span class="n">ExecutionPlan</span> <span class="n">plan</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">plan</span><span class="o">.</span><span class="na">iterations</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">plan</span><span class="o">.</span><span class="na">murmur3</span><span class="o">.</span><span class="na">putString</span><span class="o">(</span><span class="n">plan</span><span class="o">.</span><span class="na">password</span><span class="o">,</span> <span class="n">Charset</span><span class="o">.</span><span class="na">defaultCharset</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">plan</span><span class="o">.</span><span class="na">murmur3</span><span class="o">.</span><span class="na">hash</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，当 JMH 将 @Param 注释传递给基准方法时，将使用来自*@Param<em>注释的适当值填充字段</em>迭代。<em>@Setup注释方法在每次调用基准之前调用，并创建一个新的</em>Hasher**以*确保隔离。</p>
+<p>执行完成后，我们会得到类似下面的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"># Run complete. Total time: 00:06:47
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Benchmark                   (iterations)   Mode  Cnt      Score      Error  Units
+</span></span><span class="line"><span class="cl">BenchMark.benchMurmur3_128           100  thrpt   20  92463.622 ± 1672.227  ops/s
+</span></span><span class="line"><span class="cl">BenchMark.benchMurmur3_128           200  thrpt   20  39737.532 ± 5294.200  ops/s
+</span></span><span class="line"><span class="cl">BenchMark.benchMurmur3_128           300  thrpt   20  30381.144 ±  614.500  ops/s
+</span></span><span class="line"><span class="cl">BenchMark.benchMurmur3_128           500  thrpt   20  18315.211 ±  222.534  ops/s
+</span></span><span class="line"><span class="cl">BenchMark.benchMurmur3_128          1000  thrpt   20   8960.008 ±  658.524  ops/s
+</span></span></code></pre></div><h2 id="6-死代码消除">6. 死代码消除</h2>
+<p><strong>运行微基准测试时，了解优化非常重要</strong>。否则，它们可能会以非常误导的方式影响基准测试结果。</p>
+<p>为了让事情更具体一点，让我们考虑一个例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@OutputTimeUnit</span><span class="o">(</span><span class="n">TimeUnit</span><span class="o">.</span><span class="na">NANOSECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">AverageTime</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">doNothing</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@OutputTimeUnit</span><span class="o">(</span><span class="n">TimeUnit</span><span class="o">.</span><span class="na">NANOSECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">AverageTime</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">objectCreation</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们期望对象分配的成本高于什么都不做。但是，如果我们运行基准测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Benchmark                 Mode  Cnt  Score   Error  Units
+</span></span><span class="line"><span class="cl">BenchMark.doNothing       avgt   <span class="m">40</span>  0.609 ± 0.006  ns/op
+</span></span><span class="line"><span class="cl">BenchMark.objectCreation  avgt   <span class="m">40</span>  0.613 ± 0.007  ns/op
+</span></span></code></pre></div><p>显然在<a href="https://alidg.me/blog/2019/6/21/tlab-jvm" target="_blank" rel="noopener noreffer">TLAB</a>中找到一个位置，创建和初始化一个对象几乎是免费的！仅通过查看这些数字，我们应该知道这里并没有完全加起来。</p>
+<p><strong>在这里，我们是死代码消除的受害者</strong>。编译器非常擅长优化冗余代码。事实上，这正是 JIT 编译器在这里所​​做的。</p>
+<p>**为了防止这种优化，我们应该以某种方式欺骗编译器，让它认为代码被其他组件使用。**实现此目的的一种方法是返回创建的对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@OutputTimeUnit</span><span class="o">(</span><span class="n">TimeUnit</span><span class="o">.</span><span class="na">NANOSECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">AverageTime</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">Object</span> <span class="nf">pillarsOfCreation</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此外，我们可以让 <em><a href="http://javadox.com/org.openjdk.jmh/jmh-core/1.6.3/org/openjdk/jmh/infra/Blackhole.html" target="_blank" rel="noopener noreffer">黑洞</a></em> 消耗它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@OutputTimeUnit</span><span class="o">(</span><span class="n">TimeUnit</span><span class="o">.</span><span class="na">NANOSECONDS</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@BenchmarkMode</span><span class="o">(</span><span class="n">Mode</span><span class="o">.</span><span class="na">AverageTime</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">blackHole</span><span class="o">(</span><span class="n">Blackhole</span> <span class="n">blackhole</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">blackhole</span><span class="o">.</span><span class="na">consume</span><span class="o">(</span><span class="k">new</span> <span class="n">Object</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>让<em>Blackhole</em> 使用该对象是一种说服 JIT 编译器不应用死代码消除优化的方法</strong>。无论如何，如果我们再次运行这些基准测试，这些数字会更有意义：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Benchmark                    Mode  Cnt  Score   Error  Units
+</span></span><span class="line"><span class="cl">BenchMark.blackHole          avgt   <span class="m">20</span>  4.126 ± 0.173  ns/op
+</span></span><span class="line"><span class="cl">BenchMark.doNothing          avgt   <span class="m">20</span>  0.639 ± 0.012  ns/op
+</span></span><span class="line"><span class="cl">BenchMark.objectCreation     avgt   <span class="m">20</span>  0.635 ± 0.011  ns/op
+</span></span><span class="line"><span class="cl">BenchMark.pillarsOfCreation  avgt   <span class="m">20</span>  4.061 ± 0.037  ns/op
+</span></span></code></pre></div><h2 id="7-恒定折叠">7. 恒定折叠</h2>
+<p>让我们考虑另一个例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">double</span> <span class="nf">foldedLog</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">8</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**无论执行次数如何，基于常量的计算都可能返回完全相同的输出。**因此，JIT 编译器很有可能会用其结果替换对数函数调用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">double</span> <span class="nf">foldedLog</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">2</span><span class="o">.</span><span class="na">0794415416798357</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>这种部分求值的形式称为常量折叠</strong>。在这种情况下，常量折叠完全避免了 <em>Math.log</em>调用，这是基准测试的重点。</p>
+<p>为了防止常量折叠，我们可以将常量状态封装在一个状态对象中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@State</span><span class="o">(</span><span class="n">Scope</span><span class="o">.</span><span class="na">Benchmark</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Log</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">8</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Benchmark</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">double</span> <span class="nf">log</span><span class="o">(</span><span class="n">Log</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">     <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">x</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们对彼此运行这些基准测试：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Benchmark</span>             <span class="n">Mode</span>  <span class="n">Cnt</span>          <span class="n">Score</span>          <span class="n">Error</span>  <span class="n">Units</span>
+</span></span><span class="line"><span class="cl"><span class="n">BenchMark</span><span class="o">.</span><span class="na">foldedLog</span>  <span class="n">thrpt</span>   <span class="n">20</span>  <span class="n">449313097</span><span class="o">.</span><span class="na">433</span> <span class="err">±</span> <span class="n">11850214</span><span class="o">.</span><span class="na">900</span>  <span class="n">ops</span><span class="o">/</span><span class="n">s</span>
+</span></span><span class="line"><span class="cl"><span class="n">BenchMark</span><span class="o">.</span><span class="na">log</span>        <span class="n">thrpt</span>   <span class="n">20</span>   <span class="n">35317997</span><span class="o">.</span><span class="na">064</span> <span class="err">±</span>   <span class="n">604370</span><span class="o">.</span><span class="na">461</span>  <span class="n">ops</span><span class="o">/</span><span class="n">s</span>
+</span></span></code></pre></div><p>显然， 与*foldedLog相比，*<em>日志</em> 基准做了一些严肃的工作 ，这是明智的。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_microbenchmark_harness/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_microbenchmark_harness/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_microbenchmark_harness/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_microbenchmark_harness/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_microbenchmark_harness/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_metrics/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_microsoft_excel/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

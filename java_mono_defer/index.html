@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们讨论了Mono.defer()方法和热/冷发布者。此外，我们如何将热发布者转换为冷发布者。最后，我们还讨论了它在示例用例中的工作。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们讨论了Mono.defer()方法和热/冷发布者。此外，我们如何将热发布者转换为冷发布者。最后，我们还讨论了它在示例用例中的工作。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_mono_defer/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们讨论了Mono.defer()方法和热/冷发布者。此外，我们如何将热发布者转换为冷发布者。最后，我们还讨论了它在示例用例中的工作。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_mono_defer/" /><link rel="prev" href="http://itcodingman.github.io/java_mongodb_push_set/" /><link rel="next" href="http://itcodingman.github.io/java_mono_list_to_flux/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_mono_defer\/"
+        },"genre": "posts","wordcount":  1131 ,
+        "url": "http:\/\/itcodingman.github.io\/java_mono_defer\/","datePublished": "2022-06-06T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们讨论了Mono.defer()方法和热/冷发布者。此外，我们如何将热发布者转换为冷发布者。最后，我们还讨论了它在示例用例中的工作。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/reactive/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Reactive</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-06">2022-06-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1131 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-monodefer-方法是什么">2. Mono.defer 方法是什么？</a></li>
+    <li><a href="#3-它是如何工作的">3. 它是如何工作的？</a></li>
+    <li><a href="#4-monodefer的用例">4. <em>Mono.defer</em>的用例？</a>
+      <ul>
+        <li><a href="#41-示例使用">4.1 示例使用</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>在<a href="/reactor_core" rel="">反应式编程</a>中，我们可以通过多种方式创建<a href="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Mono.html" target="_blank" rel="noopener noreffer"><em>Mono</em></a>或<a href="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Flux.html" target="_blank" rel="noopener noreffer"><em>Flux</em></a>类型的发布者。在这里，我们将看看使用<em>defer</em>方法来延迟<em>Mono</em>发布者的执行。</p>
+<h2 id="2-monodefer-方法是什么">2. Mono.defer 方法是什么？</h2>
+<p><em>我们可以使用Mono的</em><a href="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Mono.html#defer-java.util.function.Supplier-" target="_blank" rel="noopener noreffer"><em>defer</em></a> 方法创建一个冷发布者，它最多可以产生一个值。让我们看一下方法签名：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">defer</span><span class="o">(</span><span class="n">Supplier</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Mono</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">supplier</span><span class="o">)</span>
+</span></span></code></pre></div><p>在这里，<em>defer</em>接受<em>Mono发布者的</em><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/function/Supplier.html" target="_blank" rel="noopener noreffer"><em>Supplier</em></a>，并在下游订阅时懒惰地返回该<em>Mono</em> 。</p>
+<p>然而，问题是，什么是冷出版商或懒惰出版商？让我们研究一下。</p>
+<p>**仅当消费者订阅冷发布者时，执行线程才会评估冷发布者。而热门出版商在任何订阅之前都热切地评估。**我们有<em>Mono.just()<em>方法，它提供了</em>Mono</em>类型的热门发布者。</p>
+<h2 id="3-它是如何工作的">3. 它是如何工作的？</h2>
+<p>让我们探索一个具有<em>Mono</em>类型的<em>供应商</em>的示例用例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">sampleMsg</span><span class="o">(</span><span class="n">String</span> <span class="n">str</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Call to Retrieve Sample Message!! --&gt; {} at: {}&#34;</span><span class="o">,</span> <span class="n">str</span><span class="o">,</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Mono</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="n">str</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，这个方法返回一个热门的<em>Mono</em>发布者。让我们热切地订阅这个：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUsingMonoJust_thenEagerEvaluation</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Mono</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">sampleMsg</span><span class="o">(</span><span class="s">&#34;Eager Publisher&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Intermediate Test Message....&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">StepVerifier</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">msg</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">expectNext</span><span class="o">(</span><span class="s">&#34;Eager Publisher&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">verifyComplete</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">5000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">StepVerifier</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">msg</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">expectNext</span><span class="o">(</span><span class="s">&#34;Eager Publisher&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">verifyComplete</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在执行时，我们可以在日志中看到以下内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nl">20:</span><span class="n">44</span><span class="o">:</span><span class="n">30</span><span class="o">.</span><span class="na">250</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">DEBUG</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">mono</span><span class="o">.</span><span class="na">MonoUnitTest</span> <span class="o">-</span> <span class="n">Call</span> <span class="n">to</span> <span class="n">Retrieve</span> <span class="n">Sample</span> <span class="n">Message</span><span class="o">!!</span> <span class="o">--&gt;</span> <span class="n">Eager</span> <span class="n">Publisher</span> <span class="n">at</span><span class="o">:</span> <span class="n">1622819670247</span>
+</span></span><span class="line"><span class="cl"><span class="nl">20:</span><span class="n">44</span><span class="o">:</span><span class="n">30</span><span class="o">.</span><span class="na">365</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">DEBUG</span> <span class="n">reactor</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Loggers$LoggerFactory</span> <span class="o">-</span> <span class="n">Using</span> <span class="n">Slf4j</span> <span class="n">logging</span> <span class="n">framework</span>
+</span></span><span class="line"><span class="cl"><span class="nl">20:</span><span class="n">44</span><span class="o">:</span><span class="n">30</span><span class="o">.</span><span class="na">365</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">DEBUG</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">mono</span><span class="o">.</span><span class="na">MonoUnitTest</span> <span class="o">-</span> <span class="n">Intermediate</span> <span class="n">Test</span> <span class="n">Message</span><span class="o">....</span>
+</span></span></code></pre></div><p>在这里，我们可以注意到：</p>
+<ul>
+<li>根据指令顺序，<em>main</em>线程急切地执行方法<em>sampleMsg</em>。</li>
+<li><em>在使用StepVerifier</em>的两个订阅中，<em>main</em>线程使用 sampleMsg 的相同<em>输出</em>。因此，没有新的评价。</li>
+</ul>
+<p>让我们看看*Mono.defer()*如何将其转换为冷（懒惰）发布者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUsingMonoDefer_thenLazyEvaluation</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Mono</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">deferMsg</span> <span class="o">=</span> <span class="n">Mono</span><span class="o">.</span><span class="na">defer</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">sampleMsg</span><span class="o">(</span><span class="s">&#34;Lazy Publisher&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">&#34;Intermediate Test Message....&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">StepVerifier</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">deferMsg</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">expectNext</span><span class="o">(</span><span class="s">&#34;Lazy Publisher&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">verifyComplete</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">5000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">StepVerifier</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">deferMsg</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">expectNext</span><span class="o">(</span><span class="s">&#34;Lazy Publisher&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">verifyComplete</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>执行此方法时，我们可以在控制台中看到以下日志：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nl">20:</span><span class="n">01</span><span class="o">:</span><span class="n">05</span><span class="o">.</span><span class="na">149</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">DEBUG</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">mono</span><span class="o">.</span><span class="na">MonoUnitTest</span> <span class="o">-</span> <span class="n">Intermediate</span> <span class="n">Test</span> <span class="n">Message</span><span class="o">....</span>
+</span></span><span class="line"><span class="cl"><span class="nl">20:</span><span class="n">01</span><span class="o">:</span><span class="n">05</span><span class="o">.</span><span class="na">187</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">DEBUG</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">mono</span><span class="o">.</span><span class="na">MonoUnitTest</span> <span class="o">-</span> <span class="n">Call</span> <span class="n">to</span> <span class="n">Retrieve</span> <span class="n">Sample</span> <span class="n">Message</span><span class="o">!!</span> <span class="o">--&gt;</span> <span class="n">Lazy</span> <span class="n">Publisher</span> <span class="n">at</span><span class="o">:</span> <span class="n">1622817065187</span>
+</span></span><span class="line"><span class="cl"><span class="nl">20:</span><span class="n">01</span><span class="o">:</span><span class="n">10</span><span class="o">.</span><span class="na">197</span> <span class="o">[</span><span class="n">main</span><span class="o">]</span> <span class="n">DEBUG</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">mono</span><span class="o">.</span><span class="na">MonoUnitTest</span> <span class="o">-</span> <span class="n">Call</span> <span class="n">to</span> <span class="n">Retrieve</span> <span class="n">Sample</span> <span class="n">Message</span><span class="o">!!</span> <span class="o">--&gt;</span> <span class="n">Lazy</span> <span class="n">Publisher</span> <span class="n">at</span><span class="o">:</span> <span class="n">1622817070197</span>
+</span></span></code></pre></div><p>在这里，我们可以从日志序列中注意到几点：</p>
+<ul>
+<li><em>StepVerifier</em>在每个订阅上执行方法<em>sampleMsg</em>，而不是在我们定义它的时候。</li>
+<li>延迟 5 秒后，订阅方法<em>sampleMsg</em>的第二个消费者再次执行它。</li>
+</ul>
+<p>这就是<em>defer</em>方法如何将热发布者变成冷发布者。</p>
+<h2 id="4-monodefer的用例">4. <em>Mono.defer</em>的用例？</h2>
+<p>让我们看看可以使用*Mono.defer()*方法的可能用例：</p>
+<ul>
+<li>当我们必须有条件地订阅发布者时</li>
+<li>当每个订阅的执行可能产生不同的结果时</li>
+<li><strong><a href="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/Mono.html#deferContextual-java.util.function.Function-" target="_blank" rel="noopener noreffer"><em>deferContextual</em></a>可用于当前基于上下文的发布者评估</strong></li>
+</ul>
+<h3 id="41-示例使用">4.1 示例使用</h3>
+<p>让我们看一个使用条件*Mono.defer()*方法的示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenEmptyList_thenMonoDeferExecuted</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Mono</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">emptyList</span> <span class="o">=</span> <span class="n">Mono</span><span class="o">.</span><span class="na">defer</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">monoOfEmptyList</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//Empty list, hence Mono publisher in switchIfEmpty executed after condition evaluation
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Flux</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">emptyListElements</span> <span class="o">=</span> <span class="n">emptyList</span><span class="o">.</span><span class="na">flatMapIterable</span><span class="o">(</span><span class="n">l</span> <span class="o">-&gt;</span> <span class="n">l</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">switchIfEmpty</span><span class="o">(</span><span class="n">Mono</span><span class="o">.</span><span class="na">defer</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">sampleMsg</span><span class="o">(</span><span class="s">&#34;EmptyList&#34;</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">log</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">StepVerifier</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">emptyListElements</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">expectNext</span><span class="o">(</span><span class="s">&#34;EmptyList&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">verifyComplete</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里，<em>Mono</em>发布者<em>sampleMsg</em>的提供者被放置在<em>switchIfEmpty</em>方法中，用于条件执行。因此，<em>sampleMsg</em>仅在它被延迟订阅时执行。</p>
+<p>现在，让我们看一下非空列表的相同代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenNonEmptyList_thenMonoDeferNotExecuted</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Mono</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">nonEmptyist</span> <span class="o">=</span> <span class="n">Mono</span><span class="o">.</span><span class="na">defer</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">monoOfList</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//Non empty list, hence Mono publisher in switchIfEmpty won&#39;t evaluated.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Flux</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">listElements</span> <span class="o">=</span> <span class="n">nonEmptyist</span><span class="o">.</span><span class="na">flatMapIterable</span><span class="o">(</span><span class="n">l</span> <span class="o">-&gt;</span> <span class="n">l</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">switchIfEmpty</span><span class="o">(</span><span class="n">Mono</span><span class="o">.</span><span class="na">defer</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">sampleMsg</span><span class="o">(</span><span class="s">&#34;NonEmptyList&#34;</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">log</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">StepVerifier</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">listElements</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">expectNext</span><span class="o">(</span><span class="s">&#34;one&#34;</span><span class="o">,</span> <span class="s">&#34;two&#34;</span><span class="o">,</span> <span class="s">&#34;three&#34;</span><span class="o">,</span> <span class="s">&#34;four&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">verifyComplete</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里，  <em>sampleMsg</em>没有被执行，因为它没有被订阅。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mono_defer/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mono_defer/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mono_defer/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mono_defer/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mono_defer/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_mongodb_push_set/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_mono_list_to_flux/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

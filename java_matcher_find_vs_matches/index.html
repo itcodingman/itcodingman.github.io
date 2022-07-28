@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们通过一个实际示例了解了find()、find(int)和matches()之间的区别。我们还看到了start()、group()和end()等各种方法如何帮助我们提取有关给定 match 的更多详细信息。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们通过一个实际示例了解了find()、find(int)和matches()之间的区别。我们还看到了start()、group()和end()等各种方法如何帮助我们提取有关给定 match 的更多详细信息。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_matcher_find_vs_matches/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们通过一个实际示例了解了find()、find(int)和matches()之间的区别。我们还看到了start()、group()和end()等各种方法如何帮助我们提取有关给定 match 的更多详细信息。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_matcher_find_vs_matches/" /><link rel="prev" href="http://itcodingman.github.io/java_marker_interfaces/" /><link rel="next" href="http://itcodingman.github.io/java_math_pow/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_matcher_find_vs_matches\/"
+        },"genre": "posts","keywords": "Regex","wordcount":  1491 ,
+        "url": "http:\/\/itcodingman.github.io\/java_matcher_find_vs_matches\/","datePublished": "2022-04-19T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们通过一个实际示例了解了find()、find(int)和matches()之间的区别。我们还看到了start()、group()和end()等各种方法如何帮助我们提取有关给定 match 的更多详细信息。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-19">2022-04-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1491 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-find方法">2. *find()*方法</a></li>
+    <li><a href="#3-findint方法">3. *find(int)*方法</a></li>
+    <li><a href="#4-matches方法">4. *matches()*方法</a></li>
+    <li><a href="#5-matcher和patternmatches的区别">5. *matcher()<em>和</em>Pattern.matches()*的区别</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>在 Java 中使用正则表达式时，我们通常希望在字符序列中搜索给定的<em>Pattern</em>。为了促进这一点，<a href="/regular_expressions_java" rel="">Java 正则表达式 API</a>提供了<em>Matcher</em>类，我们可以使用它来匹配给定的正则表达式与文本。</p>
+<p><strong>作为一般规则，我们几乎总是希望使用<em>Matcher</em>类</strong>的两种流行方法之一：</p>
+<ul>
+<li><em>find()</em></li>
+<li><em>matches()</em></li>
+</ul>
+<p>在本快速教程中，我们将通过一组简单的示例了解这些方法之间的区别。</p>
+<h2 id="2-find方法">2. *find()*方法</h2>
+<p>**简而言之，<em>find()<em>方法试图在给定的字符串中查找正则表达式模式的出现</em></em>。如果在字符串中发现多次出现，那么第一次调用*find()*将跳转到第一次出现。*此后，对find()*方法的每个后续调用都将一个接一个地转到下一个匹配项。</p>
+<p>假设我们只想在提供的字符串*“goodbye 2019 and welcome 2020”*中搜索四位数字。</p>
+<p>为此，我们将使用模式*“\d\d\d\d”*：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenFindFourDigitWorks_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Pattern</span> <span class="n">stringPattern</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">&#34;\\d\\d\\d\\d&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Matcher</span> <span class="n">m</span> <span class="o">=</span> <span class="n">stringPattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="s">&#34;goodbye 2019 and welcome 2020&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">m</span><span class="o">.</span><span class="na">find</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">8</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">start</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;2019&#34;</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">group</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">12</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">end</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">m</span><span class="o">.</span><span class="na">find</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">25</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">start</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;2020&#34;</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">group</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">29</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">end</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertFalse</span><span class="o">(</span><span class="n">m</span><span class="o">.</span><span class="na">find</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>由于我们在此示例中出现了两次*——2019 年<em>和</em>2020 年*—— <em>find()<em>方法将返回两次</em>true</em>，一旦到达匹配区域的末尾，它将返回<em>false</em>。</p>
+<p>一旦找到任何匹配项，我们就可以使用**<em>start()</em>、<em>group()<em>和</em>end()<em>等方法来获取有关匹配项的更多详细信息</em></em>，如上所示。</p>
+<p>*start()*方法将给出匹配的开始索引，end *()*将返回匹配结束后字符的最后一个索引，**<em>group()<em>将返回匹配的实际值</em></em>。</p>
+<h2 id="3-findint方法">3. *find(int)*方法</h2>
+<p>我们还有 find 方法的重载版本—— <em>find(int)</em>。它将起始索引作为参数，<strong>并将起始索引视为在字符串中查找出现的起点</strong>。</p>
+<p>让我们看看如何在与之前相同的示例中使用此方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenStartIndex_whenFindFourDigitWorks_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Pattern</span> <span class="n">stringPattern</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">&#34;\\d\\d\\d\\d&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Matcher</span> <span class="n">m</span> <span class="o">=</span> <span class="n">stringPattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="s">&#34;goodbye 2019 and welcome 2020&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">m</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">20</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">25</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">start</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;2020&#34;</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">group</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">29</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">end</span><span class="o">());</span>  
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>由于我们提供了<em>20</em>的起始索引，我们可以看到现在只找到一个事件 - <em>2020，<em>它按预期发生在该索引之后</em>。<em>而且，与</em>find()<em>的情况一样，我们可以使用</em>start()</em>、*group()<em>和</em>end()*等方法来提取有关匹配的更多详细信息。</p>
+<h2 id="4-matches方法">4. *matches()*方法</h2>
+<p>另一方面，*matches()*方法尝试将整个字符串与 pattern 进行匹配。</p>
+<p>对于同一个示例，<em>matches()<em>将返回</em>false</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenMatchFourDigitWorks_thenFail</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Pattern</span> <span class="n">stringPattern</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">&#34;\\d\\d\\d\\d&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Matcher</span> <span class="n">m</span> <span class="o">=</span> <span class="n">stringPattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="s">&#34;goodbye 2019 and welcome 2020&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertFalse</span><span class="o">(</span><span class="n">m</span><span class="o">.</span><span class="na">matches</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是因为它将尝试将*“\d\d\d\d”*与整个字符串“ <em>goodbye 2019 and welcome 2020”<em>进行匹配——**这与</em>find()<em>和</em>find(int)<em>方法不同，这两个方法都会在字符串中的任何位置查找模式的出现</em></em>。</p>
+<p>如果我们将字符串更改为四位数字*“2019”<em>，那么</em>matches()<em>将返回</em>true*：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenMatchFourDigitWorks_thenCorrect</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Pattern</span> <span class="n">stringPattern</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">&#34;\\d\\d\\d\\d&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Matcher</span> <span class="n">m</span> <span class="o">=</span> <span class="n">stringPattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="s">&#34;2019&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">m</span><span class="o">.</span><span class="na">matches</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">start</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;2019&#34;</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">group</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="n">m</span><span class="o">.</span><span class="na">end</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">m</span><span class="o">.</span><span class="na">matches</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如上所示，我们还可以使用<em>start()</em>、<em>group()<em>和</em>end()<em>等方法来收集有关比赛的更多详细信息。**需要注意的一个有趣的点是， 多次调用</em>find()可能会在调用这些方法后返回不同的输出，正如我们在第一个示例中看到的那样，但</em>matches()<em>将始终返回相同的值。</em>*</p>
+<h2 id="5-matcher和patternmatches的区别">5. *matcher()<em>和</em>Pattern.matches()*的区别</h2>
+<p>正如我们在上一节中看到的，<em>matcher()<em>方法返回一个</em>匹配器</em>，它将给定输入与模式匹配。</p>
+<p>另一方面，*Pattern.matches()*是一种<strong>静态方法，它编译正则表达式并将整个输入与它匹配</strong>。</p>
+<p>让我们创建测试用例来突出差异：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUsingMatcher_thenReturnTrue</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Pattern</span> <span class="n">pattern</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="n">REGEX</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Matcher</span> <span class="n">matcher</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="n">STRING_INPUT</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">matcher</span><span class="o">.</span><span class="na">find</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>简而言之，当我们使用*matcher()*时，我们会问一个问题：<strong>字符串是否包含模式？</strong></p>
+<p>使用<em>Pattern.matches()</em>，我们问：<strong>字符串是模式吗？</strong></p>
+<p>让我们看看它的实际效果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenUsingMatches_thenReturnFalse</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertFalse</span><span class="o">(</span><span class="n">Pattern</span><span class="o">.</span><span class="na">matches</span><span class="o">(</span><span class="n">REGEX</span><span class="o">,</span> <span class="n">STRING_INPUT</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>由于<em>Pattern.matches()<em>尝试匹配整个字符串，因此它返回</em>false</em>。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_matcher_find_vs_matches/" data-title="" data-hashtags="Regex"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_matcher_find_vs_matches/" data-hashtag="Regex"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_matcher_find_vs_matches/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_matcher_find_vs_matches/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_matcher_find_vs_matches/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/regex/">Regex</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_marker_interfaces/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_math_pow/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

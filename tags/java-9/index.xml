@@ -1,0 +1,31 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Java 9 - Tag - Coding Man</title>
+        <link>http://itcodingman.github.io/tags/java-9/</link>
+        <description>Java 9 - Tag - Coding Man</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 12 Jun 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/tags/java-9/" rel="self" type="application/rss+xml" /><item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_multi_release_jar/</link>
+    <pubDate>Sun, 12 Jun 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_multi_release_jar/</guid>
+    <description><![CDATA[1. 概述 Java 不断发展并向 JDK 添加新功能。而且，如果我们想在我们的 API 中使用这些功能，那么这可能会迫使下游依赖项升级其 JDK 版本。 有时，我们被迫等待使用新]]></description>
+</item>
+<item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_modules_decoupling_design_strategies/</link>
+    <pubDate>Sun, 29 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_modules_decoupling_design_strategies/</guid>
+    <description><![CDATA[1. 概述 Java 平台模块系统(JPMS) 提供了更强的封装性、更高的可靠性和更好的关注点分离。 但所有这些方便的功能都是有代价的。由于模块化应用程序建立]]></description>
+</item>
+<item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_modules_ddd_bounded_contexts/</link>
+    <pubDate>Sat, 28 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_modules_ddd_bounded_contexts/</guid>
+    <description><![CDATA[1. 概述 领域驱动设计 (DDD) 是一组原则和工具，可帮助我们设计有效的软件架构以提供更高的业务价值。限界上下文是通过将整个应用程序域分离为多个语义一致的]]></description>
+</item>
+</channel>
+</rss>

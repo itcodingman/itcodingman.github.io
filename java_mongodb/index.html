@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="本文是从 Java 中使用 MongoDB 的快速介绍。"><meta property="og:title" content="" />
+<meta property="og:description" content="本文是从 Java 中使用 MongoDB 的快速介绍。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_mongodb/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="本文是从 Java 中使用 MongoDB 的快速介绍。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_mongodb/" /><link rel="prev" href="http://itcodingman.github.io/java_money_into_words/" /><link rel="next" href="http://itcodingman.github.io/1_hour_servlet/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_mongodb\/"
+        },"genre": "posts","keywords": "MongoDB","wordcount":  1427 ,
+        "url": "http:\/\/itcodingman.github.io\/java_mongodb\/","datePublished": "2022-06-01T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本文是从 Java 中使用 MongoDB 的快速介绍。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/nosql/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>NoSQL</a>&nbsp;<a href="/categories/persistence/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Persistence</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-01">2022-06-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1427 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-mongodb"><strong>2. MongoDB</strong></a></li>
+    <li><a href="#3-术语"><strong>3. 术语</strong></a></li>
+    <li><a href="#4-maven依赖"><strong>4. Maven依赖</strong></a></li>
+    <li><a href="#5-使用mongodb"><strong>5. 使用MongoDB</strong></a>
+      <ul>
+        <li><a href="#51-与mongoclient建立连接"><strong>5.1 <em>与MongoClient</em>建立连接</strong></a></li>
+        <li><a href="#52-连接到数据库"><strong>5.2. 连接到数据库</strong></a></li>
+        <li><a href="#53-显示现有数据库"><strong>5.3. 显示现有数据库</strong></a></li>
+        <li><a href="#54-创建一个collection"><strong>5.4. 创建一个Collection</strong></a></li>
+        <li><a href="#55-保存---插入"><strong>5.5. 保存 - 插入</strong></a></li>
+        <li><a href="#56-保存---更新"><strong>5.6. 保存 - 更新</strong></a></li>
+        <li><a href="#57-从collection中读取文档"><strong>5.7. 从<em>Collection</em>中读取文档</strong></a></li>
+        <li><a href="#58-删除文档"><strong>5.8. 删除文档</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将了解<a href="https://www.mongodb.com/" target="_blank" rel="noopener noreffer">MongoDB</a>的集成，这是一个非常流行的 NoSQL 开源数据库与独立的 Java 客户端。</p>
+<p>MongoDB 是用 C++ 编写的，具有许多可靠的特性，例如 map-reduce、自动分片、复制、高可用性等。</p>
+<h2 id="2-mongodb"><strong>2. MongoDB</strong></h2>
+<p>让我们从关于 MongoDB 本身的几个关键点开始：</p>
+<ul>
+<li>将数据存储在可以具有各种结构的类似<a href="https://www.w3schools.com/js/js_json_intro.asp" target="_blank" rel="noopener noreffer">JSON的文档中</a></li>
+<li>使用动态模式，这意味着我们可以创建记录而无需预先定义任何东西</li>
+<li>只需添加新字段或删除现有字段即可更改记录的结构</li>
+</ul>
+<p>上述数据模型使我们能够表示层次关系，轻松存储数组和其他更复杂的结构。</p>
+<h2 id="3-术语"><strong>3. 术语</strong></h2>
+<p>如果我们可以将它们与关系数据库结构进行比较，那么理解 MongoDB 中的概念会变得更容易。</p>
+<p>让我们看看 Mongo 和传统 MySQL 系统的类比：</p>
+<ul>
+<li><em>MySQL 中的Table</em>成为Mongo中的<em>Collection</em></li>
+<li><em>Row</em>成为<em>Document</em></li>
+<li><em>Column <em>成为</em>Field</em></li>
+<li><em>Joins <em>被定义为</em>linking <em>和</em>embedded</em>文档</li>
+</ul>
+<p>当然，这是查看 MongoDB 核心概念的一种简单方式，但仍然很有用。</p>
+<p>现在，让我们深入了解这个强大的数据库的实现。</p>
+<h2 id="4-maven依赖"><strong>4. Maven依赖</strong></h2>
+<p>我们需要首先定义 MongoDB 的 Java 驱动程序的依赖关系：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.mongodb<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>mongo-java-driver<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.4.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>要检查是否已发布任何新版本的库 -<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.mongodb%22%20AND%20a%3A%22mongo-java-driver%22" target="_blank" rel="noopener noreffer">在此处跟踪发布</a>。</p>
+<h2 id="5-使用mongodb"><strong>5. 使用MongoDB</strong></h2>
+<p>现在，让我们开始使用 Java 实现 Mongo 查询。我们将遵循基本的 CRUD 操作，因为它们是最好的开始。</p>
+<h3 id="51-与mongoclient建立连接"><strong>5.1 <em>与MongoClient</em>建立连接</strong></h3>
+<p>首先，让我们连接到 MongoDB 服务器。如果版本 &gt;= 2.10.0，我们将使用<em>MongoClient</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MongoClient</span> <span class="n">mongoClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MongoClient</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="n">27017</span><span class="o">);</span>
+</span></span></code></pre></div><p>对于旧版本，请使用<em>Mongo</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Mongo</span> <span class="n">mongo</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Mongo</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="n">27017</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="52-连接到数据库"><strong>5.2. 连接到数据库</strong></h3>
+<p>现在，让我们连接到我们的数据库。有趣的是，我们不需要创建一个。当 Mongo 看到该数据库不存在时，它会为我们创建它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DB</span> <span class="n">database</span> <span class="o">=</span> <span class="n">mongoClient</span><span class="o">.</span><span class="na">getDB</span><span class="o">(</span><span class="s">&#34;myMongoDb&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>有时，默认情况下，MongoDB 以身份验证模式运行。在这种情况下，我们需要在连接到数据库时进行身份验证。</p>
+<p>我们可以如下所示进行：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MongoClient</span> <span class="n">mongoClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MongoClient</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">DB</span> <span class="n">database</span> <span class="o">=</span> <span class="n">mongoClient</span><span class="o">.</span><span class="na">getDB</span><span class="o">(</span><span class="s">&#34;myMongoDb&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">boolean</span> <span class="n">auth</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="na">authenticate</span><span class="o">(</span><span class="s">&#34;username&#34;</span><span class="o">,</span> <span class="s">&#34;pwd&#34;</span><span class="o">.</span><span class="na">toCharArray</span><span class="o">());</span>
+</span></span></code></pre></div><h3 id="53-显示现有数据库"><strong>5.3. 显示现有数据库</strong></h3>
+<p>让我们显示所有现有的数据库。当我们想使用命令行时，显示数据库的语法类似于 MySQL：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">show</span> <span class="n">databases</span><span class="p">;</span>
+</span></span></code></pre></div><p>在 Java 中，我们使用以下代码段显示数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">mongoClient</span><span class="o">.</span><span class="na">getDatabaseNames</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+</span></span></code></pre></div><p>输出将是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">local</span>      <span class="n">0</span><span class="o">.</span><span class="na">000GB</span>
+</span></span><span class="line"><span class="cl"><span class="n">myMongoDb</span>  <span class="n">0</span><span class="o">.</span><span class="na">000GB</span>
+</span></span></code></pre></div><p>上面，<em>local</em>是默认的 Mongo 数据库。</p>
+<h3 id="54-创建一个collection"><strong>5.4. 创建一个Collection</strong></h3>
+<p>让我们从为我们的数据库创建一个<em>Collection</em>（MongoDB 等效的表）开始。一旦我们连接到我们的数据库，我们可以将<em>Collection</em>设置为：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">database</span><span class="o">.</span><span class="na">createCollection</span><span class="o">(</span><span class="s">&#34;customers&#34;</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</span></span></code></pre></div><p>现在，让我们显示当前数据库的所有现有集合：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">database</span><span class="o">.</span><span class="na">getCollectionNames</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+</span></span></code></pre></div><p>输出将是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">customers</span>
+</span></span></code></pre></div><h3 id="55-保存---插入"><strong>5.5. 保存 - 插入</strong></h3>
+<p><em>save</em>操作具有save-or-update 语义：如果存在<em>id</em>，则执行<em>update</em>，否则执行<em>insert</em>。</p>
+<p>当我们<em>save</em>一个新客户时：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">DBCollection</span> <span class="n">collection</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="na">getCollection</span><span class="o">(</span><span class="s">&#34;customers&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">BasicDBObject</span> <span class="n">document</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicDBObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">document</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;Shubham&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">document</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;company&#34;</span><span class="o">,</span> <span class="s">&#34;ABC&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">collection</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">document</span><span class="o">);</span>
+</span></span></code></pre></div><p>该实体将被插入到数据库中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;_id&#34;</span> <span class="o">:</span> <span class="n">ObjectId</span><span class="o">(</span><span class="s">&#34;33a52bb7830b8c9b233b4fe6&#34;</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;name&#34;</span> <span class="o">:</span> <span class="s">&#34;Shubham&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;company&#34;</span> <span class="o">:</span> <span class="s">&#34;ABC&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们将查看具有<em>更新</em>语义的相同操作——<em>save。</em></p>
+<h3 id="56-保存---更新"><strong>5.6. 保存 - 更新</strong></h3>
+<p>现在让我们看看使用<em>更新语义的</em>save*，对现有客户进行操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;_id&#34;</span> <span class="o">:</span> <span class="n">ObjectId</span><span class="o">(</span><span class="s">&#34;33a52bb7830b8c9b233b4fe6&#34;</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;name&#34;</span> <span class="o">:</span> <span class="s">&#34;Shubham&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;company&#34;</span> <span class="o">:</span> <span class="s">&#34;ABC&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，当我们<em>保存</em>现有客户时——我们将对其进行更新：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BasicDBObject</span> <span class="n">query</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicDBObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">query</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;Shubham&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">BasicDBObject</span> <span class="n">newDocument</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicDBObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">newDocument</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;John&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">BasicDBObject</span> <span class="n">updateObject</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicDBObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">updateObject</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;$set&#34;</span><span class="o">,</span> <span class="n">newDocument</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">collection</span><span class="o">.</span><span class="na">update</span><span class="o">(</span><span class="n">query</span><span class="o">,</span> <span class="n">updateObject</span><span class="o">);</span>
+</span></span></code></pre></div><p>数据库将如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;_id&#34;</span> <span class="o">:</span> <span class="n">ObjectId</span><span class="o">(</span><span class="s">&#34;33a52bb7830b8c9b233b4fe6&#34;</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;name&#34;</span> <span class="o">:</span> <span class="s">&#34;John&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;company&#34;</span> <span class="o">:</span> <span class="s">&#34;ABC&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如您所见，在这个特定示例中，<em>save</em>使用<em>update</em>的语义，因为我们使用具有给定*_id*的对象。</p>
+<h3 id="57-从collection中读取文档"><strong>5.7. 从<em>Collection</em>中读取文档</strong></h3>
+<p>让我们通过查询来搜索<em>集合</em>中的<em>文档</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BasicDBObject</span> <span class="n">searchQuery</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicDBObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">searchQuery</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;John&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">DBCursor</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">searchQuery</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cursor</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>它将显示我们现在在<em>Collection中拥有的唯一**Document</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;_id&#34;</span> <span class="o">:</span> <span class="n">ObjectId</span><span class="o">(</span><span class="s">&#34;33a52bb7830b8c9b233b4fe6&#34;</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;name&#34;</span> <span class="o">:</span> <span class="s">&#34;John&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;company&#34;</span> <span class="o">:</span> <span class="s">&#34;ABC&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">]</span>
+</span></span></code></pre></div><h3 id="58-删除文档"><strong>5.8. 删除文档</strong></h3>
+<p>让我们继续我们的最后一个 CRUD 操作，删除：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BasicDBObject</span> <span class="n">searchQuery</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BasicDBObject</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">searchQuery</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">,</span> <span class="s">&#34;John&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">collection</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">searchQuery</span><span class="o">);</span>
+</span></span></code></pre></div><p>执行上述命令后，我们唯一的<em>Document</em>将从<em>Collection</em>中删除。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mongodb/" data-title="" data-hashtags="MongoDB"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mongodb/" data-hashtag="MongoDB"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mongodb/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mongodb/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mongodb/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_money_into_words/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/1_hour_servlet/" class="next" rel="next" title="一小时学习Servlet">一小时学习Servlet<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

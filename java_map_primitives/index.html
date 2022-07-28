@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们学习了如何使用 Eclipse Collections、HPPC 和 Fastutil 在 Java 中创建原始映射。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们学习了如何使用 Eclipse Collections、HPPC 和 Fastutil 在 Java 中创建原始映射。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_map_primitives/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们学习了如何使用 Eclipse Collections、HPPC 和 Fastutil 在 Java 中创建原始映射。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_map_primitives/" /><link rel="prev" href="http://itcodingman.github.io/java_map_new_entry/" /><link rel="next" href="http://itcodingman.github.io/vscode_c_install_introduce/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_map_primitives\/"
+        },"genre": "posts","keywords": "Java Map","wordcount":  1679 ,
+        "url": "http:\/\/itcodingman.github.io\/java_map_primitives\/","datePublished": "2022-04-10T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们学习了如何使用 Eclipse Collections、HPPC 和 Fastutil 在 Java 中创建原始映射。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-10">2022-04-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1679 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-eclipse-集合"><strong>2. Eclipse 集合</strong></a>
+      <ul>
+        <li><a href="#21-可变和不可变映射"><strong>2.1 可变和不可变映射</strong></a></li>
+        <li><a href="#22-原始-api-树"><strong>2.2. 原始 API 树</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-hppc"><strong>3. HPPC</strong></a>
+      <ul>
+        <li><a href="#31-一个简单的例子">3.1 一个简单的例子</a></li>
+        <li><a href="#32-哈希图与散点图">3.2. 哈希图与散点图</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-快速实用程序"><strong>4. 快速实用程序</strong></a>
+      <ul>
+        <li><a href="#41-快速示例"><strong>4.1 快速示例</strong></a></li>
+        <li><a href="#42-就地迭代"><strong>4.2. 就地迭代</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本教程中，我们将学习<strong>如何使用原始键和值构建映射。</strong></p>
+<p>众所周知，核心 Java <a href="/java_hashmap" rel="">Map</a><em>不允许</em>存储原始键或值。这就是为什么我们将介绍一些提供原始地图实现的外部第三方库。</p>
+<h2 id="2-eclipse-集合"><strong>2. Eclipse 集合</strong></h2>
+<p><strong><a href="/eclipse_collections" rel="">Eclipse Collections</a>是一个高性能的 Java 集合框架</strong>。它提供了改进的实现以及一些额外的数据结构，包括<strong>几个原始集合。</strong></p>
+<h3 id="21-可变和不可变映射"><strong>2.1 可变和不可变映射</strong></h3>
+<p>让我们创建一个空映射，其中键和值都是原始<em>int</em>。为此，我们将使用<em>IntIntMaps</em>工厂类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MutableIntIntMap</span> <span class="n">mutableIntIntMap</span> <span class="o">=</span> <span class="n">IntIntMaps</span><span class="o">.</span><span class="na">mutable</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+</span></span></code></pre></div><p><strong>IntIntMaps<em>工厂</em>类是创建原始地图最方便的方法</strong>。它允许我们创建所需地图类型的可变和不可变实例。在我们的示例中，我们创建了<em>IntIntMap</em>的可变实例。<em>同样，我们可以通过简单地将IntIntMaps.mutable</em>静态工厂调用替换为<em>IntIntMaps.immutable</em>来创建不可变实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ImmutableIntIntMap</span> <span class="n">immutableIntIntMap</span> <span class="o">=</span> <span class="n">IntIntMaps</span><span class="o">.</span><span class="na">immutable</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+</span></span></code></pre></div><p>所以，让我们在可变映射中添加一个键值对：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">mutableIntIntMap</span><span class="o">.</span><span class="na">addToValue</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">1</span><span class="o">);</span>
+</span></span></code></pre></div><p>同样，**我们可以使用引用和原始类型键值对创建混合映射。<em><em><em>让我们用字符串</em>键和</em>双精度</em>值创建一个映射 ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MutableObjectDoubleMap</span> <span class="n">dObject</span> <span class="o">=</span> <span class="n">ObjectDoubleMaps</span><span class="o">.</span><span class="na">mutable</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+</span></span></code></pre></div><p>在这里，我们使用<em>ObjectDoubleMaps</em>工厂类为<em>MutableObjectDoubleMap</em>创建一个可变实例。</p>
+<p>现在让我们添加一些条目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">dObject</span><span class="o">.</span><span class="na">addToValue</span><span class="o">(</span><span class="s">&#34;price&#34;</span><span class="o">,</span> <span class="n">150</span><span class="o">.</span><span class="na">5</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">dObject</span><span class="o">.</span><span class="na">addToValue</span><span class="o">(</span><span class="s">&#34;quality&#34;</span><span class="o">,</span> <span class="n">4</span><span class="o">.</span><span class="na">4</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">dObject</span><span class="o">.</span><span class="na">addToValue</span><span class="o">(</span><span class="s">&#34;stability&#34;</span><span class="o">,</span> <span class="n">0</span><span class="o">.</span><span class="na">8</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="22-原始-api-树"><strong>2.2. 原始 API 树</strong></h3>
+<p>在 Eclipse Collections 中，有一个名为<em>PrimitiveIterable 的基本接口。<em>这是库的每个原始容器的基本接口。所有这些都被命名为 <em>PrimitiveTypeIterable</em>，其中 <em>PrimitiveType</em>可以是</em>Int、Long</em>、<em>Short</em>、<em>Byte</em>、<em>Char</em>、<em>Float</em>、<em>Double</em>或<em>Boolean</em>。</p>
+<p>反过来，所有这些基本接口都有它们的<em>XY</em> <em>Map</em>实现树，<strong>根据映射是 mutable 还是 immutable 进行划分</strong>。例如，对于<em>IntIntMap</em>，我们有<em>MutableIntIntMap</em> 和<em>ImmutableIntIntMap</em>。</p>
+<p>最后，正如我们在上面看到的，我们有<strong>接口来涵盖原始值和对象值的键和值的各种类型组合</strong>。因此，例如，我们可以将<em>IntObjectMap<!-- raw HTML omitted --><em>用于具有</em>Object</em>值的原始键或*ObjectIntMap<!-- raw HTML omitted -->*用于相反的情况。</p>
+<h2 id="3-hppc"><strong>3. HPPC</strong></h2>
+<p><a href="https://github.com/carrotsearch/hppc" target="_blank" rel="noopener noreffer">HPPC</a>是一个面向高性能和内存效率的库。这意味着该库的抽象程度低于其他库。但是，这样做的好处是将内部暴露给有用的低级操作。它提供地图和集合。</p>
+<h3 id="31-一个简单的例子">3.1 一个简单的例子</h3>
+<p>让我们首先创建一个具有<em>int</em>键和<em>long</em>值的映射。使用它非常熟悉：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IntLongHashMap</span> <span class="n">intLongHashMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntLongHashMap</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">intLongHashMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">25</span><span class="o">,</span> <span class="n">1L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">intLongHashMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">150</span><span class="o">,</span> <span class="n">Long</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">intLongHashMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">0L</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl"><span class="n">intLongHashMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">150</span><span class="o">);</span>
+</span></span></code></pre></div><p>HPPC 为键和值的所有组合提供映射：</p>
+<ul>
+<li>原始键和原始值</li>
+<li>原始键和对象类型值</li>
+<li>对象类型键和原始值</li>
+<li>对象类型的键和值</li>
+</ul>
+<p>对象类型映射支持泛型：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">IntObjectOpenHashMap</span><span class="o">&lt;</span><span class="n">BigDecimal</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="n">ObjectIntOpenHashMap</span><span class="o">&lt;</span><span class="n">LocalDate</span><span class="o">&gt;</span>
+</span></span></code></pre></div><p>第一个映射有一个原始<em>int</em>键和一个<em>BigDecimal</em>值。第二个地图的键为<em>LocalDate</em> ，其值为<em>int</em></p>
+<h3 id="32-哈希图与散点图">3.2. 哈希图与散点图</h3>
+<p>由于传统上实现密钥散列和分布函数的方式，我们在散列密钥时可能会发生冲突。根据密钥的分布方式，这可能会导致大型地图上的性能问题。默认情况下，HPPC 实现了避免此问题的解决方案。</p>
+<p>但是，具有更简单分布功能的地图仍有一席之地。**如果映射用作查找表或计数，或者一旦加载它们不需要大量写入操作，**这将非常有用。HHPC 提供<em>散点图</em>以进一步提高性能。</p>
+<p>所有 scatter-map 类都保持与地图相同的命名约定，但使用<em>Scatter</em>这个词：</p>
+<ul>
+<li><em>IntScatterSet</em></li>
+<li><em>IntIntScatterMap</em></li>
+<li><em>IntObjectScatterMap<!-- raw HTML omitted --></em></li>
+</ul>
+<h2 id="4-快速实用程序"><strong>4. 快速实用程序</strong></h2>
+<p><strong><a href="https://search.maven.org/search?q=g:it.unimi.dsi%20a:fastutil" target="_blank" rel="noopener noreffer">Fastutil</a>是一个快速而紧凑的框架</strong>，它提供特定类型的集合，包括原始类型映射。</p>
+<h3 id="41-快速示例"><strong>4.1 快速示例</strong></h3>
+<p>类似于 Eclipse Collections 和 HPPC。Fastutil 还提供了原始到原始和原始到对象类型的关联映射。</p>
+<p>让我们创建一个<em>int</em>到<em>boolean</em>的映射：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Int2BooleanMap</span> <span class="n">int2BooleanMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Int2BooleanOpenHashMap</span><span class="o">();</span>
+</span></span></code></pre></div><p>现在，让我们添加一些条目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">int2BooleanMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">int2BooleanMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">7</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">int2BooleanMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后，我们可以从中检索值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">boolean</span> <span class="n">value</span> <span class="o">=</span> <span class="n">int2BooleanMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="42-就地迭代"><strong>4.2. 就地迭代</strong></h3>
+<p><em>实现Iterable</em>接口的标准 JVM 集合通常在每个迭代步骤中创建一个新的临时迭代器对象。对于大量收集，这可能会产生垃圾收集问题。</p>
+<p>Fastutil 提供了一种替代方案，可以极大地缓解这种情况：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Int2FloatMap</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Int2FloatMap</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Add keys here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">for</span><span class="o">(</span><span class="n">Int2FloatMap</span><span class="o">.</span><span class="na">Entry</span> <span class="n">e</span> <span class="o">:</span> <span class="n">Fastutil</span><span class="o">.</span><span class="na">fastIterable</span><span class="o">(</span><span class="n">map</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//e will be reused on each iteration, so it will be only one object
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>Fastutil 还提供了<em>fastForeach</em>方法。这将采用<em>Consumer</em> <a href="java-8-functional-interfaces" rel="">功能接口</a>并为每个循环执行一个 lambda 表达式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Int2FloatMap</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Int2FloatMap</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Add keys here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Int2FloatMaps</span><span class="o">.</span><span class="na">fastForEach</span><span class="o">(</span><span class="n">map</span> <span class="o">,</span> <span class="n">e</span> <span class="o">-&gt;</span>  <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// e is also reused across iterations
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">});</span>
+</span></span></code></pre></div><p><em>这与标准的 Java foreach</em>结构非常相似：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Int2FloatMap</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Int2FloatMap</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//Add keys here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">map</span><span class="o">.</span><span class="na">forEach</span><span class="o">((</span><span class="n">key</span><span class="o">,</span><span class="n">value</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// use each key/value entry   
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">});</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_map_primitives/" data-title="" data-hashtags="Java Map"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_map_primitives/" data-hashtag="Java Map"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_map_primitives/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_map_primitives/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_map_primitives/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-map/">Java Map</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_map_new_entry/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/vscode_c_install_introduce/" class="next" rel="next" title="Visaul Studio Code C&#43;&#43; 安装及使用">Visaul Studio Code C++ 安装及使用<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

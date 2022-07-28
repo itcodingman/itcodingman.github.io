@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在这篇简短的文章中，我们解释了备忘录设计模式及其用途。我们还通过一个示例说明了它在简单文本编辑器中的用法。"><meta property="og:title" content="" />
+<meta property="og:description" content="在这篇简短的文章中，我们解释了备忘录设计模式及其用途。我们还通过一个示例说明了它在简单文本编辑器中的用法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_memento_design_pattern/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-27T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在这篇简短的文章中，我们解释了备忘录设计模式及其用途。我们还通过一个示例说明了它在简单文本编辑器中的用法。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_memento_design_pattern/" /><link rel="prev" href="http://itcodingman.github.io/java_mediator_pattern/" /><link rel="next" href="http://itcodingman.github.io/java_memory_layout/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_memento_design_pattern\/"
+        },"genre": "posts","keywords": "Pattern","wordcount":  1301 ,
+        "url": "http:\/\/itcodingman.github.io\/java_memento_design_pattern\/","datePublished": "2022-04-27T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在这篇简短的文章中，我们解释了备忘录设计模式及其用途。我们还通过一个示例说明了它在简单文本编辑器中的用法。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-27">2022-04-27</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1301 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-什么是纪念品设计模式">2. 什么是纪念品设计模式？</a></li>
+    <li><a href="#3-何时使用-memento-设计模式">3. 何时使用 Memento 设计模式？</a></li>
+    <li><a href="#4-备忘录模式示例">4. 备忘录模式示例</a>
+      <ul>
+        <li><a href="#41-初始样本"><strong>4.1 初始样本</strong></a></li>
+        <li><a href="#42-memento">4.2. Memento</a></li>
+        <li><a href="#43-originator">4.3. Originator</a></li>
+        <li><a href="#44-看守人">4.4. 看守人</a></li>
+        <li><a href="#45-测试解决方案">4.5. 测试解决方案</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>在本教程中，我们将了解 Memento 设计模式是什么以及如何使用它。</p>
+<p>首先，我们将通过一些理论。然后，我们将创建一个示例来说明该模式的用法。</p>
+<h2 id="2-什么是纪念品设计模式">2. 什么是纪念品设计模式？</h2>
+<p><a href="https://www.oreilly.com/library/view/design-patterns-elements/0201633612/" target="_blank" rel="noopener noreffer">在书中</a>描述的纪念品设计模式是一种行为设计模式。**Memento 设计模式提供了一种实现可撤销操作的解决方案。**我们可以通过在给定时刻保存对象的状态并在需要撤消执行的操作时恢复它来做到这一点。</p>
+<p>实际上，需要保存其状态的对象称为 Originator。Caretaker 是触发状态保存和恢复的对象，称为 Memento。</p>
+<p>Memento 对象应尽可能少地向看守人公开信息。这是为了确保我们不会将 Originator 的内部状态暴露给外界，因为这会破坏封装原则。但是，发起者应该访问足够的信息以恢复到原始状态。</p>
+<p>让我们看一个快速的类图，说明不同的对象如何相互交互：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2019/08/Memento-Design-Pattern-1.png"
+        data-srcset="wp-content/uploads/2019/08/Memento-Design-Pattern-1.png, wp-content/uploads/2019/08/Memento-Design-Pattern-1.png 1.5x, wp-content/uploads/2019/08/Memento-Design-Pattern-1.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2019/08/Memento-Design-Pattern-1.png"
+        title="wp-content/uploads/2019/08/Memento-Design-Pattern-1.png" /></p>
+<p>正如我们所见，Originator 可以生产和消费 Memento。同时，看守者只保留恢复之前的状态。Originator 的内部表示对外部世界是隐藏的。</p>
+<p>在这里，我们使用单个字段来表示 Originator 的状态，尽管<strong>我们不限于一个字段，并且可以根据需要使用尽可能多的字段</strong>。此外，Memento 对象中的状态不必与 Originator 的完整状态相匹配。只要保留的信息足以恢复 Originator 的状态，我们就可以开始了。</p>
+<h2 id="3-何时使用-memento-设计模式">3. 何时使用 Memento 设计模式？</h2>
+<p>通常，备忘录设计模式将用于某些操作不可撤销的情况，因此需要回滚到以前的状态。<strong>但是，如果 Originator 的状态很重，使用 Memento 设计模式可能会导致昂贵的创建过程和增加的内存使用。</strong></p>
+<h2 id="4-备忘录模式示例">4. 备忘录模式示例</h2>
+<h3 id="41-初始样本"><strong>4.1 初始样本</strong></h3>
+<p>现在让我们看一个备忘录设计模式的例子。假设我们有一个文本编辑器：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TextEditor</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">TextWindow</span> <span class="n">textWindow</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">TextEditor</span><span class="o">(</span><span class="n">TextWindow</span> <span class="n">textWindow</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">textWindow</span> <span class="o">=</span> <span class="n">textWindow</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>它有一个文本窗口，其中包含当前输入的文本，并提供了一种添加更多文本的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TextWindow</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">StringBuilder</span> <span class="n">currentText</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">TextWindow</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">currentText</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addText</span><span class="o">(</span><span class="n">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">currentText</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">text</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="42-memento">4.2. Memento</h3>
+<p>现在，假设我们希望我们的文本编辑器实现一些保存和撤消功能。<strong>保存时，我们希望保存当前文本。因此，在撤消后续更改时，我们将恢复保存的文本。</strong></p>
+<p>为了做到这一点，我们将使用 Memento 设计模式。首先，我们将创建一个包含当前窗口文本的对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TextWindowState</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">text</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">TextWindowState</span><span class="o">(</span><span class="n">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getText</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">text</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这个对象是我们的纪念品。如我们所见，我们选择使用<em>String</em>而不是 <em>StringBuilder</em>来防止外部人员对当前文本的任何更新。</p>
+<h3 id="43-originator">4.3. Originator</h3>
+<p><strong>之后，我们必须为 <em>TextWindow</em>类提供创建和使用 Memento 对象的方法，使<em>TextWindow</em>成为我们的 Originator：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">StringBuilder</span> <span class="n">currentText</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">TextWindowState</span> <span class="nf">save</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">TextWindowState</span><span class="o">(</span><span class="n">currentText</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">restore</span><span class="o">(</span><span class="n">TextWindowState</span> <span class="n">save</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">currentText</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">(</span><span class="n">save</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>*save()*方法允许我们创建对象，而 *restore()*方法使用它来恢复之前的状态。</p>
+<h3 id="44-看守人">4.4. 看守人</h3>
+<p>最后，我们必须更新我们的<em>TextEditor</em>类。<strong>作为看守者，它将保持 Originator 的状态，并在需要时要求恢复它：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">TextWindowState</span> <span class="n">savedTextWindow</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">hitSave</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">savedTextWindow</span> <span class="o">=</span> <span class="n">textWindow</span><span class="o">.</span><span class="na">save</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">hitUndo</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">textWindow</span><span class="o">.</span><span class="na">restore</span><span class="o">(</span><span class="n">savedTextWindow</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="45-测试解决方案">4.5. 测试解决方案</h3>
+<p>让我们看看它是否可以通过示例运行。想象一下，我们在编辑器中添加一些文本，保存它，然后再添加一些，最后撤消。为了实现这一点，我们将在<em>TextEditor上添加一个**print()<em>方法， 该方法返回 当前文本的</em>字符串：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">TextEditor</span> <span class="n">textEditor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TextEditor</span><span class="o">(</span><span class="k">new</span> <span class="n">TextWindow</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">textEditor</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">&#34;The Memento Design Pattern\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">textEditor</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">&#34;How to implement it in Java?\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">textEditor</span><span class="o">.</span><span class="na">hitSave</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">textEditor</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">&#34;Buy milk and eggs before coming home\n&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">textEditor</span><span class="o">.</span><span class="na">hitUndo</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">textEditor</span><span class="o">.</span><span class="na">print</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;The Memento Design Pattern\nHow to implement it in Java?\n&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>正如我们所见，最后一句不是当前文本的一部分，因为 Memento 在添加之前已保存。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_memento_design_pattern/" data-title="" data-hashtags="Pattern"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_memento_design_pattern/" data-hashtag="Pattern"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_memento_design_pattern/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_memento_design_pattern/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_memento_design_pattern/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/pattern/">Pattern</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_mediator_pattern/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_memory_layout/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

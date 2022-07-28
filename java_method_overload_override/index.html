@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本教程中，我们学习了如何实现方法重载和方法覆盖，并探讨了它们有用的一些典型情况。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本教程中，我们学习了如何实现方法重载和方法覆盖，并探讨了它们有用的一些典型情况。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_method_overload_override/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-28T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本教程中，我们学习了如何实现方法重载和方法覆盖，并探讨了它们有用的一些典型情况。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_method_overload_override/" /><link rel="prev" href="http://itcodingman.github.io/eclipse_tomcat_java_web_install_introduce/" /><link rel="next" href="http://itcodingman.github.io/java_method_references/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_method_overload_override\/"
+        },"genre": "posts","keywords": "Core Java","wordcount":  2464 ,
+        "url": "http:\/\/itcodingman.github.io\/java_method_overload_override\/","datePublished": "2022-05-09T00:00:00+00:00","dateModified": "2022-07-28T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们学习了如何实现方法重载和方法覆盖，并探讨了它们有用的一些典型情况。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-09">2022-05-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2464 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2方法重载"><strong>2.方法重载</strong></a>
+      <ul>
+        <li><a href="#21-不同数量的参数"><strong>2.1 不同数量的参数</strong></a></li>
+        <li><a href="#22-不同类型的参数"><strong>2.2. 不同类型的参数</strong></a></li>
+        <li><a href="#23-类型推广"><strong>2.3. 类型推广</strong></a></li>
+        <li><a href="#24-静态绑定"><strong>2.4. 静态绑定</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-方法覆盖"><strong>3. 方法覆盖</strong></a>
+      <ul>
+        <li><a href="#31-类型可替代性"><strong>3.1 类型可替代性</strong></a></li>
+        <li><a href="#32-动态绑定"><strong>3.2. 动态绑定</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>方法重载和覆盖是 Java 编程语言的关键概念，因此值得深入了解。</p>
+<p>在本文中，我们将了解这些概念的基础知识，并了解它们在哪些情况下有用。</p>
+<h2 id="2方法重载"><strong>2.方法重载</strong></h2>
+<p>**方法重载是一种强大的机制，它允许我们定义内聚的类 API。**为了更好地理解为什么方法重载是一个如此有价值的特性，让我们看一个简单的例子。</p>
+<p>假设我们编写了一个简单的实用程序类，它实现了两个数字相乘、三个数字相乘等的不同方法。</p>
+<p>如果我们给方法提供了误导性或模棱两可的名称，例如<em>multiply2()</em>、<em>multiply3()</em>、*multiply4() ，*那么这将是一个设计糟糕的类 API。这就是方法重载发挥作用的地方。</p>
+<p><strong>简单地说，我们可以通过两种不同的方式实现方法重载：</strong></p>
+<ul>
+<li>实现两个或多个<strong>具有相同名称但采用不同数量参数的方法</strong></li>
+<li>实现两个或多个<strong>具有相同名称但采用不同类型参数的方法</strong></li>
+</ul>
+<h3 id="21-不同数量的参数"><strong>2.1 不同数量的参数</strong></h3>
+<p>简而言之，<em>Multiplier</em>类显示了如何通过简单地定义两个采用不同数量参数的实现来重载<em>multiply()方法：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Multiplier</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">,</span> <span class="kt">int</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="22-不同类型的参数"><strong>2.2. 不同类型的参数</strong></h3>
+<p>同样，我们可以通过使其接受不同类型的参数来重载<em>multiply()方法：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Multiplier</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此外，使用两种类型的方法重载定义<em>Multiplier类是合法的：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Multiplier</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">,</span> <span class="kt">int</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">double</span> <span class="n">a</span><span class="o">,</span> <span class="kt">double</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>然而，值得注意的是，<strong>不可能有两个仅在返回类型上有所不同的方法实现</strong>。</p>
+<p>要了解原因——让我们考虑以下示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">;</span> 
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">double</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">;</span> 
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这种情况下，<strong>由于方法调用不明确，代码根本无法编译</strong>——编译器不知道要调用哪个*multiply()*实现。</p>
+<h3 id="23-类型推广"><strong>2.3. 类型推广</strong></h3>
+<p>方法重载提供的一个简洁特性是所谓的<em>类型提升，也就是扩大原始转换</em>。</p>
+<p>简单来说，当传递给重载方法的参数类型与特定方法实现之间不匹配时，一种给定类型会隐式提升为另一种类型。</p>
+<p>要更清楚地了解类型提升的工作原理，请考虑以下*multiply()*方法的实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">double</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">long</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">multiply</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">,</span> <span class="kt">int</span> <span class="n">c</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">*</span> <span class="n">c</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，使用两个<em>int</em>参数调用该方法将导致第二个参数被提升为<em>long</em>，因为在这种情况下，没有一个具有两个<em>int</em>参数的方法的匹配实现。</p>
+<p>让我们看一个快速的单元测试来演示类型提升：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCalledMultiplyAndNoMatching_thenTypePromotion</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">multiplier</span><span class="o">.</span><span class="na">multiply</span><span class="o">(</span><span class="n">10</span><span class="o">,</span> <span class="n">10</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">100</span><span class="o">.</span><span class="na">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>相反，如果我们调用具有匹配实现的方法，则不会发生类型提升：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCalledMultiplyAndMatching_thenNoTypePromotion</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">multiplier</span><span class="o">.</span><span class="na">multiply</span><span class="o">(</span><span class="n">10</span><span class="o">,</span> <span class="n">10</span><span class="o">,</span> <span class="n">10</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">1000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>以下是适用于方法重载的类型提升规则的摘要：</p>
+<ul>
+<li><em>byte</em>可以提升为<em>short、int、long、float</em>或<em>double</em></li>
+<li><em>short</em>可以提升为<em>int、long、float</em>或<em>double</em></li>
+<li><em>char</em>可以提升为<em>int、long、float</em>或<em>double</em></li>
+<li><em>int</em>可以提升为<em>long、float</em>或<em>double</em></li>
+<li><em>long</em>可以提升为<em>float</em>或<em>double</em></li>
+<li><em>float</em>可以提升为<em>double</em></li>
+</ul>
+<h3 id="24-静态绑定"><strong>2.4. 静态绑定</strong></h3>
+<p>将特定方法调用关联到方法主体的能力称为绑定。</p>
+<p>在方法重载的情况下，绑定是在编译时静态执行的，因此称为静态绑定。</p>
+<p>编译器可以通过简单地检查方法的签名在编译时有效地设置绑定。</p>
+<h2 id="3-方法覆盖"><strong>3. 方法覆盖</strong></h2>
+<p><strong>方法覆盖允许我们在子类中为基类中定义的方法提供细粒度的实现。</strong></p>
+<p>虽然方法覆盖是一个强大的功能 - 考虑到这是使用<a href="https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%29" target="_blank" rel="noopener noreffer">继承的逻辑结果，</a> <a href="https://en.wikipedia.org/wiki/Object-oriented_programming" target="_blank" rel="noopener noreffer">OOP</a>的最大支柱之一-<strong>应该在每个用例的基础上仔细分析何时何地使用它</strong>。</p>
+<p>现在让我们看看如何通过创建一个简单的、基于继承的（“is-a”）关系来使用方法覆盖。</p>
+<p>这是基类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Vehicle</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">accelerate</span><span class="o">(</span><span class="kt">long</span> <span class="n">mph</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;The vehicle accelerates at : &#34;</span> <span class="o">+</span> <span class="n">mph</span> <span class="o">+</span> <span class="s">&#34; MPH.&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">stop</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;The vehicle has stopped.&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;The vehicle is running.&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是一个人为的子类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="kd">extends</span> <span class="n">Vehicle</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">accelerate</span><span class="o">(</span><span class="kt">long</span> <span class="n">mph</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;The car accelerates at : &#34;</span> <span class="o">+</span> <span class="n">mph</span> <span class="o">+</span> <span class="s">&#34; MPH.&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在上面的层次结构中，我们简单地覆盖了<em>Accelerator()<em>方法，以便为子类型</em>Car 提供更精细的实现。</em></p>
+<p>在这里，可以清楚地看到，<strong>如果应用程序使用<em>Vehicle</em>类的实例，那么它也可以使用<em>Car</em>的实例</strong>，因为*加速（）*方法的两个实现具有相同的签名和相同的返回类型。</p>
+<p>让我们编写一些单元测试来检查<em>Vehicle</em>和<em>Car</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCalledAccelerate_thenOneAssertion</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">vehicle</span><span class="o">.</span><span class="na">accelerate</span><span class="o">(</span><span class="n">100</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;The vehicle accelerates at : 100 MPH.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCalledRun_thenOneAssertion</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">vehicle</span><span class="o">.</span><span class="na">run</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;The vehicle is running.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCalledStop_thenOneAssertion</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">vehicle</span><span class="o">.</span><span class="na">stop</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;The vehicle has stopped.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCalledAccelerate_thenOneAssertion</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">accelerate</span><span class="o">(</span><span class="n">80</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;The car accelerates at : 80 MPH.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCalledRun_thenOneAssertion</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">run</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;The vehicle is running.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCalledStop_thenOneAssertion</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">stop</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;The vehicle has stopped.&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们看一些单元测试，这些测试显示了未覆盖的<em>run()<em>和</em>stop()<em>方法如何为</em>Car</em>和<em>Vehicle</em>返回相等的值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenVehicleCarInstances_whenCalledRun_thenEqual</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">vehicle</span><span class="o">.</span><span class="na">run</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">run</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenVehicleCarInstances_whenCalledStop_thenEqual</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">   <span class="n">assertThat</span><span class="o">(</span><span class="n">vehicle</span><span class="o">.</span><span class="na">stop</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">stop</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在我们的例子中，我们可以访问这两个类的源代码，因此我们可以清楚地看到，在基础<em>Vehicle</em>实例上调用<em>accelerate()<em>方法和在</em>Car</em>实例上调用*accelerate()*将针对相同的参数返回不同的值。</p>
+<p>因此，以下测试演示了为<em>Car</em>的实例调用了重写的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenCalledAccelerateWithSameArgument_thenNotEqual</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertThat</span><span class="o">(</span><span class="n">vehicle</span><span class="o">.</span><span class="na">accelerate</span><span class="o">(</span><span class="n">100</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">isNotEqualTo</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">accelerate</span><span class="o">(</span><span class="n">100</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="31-类型可替代性"><strong>3.1 类型可替代性</strong></h3>
+<p>OOP 中的一个核心原则是类型可替换性原则，它与<a href="https://en.wikipedia.org/wiki/Liskov_substitution_principle" target="_blank" rel="noopener noreffer">Liskov 替换原则 (LSP)</a>密切相关。</p>
+<p>简单地说，LSP 声明<strong>如果应用程序使用给定的基本类型，那么它也应该使用它的任何子类型</strong>。这样，类型可替换性就得到了适当的保留。</p>
+<p><strong>方法重写的最大问题是派生类中的某些特定方法实现可能不完全遵循 LSP，因此无法保持类型可替换性。</strong></p>
+<p>当然，创建一个重写的方法来接受不同类型的参数并返回不同类型是有效的，但要完全遵守以下规则：</p>
+<ul>
+<li>如果基类中的方法采用给定类型的参数，则被覆盖的方法应采用相同的类型或超类型（也称为<em>逆变</em>方法参数）</li>
+<li>如果基类中的方法返回<em>void</em>，则被覆盖的方法应返回<em>void</em></li>
+<li>如果基类中的方法返回原语，则被覆盖的方法应返回相同的原语</li>
+<li>如果基类中的方法返回某种类型，则被覆盖的方法应返回相同的类型或子类型（也称为<em>协变</em>返回类型）</li>
+<li>如果基类中的方法抛出异常，被覆盖的方法必须抛出相同的异常或基类异常的子类型</li>
+</ul>
+<h3 id="32-动态绑定"><strong>3.2. 动态绑定</strong></h3>
+<p>考虑到方法覆盖只能通过继承实现，其中存在基类型和子类型的层次结构，编译器无法在编译时确定调用什么方法，因为基类和子类都定义了相同的方法。</p>
+<p>因此，编译器需要检查对象的类型以了解应该调用什么方法。</p>
+<p>由于这种检查发生在运行时，方法覆盖是动态绑定的典型示例。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_method_overload_override/" data-title="" data-hashtags="Core Java"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_method_overload_override/" data-hashtag="Core Java"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_method_overload_override/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_method_overload_override/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_method_overload_override/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/core-java/">Core Java</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/eclipse_tomcat_java_web_install_introduce/" class="prev" rel="prev" title="Eclipse、Tomcat和Java Web的安装、配置及开发"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Eclipse、Tomcat和Java Web的安装、配置及开发</a>
+            <a href="/java_method_references/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

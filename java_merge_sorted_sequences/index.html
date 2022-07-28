@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本教程中，我们学习了如何使用最小堆有效地合并排序数组。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本教程中，我们学习了如何使用最小堆有效地合并排序数组。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_merge_sorted_sequences/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-28T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本教程中，我们学习了如何使用最小堆有效地合并排序数组。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_merge_sorted_sequences/" /><link rel="prev" href="http://itcodingman.github.io/java_merge_sort/" /><link rel="next" href="http://itcodingman.github.io/java_merge_streams/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_merge_sorted_sequences\/"
+        },"genre": "posts","wordcount":  1505 ,
+        "url": "http:\/\/itcodingman.github.io\/java_merge_sorted_sequences\/","datePublished": "2022-05-04T00:00:00+00:00","dateModified": "2022-07-28T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们学习了如何使用最小堆有效地合并排序数组。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/algorithms/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Algorithms</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-04">2022-05-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1505 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-算法"><strong>2. 算法</strong></a></li>
+    <li><a href="#3-java实现"><strong>3. Java实现</strong></a>
+      <ul>
+        <li><a href="#31-堆节点表示"><strong>3.1 堆节点表示</strong></a></li>
+        <li><a href="#32-最小堆合并算法"><strong>3.2. 最小堆合并算法</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-测试算法"><strong>4. 测试算法</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在这个简短的教程中，我们将看到如何使用堆有效地合并排序数组。</p>
+<h2 id="2-算法"><strong>2. 算法</strong></h2>
+<p>由于我们的问题陈述是使用堆来合并数组，因此我们将使用最小堆来解决我们的问题。最小堆只不过是<strong>一棵二叉树，其中每个节点的值都小于其子节点的值</strong>。</p>
+<p>通常，最小堆是使用一个数组实现的，其中数组在查找节点的父节点和子节点时满足特定规则。</p>
+<p>对于数组<em>A[]<em>和索引</em>i</em>处的元素：</p>
+<ul>
+<li>*A[(i-1)/2]*将返回其父级</li>
+<li>*A[(2*i)+1]*将返回左孩子</li>
+<li>*A[(2*i)+2]*将返回右孩子</li>
+</ul>
+<p>这是最小堆及其数组表示的图片：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2020/01/MinHeapMerge.png"
+        data-srcset="wp-content/uploads/2020/01/MinHeapMerge.png, wp-content/uploads/2020/01/MinHeapMerge.png 1.5x, wp-content/uploads/2020/01/MinHeapMerge.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2020/01/MinHeapMerge.png"
+        title="wp-content/uploads/2020/01/MinHeapMerge.png" /></p>
+<p>现在让我们创建合并一组排序数组的算法：</p>
+<ol>
+<li>创建一个数组来存储结果，其大小通过添加所有输入数组的长度来确定。</li>
+<li>创建第二个大小等于输入数组数量的数组，并用所有输入数组的第一个元素填充它。</li>
+<li>通过对所有节点及其子节点应用最小堆规则，将先前创建的数组转换为最小堆。</li>
+<li>重复接下来的步骤，直到结果数组被完全填充。</li>
+<li>从最小堆中获取根元素并将其存储在结果数组中。</li>
+<li>将根元素替换为填充当前根的数组中的下一个元素。</li>
+<li>在我们的最小堆数组上再次应用最小堆规则。</li>
+</ol>
+<p>我们的算法有一个<strong>递归流程来创建最小堆，我们必须访问输入数组的所有元素</strong>。</p>
+<p><strong>该算法的时间<a href="/java_algorithm_complexity" rel="">复杂度为</a><em>O(k log n)</em>，其中<em>k</em>是所有输入数组中元素的总数，<em>n</em>是排序数组的总数</strong>。</p>
+<p>现在让我们看看运行算法后的示例输入和预期结果，以便我们更好地理解问题。所以对于这些数组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">{</span> <span class="o">{</span> <span class="n">0</span><span class="o">,</span> <span class="n">6</span> <span class="o">},</span> <span class="o">{</span> <span class="n">1</span><span class="o">,</span> <span class="n">5</span><span class="o">,</span> <span class="n">10</span><span class="o">,</span> <span class="n">100</span> <span class="o">},</span> <span class="o">{</span> <span class="n">2</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">200</span><span class="o">,</span> <span class="n">650</span> <span class="o">}</span> <span class="o">}</span>
+</span></span></code></pre></div><p>该算法应返回一个结果数组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">{</span> <span class="n">0</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">,</span> <span class="n">6</span><span class="o">,</span> <span class="n">10</span><span class="o">,</span> <span class="n">100</span><span class="o">,</span> <span class="n">200</span><span class="o">,</span> <span class="n">650</span> <span class="o">}</span>
+</span></span></code></pre></div><h2 id="3-java实现"><strong>3. Java实现</strong></h2>
+<p>现在我们对什么是最小堆以及合并算法的工作原理有了基本的了解，让我们看一下 Java 实现。我们将使用两个类——一个代表堆节点，另一个实现合并算法。</p>
+<h3 id="31-堆节点表示"><strong>3.1 堆节点表示</strong></h3>
+<p>在实现算法本身之前，让我们创建一个表示堆节点的类。这将存储节点值和两个支持字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HeapNode</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">element</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">arrayIndex</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">nextElementIndex</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">HeapNode</span><span class="o">(</span><span class="kt">int</span> <span class="n">element</span><span class="o">,</span> <span class="kt">int</span> <span class="n">arrayIndex</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">element</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">arrayIndex</span> <span class="o">=</span> <span class="n">arrayIndex</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，为了简单起见，我们故意省略了<em>getter</em>和<em>setter</em>。我们将使用<em>arrayIndex</em>属性来存储当前堆节点元素所在的数组的索引。我们将使用<em>nextElementIndex</em>属性来存储在将根节点移动到结果数组后我们将采用的元素的索引。</p>
+<p>最初，<em>nextElementIndex</em>的值为<em>1</em>。我们将在替换最小堆的根节点后增加它的值。</p>
+<h3 id="32-最小堆合并算法"><strong>3.2. 最小堆合并算法</strong></h3>
+<p>我们的下一个类是表示最小堆本身并实现合并算法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MinHeap</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">HeapNode</span><span class="o">[]</span> <span class="n">heapNodes</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MinHeap</span><span class="o">(</span><span class="n">HeapNode</span> <span class="n">heapNodes</span><span class="o">[])</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">heapNodes</span> <span class="o">=</span> <span class="n">heapNodes</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">heapifyFromLastLeafsParent</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nf">getParentNodeIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="n">index</span> <span class="o">-</span> <span class="n">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nf">getLeftNodeIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="n">2</span> <span class="o">*</span> <span class="n">index</span> <span class="o">+</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="nf">getRightNodeIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="n">2</span> <span class="o">*</span> <span class="n">index</span> <span class="o">+</span> <span class="n">2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">HeapNode</span> <span class="nf">getRootNode</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">heapNodes</span><span class="o">[</span><span class="n">0</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// additional implementation methods
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们已经创建了最小堆类，让我们添加一个方法来堆化子树，其中子树的根节点位于数组的给定索引处：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">heapify</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">leftNodeIndex</span> <span class="o">=</span> <span class="n">getLeftNodeIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">rightNodeIndex</span> <span class="o">=</span> <span class="n">getRightNodeIndex</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">smallestElementIndex</span> <span class="o">=</span> <span class="n">index</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">leftNodeIndex</span> <span class="o">&lt;</span> <span class="n">heapNodes</span><span class="o">.</span><span class="na">length</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">&amp;&amp;</span> <span class="n">heapNodes</span><span class="o">[</span><span class="n">leftNodeIndex</span><span class="o">].</span><span class="na">element</span> <span class="o">&lt;</span> <span class="n">heapNodes</span><span class="o">[</span><span class="n">index</span><span class="o">].</span><span class="na">element</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">smallestElementIndex</span> <span class="o">=</span> <span class="n">leftNodeIndex</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">rightNodeIndex</span> <span class="o">&lt;</span> <span class="n">heapNodes</span><span class="o">.</span><span class="na">length</span>
+</span></span><span class="line"><span class="cl">      <span class="o">&amp;&amp;</span> <span class="n">heapNodes</span><span class="o">[</span><span class="n">rightNodeIndex</span><span class="o">].</span><span class="na">element</span> <span class="o">&lt;</span> <span class="n">heapNodes</span><span class="o">[</span><span class="n">smallestElementIndex</span><span class="o">].</span><span class="na">element</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">smallestElementIndex</span> <span class="o">=</span> <span class="n">rightNodeIndex</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">smallestElementIndex</span> <span class="o">!=</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">swap</span><span class="o">(</span><span class="n">index</span><span class="o">,</span> <span class="n">smallestElementIndex</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">heapify</span><span class="o">(</span><span class="n">smallestElementIndex</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>当我们使用数组来表示最小堆时，最后一个叶子节点将始终位于数组的末尾。所以当通过迭代调用*heapify()*方法将数组转换为最小堆时，我们只需要从最后一个叶子的父节点开始迭代：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">heapifyFromLastLeafsParent</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">lastLeafsParentIndex</span> <span class="o">=</span> <span class="n">getParentNodeIndex</span><span class="o">(</span><span class="n">heapNodes</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">lastLeafsParentIndex</span> <span class="o">&gt;=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">heapify</span><span class="o">(</span><span class="n">lastLeafsParentIndex</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lastLeafsParentIndex</span><span class="o">--;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们的下一个方法将实际实现我们的算法。为了更好地理解，让我们将方法分成两部分，看看它是如何工作的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">[]</span> <span class="nf">merge</span><span class="o">(</span><span class="kt">int</span><span class="o">[][]</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// transform input arrays
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// run the minheap algorithm
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// return the resulting array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>第一部分将输入数组转换为一个堆节点数组，其中包含第一个数组的所有元素并找到结果数组的大小：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">HeapNode</span><span class="o">[]</span> <span class="n">heapNodes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HeapNode</span><span class="o">[</span><span class="n">array</span><span class="o">.</span><span class="na">length</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">resultingArraySize</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">array</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HeapNode</span> <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HeapNode</span><span class="o">(</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">0</span><span class="o">],</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">heapNodes</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">resultingArraySize</span> <span class="o">+=</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">length</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>下一部分通过实现我们算法的步骤 4、5、6 和 7 来填充结果数组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MinHeap</span> <span class="n">minHeap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MinHeap</span><span class="o">(</span><span class="n">heapNodes</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span><span class="o">[]</span> <span class="n">resultingArray</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">resultingArraySize</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">resultingArraySize</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HeapNode</span> <span class="n">root</span> <span class="o">=</span> <span class="n">minHeap</span><span class="o">.</span><span class="na">getRootNode</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">resultingArray</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="na">element</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">nextElementIndex</span> <span class="o">&lt;</span> <span class="n">array</span><span class="o">[</span><span class="n">root</span><span class="o">.</span><span class="na">arrayIndex</span><span class="o">].</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">root</span><span class="o">.</span><span class="na">element</span> <span class="o">=</span> <span class="n">array</span><span class="o">[</span><span class="n">root</span><span class="o">.</span><span class="na">arrayIndex</span><span class="o">][</span><span class="n">root</span><span class="o">.</span><span class="na">nextElementIndex</span><span class="o">++];</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">root</span><span class="o">.</span><span class="na">element</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">minHeap</span><span class="o">.</span><span class="na">heapify</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="4-测试算法"><strong>4. 测试算法</strong></h2>
+<p>现在让我们使用之前提到的相同输入来测试我们的算法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">[][]</span> <span class="n">inputArray</span> <span class="o">=</span> <span class="o">{</span> <span class="o">{</span> <span class="n">0</span><span class="o">,</span> <span class="n">6</span> <span class="o">},</span> <span class="o">{</span> <span class="n">1</span><span class="o">,</span> <span class="n">5</span><span class="o">,</span> <span class="n">10</span><span class="o">,</span> <span class="n">100</span> <span class="o">},</span> <span class="o">{</span> <span class="n">2</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">200</span><span class="o">,</span> <span class="n">650</span> <span class="o">}</span> <span class="o">};</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span><span class="o">[]</span> <span class="n">expectedArray</span> <span class="o">=</span> <span class="o">{</span> <span class="n">0</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">,</span> <span class="n">6</span><span class="o">,</span> <span class="n">10</span><span class="o">,</span> <span class="n">100</span><span class="o">,</span> <span class="n">200</span><span class="o">,</span> <span class="n">650</span> <span class="o">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span><span class="o">[]</span> <span class="n">resultArray</span> <span class="o">=</span> <span class="n">MinHeap</span><span class="o">.</span><span class="na">merge</span><span class="o">(</span><span class="n">inputArray</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">resultArray</span><span class="o">.</span><span class="na">length</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="n">equalTo</span><span class="o">(</span><span class="n">10</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">resultArray</span><span class="o">,</span> <span class="n">is</span><span class="o">(</span><span class="n">equalTo</span><span class="o">(</span><span class="n">expectedArray</span><span class="o">)));</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_merge_sorted_sequences/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_merge_sorted_sequences/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_merge_sorted_sequences/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_merge_sorted_sequences/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_merge_sorted_sequences/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_merge_sort/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_merge_streams/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

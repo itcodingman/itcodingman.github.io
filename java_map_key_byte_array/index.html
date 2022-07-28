@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本教程中，我们研究了在HashMap中使用字节数组作为键的不同问题和解决方案。首先，我们研究了为什么不能使用数组作为键。然后我们使用一些内置容器来缓解这个问题，最后实现了我们自己的包装器。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本教程中，我们研究了在HashMap中使用字节数组作为键的不同问题和解决方案。首先，我们研究了为什么不能使用数组作为键。然后我们使用一些内置容器来缓解这个问题，最后实现了我们自己的包装器。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_map_key_byte_array/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本教程中，我们研究了在HashMap中使用字节数组作为键的不同问题和解决方案。首先，我们研究了为什么不能使用数组作为键。然后我们使用一些内置容器来缓解这个问题，最后实现了我们自己的包装器。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_map_key_byte_array/" /><link rel="prev" href="http://itcodingman.github.io/jupyter_notebook_install_introduce/" /><link rel="next" href="http://itcodingman.github.io/java_map_key_exists/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_map_key_byte_array\/"
+        },"genre": "posts","keywords": "Java Map","wordcount":  1923 ,
+        "url": "http:\/\/itcodingman.github.io\/java_map_key_byte_array\/","datePublished": "2022-04-06T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们研究了在HashMap中使用字节数组作为键的不同问题和解决方案。首先，我们研究了为什么不能使用数组作为键。然后我们使用一些内置容器来缓解这个问题，最后实现了我们自己的包装器。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-06">2022-04-06</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1923 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介">1. 简介</a></li>
+    <li><a href="#2-为hashmap设计一个好的key">2. 为<em>HashMap</em>设计一个好的key</a>
+      <ul>
+        <li><a href="#21-hashmap-的工作原理">2.1 <em>HashMap</em> 的工作原理</a></li>
+        <li><a href="#22-equals-和hashcode之间的约定">2.2. <em>equals()</em> 和*hashCode()*之间的约定</a></li>
+        <li><a href="#23-不变性">2.3. 不变性</a></li>
+        <li><a href="#24-有意义的平等">2.4. 有意义的平等</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-使用现有容器">3. 使用现有容器</a>
+      <ul>
+        <li><a href="#31-string">3.1 <em>String</em></a></li>
+        <li><a href="#32-list">3.2. List</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-实现自定义容器">4. 实现自定义容器</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介">1. 简介</h2>
+<p>在本教程中，我们将学习如何在<a href="/java_hashmap" rel=""><em>HashMap</em></a>中使用字节数组作为键。由于<em>HashMap</em>的工作原理，不幸的是，我们不能直接这样做。我们将调查为什么会这样，并研究解决该问题的几种方法。</p>
+<h2 id="2-为hashmap设计一个好的key">2. 为<em>HashMap</em>设计一个好的key</h2>
+<h3 id="21-hashmap-的工作原理">2.1 <em>HashMap</em> 的工作原理</h3>
+<p><em>HashMap</em>使用<a href="/java-hashmap#internals-hashmap" rel="">散列机制</a>来存储和检索自身的值。**当我们调用*put(key, value)<em>方法时，<em>HashMap</em>会根据 key 的</em>hashCode()*方法计算哈希码。**此哈希用于标识最终存储该值的存储桶：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">V</span> <span class="nf">put</span><span class="o">(</span><span class="n">K</span> <span class="n">key</span><span class="o">,</span> <span class="n">V</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">key</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">putForNullKey</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">.</span><span class="na">hashCode</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">indexFor</span><span class="o">(</span><span class="n">hash</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="n">Entry</span> <span class="n">e</span> <span class="o">=</span> <span class="n">table</span><span class="o">[</span><span class="n">i</span><span class="o">];</span> <span class="n">e</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Object</span> <span class="n">k</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">hash</span> <span class="o">==</span> <span class="n">hash</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="n">k</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">key</span><span class="o">)</span> <span class="o">==</span> <span class="n">key</span> <span class="o">||</span> <span class="n">key</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">k</span><span class="o">)))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">V</span> <span class="n">oldValue</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e</span><span class="o">.</span><span class="na">recordAccess</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">oldValue</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">modCount</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">addEntry</span><span class="o">(</span><span class="n">hash</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>*当我们使用get(key)<em>方法检索一个值时，会涉及到类似的过程。密钥用于计算哈希码，然后找到存储桶。**然后使用</em>equals()*方法检查存储桶中的每个条目是否相等。**最后，返回匹配条目的值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">V</span> <span class="nf">get</span><span class="o">(</span><span class="n">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">key</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">getForNullKey</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">.</span><span class="na">hashCode</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="n">Entry</span> <span class="n">e</span> <span class="o">=</span> <span class="n">table</span><span class="o">[</span><span class="n">indexFor</span><span class="o">(</span><span class="n">hash</span><span class="o">,</span> <span class="n">table</span><span class="o">.</span><span class="na">length</span><span class="o">)];</span> <span class="n">e</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Object</span> <span class="n">k</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">hash</span> <span class="o">==</span> <span class="n">hash</span> <span class="o">&amp;&amp;</span> <span class="o">((</span><span class="n">k</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">key</span><span class="o">)</span> <span class="o">==</span> <span class="n">key</span> <span class="o">||</span> <span class="n">key</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">k</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="22-equals-和hashcode之间的约定">2.2. <em>equals()</em> 和*hashCode()*之间的约定</h3>
+<p><a href="/java_equals_hashcode_contracts" rel=""><em>equals</em>和<em>hashCode</em></a>方法都有应遵守的<a href="/java_equals_hashcode_contracts" rel="">约定</a>。在<em>HashMaps</em>的上下文中，一个方面特别重要：<strong>彼此相等的对象必须返回相同的hashCode</strong>。但是，返回相同<em>hashCode</em>的对象不需要彼此相等。这就是为什么我们可以在一个桶中存储多个值。</p>
+<h3 id="23-不变性">2.3. 不变性</h3>
+<p>**HashMap中键的<em>hashCode</em>不应该改变。**虽然这不是强制性的，但强烈建议密钥是不可变的。如果一个对象是不可变的，它的<em>hashCode</em>就没有机会改变，不管<em>hashCode</em>方法的实现如何。</p>
+<p>默认情况下，哈希是根据对象的所有字段计算的。如果我们想要一个可变键，我们需要重写<em>hashCode</em>方法以确保在其计算中不使用可变字段。为了维护合约，我们还需要更改<em>equals</em>方法。</p>
+<h3 id="24-有意义的平等">2.4. 有意义的平等</h3>
+<p>为了能够成功地从映射中检索值，相等性必须是有意义的。在大多数情况下，我们需要能够创建一个新的键对象，该对象将与映射中的某个现有键相等。出于这个原因，对象标识在这种情况下不是很有用。</p>
+<p>这也是为什么不能使用原始字节数组的主要原因。Java 中的数组使用对象标识来确定相等性。如果我们以字节数组为键创建<em>HashMap</em>，我们将能够仅使用完全相同的数组对象来检索值。</p>
+<p>让我们创建一个以字节数组为键的简单实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">byte</span><span class="o">[]</span> <span class="n">key1</span> <span class="o">=</span> <span class="o">{</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">};</span>
+</span></span><span class="line"><span class="cl"><span class="kt">byte</span><span class="o">[]</span> <span class="n">key2</span> <span class="o">=</span> <span class="o">{</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">};</span>
+</span></span><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="kt">byte</span><span class="o">[],</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key1</span><span class="o">,</span> <span class="s">&#34;value1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key2</span><span class="o">,</span> <span class="s">&#34;value2&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>我们不仅有两个具有几乎相同键的条目，而且我们无法使用新创建的具有相同值的数组检索任何内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">retrievedValue1</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">retrievedValue2</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">retrievedValue3</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="k">new</span> <span class="kt">byte</span><span class="o">[]{</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">retrievedValue1</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;value1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">retrievedValue2</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;value2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">retrievedValue3</span><span class="o">).</span><span class="na">isNull</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="3-使用现有容器">3. 使用现有容器</h2>
+<p>除了字节数组，我们可以使用现有的类，其相等性实现基于内容，而不是对象标识。</p>
+<h3 id="31-string">3.1 <em>String</em></h3>
+<p><em>字符串</em>相等基于字符数组的内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="n">Object</span> <span class="n">anObject</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">anObject</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">anObject</span> <span class="k">instanceof</span> <span class="n">String</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">anotherString</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span><span class="n">anObject</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">count</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">==</span> <span class="n">anotherString</span><span class="o">.</span><span class="na">count</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">char</span> <span class="n">v1</span><span class="o">[]</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">char</span> <span class="n">v2</span><span class="o">[]</span> <span class="o">=</span> <span class="n">anotherString</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">offset</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">anotherString</span><span class="o">.</span><span class="na">offset</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span> <span class="o">(</span><span class="n">n</span><span class="o">--</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">v1</span><span class="o">[</span><span class="n">i</span><span class="o">++]</span> <span class="o">!=</span> <span class="n">v2</span><span class="o">[</span><span class="n">j</span><span class="o">++])</span>
+</span></span><span class="line"><span class="cl">                   <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>String</em>也是不可变的，基于字节数组创建<em>String相当简单。<em>我们可以使用<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Base64.html" target="_blank" rel="noopener noreffer"><em>Base64</em></a>方案轻松地对</em>字符串</em>进行编码和解码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">key1</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">().</span><span class="na">encodeToString</span><span class="o">(</span><span class="k">new</span> <span class="kt">byte</span><span class="o">[]{</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">});</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">key2</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">getEncoder</span><span class="o">().</span><span class="na">encodeToString</span><span class="o">(</span><span class="k">new</span> <span class="kt">byte</span><span class="o">[]{</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">});</span>
+</span></span></code></pre></div><p>现在我们可以创建一个以<em>字符串</em>为键而不是字节数组的<em>HashMap 。<em>我们将以类似于上一个示例的方式将值放入</em>M​​ap中：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key1</span><span class="o">,</span> <span class="s">&#34;value1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key2</span><span class="o">,</span> <span class="s">&#34;value2&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后我们可以从地图中检索一个值。对于这两个键，我们将获得相同的第二个值。我们还可以检查键是否真正彼此相等：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">retrievedValue1</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">retrievedValue2</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">key1</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">key2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">retrievedValue1</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;value2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">retrievedValue2</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;value2&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="32-list">3.2. List</h3>
+<p><em>与String</em>类似，<em>List#equals</em>方法将检查其每个元素的相等性。如果这些元素具有合理的<em>equals()<em>方法并且是不可变的，则</em>List</em>将作为<em>HashMap</em>键正常工作。我们只需要<strong>确保我们使用的是不可变的<em>List</em>实现</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Byte</span><span class="o">&gt;</span> <span class="n">key1</span> <span class="o">=</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">((</span><span class="kt">byte</span><span class="o">)</span><span class="n">1</span><span class="o">,</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="n">2</span><span class="o">,</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="n">3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Byte</span><span class="o">&gt;</span> <span class="n">key2</span> <span class="o">=</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">((</span><span class="kt">byte</span><span class="o">)</span><span class="n">1</span><span class="o">,</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="n">2</span><span class="o">,</span> <span class="o">(</span><span class="kt">byte</span><span class="o">)</span><span class="n">3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Byte</span><span class="o">&gt;,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key1</span><span class="o">,</span> <span class="s">&#34;value1&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key2</span><span class="o">,</span> <span class="s">&#34;value2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key1</span><span class="o">)).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key2</span><span class="o">));</span>
+</span></span></code></pre></div><p>请注意，字节对象的列表将比<em>字节</em>基元数组占用更多的内存。因此，该解决方案虽然方便，但在大多数情况下并不可行。</p>
+<h2 id="4-实现自定义容器">4. 实现自定义容器</h2>
+<p>我们还可以实现自己的包装器来完全控制哈希码计算和相等性。<strong>这样，我们可以确保解决方案快速且不会占用大量内存。</strong></p>
+<p>让我们创建一个具有最终私有<em>字节</em>数组字段的类。它没有 setter，它的 getter 将制作一个防御性副本以确保完全不变性：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">BytesKey</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">array</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">BytesKey</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">array</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">array</span> <span class="o">=</span> <span class="n">array</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">getArray</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">array</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们还需要实现自己的<em>equals</em>和<em>hashCode</em>方法。幸运的是，我们可以使用<em>Arrays</em>实用程序类来完成这两个任务：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="k">this</span> <span class="o">==</span> <span class="n">o</span><span class="o">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">getClass</span><span class="o">()</span> <span class="o">!=</span> <span class="n">o</span><span class="o">.</span><span class="na">getClass</span><span class="o">())</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BytesKey</span> <span class="n">bytesKey</span> <span class="o">=</span> <span class="o">(</span><span class="n">BytesKey</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="n">bytesKey</span><span class="o">.</span><span class="na">array</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">int</span> <span class="nf">hashCode</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">hashCode</span><span class="o">(</span><span class="n">array</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，我们可以将包装器用作<em>HashMap</em>中的键：</p>
+<pre tabindex="0"><code>BytesKey key1 = new BytesKey(new byte[]{1, 2, 3});
+BytesKey key2 = new BytesKey(new byte[]{1, 2, 3});
+Map&lt;BytesKey, String&gt; map = new HashMap&lt;&gt;();
+map.put(key1, &#34;value1&#34;);
+map.put(key2, &#34;value2&#34;);
+</code></pre><p>然后，我们可以使用任何一个声明的键来检索第二个值，或者我们可以使用动态创建的一个：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">retrievedValue1</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">retrievedValue2</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">retrievedValue3</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="k">new</span> <span class="n">BytesKey</span><span class="o">(</span><span class="k">new</span> <span class="kt">byte</span><span class="o">[]{</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">}));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">retrievedValue1</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;value2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">retrievedValue2</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;value2&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">retrievedValue3</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;value2&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_map_key_byte_array/" data-title="" data-hashtags="Java Map"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_map_key_byte_array/" data-hashtag="Java Map"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_map_key_byte_array/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_map_key_byte_array/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_map_key_byte_array/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-map/">Java Map</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/jupyter_notebook_install_introduce/" class="prev" rel="prev" title="jupyter notebook安装及使用"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>jupyter notebook安装及使用</a>
+            <a href="/java_map_key_exists/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

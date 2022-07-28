@@ -52,12 +52,36 @@
     <description><![CDATA[1. 概述 有时我们需要知道当前正在执行的 Java 方法的名称。 这篇快速文章介绍了几种在当前执行堆栈中获取方法名称的简单方法。 2. Java 9：堆栈行走 API **Java 9 引入了]]></description>
 </item>
 <item>
-    <title>Java 枚举指南</title>
-    <link>http://itcodingman.github.io/a_guide_to_java_enums/</link>
-    <pubDate>Tue, 27 Mar 2018 00:00:00 &#43;0000</pubDate>
+    <title></title>
+    <link>http://itcodingman.github.io/java_modules_decoupling_design_strategies/</link>
+    <pubDate>Sun, 29 May 2022 00:00:00 &#43;0000</pubDate>
     <author>codingman</author>
-    <guid>http://itcodingman.github.io/a_guide_to_java_enums/</guid>
-    <description><![CDATA[概述 在本教程中，我们将了解 Java 枚举是什么，它们解决了哪些问题，以及如何在实践中使用它们的一些设计模式。 **Java 5 首次引入了enum关键字。**它表示]]></description>
+    <guid>http://itcodingman.github.io/java_modules_decoupling_design_strategies/</guid>
+    <description><![CDATA[1. 概述 Java 平台模块系统(JPMS) 提供了更强的封装性、更高的可靠性和更好的关注点分离。 但所有这些方便的功能都是有代价的。由于模块化应用程序建立]]></description>
+</item>
+<item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_methods_references_eval/</link>
+    <pubDate>Sun, 15 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_methods_references_eval/</guid>
+    <description><![CDATA[1. 概述 Java 8 引入了方法引用的概念。我们经常将它们视为类似于 lambda 表达式。 但是，方法引用和 lambda 表达式并不完全相同。在本文中，我们将展示它们为何不同以及]]></description>
+</item>
+<item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_methods/</link>
+    <pubDate>Sat, 14 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_methods/</guid>
+    <description><![CDATA[1. 简介 在 Java 中，方法是我们定义应用程序业务逻辑的地方。它们定义了包含在对象中的数据之间的交互。 在本教程中，我们将介绍 Java 方法的语法、方法签名的定]]></description>
+</item>
+<item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_method_signature_return_type/</link>
+    <pubDate>Fri, 13 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_method_signature_return_type/</guid>
+    <description><![CDATA[1. 概述 方法签名只是 Java 中整个方法定义的一个子集。因此，签名的确切结构可能会引起混淆。 在本教程中，我们将学习方法签名的元素及其在 Java 编程中的含义。]]></description>
 </item>
 </channel>
 </rss>

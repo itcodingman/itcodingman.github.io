@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们演示了如何使用 Eclipse Paho 项目提供的库在 Java 应用程序中添加对 MQTT 协议的支持。该库处理所有低级协议细节，使我们能够专注于解决方案的其他方面，同时留出足够的空间来自定义其内部特性的重要方面，例如消息持久性。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们演示了如何使用 Eclipse Paho 项目提供的库在 Java 应用程序中添加对 MQTT 协议的支持。该库处理所有低级协议细节，使我们能够专注于解决方案的其他方面，同时留出足够的空间来自定义其内部特性的重要方面，例如消息持久性。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_mqtt_client/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们演示了如何使用 Eclipse Paho 项目提供的库在 Java 应用程序中添加对 MQTT 协议的支持。该库处理所有低级协议细节，使我们能够专注于解决方案的其他方面，同时留出足够的空间来自定义其内部特性的重要方面，例如消息持久性。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_mqtt_client/" /><link rel="prev" href="http://itcodingman.github.io/java_monte_carlo_tree_search/" /><link rel="next" href="http://itcodingman.github.io/pygame_sokoban/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_mqtt_client\/"
+        },"genre": "posts","wordcount":  2319 ,
+        "url": "http:\/\/itcodingman.github.io\/java_mqtt_client\/","datePublished": "2022-06-09T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们演示了如何使用 Eclipse Paho 项目提供的库在 Java 应用程序中添加对 MQTT 协议的支持。该库处理所有低级协议细节，使我们能够专注于解决方案的其他方面，同时留出足够的空间来自定义其内部特性的重要方面，例如消息持久性。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-09">2022-06-09</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2319 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-mqtt-入门">2. MQTT 入门</a></li>
+    <li><a href="#3-项目设置">3. 项目设置</a></li>
+    <li><a href="#4-客户端设置">4. 客户端设置</a>
+      <ul>
+        <li><a href="#41-创建一个新的imqttclient实例">4.1 创建一个新的<em>IMqttClient</em>实例</a></li>
+        <li><a href="#42-连接到服务器">4.2. 连接到服务器</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-发送消息">5. 发送消息</a></li>
+    <li><a href="#6-接收消息">6. 接收消息</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>在本教程中，我们将了解如何使用<a href="https://www.eclipse.org/paho/" target="_blank" rel="noopener noreffer">Eclipse Paho 项目</a>提供的库在 Java 项目中添加 MQTT 消息传递。</p>
+<h2 id="2-mqtt-入门">2. MQTT 入门</h2>
+<p><strong>MQTT（MQ 遥测传输）是一种消息传递协议</strong>，旨在满足对一种简单且轻量级的方法将数据传输到/从低功率设备（例如工业应用中使用的设备）传输数据的需求。</p>
+<p>随着 IoT（物联网）设备的日益普及，MQTT 的使用越来越多，导致 OASIS 和 ISO 对其进行了标准化。</p>
+<p>该协议支持单一的消息传递模式，即发布-订阅模式：客户端发送的每条消息都包含一个关联的“主题”，代理使用该主题将其路由到订阅的客户端。主题名称可以是简单的字符串，如“ <em>oiltemp</em> ”或类似路径的字符串“ <em>motor/1/rpm</em> ”。</p>
+<p>为了接收消息，客户端使用其确切名称或包含支持的通配符之一的字符串订阅一个或多个主题（“#”表示多级主题，“+”表示单级”）。</p>
+<h2 id="3-项目设置">3. 项目设置</h2>
+<p>为了在 Maven 项目中包含 Paho 库，我们必须添加以下依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;groupId&gt;</span>org.eclipse.paho<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;artifactId&gt;</span>org.eclipse.paho.client.mqttv3<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&lt;version&gt;</span>1.2.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p> 可以从 Maven Central 下载最新版本的<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22org.eclipse.paho%22%20AND%20a%3A%22org.eclipse.paho.client.mqttv3%22" target="_blank" rel="noopener noreffer">Eclipse Paho Java 库模块。</a></p>
+<h2 id="4-客户端设置">4. 客户端设置</h2>
+<p>使用 Paho 库时，为了从 MQTT 代理发送和/或接收消息，我们需要做的第一件事是<strong>获取<em>IMqttClient</em>接口的实现</strong>*。*该接口包含应用程序建立与服务器的连接、发送和接收消息所需的所有方法。</p>
+<p>Paho 开箱即用，提供了该接口的两种实现，一种是异步的（<em>MqttAsyncClient</em>），一种是同步的（<em>MqttClient</em>）。在我们的例子中，我们将关注语义更简单的同步版本。</p>
+<p>设置本身是一个两步过程：我们首先创建 <em>MqttClient</em>类的实例，然后将其连接到我们的服务器。以下小节详细介绍了这些步骤。</p>
+<h3 id="41-创建一个新的imqttclient实例">4.1 创建一个新的<em>IMqttClient</em>实例</h3>
+<p>下面的代码片段展示了如何创建一个新的 <em>IMqttClient</em>同步实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">publisherId</span> <span class="o">=</span> <span class="n">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">().</span><span class="na">toString</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">IMqttClient</span> <span class="n">publisher</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MqttClient</span><span class="o">(</span><span class="s">&#34;tcp://iot.eclipse.org:1883&#34;</span><span class="o">,</span><span class="n">publisherId</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这种情况下，<strong>我们使用最简单的可用构造函数，它采用 MQTT 代理的端点地址和</strong>唯一标识我们的客户端的客户端标识符。</p>
+<p>在我们的例子中，我们使用了一个随机的 UUID，因此每次运行都会生成一个新的客户端标识符。</p>
+<p>Paho 还提供了额外的构造函数，我们可以使用这些构造函数来自定义用于存储未确认消息的持久性机制和/或 用于运行协议引擎实现所需的后台任务的<em>ScheduledExecutorService 。</em></p>
+<p><strong>我们使用的服务器端点是由 Paho 项目托管的公共 MQTT 代理</strong>，它允许任何具有 Internet 连接的人在无需任何身份验证的情况下测试客户端。</p>
+<h3 id="42-连接到服务器">4.2. 连接到服务器</h3>
+<p>我们新创建的<em>MqttClient</em>实例没有连接到服务器。<strong>我们通过调用它的 *connect()*方法</strong>来做到这一点，可选地传递一个 <em>MqttConnectOptions</em>实例，该实例允许我们自定义协议的某些方面。</p>
+<p>特别是，我们可以使用这些选项来传递附加信息，例如安全凭证、会话恢复模式、重新连接模式等。</p>
+<p>MqttConnectionOptions 类将这些选项<em>公开</em>为简单的属性，我们可以使用普通的 setter 方法进行设置。我们只需要设置场景所需的属性——其余的将采用默认值。</p>
+<p>用于建立与服务器的连接的代码通常如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MqttConnectOptions</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MqttConnectOptions</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">options</span><span class="o">.</span><span class="na">setAutomaticReconnect</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">options</span><span class="o">.</span><span class="na">setCleanSession</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">options</span><span class="o">.</span><span class="na">setConnectionTimeout</span><span class="o">(</span><span class="n">10</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">publisher</span><span class="o">.</span><span class="na">connect</span><span class="o">(</span><span class="n">options</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们定义我们的连接选项，以便：</p>
+<ul>
+<li>如果发生网络故障，库将自动尝试重新连接到服务器</li>
+<li>它将丢弃以前运行的未发送消息</li>
+<li>连接超时设置为 10 秒</li>
+</ul>
+<h2 id="5-发送消息">5. 发送消息</h2>
+<p>使用已连接的 <em>MqttClient</em>发送消息非常简单。我们使用其中一种*publish()*方法变体，使用以下服务质量选项之一<strong>将有效负载（始终为字节数组）发送到给定主题：</strong></p>
+<ul>
+<li>0 - “最多一次”语义，也称为“即发即弃”。当可以接受消息丢失时使用此选项，因为它不需要任何类型的确认或持久性</li>
+<li>1 - “至少一次”语义。当消息丢失是不可接受 的<em>并且</em>您的订阅者可以处理重复时使用此选项</li>
+<li>2 – “恰好一次”语义。当消息丢失是不可接受 的<em>并且</em>您的订阅者无法处理重复时使用此选项</li>
+</ul>
+<p>在我们的示例项目中，  <em>EngineTemperatureSensor</em>类扮演一个模拟传感器的角色，每次我们调用它的 <em>call()</em> 方法时都会产生一个新的温度读数。</p>
+<p>此类实现 <em>Callable</em> 接口，因此我们可以轻松地将其与<em>java.util.concurrent</em>包中可用的<em>ExecutorService</em>实现 之一一起使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">EngineTemperatureSensor</span> <span class="kd">implements</span> <span class="n">Callable</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... private members omitted
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">EngineTemperatureSensor</span><span class="o">(</span><span class="n">IMqttClient</span> <span class="n">client</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">client</span> <span class="o">=</span> <span class="n">client</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Void</span> <span class="nf">call</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span> <span class="o">!</span><span class="n">client</span><span class="o">.</span><span class="na">isConnected</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>           
+</span></span><span class="line"><span class="cl">        <span class="n">MqttMessage</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">readEngineTemp</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">msg</span><span class="o">.</span><span class="na">setQos</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">msg</span><span class="o">.</span><span class="na">setRetained</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">client</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">TOPIC</span><span class="o">,</span><span class="n">msg</span><span class="o">);</span>        
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>        
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">MqttMessage</span> <span class="nf">readEngineTemp</span><span class="o">()</span> <span class="o">{</span>             
+</span></span><span class="line"><span class="cl">        <span class="kt">double</span> <span class="n">temp</span> <span class="o">=</span>  <span class="n">80</span> <span class="o">+</span> <span class="n">rnd</span><span class="o">.</span><span class="na">nextDouble</span><span class="o">()</span> <span class="o">*</span> <span class="n">20</span><span class="o">.</span><span class="na">0</span><span class="o">;</span>        
+</span></span><span class="line"><span class="cl">        <span class="kt">byte</span><span class="o">[]</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;T:%04.2f&#34;</span><span class="o">,</span><span class="n">temp</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">getBytes</span><span class="o">();</span>        
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">new</span> <span class="n">MqttMessage</span><span class="o">(</span><span class="n">payload</span><span class="o">);</span>           
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**MqttMessage 封装了负载本身、请求的服务质量以及消息的保留标志。**此标志向代理指示它应该保留此消息直到被订阅者使用。</p>
+<p>我们可以使用这个特性来实现“最后一次正确”的行为，这样当一个新的订阅者连接到服务器时，它会立即收到保留的消息。</p>
+<h2 id="6-接收消息">6. 接收消息</h2>
+<p>为了从 MQTT 代理接收消息，<strong>我们需要使用*subscribe()*方法变体</strong>之一，它允许我们指定：</p>
+<ul>
+<li>我们希望接收的消息的一个或多个主题过滤器</li>
+<li>相关的 QoS</li>
+<li>处理接收到的消息的回调处理程序</li>
+</ul>
+<p>在以下示例中，我们展示了如何将消息侦听器添加到现有 <em>IMqttClient</em>实例以接收来自给定主题的消息。我们使用 <em>CountDownLatch</em> 作为回调和主执行线程之间的同步机制，每次有新消息到达时将其递减。</p>
+<p>在示例代码中，我们使用了不同的<em>IMqttClient</em>实例来接收消息。我们这样做只是为了更清楚哪个客户端做什么，但这不是 Paho 限制——如果你愿意，你可以使用同一个客户端来发布和接收消息：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">CountDownLatch</span> <span class="n">receivedSignal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CountDownLatch</span><span class="o">(</span><span class="n">10</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">subscriber</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">EngineTemperatureSensor</span><span class="o">.</span><span class="na">TOPIC</span><span class="o">,</span> <span class="o">(</span><span class="n">topic</span><span class="o">,</span> <span class="n">msg</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">byte</span><span class="o">[]</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="na">getPayload</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ... payload handling omitted
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">receivedSignal</span><span class="o">.</span><span class="na">countDown</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">});</span>    
+</span></span><span class="line"><span class="cl"><span class="n">receivedSignal</span><span class="o">.</span><span class="na">await</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MINUTES</span><span class="o">);</span>
+</span></span></code></pre></div><p>上面使用的<em>subscribe()<em>变体将</em>IMqttMessageListener</em>实例作为其第二个参数。</p>
+<p>在我们的例子中，我们使用一个简单的 lambda 函数来处理有效负载并递减一个计数器。如果在指定的时间窗口（1 分钟）内没有足够的消息到达，  *await()*方法将抛出异常。</p>
+<p>使用 Paho 时，我们不需要显式确认消息接收。如果回调正常返回，Paho 假定它成功消费并向服务器发送确认。</p>
+<p>如果回调抛出<em>异常</em>，客户端将被关闭。 <strong>请注意，这将导致任何以 QoS 级别 0 发送的消息丢失</strong>。</p>
+<p>一旦客户端重新连接并再次订阅主题，服务器将重新发送以 QoS 级别 1 或 2 发送的消息。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mqtt_client/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mqtt_client/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mqtt_client/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mqtt_client/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mqtt_client/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_monte_carlo_tree_search/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/pygame_sokoban/" class="next" rel="next" title="推箱子——pygame项目实战">推箱子——pygame项目实战<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

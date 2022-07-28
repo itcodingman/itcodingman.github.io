@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们了解了在单个 MongoDB 查询中同时应用多个操作的用例。此外，我们使用 MongoDB shell 查询和 Java 驱动程序代码执行了相同的操作。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们了解了在单个 MongoDB 查询中同时应用多个操作的用例。此外，我们使用 MongoDB shell 查询和 Java 驱动程序代码执行了相同的操作。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_mongodb_push_set/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们了解了在单个 MongoDB 查询中同时应用多个操作的用例。此外，我们使用 MongoDB shell 查询和 Java 驱动程序代码执行了相同的操作。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_mongodb_push_set/" /><link rel="prev" href="http://itcodingman.github.io/java_mongodb_last_inserted_id/" /><link rel="next" href="http://itcodingman.github.io/java_mono_defer/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_mongodb_push_set\/"
+        },"genre": "posts","keywords": "MongoDB","wordcount":  1219 ,
+        "url": "http:\/\/itcodingman.github.io\/java_mongodb_push_set\/","datePublished": "2022-06-05T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们了解了在单个 MongoDB 查询中同时应用多个操作的用例。此外，我们使用 MongoDB shell 查询和 Java 驱动程序代码执行了相同的操作。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/nosql/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>NoSQL</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-05">2022-06-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1219 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-数据库初始化">2. 数据库初始化</a></li>
+    <li><a href="#3-理解问题">3. 理解问题</a></li>
+    <li><a href="#4-使用-mongodb-shell-查询">4. 使用 MongoDB Shell 查询</a></li>
+    <li><a href="#5-java驱动代码">5. Java驱动代码</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p><em>$push</em>是 MongoDB 中的更新运算符，用于将值添加到数组中。相比之下，<em>$set</em>运算符用于更新文档中现有字段的值。</p>
+<p>在这个简短的教程中，我们将介绍如何在单个更新查询中同时执行*$push<em>和</em>$set*操作。</p>
+<h2 id="2-数据库初始化">2. 数据库初始化</h2>
+<p>在我们继续执行<a href="/mongodb_update_multiple_fields" rel="">多个更新操作</a>之前，我们首先需要设置一个数据库<em>demodb</em>和样本收集<em>marks</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">use</span> <span class="err">demodb;</span>
+</span></span><span class="line"><span class="cl"><span class="err">db.createCollection(marks);</span>
+</span></span></code></pre></div><p>让我们使用 MongoDB 的<em>insertMany</em>方法将一些文档插入到集合<em>marks</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">db.marks.insertMany(</span><span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;studentId&#34;</span><span class="p">:</span> <span class="mi">1023</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;studentName&#34;</span><span class="p">:</span><span class="s2">&#34;James Broad&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;joiningYear&#34;</span><span class="p">:</span><span class="s2">&#34;2018&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;totalMarks&#34;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;subjectDetails&#34;</span><span class="p">:[</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectId&#34;</span><span class="p">:</span><span class="mi">123</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectName&#34;</span><span class="p">:</span><span class="s2">&#34;Operating Systems Concepts&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;marks&#34;</span><span class="p">:</span><span class="mi">40</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectId&#34;</span><span class="p">:</span><span class="mi">124</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectName&#34;</span><span class="p">:</span><span class="s2">&#34;Numerical Analysis&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;marks&#34;</span><span class="p">:</span><span class="mi">60</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;studentId&#34;</span><span class="p">:</span> <span class="mi">1024</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;studentName&#34;</span><span class="p">:</span><span class="s2">&#34;Chris Overton&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;joiningYear&#34;</span><span class="p">:</span><span class="s2">&#34;2018&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;totalMarks&#34;</span><span class="p">:</span><span class="mi">110</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;subjectDetails&#34;</span><span class="p">:[</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectId&#34;</span><span class="p">:</span><span class="mi">123</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectName&#34;</span><span class="p">:</span><span class="s2">&#34;Operating Systems Concepts&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;marks&#34;</span><span class="p">:</span><span class="mi">50</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectId&#34;</span><span class="p">:</span><span class="mi">124</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectName&#34;</span><span class="p">:</span><span class="s2">&#34;Numerical Analysis&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;marks&#34;</span><span class="p">:</span><span class="mi">60</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span><span class="err">);</span>
+</span></span></code></pre></div><p>成功插入后，上述查询将返回以下响应：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;acknowledged&#34;</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;insertedIds&#34;</span> <span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="err">ObjectId(</span><span class="s2">&#34;622300cc85e943405d04b567&#34;</span><span class="err">)</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="err">ObjectId(</span><span class="s2">&#34;622300cc85e943405d04b568&#34;</span><span class="err">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>到目前为止，我们已经成功地将一些示例文档插入到集合<em>marks</em>中。</p>
+<h2 id="3-理解问题">3. 理解问题</h2>
+<p>为了理解问题，我们先来了解一下我们刚刚插入的文档。它包括学生的详细信息以及他们在不同科目中获得的分数。<em>totalMarks</em>是在不同科目中获得的分数之和。</p>
+<p>让我们考虑一种情况，我们希望在<em>subjectDetails</em>数组中添加一个新主题。为了使数据保持一致，我们还需要更新<em>totalMarks</em>字段。</p>
+<p>在 MongoDB 中，首先，我们将使用*$push<em>运算符将新主题添加到数组中。然后我们将使用</em>$set<em>运算符将</em>totalMarks* 字段设置为特定值。</p>
+<p>这两个操作都可以分别使用*$push<em>和</em>$set*运算符单独执行。但是我们可以编写 MongoDB 查询来同时执行这两个操作。</p>
+<h2 id="4-使用-mongodb-shell-查询">4. 使用 MongoDB Shell 查询</h2>
+<p>在 MongoDB 中，我们可以使用不同的更新运算符更新文档的多个字段。在这里，我们将在<em>updateOne</em>查询中同时使用*$push<em>和</em>$set*运算符。</p>
+<p>让我们一起检查包含 <em>$push</em>和*$set*运算符的示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="err">db.marks.updateOne(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;studentId&#34;</span><span class="p">:</span> <span class="mi">1023</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="err">$set:</span> <span class="err">{</span>
+</span></span><span class="line"><span class="cl">            <span class="err">totalMarks:</span> <span class="err">170</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span><span class="err">,</span>
+</span></span><span class="line"><span class="cl">        <span class="err">$push:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;subjectDetails&#34;</span><span class="p">:{</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectId&#34;</span><span class="p">:</span> <span class="mi">126</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;subjectName&#34;</span><span class="p">:</span> <span class="s2">&#34;Java Programming&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;marks&#34;</span><span class="p">:</span> <span class="mi">70</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="err">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">);</span>
+</span></span></code></pre></div><p>在这里，在上面的查询中，我们添加了基于<em>studentId</em> 的过滤查询。一旦我们得到过滤后的文档，我们就使用 $set 运算符更新<em>totalMarks 。<em>除此之外，我们使用</em>$push</em>运算符将新的主题数据插入到<em>subjectDetails</em>数组中。</p>
+<p>因此，上述查询将返回以下输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;acknowledged&#34;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;matchedCount&#34;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;modifiedCount&#34;</span><span class="p">:</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>这里，  <em>matchedCount</em>包含匹配过滤器的文档计数，而<em>modifiedCount</em>包含修改文档的数量。</p>
+<h2 id="5-java驱动代码">5. Java驱动代码</h2>
+<p>到目前为止，我们讨论了结合使用*$push<em>和</em>$set*运算符的 mongo shell 查询。在这里，我们将学习使用 Java 驱动程序代码来实现相同的功能。</p>
+<p>在我们继续之前，让我们首先连接到数据库和所需的集合：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">MongoClient</span> <span class="n">mongoClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MongoClient</span><span class="o">(</span><span class="k">new</span> <span class="n">MongoClientURI</span><span class="o">(</span><span class="s">&#34;localhost&#34;</span><span class="o">,</span> <span class="n">27017</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MongoDatabase</span> <span class="n">database</span> <span class="o">=</span> <span class="n">mongoClient</span><span class="o">.</span><span class="na">getDatabase</span><span class="o">(</span><span class="s">&#34;demodb&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">MongoCollection</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">&gt;</span> <span class="n">collection</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="na">getCollection</span><span class="o">(</span><span class="s">&#34;marks&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>在这里，我们连接到 MongoDB，它在 localhost 的默认端口 27017 上运行。</p>
+<p>现在让我们看看 Java 驱动程序代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Document</span> <span class="n">subjectData</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Document</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;subjectId&#34;</span><span class="o">,</span> <span class="n">126</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;subjectName&#34;</span><span class="o">,</span> <span class="s">&#34;Java Programming&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">&#34;marks&#34;</span><span class="o">,</span> <span class="n">70</span><span class="o">);</span> 
+</span></span><span class="line"><span class="cl"><span class="n">UpdateResult</span> <span class="n">updateQueryResult</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="na">updateOne</span><span class="o">(</span><span class="n">Filters</span><span class="o">.</span><span class="na">eq</span><span class="o">(</span><span class="s">&#34;studentId&#34;</span><span class="o">,</span> <span class="n">1023</span><span class="o">),</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">Updates</span><span class="o">.</span><span class="na">combine</span><span class="o">(</span><span class="n">Updates</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&#34;totalMarks&#34;</span><span class="o">,</span> <span class="n">170</span><span class="o">),</span> 
+</span></span><span class="line"><span class="cl">  <span class="n">Updates</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="s">&#34;subjectDetails&#34;</span><span class="o">,</span> <span class="n">subjectData</span><span class="o">)));</span>
+</span></span></code></pre></div><p>在此代码段中，我们使用了<em>updateOne</em>方法，该方法仅根据应用的过滤器<em>studentId</em> 1023更新单个文档。然后，我们使用<em>Updates.combine</em>在单个调用中执行多个操作。字段<em>totalMarks</em>将更新为 170，新文档<em>subjectData</em> 将被推送到数组字段*“subjectDetails”*。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mongodb_push_set/" data-title="" data-hashtags="MongoDB"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mongodb_push_set/" data-hashtag="MongoDB"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mongodb_push_set/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mongodb_push_set/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mongodb_push_set/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/mongodb/">MongoDB</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_mongodb_last_inserted_id/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_mono_defer/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

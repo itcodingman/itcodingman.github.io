@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本教程中，我们讨论了为什么接口是抽象和定义合约的好方法。尽可能使用最通用的类​​型将使代码易于重用和易于阅读。同时，这种方法减少了代码量，这始终是简化代码库的好方法。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本教程中，我们讨论了为什么接口是抽象和定义合约的好方法。尽可能使用最通用的类​​型将使代码易于重用和易于阅读。同时，这种方法减少了代码量，这始终是简化代码库的好方法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_map_vs_hashmap/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本教程中，我们讨论了为什么接口是抽象和定义合约的好方法。尽可能使用最通用的类​​型将使代码易于重用和易于阅读。同时，这种方法减少了代码量，这始终是简化代码库的好方法。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_map_vs_hashmap/" /><link rel="prev" href="http://itcodingman.github.io/vscode_c_install_introduce/" /><link rel="next" href="http://itcodingman.github.io/java_map_with_case_insensitive_keys/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_map_vs_hashmap\/"
+        },"genre": "posts","keywords": "Java Map","wordcount":  1475 ,
+        "url": "http:\/\/itcodingman.github.io\/java_map_vs_hashmap\/","datePublished": "2022-04-12T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们讨论了为什么接口是抽象和定义合约的好方法。尽可能使用最通用的类​​型将使代码易于重用和易于阅读。同时，这种方法减少了代码量，这始终是简化代码库的好方法。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-12">2022-04-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1475 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-接口的用途">2. 接口的用途</a></li>
+    <li><a href="#3-不同的实现">3. 不同的实现</a></li>
+    <li><a href="#4-编程到实现">4. 编程到实现</a></li>
+    <li><a href="#5-接口编程">5. 接口编程</a></li>
+    <li><a href="#6-在哪里使用接口">6. 在哪里使用接口</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p><strong><em>Map</em>和 <a href="/java_hashmap" rel=""><em>HashMap</em></a>的区别在于第一个是接口，第二个是实现</strong>。但是，在本文中，我们将深入挖掘并解释接口为何有用。此外，我们将学习如何使用接口使代码更加灵活，以及为什么我们对同一个接口有不同的实现。</p>
+<h2 id="2-接口的用途">2. 接口的用途</h2>
+<p>接口是只定义行为的契约。**每个实现特定接口的类都应该履行这个契约。**为了更好地理解它，我们可以举一个现实生活中的例子。想象一辆汽车。每个人心中都会有不同的形象。汽车一词暗示了一些品质和行为。任何具有这些品质的物体都可以称为汽车。这就是为什么我们每个人都想象着一辆不同的汽车。</p>
+<p>接口的工作方式相同。<em>地图</em>是定义某些品质和行为的抽象。只有具有所有这些特性的类才能成为<em>Map。</em></p>
+<h2 id="3-不同的实现">3. 不同的实现</h2>
+<p>出于同样的原因，我们有不同的汽车型号，我们有不同的*Map接口实现。*所有的实现都有不同的目的。**总体上找不到最佳实现是不可能的。出于某种目的，只有最好的实现。**跑车虽然速度快而且看起来很酷，但它并不是家庭野餐或去家具店旅行的最佳选择。</p>
+<p><a href="/java_hashmap" rel=""><em>HashMap</em></a>是<em>Map</em>接口的最简单实现，并提供基本功能。大多数情况下，此实现涵盖了所有需求。另外两个广泛使用的实现是<a href="/java_treemap" rel=""><em>TreeMap</em></a>和 <a href="/java_linked_hashmap" rel=""><em>LinkedHashMap</em></a>提供附加功能。</p>
+<p>这是一个更详细但不完整的层次结构：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2022/02/Map.png"
+        data-srcset="wp-content/uploads/2022/02/Map.png, wp-content/uploads/2022/02/Map.png 1.5x, wp-content/uploads/2022/02/Map.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2022/02/Map.png"
+        title="map层次结构" /></p>
+<h2 id="4-编程到实现">4. 编程到实现</h2>
+<p>想象一下，我们想在控制台中<a href="/java_iterate_map" rel="">打印</a>*<a href="/java_hashmap" rel="">HashMap</a>*的键和值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HashMapPrinter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMap</span><span class="o">(</span><span class="kd">final</span> <span class="n">HashMap</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">map</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="n">Entry</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">map</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这是一个完成这项工作的小班。但是，它包含一个问题。它只能与*<a href="/java_hashmap" rel="">HashMap</a>一起使用。* 因此，任何尝试传入<em>Map</em>引用的<a href="/java_treemap_vs_hashmap" rel=""><em>TreeMap</em>甚至 <em>HashMap</em></a>方法都将导致编译错误：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">hashMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">treeMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">HashMapPrinter</span> <span class="n">hashMapPrinter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMapPrinter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hashMapPrinter</span><span class="o">.</span><span class="na">printMap</span><span class="o">(</span><span class="n">hashMap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//        hashMapPrinter.printMap(treeMap); Compile time error
+</span></span></span><span class="line"><span class="cl"><span class="c1">//        hashMapPrinter.printMap(map); Compile time error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们试着理解它为什么会发生。在这两种情况下，编译器都不能确定在这个方法中，不会有任何对<a href="/java_hashmap" rel=""><em>HashMap</em></a>特定方法的调用。</p>
+<p><em><a href="/java_treemap" rel="">TreeMap</a><em>位于 <em>Map 实现的不同分支（没有双关语），因此它可能缺少一些在</em></em><a href="/java_hashmap" rel="">HashMap</a><em>中定义的方法</em>。</em></p>
+<p>在第二种情况下，尽管*<a href="/java_hashmap" rel="">HashMap</a>类型是真正的底层对象，<em>但它被</em>Map<em>接口引用。因此，该对象将只能公开</em>Map<em>中定义的方法，而不能公开</em><a href="/java_hashmap" rel="">HashMap</a>中的方法。*</p>
+<p><strong>因此，即使我们的<em>HashMapPrinter</em>是一个非常简单的类，它也太具体了</strong>。使用这种方法，我们需要为每个<em>Map</em>实现创建一个特定的<em>打印机。</em></p>
+<h2 id="5-接口编程">5. 接口编程</h2>
+<p>初学者常常对“程序到接口”或“代码对接口”的含义感到困惑。让我们考虑下面的例子，它会更清楚一点。我们将参数的类型更改为可能的最通用类型，即<em>Map：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MapPrinter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMap</span><span class="o">(</span><span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">map</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="n">Entry</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">map</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>正如我们所看到的，实际的实现保持不变，而唯一的变化是参数的类型。这表明该方法没有使用<a href="/java_hashmap" rel=""><em>HashMap</em></a>的任何特定方法。<em>Map</em>接口中已经定义了所有需要的功能，即方法<a href="/java_map_entries_methods" rel=""><em>entrySet()</em></a>。</p>
+<p>结果，这个微小的变化产生了巨大的差异。现在，此类可以与任何<em>Map</em>实现一起使用：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">hashMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TreeMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">treeMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">MapPrinter</span> <span class="n">mapPrinter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MapPrinter</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mapPrinter</span><span class="o">.</span><span class="na">printMap</span><span class="o">(</span><span class="n">hashMap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mapPrinter</span><span class="o">.</span><span class="na">printMap</span><span class="o">(</span><span class="n">treeMap</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mapPrinter</span><span class="o">.</span><span class="na">printMap</span><span class="o">(</span><span class="n">map</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**接口编码帮助我们创建了一个通用类，可以与<em>Map</em>接口的任何实现一起使用。**这种方法可以消除代码重复并确保我们的类和方法具有明确定义的目的。</p>
+<h2 id="6-在哪里使用接口">6. 在哪里使用接口</h2>
+<p>总的来说，参数应该是最一般的类型。我们在前面的示例中看到，只需对方法签名进行简单更改就可以改进我们的代码。我们应该采用相同方法的另一个地方是构造函数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MapReporter</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">map</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">MapReporter</span><span class="o">(</span><span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">map</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">map</span> <span class="o">=</span> <span class="n">map</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">printMap</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kd">final</span> <span class="n">Entry</span><span class="o">&lt;?,</span> <span class="o">?&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="na">map</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此类可以与 <em>Map</em> 的任何实现一起使用，只是因为我们在构造函数中使用了正确的类型。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_map_vs_hashmap/" data-title="" data-hashtags="Java Map"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_map_vs_hashmap/" data-hashtag="Java Map"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_map_vs_hashmap/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_map_vs_hashmap/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_map_vs_hashmap/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-map/">Java Map</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/vscode_c_install_introduce/" class="prev" rel="prev" title="Visaul Studio Code C&#43;&#43; 安装及使用"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Visaul Studio Code C++ 安装及使用</a>
+            <a href="/java_map_with_case_insensitive_keys/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

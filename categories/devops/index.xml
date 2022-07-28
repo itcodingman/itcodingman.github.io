@@ -3,7 +3,31 @@
         <title>DevOps - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/devops/</link>
         <description>DevOps - Category - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 06 Jun 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/devops/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 16 May 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/devops/" rel="self" type="application/rss+xml" /><item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_metrics/</link>
+    <pubDate>Mon, 16 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_metrics/</guid>
+    <description><![CDATA[1. 概述 在这个快速教程中，我们将讨论如何在 Java 中监控关键指标。我们将专注于磁盘空间、内存使用和线程数据——仅使用核心 Java API。 在我们的第一个示例]]></description>
+</item>
+<item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_management_extensions/</link>
+    <pubDate>Fri, 01 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_management_extensions/</guid>
+    <description><![CDATA[1. 简介 Java 管理扩展 (JMX) 框架是在 Java 1.5 中引入的，并且从一开始就在 Java 开发人员社区中得到广泛接受。 它为本地或远程管理 Java 应用程序提供了一个易于配置、可扩展]]></description>
+</item>
+<item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_mac_address/</link>
+    <pubDate>Wed, 30 Mar 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_mac_address/</guid>
+    <description><![CDATA[1. 简介 在本教程中，我们将使用 Java 获取本地机器的 MAC 地址。 MAC 地址是物理网络接口卡的唯一标识符。 我们将仅介绍 MAC 地址，但有关网络接口的更一般概述，请参]]></description>
+</item>
+<item>
     <title>Apache Spark 简介</title>
     <link>http://itcodingman.github.io/apache_spark/</link>
     <pubDate>Wed, 06 Jun 2018 00:00:00 &#43;0000</pubDate>

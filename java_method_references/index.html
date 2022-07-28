@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在这个快速教程中，我们了解了 Java 中的方法引用以及如何使用它们来替换 lambda 表达式，从而提高可读性并阐明程序员的意图。"><meta property="og:title" content="" />
+<meta property="og:description" content="在这个快速教程中，我们了解了 Java 中的方法引用以及如何使用它们来替换 lambda 表达式，从而提高可读性并阐明程序员的意图。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_method_references/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-28T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在这个快速教程中，我们了解了 Java 中的方法引用以及如何使用它们来替换 lambda 表达式，从而提高可读性并阐明程序员的意图。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_method_references/" /><link rel="prev" href="http://itcodingman.github.io/java_method_overload_override/" /><link rel="next" href="http://itcodingman.github.io/java_method_reflection/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_method_references\/"
+        },"genre": "posts","keywords": "Core Java","wordcount":  1292 ,
+        "url": "http:\/\/itcodingman.github.io\/java_method_references\/","datePublished": "2022-05-10T00:00:00+00:00","dateModified": "2022-07-28T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在这个快速教程中，我们了解了 Java 中的方法引用以及如何使用它们来替换 lambda 表达式，从而提高可读性并阐明程序员的意图。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-10">2022-05-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1292 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-引用静态方法">2. 引用静态方法</a></li>
+    <li><a href="#3-引用特定对象的实例方法">3. 引用特定对象的实例方法</a></li>
+    <li><a href="#4-引用特定类型的任意对象的实例方法">4. 引用特定类型的任意对象的实例方法</a></li>
+    <li><a href="#5-对构造函数的引用">5. 对构造函数的引用</a></li>
+    <li><a href="#6-其他示例和限制">6. 其他示例和限制</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>Java 8 中最受欢迎的变化之一是引入 <a href="/java_8_lambda_expressions_tips" rel="">lambda 表达式</a>，因为这些允许我们放弃匿名类，从而大大减少样板代码并提高可读性。</p>
+<p><strong>方法引用是一种特殊类型的 lambda 表达式</strong>。它们通常用于通过引用现有方法来创建简单的 lambda 表达式。</p>
+<p>有四种方法引用：</p>
+<ul>
+<li>静态方法</li>
+<li>特定对象的实例方法</li>
+<li>特定类型的任意对象的实例方法</li>
+<li>构造函数</li>
+</ul>
+<p>在本教程中，我们将探讨 Java 中的方法引用。</p>
+<h2 id="2-引用静态方法">2. 引用静态方法</h2>
+<p>我们将从一个非常简单的示例开始，大写并打印一个<em>字符串</em>列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">messages</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;hello&#34;</span><span class="o">,</span> <span class="s">&#34;ann&#34;</span><span class="o">,</span> <span class="s">&#34;bob!&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>我们可以通过利用一个简单的 lambda 表达式直接调用<a href="https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/StringUtils.html#capitalize-java.lang.String-" target="_blank" rel="noopener noreffer"><em>StringUtils.capitalize()</em></a>方法来实现这一点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">messages</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">word</span> <span class="o">-&gt;</span> <span class="n">StringUtils</span><span class="o">.</span><span class="na">capitalize</span><span class="o">(</span><span class="n">word</span><span class="o">));</span>
+</span></span></code></pre></div><p>或者，我们可以使用方法引用来简单地引用<em>大写</em>静态方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">messages</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">StringUtils</span><span class="o">::</span><span class="n">capitalize</span><span class="o">);</span>
+</span></span></code></pre></div><p><em><em>请注意，方法引用总是使用</em>::<em>运算符。</em></em></p>
+<h2 id="3-引用特定对象的实例方法">3. 引用特定对象的实例方法</h2>
+<p>为了演示这种类型的方法引用，让我们考虑两个类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Bicycle</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">brand</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">frameSize</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// standard constructor, getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BicycleComparator</span> <span class="kd">implements</span> <span class="n">Comparator</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">Bicycle</span> <span class="n">a</span><span class="o">,</span> <span class="n">Bicycle</span> <span class="n">b</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="na">getFrameSize</span><span class="o">().</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">getFrameSize</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>并且，让我们创建一个<em>BicycleComparator</em>对象来比较自行车车架尺寸：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">BicycleComparator</span> <span class="n">bikeFrameSizeComparator</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BicycleComparator</span><span class="o">();</span>
+</span></span></code></pre></div><p>我们可以使用 lambda 表达式按车架尺寸对自行车进行排序，但我们需要指定两辆自行车进行比较：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">createBicyclesList</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">sorted</span><span class="o">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">bikeFrameSizeComparator</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">));</span>
+</span></span></code></pre></div><p>相反，我们可以使用方法引用让编译器为我们处理参数传递：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">createBicyclesList</span><span class="o">().</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">sorted</span><span class="o">(</span><span class="n">bikeFrameSizeComparator</span><span class="o">::</span><span class="n">compare</span><span class="o">);</span>
+</span></span></code></pre></div><p>方法参考更加清晰易读，代码清楚地表明了我们的意图。</p>
+<h2 id="4-引用特定类型的任意对象的实例方法">4. 引用特定类型的任意对象的实例方法</h2>
+<p>这种类型的方法引用类似于前面的示例，但无需创建自定义对象来执行比较。</p>
+<p>让我们创建一个 要排序的<em>整数列表：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">5</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">50</span><span class="o">,</span> <span class="n">24</span><span class="o">,</span> <span class="n">40</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">9</span><span class="o">,</span> <span class="n">18</span><span class="o">);</span>
+</span></span></code></pre></div><p>如果我们使用经典的 lambda 表达式，两个参数都需要显式传递，而使用方法引用要简单得多：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">sorted</span><span class="o">((</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">b</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">numbers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">sorted</span><span class="o">(</span><span class="n">Integer</span><span class="o">::</span><span class="n">compareTo</span><span class="o">);</span>
+</span></span></code></pre></div><p>尽管它仍然是单行的，但方法参考更容易阅读和理解。</p>
+<h2 id="5-对构造函数的引用">5. 对构造函数的引用</h2>
+<p>我们可以像在第一个示例中引用静态方法一样引用构造函数。唯一的区别是我们将使用<em>new</em>关键字。</p>
+<p>让我们用不同品牌的<em>字符串</em>列表创建一个<em>Bicycle</em>数组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">bikeBrands</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">&#34;Giant&#34;</span><span class="o">,</span> <span class="s">&#34;Scott&#34;</span><span class="o">,</span> <span class="s">&#34;Trek&#34;</span><span class="o">,</span> <span class="s">&#34;GT&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>首先，我们将向<em>Bicycle</em>类添加一个新的构造函数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="nf">Bicycle</span><span class="o">(</span><span class="n">String</span> <span class="n">brand</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">brand</span> <span class="o">=</span> <span class="n">brand</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="o">.</span><span class="na">frameSize</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们将使用方法引用中的新构造函数，并从原始<em>字符串列表中创建一个**Bicycle</em>数组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">bikeBrands</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">Bicycle</span><span class="o">::</span><span class="k">new</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">toArray</span><span class="o">(</span><span class="n">Bicycle</span><span class="o">[]::</span><span class="k">new</span><span class="o">);</span>
+</span></span></code></pre></div><p>请注意我们如何使用方法引用调用<em>Bicycle</em>和<em>Array</em>构造函数，从而使我们的代码外观更加简洁明了。</p>
+<h2 id="6-其他示例和限制">6. 其他示例和限制</h2>
+<p>到目前为止，我们已经看到，方法引用是使我们的代码和意图非常清晰易读的好方法。但是，我们不能用它们来替换各种 lambda 表达式，因为它们有一些限制。</p>
+<p>它们的主要限制是它们最大的优势： <strong>前一个表达式的输出需要与引用的方法签名的输入参数相匹配</strong>。</p>
+<p>让我们看一个这个限制的例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">createBicyclesList</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;Bike brand is &#39;%s&#39; and frame size is &#39;%d&#39;%n&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">b</span><span class="o">.</span><span class="na">getBrand</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">b</span><span class="o">.</span><span class="na">getFrameSize</span><span class="o">()));</span>
+</span></span></code></pre></div><p>这种简单的情况不能用方法引用来表达，因为在我们的例子中<em>printf</em>方法需要 3 个参数，而使用*createBicyclesList().forEach()*只会允许方法引用推断一个参数（<em>Bicycle</em>对象）。</p>
+<p><strong>最后，让我们探索如何创建一个可以从 lambda 表达式引用的无操作函数。</strong></p>
+<p>在这种情况下，我们希望使用 lambda 表达式而不使用其参数。</p>
+<p>首先，让我们创建<em>doNothingAtAll</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">doNothingAtAll</span><span class="o">(</span><span class="n">Object</span><span class="o">...</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>由于它是一个<a href="/java_varargs" rel="">可变参数</a>方法，它可以在任何 lambda 表达式中工作，无论引用的对象或推断的参数数量如何。</p>
+<p>现在，让我们看看它的实际效果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">createBicyclesList</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">forEach</span><span class="o">((</span><span class="n">o</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">MethodReferenceExamples</span><span class="o">.</span><span class="na">doNothingAtAll</span><span class="o">(</span><span class="n">o</span><span class="o">));</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_method_references/" data-title="" data-hashtags="Core Java"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_method_references/" data-hashtag="Core Java"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_method_references/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_method_references/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_method_references/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/core-java/">Core Java</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_method_overload_override/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_method_reflection/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

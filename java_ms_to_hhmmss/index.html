@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本教程中，我们学习了如何将持续时间格式化为特定格式（在我们的示例中为 HH:MM:SS）。首先，我们使用Java 附带的Duration和TimeUnit类来获取所需的单位并在 Formatter 的帮助下对其进行格式化。最后，我们看看如何使用一些第三方库来实现结果。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本教程中，我们学习了如何将持续时间格式化为特定格式（在我们的示例中为 HH:MM:SS）。首先，我们使用Java 附带的Duration和TimeUnit类来获取所需的单位并在 Formatter 的帮助下对其进行格式化。最后，我们看看如何使用一些第三方库来实现结果。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_ms_to_hhmmss/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本教程中，我们学习了如何将持续时间格式化为特定格式（在我们的示例中为 HH:MM:SS）。首先，我们使用Java 附带的Duration和TimeUnit类来获取所需的单位并在 Formatter 的帮助下对其进行格式化。最后，我们看看如何使用一些第三方库来实现结果。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_ms_to_hhmmss/" /><link rel="prev" href="http://itcodingman.github.io/vscode_spring_boot_install_introduce/" /><link rel="next" href="http://itcodingman.github.io/java_multi_dimensional_arraylist/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_ms_to_hhmmss\/"
+        },"genre": "posts","keywords": "Java Dates","wordcount":  1268 ,
+        "url": "http:\/\/itcodingman.github.io\/java_ms_to_hhmmss\/","datePublished": "2022-06-10T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们学习了如何将持续时间格式化为特定格式（在我们的示例中为 HH:MM:SS）。首先，我们使用Java 附带的Duration和TimeUnit类来获取所需的单位并在 Formatter 的帮助下对其进行格式化。最后，我们看看如何使用一些第三方库来实现结果。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-10">2022-06-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1268 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-java-解决方案">2. Java 解决方案</a>
+      <ul>
+        <li><a href="#21-duration">2.1 <em>Duration</em></a></li>
+        <li><a href="#22-timeunit">2.2. <em>TimeUnit</em></a></li>
+      </ul>
+    </li>
+    <li><a href="#3-使用第三方库">3. 使用第三方库</a>
+      <ul>
+        <li><a href="#31-apache-commons">3.1 Apache Commons</a></li>
+        <li><a href="#32-joda-time">3.2. Joda Time</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>持续时间是用小时、分钟、秒、毫秒等表示的时间量。我们可能希望将持续时间格式化为某个特定的时间模式。</p>
+<p>我们可以通过在一些 JDK 库的帮助下编写自定义代码或利用第三方库来实现这一点。</p>
+<p>在这个快速教程中，我们将了解如何编写简单的代码来将给定的持续时间格式化为 HH:MM:SS 格式。</p>
+<h2 id="2-java-解决方案">2. Java 解决方案</h2>
+<p>有多种方式可以表示持续时间——例如，以分钟、秒和毫秒为单位，或者作为具有自己特定格式的 Java <em>Duration 。</em></p>
+<p>本节和后续部分将重点介绍使用某些 JDK 库将间隔（以毫秒指定）格式化为 HH:MM:SS。为了我们的示例，我们将 38114000ms 格式化为 10:35:14 (HH:MM:SS)。</p>
+<h3 id="21-duration">2.1 <em>Duration</em></h3>
+<p><strong>从 Java 8 开始，引入了<a href="/java_period_duration" rel=""><em>Duration</em></a>类来处理各种单位的时间间隔</strong>。<em>Duration</em>类附带了许多帮助方法来从持续时间中获取小时、分钟和秒。</p>
+<p><em>要使用Duration</em>类将区间格式化为 HH:MM:SS ，我们需要使用<em>Duration</em>类中的<em>Millis</em>工厂方法从区间初始化<em>Duration</em>对象。这会将间隔转换为我们可以使用的<em>Duration</em>对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Duration</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">Duration</span><span class="o">.</span><span class="na">ofMillis</span><span class="o">(</span><span class="n">38114000</span><span class="o">);</span>
+</span></span></code></pre></div><p>为了便于从秒计算到我们想要的单位，我们需要获取持续时间或间隔内的总秒数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">seconds</span> <span class="o">=</span> <span class="n">duration</span><span class="o">.</span><span class="na">getSeconds</span><span class="o">();</span>
+</span></span></code></pre></div><p>然后，一旦我们有了秒数，我们就会为我们想要的格式生成相应的小时、分钟和秒：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">HH</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">/</span> <span class="n">3600</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">MM</span> <span class="o">=</span> <span class="o">(</span><span class="n">seconds</span> <span class="o">%</span> <span class="n">3600</span><span class="o">)</span> <span class="o">/</span> <span class="n">60</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">SS</span> <span class="o">=</span> <span class="n">seconds</span> <span class="o">%</span> <span class="n">60</span><span class="o">;</span>
+</span></span></code></pre></div><p>最后，我们格式化生成的值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">timeInHHMMSS</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;%02d:%02d:%02d&#34;</span><span class="o">,</span> <span class="n">HH</span><span class="o">,</span> <span class="n">MM</span><span class="o">,</span> <span class="n">SS</span><span class="o">);</span>
+</span></span></code></pre></div><p>让我们试试这个解决方案：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">timeInHHMMSS</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;10:35:14&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p><strong>如果我们使用 Java 9 或更高版本，我们可以使用一些辅助方法直接获取单位，而无需执行任何计算</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">HH</span> <span class="o">=</span> <span class="n">duration</span><span class="o">.</span><span class="na">toHours</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">MM</span> <span class="o">=</span> <span class="n">duration</span><span class="o">.</span><span class="na">toMinutesPart</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">SS</span> <span class="o">=</span> <span class="n">duration</span><span class="o">.</span><span class="na">toSecondsPart</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">timeInHHMMSS</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;%02d:%02d:%02d&#34;</span><span class="o">,</span> <span class="n">HH</span><span class="o">,</span> <span class="n">MM</span><span class="o">,</span> <span class="n">SS</span><span class="o">);</span>
+</span></span></code></pre></div><p>上面的代码片段将给我们与上面测试相同的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">timeInHHMMSS</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;10:35:14&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="22-timeunit">2.2. <em>TimeUnit</em></h3>
+<p>就像上一节讨论的<em>Duration</em> 类一样， <em>TimeUnit</em>表示给定粒度的时间。它提供了一些帮助方法来转换单位——在我们的例子中是小时、分钟和秒——并在这些单位中执行计时和延迟操作。</p>
+<p>要将持续时间（以毫秒为单位）格式化为 HH:MM:SS 格式，我们需要做的就是使用<em>TimeUnit</em>中相应的辅助方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">HH</span> <span class="o">=</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">.</span><span class="na">toHours</span><span class="o">(</span><span class="n">38114000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">MM</span> <span class="o">=</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">.</span><span class="na">toMinutes</span><span class="o">(</span><span class="n">38114000</span><span class="o">)</span> <span class="o">%</span> <span class="n">60</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">SS</span> <span class="o">=</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">.</span><span class="na">toSeconds</span><span class="o">(</span><span class="n">38114000</span><span class="o">)</span> <span class="o">%</span> <span class="n">60</span><span class="o">;</span>
+</span></span></code></pre></div><p>然后，根据上面生成的单位格式化持续时间：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">timeInHHMMSS</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;%02d:%02d:%02d&#34;</span><span class="o">,</span> <span class="n">HH</span><span class="o">,</span> <span class="n">MM</span><span class="o">,</span> <span class="n">SS</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">timeInHHMMSS</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;10:35:14&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="3-使用第三方库">3. 使用第三方库</h2>
+<p>我们可能会选择通过使用第三方库方法而不是自己编写来尝试不同的路线。</p>
+<h3 id="31-apache-commons">3.1 Apache Commons</h3>
+<p>要使用<a href="/java_commons_lang_3" rel="">Apache Commons</a>，我们需要将<a href="https://search.maven.org/search?q=g:org.apache.commons%20a:commons-lang3" target="_blank" rel="noopener noreffer">commons-lang3</a>添加到我们的项目中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-lang3<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.12.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>正如预期的那样，这个库在其<em>DurationFormatUtils</em>类中具有<em>formatDuration</em>以及其他单位格式化方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">timeInHHMMSS</span> <span class="o">=</span> <span class="n">DurationFormatUtils</span><span class="o">.</span><span class="na">formatDuration</span><span class="o">(</span><span class="n">38114000</span><span class="o">,</span> <span class="s">&#34;HH:MM:SS&#34;</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">timeInHHMMSS</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;10:35:14&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h3 id="32-joda-time">3.2. Joda Time</h3>
+<p>**当我们使用 Java 8 之前的 Java 版本时， <a href="/joda_time" rel="">Joda Time</a>**库会派上用场，因为它可以方便地表示和格式化时间单位。要使用 Joda Time，让我们将<a href="https://search.maven.org/search?q=g:joda-time%20a:joda-time" target="_blank" rel="noopener noreffer">joda-time 依赖</a>项添加到我们的项目中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>joda-time<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>joda-time<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>2.10.10<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>Joda Time 有一个<em>Duration</em>类来表示时间。首先，我们将间隔以毫秒为单位转换为 Joda Time <em>Duration</em>对象的实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Duration</span> <span class="n">duration</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Duration</span><span class="o">(</span><span class="n">38114000</span><span class="o">);</span>
+</span></span></code></pre></div><p>然后，我们使用Duration中的<em>toPeriod</em>方法从上述持续时间中获取周期，该方法将其转换或初始化为 Joda Time 中的<em>Period</em>类的实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Period</span> <span class="n">period</span> <span class="o">=</span> <span class="n">duration</span><span class="o">.</span><span class="na">toPeriod</span><span class="o">();</span>
+</span></span></code></pre></div><p>我们使用对应的辅助方法从<em>Period</em>获取单位（小时、分钟和秒） ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">HH</span> <span class="o">=</span> <span class="n">period</span><span class="o">.</span><span class="na">getHours</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">MM</span> <span class="o">=</span> <span class="n">period</span><span class="o">.</span><span class="na">getMinutes</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">long</span> <span class="n">SS</span> <span class="o">=</span> <span class="n">period</span><span class="o">.</span><span class="na">getSeconds</span><span class="o">();</span>
+</span></span></code></pre></div><p>最后，我们可以格式化持续时间并测试结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">timeInHHMMSS</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;%02d:%02d:%02d&#34;</span><span class="o">,</span> <span class="n">HH</span><span class="o">,</span> <span class="n">MM</span><span class="o">,</span> <span class="n">SS</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertThat</span><span class="o">(</span><span class="n">timeInHHMMSS</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">&#34;10:35:14&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_ms_to_hhmmss/" data-title="" data-hashtags="Java Dates"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_ms_to_hhmmss/" data-hashtag="Java Dates"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_ms_to_hhmmss/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_ms_to_hhmmss/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_ms_to_hhmmss/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-dates/">Java Dates</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/vscode_spring_boot_install_introduce/" class="prev" rel="prev" title="Visual Studio Code Spring Boot 的安装及使用"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Visual Studio Code Spring Boot 的安装及使用</a>
+            <a href="/java_multi_dimensional_arraylist/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

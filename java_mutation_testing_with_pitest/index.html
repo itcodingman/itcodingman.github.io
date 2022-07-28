@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="请注意，代码覆盖率仍然是一个重要指标，但有时不足以保证代码经过良好测试。因此，在本文中，我们使用PITest 库将突变测试作为一种更复杂的方法来确保测试质量和认可测试用例。我们还看到了如何在提高变异覆盖率分数的同时分析基本的 PITest 报告。即使变异测试揭示了代码中的缺陷，也应该明智地使用它，因为它是一个极其昂贵和耗时的过程。"><meta property="og:title" content="" />
+<meta property="og:description" content="请注意，代码覆盖率仍然是一个重要指标，但有时不足以保证代码经过良好测试。因此，在本文中，我们使用PITest 库将突变测试作为一种更复杂的方法来确保测试质量和认可测试用例。我们还看到了如何在提高变异覆盖率分数的同时分析基本的 PITest 报告。即使变异测试揭示了代码中的缺陷，也应该明智地使用它，因为它是一个极其昂贵和耗时的过程。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_mutation_testing_with_pitest/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="请注意，代码覆盖率仍然是一个重要指标，但有时不足以保证代码经过良好测试。因此，在本文中，我们使用PITest 库将突变测试作为一种更复杂的方法来确保测试质量和认可测试用例。我们还看到了如何在提高变异覆盖率分数的同时分析基本的 PITest 报告。即使变异测试揭示了代码中的缺陷，也应该明智地使用它，因为它是一个极其昂贵和耗时的过程。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_mutation_testing_with_pitest/" /><link rel="prev" href="http://itcodingman.github.io/java_multiverse_stm/" /><link rel="next" href="http://itcodingman.github.io/20_mins_tomcat/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_mutation_testing_with_pitest\/"
+        },"genre": "posts","wordcount":  1833 ,
+        "url": "http:\/\/itcodingman.github.io\/java_mutation_testing_with_pitest\/","datePublished": "2022-06-16T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "请注意，代码覆盖率仍然是一个重要指标，但有时不足以保证代码经过良好测试。因此，在本文中，我们使用PITest 库将突变测试作为一种更复杂的方法来确保测试质量和认可测试用例。我们还看到了如何在提高变异覆盖率分数的同时分析基本的 PITest 报告。即使变异测试揭示了代码中的缺陷，也应该明智地使用它，因为它是一个极其昂贵和耗时的过程。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/testing/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Testing</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-16">2022-06-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1833 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
+    <li><a href="#3-项目设置"><strong>3. 项目设置</strong></a></li>
+    <li><a href="#4-代码覆盖率"><strong>4. 代码覆盖率</strong></a></li>
+    <li><a href="#5-突变覆盖率"><strong>5. 突变覆盖率</strong></a></li>
+    <li><a href="#6-提高突变分数"><strong>6. 提高突变分数</strong></a></li>
+    <li><a href="#7-pitest-测试配置"><strong>7. PITest 测试配置</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>软件测试是指用于评估软件应用程序功能的技术。在本文中，我们将讨论软件测试行业中使用的一些指标，例如<strong>代码覆盖率</strong>和<strong>变异测试</strong>，并对如何使用<a href="http://pitest.org/" target="_blank" rel="noopener noreffer"><strong>PITest 库</strong></a>执行变异测试特别感兴趣。</p>
+<p>为了简单起见，我们将这个演示基于一个基本的回文函数——请注意，回文是一个向后和向前读取相同的字符串。</p>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
+<p>正如您在 Maven 依赖项配置中所见，我们将使用 JUnit 来运行我们的测试，并使用<strong>PITest</strong>库将<strong>突变体</strong>引入我们的代码中——别担心，我们马上就会看到突变体是什么。<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Ca%3A%22pitest-parent%22" target="_blank" rel="noopener noreffer">您始终可以通过以下链接</a>查找针对 maven 中央存储库的最新依赖项版本。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.pitest<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>pitest-parent<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.1.10<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>为了让 PITest 库启动并运行，我们还需要在<em>pom.xml</em>配置文件中包含<em>Pitest-maven</em>插件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;plugin&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.pitest<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>pitest-maven<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.1.10<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;targetClasses&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;param&gt;</span>com.codingman.testing.mutation.*<span class="nt">&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/targetClasses&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;targetTests&gt;</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&lt;param&gt;</span>com.codingman.mutation.test.*<span class="nt">&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;/targetTests&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="nt">&lt;/configuration&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/plugin&gt;</span>
+</span></span></code></pre></div><h2 id="3-项目设置"><strong>3. 项目设置</strong></h2>
+<p>现在我们已经配置了 Maven 依赖项，让我们看看这个不言自明的回文函数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isPalindrome</span><span class="o">(</span><span class="n">String</span> <span class="n">inputString</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">inputString</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span> <span class="n">firstChar</span> <span class="o">=</span> <span class="n">inputString</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span> <span class="n">lastChar</span> <span class="o">=</span> <span class="n">inputString</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">inputString</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">String</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">inputString</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">inputString</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">-</span> <span class="n">1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">(</span><span class="n">firstChar</span> <span class="o">==</span> <span class="n">lastChar</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">isPalindrome</span><span class="o">(</span><span class="n">mid</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们现在需要的是一个简单的 JUnit 测试，以确保我们的实现以所需的方式工作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenPalindrom_thenAccept</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Palindrome</span> <span class="n">palindromeTester</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Palindrome</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertTrue</span><span class="o">(</span><span class="n">palindromeTester</span><span class="o">.</span><span class="na">isPalindrome</span><span class="o">(</span><span class="s">&#34;noon&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>到目前为止一切顺利，我们已准备好将测试用例作为 JUnit 测试成功运行。</p>
+<p>接下来，在本文中，我们将重点关注使用 PITest 库的<strong>代码和变异覆盖率。</strong></p>
+<h2 id="4-代码覆盖率"><strong>4. 代码覆盖率</strong></h2>
+<p><a href="/code_coverage" rel="">代码覆盖率</a>已在软件行业广泛使用，以衡量在自动化测试期间<strong>执行路径的百分比。</strong></p>
+<p>我们可以使用Eclipse IDE 上提供的<a href="http://www.eclemma.org/index.html" target="_blank" rel="noopener noreffer"><strong>Eclemma</strong></a> 等工具，根据执行路径测量有效的代码覆盖率。</p>
+<p>在运行具有代码覆盖率的<em>TestPalindrome</em>之后，我们可以轻松地获得 100% 的覆盖率分数——注意<em>isPalindrome</em>是递归的，因此很明显空输入长度检查无论如何都会被覆盖。</p>
+<p>不幸的是，代码覆盖率指标有时可能非常<strong>无效</strong>，因为 100% 的代码覆盖率分数仅意味着所有行都至少执行了一次，但它没有说明<strong>测试准确性</strong>或<strong>用例完整性</strong>，这就是突变测试真正重要的原因。</p>
+<h2 id="5-突变覆盖率"><strong>5. 突变覆盖率</strong></h2>
+<p>突变测试是一种用于<strong>提高</strong>测试充分性和<strong>识别代码缺陷</strong>的测试技术。这个想法是动态更改生产代码并导致测试失败。</p>
+<blockquote>
+<p>好的测试会失败</p>
+</blockquote>
+<p>代码中的每次更改都称为<strong>突变</strong>，它会导致程序的更改版本，称为<strong>突变</strong>。</p>
+<p>我们说如果突变会导致测试失败，则该突变被<strong>杀死</strong>。我们还说，如果突变体不能影响测试的行为，那么突变体就会<strong>存活下来</strong>。</p>
+<p>现在让我们使用 Maven 运行测试，目标选项设置为：<em>org.pitest:pitest-maven:mutationCoverage</em>。</p>
+<p><em><strong>我们可以在target/pit-test/YYYYMMDDHHMI</strong></em>目录下查看 HTML 格式的报告：</p>
+<ul>
+<li>100% 线路覆盖率：7/7</li>
+<li>63% 突变覆盖率：5/8</li>
+</ul>
+<p>显然，我们的测试扫描了所有的执行路径，因此，线路覆盖率是 100%。另一方面，PITest 库引入了<strong>8 个突变体</strong>，其中 5 个被杀死——导致失败——但 3 个幸存下来。</p>
+<p>我们可以查看<em><strong>com.codingman.testing.mutation/Palindrome.java.html</strong></em>报告以获取有关创建的突变体的更多详细信息：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2016/07/mutations.png"
+        data-srcset="wp-content/uploads/2016/07/mutations.png, wp-content/uploads/2016/07/mutations.png 1.5x, wp-content/uploads/2016/07/mutations.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2016/07/mutations.png"
+        title="突变" /></p>
+<p>这些是运行变异覆盖测试时<strong>默认激活的变异器：</strong></p>
+<ul>
+<li><em>INCREMENTS_MUTATOR</em></li>
+<li><em>VOID_METHOD_CALL_MUTATOR</em></li>
+<li><em>RETURN_VALS_MUTATOR</em></li>
+<li><em>MATH_MUTATOR</em></li>
+<li><em>NEGATE_CONDITIONALS_MUTATOR</em></li>
+<li><em>INVERT_NEGS_MUTATOR</em></li>
+<li><em>CONDITIONALS_BOUNDARY_MUTATOR</em></li>
+</ul>
+<p>有关 PITest 突变器的更多详细信息，您可以查看官方**<a href="http://pitest.org/quickstart/mutators/" target="_blank" rel="noopener noreffer">文档页面</a>**链接。</p>
+<p>我们的变异覆盖率分数反映<strong>了测试用例的缺乏</strong>，因为我们无法确保我们的回文函数拒绝非回文和近回文字符串输入。</p>
+<h2 id="6-提高突变分数"><strong>6. 提高突变分数</strong></h2>
+<p>现在我们知道什么是突变，我们需要通过<strong>杀死幸存的突变体</strong>来提高我们的突变分数。</p>
+<p>让我们以第 6 行的第一个突变 - 否定条件 - 为例。突变体幸存下来，因为即使我们更改代码片段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">inputString</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>至：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">inputString</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>测试会通过，这就是<strong>突变存活</strong>的原因。这个想法是实施一个新的测试，<strong>如果引入了突变体，它将失败</strong>。对剩余的突变体也可以这样做。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenNotPalindrom_thanReject</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Palindrome</span> <span class="n">palindromeTester</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Palindrome</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertFalse</span><span class="o">(</span><span class="n">palindromeTester</span><span class="o">.</span><span class="na">isPalindrome</span><span class="o">(</span><span class="s">&#34;box&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenNearPalindrom_thanReject</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Palindrome</span> <span class="n">palindromeTester</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Palindrome</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertFalse</span><span class="o">(</span><span class="n">palindromeTester</span><span class="o">.</span><span class="na">isPalindrome</span><span class="o">(</span><span class="s">&#34;neon&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们可以使用突变覆盖插件运行我们的测试，以确保<strong>所有突变都被杀死</strong>，正如我们在目标目录中生成的 PITest 报告中看到的那样。</p>
+<ul>
+<li>100% 线路覆盖率：7/7</li>
+<li>100% 突变覆盖率：8/8</li>
+</ul>
+<h2 id="7-pitest-测试配置"><strong>7. PITest 测试配置</strong></h2>
+<p>突变测试有时可能会占用大量资源，因此我们需要进行适当的配置以提高测试效率。我们可以使用<em>targetClasses</em>标签来定义要变异的类列表。变异测试不能应用于现实世界项目中的所有类，因为它既费时又对资源至关重要。</p>
+<p>定义您计划在变异测试期间使用的变异器也很重要，以最大限度地减少执行测试所需的计算资源：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;configuration&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;targetClasses&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;param&gt;</span>com.codingman.testing.mutation.*<span class="nt">&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/targetClasses&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;targetTests&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;param&gt;</span>com.codingman.mutation.test.*<span class="nt">&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/targetTests&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;mutators&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;mutator&gt;</span>CONSTRUCTOR_CALLS<span class="nt">&lt;/mutator&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;mutator&gt;</span>VOID_METHOD_CALLS<span class="nt">&lt;/mutator&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;mutator&gt;</span>RETURN_VALS<span class="nt">&lt;/mutator&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&lt;mutator&gt;</span>NON_VOID_METHOD_CALLS<span class="nt">&lt;/mutator&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;/mutators&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/configuration&gt;</span>
+</span></span></code></pre></div><p>此外，PITest 库提供了多种可用于<strong>自定义测试策略</strong>的选项，例如，您可以使用<em>maxMutationsPerClass</em>选项指定类引入的最大突变数。有关 PITest 选项的更多详细信息，请参阅官方**<a href="http://pitest.org/quickstart/maven/" target="_blank" rel="noopener noreffer">Maven 快速入门指南</a>**。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mutation_testing_with_pitest/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_multiverse_stm/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/20_mins_tomcat/" class="next" rel="next" title="20分钟学习Tomcat">20分钟学习Tomcat<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

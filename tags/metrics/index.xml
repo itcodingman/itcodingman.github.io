@@ -11,5 +11,13 @@
     <guid>http://itcodingman.github.io/java_netflix_spectator/</guid>
     <description><![CDATA[1. 概述 **Spectator是一个用于检测代码和为维度时间序列后端系统收集数据的库。**Spectator 起源于 Netflix，用于各种指标]]></description>
 </item>
+<item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_metrics/</link>
+    <pubDate>Mon, 16 May 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_metrics/</guid>
+    <description><![CDATA[1. 概述 在这个快速教程中，我们将讨论如何在 Java 中监控关键指标。我们将专注于磁盘空间、内存使用和线程数据——仅使用核心 Java API。 在我们的第一个示例]]></description>
+</item>
 </channel>
 </rss>

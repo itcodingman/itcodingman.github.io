@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们将Map.entrySet视为迭代映射键的替代方法。然后我们查看了如何将Map.Entry用作元组。最后，我们创建了一个有序元组列表，将差异与基本Map进行比较。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们将Map.entrySet视为迭代映射键的替代方法。然后我们查看了如何将Map.Entry用作元组。最后，我们创建了一个有序元组列表，将差异与基本Map进行比较。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_map_entry/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们将Map.entrySet视为迭代映射键的替代方法。然后我们查看了如何将Map.Entry用作元组。最后，我们创建了一个有序元组列表，将差异与基本Map进行比较。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_map_entry/" /><link rel="prev" href="http://itcodingman.github.io/java_map_entries_methods/" /><link rel="next" href="http://itcodingman.github.io/jupyter_notebook_install_introduce/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_map_entry\/"
+        },"genre": "posts","keywords": "Java Map","wordcount":  1226 ,
+        "url": "http:\/\/itcodingman.github.io\/java_map_entry\/","datePublished": "2022-04-05T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们将Map.entrySet视为迭代映射键的替代方法。然后我们查看了如何将Map.Entry用作元组。最后，我们创建了一个有序元组列表，将差异与基本Map进行比较。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java-collections/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java Collections</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-05">2022-04-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1226 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2优化map迭代">2.优化<em>Map</em>迭代</a>
+      <ul>
+        <li><a href="#21-使用mapkeyset">2.1 使用<em>Map.keySet</em></a></li>
+        <li><a href="#22-使用mapentryset代替">2.2. 使用 <em>Map.entrySet</em>代替</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-使用元组">3. 使用元组</a>
+      <ul>
+        <li><a href="#31-创建一个元组">3.1 创建一个元组</a></li>
+        <li><a href="#32-创建元组的有序列表">3.2. 创建元组的有序列表</a></li>
+        <li><a href="#33-与map比较">3.3. 与<em>Map</em>比较</a></li>
+        <li><a href="#34-entry对象列表">3.4. <em>Entry</em>对象列表</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>我们经常使用映射来存储键值对的集合。然后，在某些时候，我们经常需要<a href="/java_iterate_map" rel="">遍历它们</a>。</p>
+<p>在本教程中，我们将比较不同的地图迭代方法，突出显示何时使用<em>Map.Entry</em>可能是有益的。然后，我们将学习如何 使用<em>Map.Entry</em>创建一个元组。最后，我们将创建一个有序的元组列表。</p>
+<h2 id="2优化map迭代">2.优化<em>Map</em>迭代</h2>
+<p>假设我们有一个以作者姓名为键的书名地图：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;Robert C. Martin&#34;</span><span class="o">,</span> <span class="s">&#34;Clean Code&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;Joshua Bloch&#34;</span><span class="o">,</span> <span class="s">&#34;Effective Java&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>让我们比较从地图中获取所有键和值的两种方法。</p>
+<h3 id="21-使用mapkeyset">2.1 使用<em>Map.keySet</em></h3>
+<p>首先，考虑以下几点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">key</span> <span class="o">:</span> <span class="n">bookMap</span><span class="o">.</span><span class="na">keySet</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;key: &#34;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s">&#34; value: &#34;</span> <span class="o">+</span> <span class="n">bookMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，循环遍历<em>keySet</em>。<em>对于每个键，我们使用Map.get</em>获取相应的值。虽然这是使用映射中所有条目的明显方式，但它需要对每个条目进行两次操作- 一个获取next，另一个使用<em>get</em>查找值。</p>
+<p>如果我们只需要映射中的键，<em>keySet</em>是一个不错的选择。但是，有一种更快的方法可以同时获取键和值。</p>
+<h3 id="22-使用mapentryset代替">2.2. 使用 <em>Map.entrySet</em>代替</h3>
+<p>让我们重写我们的迭代以使用<em>entrySet</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">book</span><span class="o">:</span> <span class="n">bookMap</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;key: &#34;</span> <span class="o">+</span> <span class="n">book</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; value: &#34;</span> <span class="o">+</span> <span class="n">book</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这个例子中，我们的循环在<em>Map.Entry</em>对象的集合上。由于 <strong><em>Map.Entry</em>将键和值都存储在一个类中，因此我们在一个操作中获取它们</strong>。</p>
+<p>相同的规则适用于<a href="/java_maps_streams" rel="">使用 Java 8 流操作</a>。<em>在entrySet</em>上进行流式传输并使用 <em>Entry</em>对象更有效，并且需要的代码更少。</p>
+<h2 id="3-使用元组">3. 使用元组</h2>
+<p>元组是具有固定数量和顺序的元素的数据结构。我们可以认为 <em>Map.Entry</em>是一个存储两个元素的元组——一个键和一个值。但是，由于 <em>Map.Entry</em>是一个接口，我们需要一个实现类。在本节中，我们将探讨 JDK 提供的一种实现：<em>AbstractMap.SimpleEntry</em>。</p>
+<h3 id="31-创建一个元组">3.1 创建一个元组</h3>
+<p>首先，考虑<em>Book</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Book</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">author</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Book</span><span class="o">(</span><span class="n">String</span> <span class="n">title</span><span class="o">,</span> <span class="n">String</span> <span class="n">author</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">author</span> <span class="o">=</span> <span class="n">author</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></div><p>接下来，让我们创建一个<em>Map.Entry</em>元组，其中 ISBN 为键，<em>Book</em>对象为值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Book</span><span class="o">&gt;</span> <span class="n">tuple</span><span class="o">;</span>
+</span></span></code></pre></div><p><em>最后，让我们用AbstractMap.SimpleEntry</em>实例化我们的元组 ：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">tuple</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AbstractMap</span><span class="o">.</span><span class="na">SimpleEntry</span><span class="o">&lt;&gt;(</span><span class="s">&#34;9780134685991&#34;</span><span class="o">,</span> <span class="k">new</span> <span class="n">Book</span><span class="o">(</span><span class="s">&#34;Effective Java 3d Edition&#34;</span><span class="o">,</span> <span class="s">&#34;Joshua Bloch&#34;</span><span class="o">));</span>
+</span></span></code></pre></div><h3 id="32-创建元组的有序列表">3.2. 创建元组的有序列表</h3>
+<p>使用元组时，将它们作为有序列表通常很有用。</p>
+<p>首先，我们将定义我们的元组列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Book</span><span class="o">&gt;&gt;</span> <span class="n">orderedTuples</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span></code></pre></div><p>其次，让我们在列表中添加一些条目：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">orderedTuples</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">AbstractMap</span><span class="o">.</span><span class="na">SimpleEntry</span><span class="o">&lt;&gt;(</span><span class="s">&#34;9780134685991&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Book</span><span class="o">(</span><span class="s">&#34;Effective Java 3d Edition&#34;</span><span class="o">,</span> <span class="s">&#34;Joshua Bloch&#34;</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl"><span class="n">orderedTuples</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">AbstractMap</span><span class="o">.</span><span class="na">SimpleEntry</span><span class="o">&lt;&gt;(</span><span class="s">&#34;9780132350884&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Book</span><span class="o">(</span><span class="s">&#34;Clean Code&#34;</span><span class="o">,</span><span class="s">&#34;Robert C Martin&#34;</span><span class="o">)));</span>
+</span></span></code></pre></div><h3 id="33-与map比较">3.3. 与<em>Map</em>比较</h3>
+<p>为了与<em>Map</em>比较差异，让我们添加一个新条目，其中包含一个已经存在的键：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">orderedTuples</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">AbstractMap</span><span class="o">.</span><span class="na">SimpleEntry</span><span class="o">&lt;&gt;(</span><span class="s">&#34;9780132350884&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="k">new</span> <span class="n">Book</span><span class="o">(</span><span class="s">&#34;Clean Code&#34;</span><span class="o">,</span> <span class="s">&#34;Robert C Martin&#34;</span><span class="o">)));</span>
+</span></span></code></pre></div><p>其次，我们将遍历我们的列表，显示所有的键和值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">for</span> <span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Book</span><span class="o">&gt;</span> <span class="n">tuple</span> <span class="o">:</span> <span class="n">orderedTuples</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;key: &#34;</span> <span class="o">+</span> <span class="n">tuple</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34; value: &#34;</span> <span class="o">+</span> <span class="n">tuple</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>最后，让我们看看输出：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">key: <span class="m">9780134685991</span> value: Book<span class="o">{</span><span class="nv">title</span><span class="o">=</span><span class="s1">&#39;Effective Java 3d Edition&#39;</span>, <span class="nv">author</span><span class="o">=</span><span class="s1">&#39;Joshua Bloch&#39;</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">key: <span class="m">9780132350884</span> value: Book<span class="o">{</span><span class="nv">title</span><span class="o">=</span><span class="s1">&#39;Clean Code&#39;</span>, <span class="nv">author</span><span class="o">=</span><span class="s1">&#39;Robert C Martin&#39;</span><span class="o">}</span>
+</span></span><span class="line"><span class="cl">key: <span class="m">9780132350884</span> value: Book<span class="o">{</span><span class="nv">title</span><span class="o">=</span><span class="s1">&#39;Clean Code&#39;</span>, <span class="nv">author</span><span class="o">=</span><span class="s1">&#39;Robert C Martin&#39;</span><span class="o">}</span>
+</span></span></code></pre></div><p>请注意，我们可以有重复的键，这与基本的 <em>Map</em>不同，其中每个键都必须是唯一的。这是因为我们使用<em>List</em>实现来存储<em>SimpleEntry</em>对象，这意味着所有对象都是相互独立的。</p>
+<h3 id="34-entry对象列表">3.4. <em>Entry</em>对象列表</h3>
+<p>我们应该注意，  <em>Entry</em>的目的不是充当通用元组。库类通常为此目的提供一个通用的<a href="/java_pairs" rel=""><em>Pair类</em></a>。</p>
+<p>但是，我们可能会发现在为<em>Map</em>准备数据或从中提取数据时，我们需要临时处理条目列表 。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_map_entry/" data-title="" data-hashtags="Java Map"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_map_entry/" data-hashtag="Java Map"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_map_entry/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_map_entry/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_map_entry/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-map/">Java Map</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_map_entries_methods/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/jupyter_notebook_install_introduce/" class="next" rel="next" title="jupyter notebook安装及使用">jupyter notebook安装及使用<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

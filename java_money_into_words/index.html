@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在这篇快速文章中，我们看到了如何将一笔钱转换为单词的两种方法。"><meta property="og:title" content="" />
+<meta property="og:description" content="在这篇快速文章中，我们看到了如何将一笔钱转换为单词的两种方法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_money_into_words/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在这篇快速文章中，我们看到了如何将一笔钱转换为单词的两种方法。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_money_into_words/" /><link rel="prev" href="http://itcodingman.github.io/java_money_and_currency/" /><link rel="next" href="http://itcodingman.github.io/java_mongodb/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_money_into_words\/"
+        },"genre": "posts","wordcount":  980 ,
+        "url": "http:\/\/itcodingman.github.io\/java_money_into_words\/","datePublished": "2022-05-31T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在这篇快速文章中，我们看到了如何将一笔钱转换为单词的两种方法。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-31">2022-05-31</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;980 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-实施"><strong>2. 实施</strong></a></li>
+    <li><a href="#3-使用libary"><strong>3. 使用Libary</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本教程中，我们将了解如何将货币金额转换为 Java 中的文字表示。</p>
+<p>我们还将通过外部库<a href="https://github.com/allegro/tradukisto" target="_blank" rel="noopener noreffer">Tradukisto</a>了解自定义实现的外观。</p>
+<h2 id="2-实施"><strong>2. 实施</strong></h2>
+<p>让我们首先从我们自己的实现开始。<strong>第一步是声明两个包含以下元素的<em>String</em>数组：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span><span class="o">[]</span> <span class="n">ones</span> <span class="o">=</span> <span class="o">{</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;&#34;</span><span class="o">,</span> <span class="s">&#34;one&#34;</span><span class="o">,</span> <span class="s">&#34;two&#34;</span><span class="o">,</span> <span class="s">&#34;three&#34;</span><span class="o">,</span> <span class="s">&#34;four&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;five&#34;</span><span class="o">,</span> <span class="s">&#34;six&#34;</span><span class="o">,</span> <span class="s">&#34;seven&#34;</span><span class="o">,</span> <span class="s">&#34;eight&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;nine&#34;</span><span class="o">,</span> <span class="s">&#34;ten&#34;</span><span class="o">,</span> <span class="s">&#34;eleven&#34;</span><span class="o">,</span> <span class="s">&#34;twelve&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;thirteen&#34;</span><span class="o">,</span> <span class="s">&#34;fourteen&#34;</span><span class="o">,</span> <span class="s">&#34;fifteen&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;sixteen&#34;</span><span class="o">,</span> <span class="s">&#34;seventeen&#34;</span><span class="o">,</span> <span class="s">&#34;eighteen&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;nineteen&#34;</span> 
+</span></span><span class="line"><span class="cl"><span class="o">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span><span class="o">[]</span> <span class="n">tens</span> <span class="o">=</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s">&#34;&#34;</span><span class="o">,</span>          <span class="c1">// 0
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="s">&#34;&#34;</span><span class="o">,</span>          <span class="c1">// 1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="s">&#34;twenty&#34;</span><span class="o">,</span>    <span class="c1">// 2
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="s">&#34;thirty&#34;</span><span class="o">,</span>    <span class="c1">// 3
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="s">&#34;forty&#34;</span><span class="o">,</span>     <span class="c1">// 4
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="s">&#34;fifty&#34;</span><span class="o">,</span>     <span class="c1">// 5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="s">&#34;sixty&#34;</span><span class="o">,</span>     <span class="c1">// 6
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="s">&#34;seventy&#34;</span><span class="o">,</span>   <span class="c1">// 7
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="s">&#34;eighty&#34;</span><span class="o">,</span>    <span class="c1">// 8
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="s">&#34;ninety&#34;</span>     <span class="c1">// 9
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">};</span>
+</span></span></code></pre></div><p>当我们收到输入时，我们需要处理无效值（零值和负值）。<strong>收到有效输入后，我们可以将美元和美分的数量提取到变量中：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="kt">long</span> <span class="n">dollars</span> <span class="o">=</span> <span class="o">(</span><span class="kt">long</span><span class="o">)</span> <span class="n">money</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"> <span class="kt">long</span> <span class="n">cents</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">round</span><span class="o">((</span><span class="n">money</span> <span class="o">-</span> <span class="n">dollars</span><span class="o">)</span> <span class="o">*</span> <span class="n">100</span><span class="o">);</span>
+</span></span></code></pre></div><p>如果给定的数字小于 20，那么我们将根据索引从数组中获取适当<em>的元素：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="n">20</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ones</span><span class="o">[(</span><span class="kt">int</span><span class="o">)</span> <span class="n">n</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们将对小于 100 的数字使用类似的方法，但现在我们也必须使用<em>tens</em>数组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="n">100</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">tens</span><span class="o">[(</span><span class="kt">int</span><span class="o">)</span> <span class="n">n</span> <span class="o">/</span> <span class="n">10</span><span class="o">]</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="o">((</span><span class="n">n</span> <span class="o">%</span> <span class="n">10</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">?</span> <span class="s">&#34; &#34;</span> <span class="o">:</span> <span class="s">&#34;&#34;</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="n">ones</span><span class="o">[(</span><span class="kt">int</span><span class="o">)</span> <span class="n">n</span> <span class="o">%</span> <span class="n">10</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>对于小于一千的数字，我们也这样做。</p>
+<p>接下来，我们使用递归调用来处理小于一百万的数字，如下所示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="n">1_000_000</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">convert</span><span class="o">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">1000</span><span class="o">)</span> <span class="o">+</span> <span class="s">&#34; thousand&#34;</span> <span class="o">+</span> <span class="o">((</span><span class="n">n</span> <span class="o">%</span> <span class="n">1000</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">?</span> <span class="s">&#34; &#34;</span> <span class="o">:</span> <span class="s">&#34;&#34;</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">+</span> <span class="n">convert</span><span class="o">(</span><span class="n">n</span> <span class="o">%</span> <span class="n">1000</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>相同的方法用于小于 10 亿的数字，依此类推。</p>
+<p>这是可以调用来执行此转换的主要方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"> <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getMoneyIntoWords</span><span class="o">(</span><span class="kt">double</span> <span class="n">money</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">dollars</span> <span class="o">=</span> <span class="o">(</span><span class="kt">long</span><span class="o">)</span> <span class="n">money</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">cents</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">round</span><span class="o">((</span><span class="n">money</span> <span class="o">-</span> <span class="n">dollars</span><span class="o">)</span> <span class="o">*</span> <span class="n">100</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">money</span> <span class="o">==</span> <span class="n">0D</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">money</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">INVALID_INPUT_GIVEN</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">dollarsPart</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">dollars</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dollarsPart</span> <span class="o">=</span> <span class="n">convert</span><span class="o">(</span><span class="n">dollars</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">          <span class="o">+</span> <span class="s">&#34; dollar&#34;</span> 
+</span></span><span class="line"><span class="cl">          <span class="o">+</span> <span class="o">(</span><span class="n">dollars</span> <span class="o">==</span> <span class="n">1</span> <span class="o">?</span> <span class="s">&#34;&#34;</span> <span class="o">:</span> <span class="s">&#34;s&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">centsPart</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">cents</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">dollarParts</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">centsPart</span> <span class="o">=</span> <span class="s">&#34; and &#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">centsPart</span> <span class="o">+=</span> <span class="n">convert</span><span class="o">(</span><span class="n">cents</span><span class="o">)</span> <span class="o">+</span> <span class="s">&#34; cent&#34;</span> <span class="o">+</span> <span class="o">(</span><span class="n">cents</span> <span class="o">==</span> <span class="n">1</span> <span class="o">?</span> <span class="s">&#34;&#34;</span> <span class="o">:</span> <span class="s">&#34;s&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dollarsPart</span> <span class="o">+</span> <span class="n">centsPart</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们测试我们的代码以确保它有效：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenGivenDollarsAndCents_thenReturnWords</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">expectedResult</span>
+</span></span><span class="line"><span class="cl">     <span class="o">=</span> <span class="s">&#34;nine hundred twenty four dollars and sixty cents&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">expectedResult</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">NumberWordConverter</span><span class="o">.</span><span class="na">getMoneyIntoWords</span><span class="o">(</span><span class="n">924</span><span class="o">.</span><span class="na">6</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenTwoBillionDollarsGiven_thenReturnWords</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">expectedResult</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="s">&#34;two billion one hundred thirty three million two hundred&#34;</span> 
+</span></span><span class="line"><span class="cl">        <span class="o">+</span> <span class="s">&#34; forty seven thousand eight hundred ten dollars&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">expectedResult</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">NumberWordConverter</span><span class="o">.</span><span class="na">getMoneyIntoWords</span><span class="o">(</span><span class="n">2_133_247_810</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenThirtyMillionDollarsGiven_thenReturnWords</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">expectedResult</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="s">&#34;thirty three million three hundred forty eight thousand nine hundred seventy eight dollars&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="n">expectedResult</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">NumberWordConverter</span><span class="o">.</span><span class="na">getMoneyIntoWords</span><span class="o">(</span><span class="n">33_348_978</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们也测试一些边缘情况，并确保我们也涵盖了它们：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenZeroDollarsGiven_thenReturnEmptyString</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">,</span> <span class="n">NumberWordConverter</span><span class="o">.</span><span class="na">getMoneyIntoWords</span><span class="o">(</span><span class="n">0</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenNoDollarsAndNineFiveNineCents_thenCorrectRounding</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>   
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;ninety six cents&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">NumberWordConverter</span><span class="o">.</span><span class="na">getMoneyIntoWords</span><span class="o">(</span><span class="n">0</span><span class="o">.</span><span class="na">959</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenNoDollarsAndOneCent_thenReturnCentSingular</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;one cent&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">NumberWordConverter</span><span class="o">.</span><span class="na">getMoneyIntoWords</span><span class="o">(</span><span class="n">0</span><span class="o">.</span><span class="na">01</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="3-使用libary"><strong>3. 使用Libary</strong></h2>
+<p>现在我们已经实现了自己的算法，让我们使用现有的库来进行这种转换。</p>
+<p><a href="https://github.com/allegro/tradukisto" target="_blank" rel="noopener noreffer"><em>Tradukisto</em></a>是 Java 8+ 的库，它可以帮助我们将数字转换为它们的单词表示形式。首先，我们需要将它导入到我们的项目中（这个库的最新版本可以在<a href="https://search.maven.org/classic/#search%7Cgav%7C1%7Cg%3A%22pl.allegro.finance%22%20AND%20a%3A%22tradukisto%22" target="_blank" rel="noopener noreffer">这里</a>找到）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>pl.allegro.finance<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>tradukisto<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>1.0.1<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>我们现在可以使用<em>MoneyConverters</em>的*asWords()*方法来进行这种转换：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getMoneyIntoWords</span><span class="o">(</span><span class="n">String</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MoneyConverters</span> <span class="n">converter</span> <span class="o">=</span> <span class="n">MoneyConverters</span><span class="o">.</span><span class="na">ENGLISH_BANKING_MONEY_VALUE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">converter</span><span class="o">.</span><span class="na">asWords</span><span class="o">(</span><span class="k">new</span> <span class="n">BigDecimal</span><span class="o">(</span><span class="n">input</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们用一个简单的测试用例来测试这个方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">whenGivenDollarsAndCents_thenReturnWordsVersionTwo</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="s">&#34;three hundred ten £ 00/100&#34;</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">      <span class="n">NumberWordConverter</span><span class="o">.</span><span class="na">getMoneyIntoWords</span><span class="o">(</span><span class="s">&#34;310&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们也可以使用<a href="http://site.icu-project.org/home" target="_blank" rel="noopener noreffer">ICU4J</a>库来执行此操作，但它是一个很大的库，并带有许多其他功能，超出了本文的范围。</p>
+<p>但是，如果需要 Unicode 和全球化支持，请查看它。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_money_into_words/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_money_into_words/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_money_into_words/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_money_into_words/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_money_into_words/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_money_and_currency/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_mongodb/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们讨论了一些关键的 DDD 概念：限界上下文、无处不在的语言和上下文映射。虽然将系统划分为限界上下文有很多好处，但同时也没有必要在任何地方都应用这种方法。接下来，我们看到了如何使用 Java 9 模块系统和限界上下文来创建强封装的模块。此外，我们还介绍了用于发现依赖项的默认ServiceLoader机制。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们讨论了一些关键的 DDD 概念：限界上下文、无处不在的语言和上下文映射。虽然将系统划分为限界上下文有很多好处，但同时也没有必要在任何地方都应用这种方法。接下来，我们看到了如何使用 Java 9 模块系统和限界上下文来创建强封装的模块。此外，我们还介绍了用于发现依赖项的默认ServiceLoader机制。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们讨论了一些关键的 DDD 概念：限界上下文、无处不在的语言和上下文映射。虽然将系统划分为限界上下文有很多好处，但同时也没有必要在任何地方都应用这种方法。接下来，我们看到了如何使用 Java 9 模块系统和限界上下文来创建强封装的模块。此外，我们还介绍了用于发现依赖项的默认ServiceLoader机制。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" /><link rel="prev" href="http://itcodingman.github.io/java_modify_xml_attribute/" /><link rel="next" href="http://itcodingman.github.io/java_modules_decoupling_design_strategies/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_modules_ddd_bounded_contexts\/"
+        },"genre": "posts","keywords": "DDD, Java 9","wordcount":  4717 ,
+        "url": "http:\/\/itcodingman.github.io\/java_modules_ddd_bounded_contexts\/","datePublished": "2022-05-28T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们讨论了一些关键的 DDD 概念：限界上下文、无处不在的语言和上下文映射。虽然将系统划分为限界上下文有很多好处，但同时也没有必要在任何地方都应用这种方法。接下来，我们看到了如何使用 Java 9 模块系统和限界上下文来创建强封装的模块。此外，我们还介绍了用于发现依赖项的默认ServiceLoader机制。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/architecture/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Architecture</a>&nbsp;<a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-28">2022-05-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;4717 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;10 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-ddd-有界上下文">2. DDD 有界上下文</a>
+      <ul>
+        <li><a href="#21-限界上下文和无处不在的语言">2.1 限界上下文和无处不在的语言</a></li>
+        <li><a href="#22-订单上下文">2.2. 订单上下文</a></li>
+        <li><a href="#23-shipping-context">2.3. Shipping Context</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-上下文映射">3. 上下文映射</a></li>
+    <li><a href="#4-java-9-模块化">4. Java 9 模块化</a>
+      <ul>
+        <li><a href="#41-共享内核模块">4.1 共享内核模块</a></li>
+        <li><a href="#42-ordercontext模块">4.2. <em>OrderContext</em>模块</a></li>
+        <li><a href="#43-shippingcontext模块">4.3. <em>ShippingContext</em>模块</a></li>
+        <li><a href="#44-基础设施模块">4.4. 基础设施模块</a></li>
+        <li><a href="#45-主模块">4.5. 主模块</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-运行应用程序">5. 运行应用程序</a>
+      <ul>
+        <li><a href="#51-项目结构">5.1 项目结构</a></li>
+        <li><a href="#52-主要应用">5.2. 主要应用</a></li>
+        <li><a href="#53-使用-serviceloader-进行依赖注入">5.3. 使用 ServiceLoader 进行依赖注入</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p><strong>领域驱动设计 (DDD) 是一组原则和工具，可帮助我们设计有效的软件架构以提供更高的业务价值</strong>。限界上下文是通过将整个应用程序域分离为多个语义一致的部分来从大泥球中拯救架构的核心和基本模式之一。</p>
+<p>同时，借助<a href="/java_9_modularity" rel="">Java 9 模块系统</a>，我们可以创建强封装的模块。</p>
+<p>在本教程中，我们将创建一个简单的商店应用程序，并了解如何在为有界上下文定义显式边界的同时利用 Java 9 模块。</p>
+<h2 id="2-ddd-有界上下文">2. DDD 有界上下文</h2>
+<p>如今，软件系统不是简单的<a href="/spring_boot_crud_thymeleaf" rel="">CRUD 应用程序</a>。实际上，典型的单体企业系统由一些遗留代码库和新添加的特性组成。但是，随着每次更改，维护此类系统变得越来越难。最终，它可能变得完全无法维护。</p>
+<h3 id="21-限界上下文和无处不在的语言">2.1 限界上下文和无处不在的语言</h3>
+<p>为了解决已解决的问题，DDD 提供了有界上下文的概念。<strong>有界上下文是特定术语和规则一致适用的域的逻辑边界</strong>。在这个边界内，<strong>所有的术语、定义和概念都构成了无处不在的语言。</strong></p>
+<p>特别是，通用语言的主要好处是将来自特定业务领域不同领域的项目成员组合在一起。</p>
+<p>此外，多个上下文可能适用于同一事物。但是，在这些上下文中，它可能具有不同的含义。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2020/03/General-Bounded-Context.svg"
+        data-srcset="wp-content/uploads/2020/03/General-Bounded-Context.svg, wp-content/uploads/2020/03/General-Bounded-Context.svg 1.5x, wp-content/uploads/2020/03/General-Bounded-Context.svg 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2020/03/General-Bounded-Context.svg"
+        title="wp-content/uploads/2020/03/General-Bounded-Context.svg" /></p>
+<h3 id="22-订单上下文">2.2. 订单上下文</h3>
+<p>让我们通过定义 Order Context 开始实现我们的应用程序。此上下文包含两个实体：<em>OrderItem</em>和<em>CustomerOrder</em>。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2020/03/OrderContext.svg"
+        data-srcset="wp-content/uploads/2020/03/OrderContext.svg, wp-content/uploads/2020/03/OrderContext.svg 1.5x, wp-content/uploads/2020/03/OrderContext.svg 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2020/03/OrderContext.svg"
+        title="wp-content/uploads/2020/03/OrderContext.svg" /></p>
+<p><em>CustomerOrder</em>实体是一个<a href="/spring_persisting_ddd_aggregates" rel="">聚合</a>
+根：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerOrder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">orderId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">paymentMethod</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">address</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">OrderItem</span><span class="o">&gt;</span> <span class="n">orderItems</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">float</span> <span class="nf">calculateTotalPrice</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">orderItems</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">OrderItem</span><span class="o">::</span><span class="n">getTotalPrice</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="n">0F</span><span class="o">,</span> <span class="n">Float</span><span class="o">::</span><span class="n">sum</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如我们所见，该类包含<em>calculateTotalPrice</em>业务方法。但是，在现实世界的项目中，它可能会复杂得多——例如，在最终价格中包括折扣和税收。</p>
+<p>接下来，让我们创建<em>OrderItem</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrderItem</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">productId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">quantity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">float</span> <span class="n">unitPrice</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">float</span> <span class="n">unitWeight</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们已经定义了实体，但我们还需要向应用程序的其他部分公开一些 API。让我们创建<em>CustomerOrderService</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerOrderService</span> <span class="kd">implements</span> <span class="n">OrderService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">EVENT_ORDER_READY_FOR_SHIPMENT</span> <span class="o">=</span> <span class="s">&#34;OrderReadyForShipmentEvent&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">CustomerOrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">EventBus</span> <span class="n">eventBus</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="n">CustomerOrder</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">orderRepository</span><span class="o">.</span><span class="na">saveCustomerOrder</span><span class="o">(</span><span class="n">order</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">payload</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">payload</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;order_id&#34;</span><span class="o">,</span> <span class="n">String</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">order</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ApplicationEvent</span> <span class="n">event</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ApplicationEvent</span><span class="o">(</span><span class="n">payload</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="n">String</span> <span class="nf">getType</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">EVENT_ORDER_READY_FOR_SHIPMENT</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">};</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">eventBus</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，我们有一些重点要强调。placeOrder<em>方法</em>负责处理客户订单。<strong>处理完订单后，将事件发布到EventBus</strong>。我们将在接下来的章节中讨论事件驱动的通信。此服务提供<em>OrderService</em>接口的默认实现：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">OrderService</span> <span class="kd">extends</span> <span class="n">ApplicationService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">placeOrder</span><span class="o">(</span><span class="n">CustomerOrder</span> <span class="n">order</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">setOrderRepository</span><span class="o">(</span><span class="n">CustomerOrderRepository</span> <span class="n">orderRepository</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此外，此服务需要<em>CustomerOrderRepository</em>来保存订单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomerOrderRepository</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">saveCustomerOrder</span><span class="o">(</span><span class="n">CustomerOrder</span> <span class="n">order</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>重要的是**这个接口不是在这个上下文中实现的，而是由基础设施模块提供的，**我们稍后会看到。</p>
+<h3 id="23-shipping-context">2.3. Shipping Context</h3>
+<p>现在，让我们定义 Shipping Context。它也很简单，包含三个实体：<em>Parcel</em>、<em>PackageItem</em>和<em>ShippableOrder</em>。</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2020/03/ShippingContext.svg"
+        data-srcset="wp-content/uploads/2020/03/ShippingContext.svg, wp-content/uploads/2020/03/ShippingContext.svg 1.5x, wp-content/uploads/2020/03/ShippingContext.svg 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2020/03/ShippingContext.svg"
+        title="wp-content/uploads/2020/03/ShippingContext.svg" /></p>
+<p>让我们从<em>ShippableOrder</em>实体开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ShippableOrder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">orderId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">address</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">PackageItem</span><span class="o">&gt;</span> <span class="n">packageItems</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这种情况下，实体不包含<em>paymentMethod</em>字段。这是因为，在我们的运输上下文中，我们不关心使用哪种付款方式。Shipping Context 只负责处理订单的发货。</p>
+<p>此外，<em>Parcel</em>实体特定于 Shipping Context：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Parcel</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">orderId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">address</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">trackingId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">PackageItem</span><span class="o">&gt;</span> <span class="n">packageItems</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">float</span> <span class="nf">calculateTotalWeight</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">packageItems</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">PackageItem</span><span class="o">::</span><span class="n">getWeight</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="n">0F</span><span class="o">,</span> <span class="n">Float</span><span class="o">::</span><span class="n">sum</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isTaxable</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">calculateEstimatedValue</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">100</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">float</span> <span class="nf">calculateEstimatedValue</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">packageItems</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">PackageItem</span><span class="o">::</span><span class="n">getWeight</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">          <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="n">0F</span><span class="o">,</span> <span class="n">Float</span><span class="o">::</span><span class="n">sum</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>如我们所见，它还包含特定的业务方法并充当聚合根。</p>
+<p>最后，让我们定义<em>ParcelShippingService</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ParcelShippingService</span> <span class="kd">implements</span> <span class="n">ShippingService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">EVENT_ORDER_READY_FOR_SHIPMENT</span> <span class="o">=</span> <span class="s">&#34;OrderReadyForShipmentEvent&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">ShippingOrderRepository</span> <span class="n">orderRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">EventBus</span> <span class="n">eventBus</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Parcel</span><span class="o">&gt;</span> <span class="n">shippedParcels</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">shipOrder</span><span class="o">(</span><span class="kt">int</span> <span class="n">orderId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Optional</span><span class="o">&lt;</span><span class="n">ShippableOrder</span><span class="o">&gt;</span> <span class="n">order</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">orderRepository</span><span class="o">.</span><span class="na">findShippableOrder</span><span class="o">(</span><span class="n">orderId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">order</span><span class="o">.</span><span class="na">ifPresent</span><span class="o">(</span><span class="n">completedOrder</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Parcel</span> <span class="n">parcel</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Parcel</span><span class="o">(</span><span class="n">completedOrder</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">(),</span> <span class="n">completedOrder</span><span class="o">.</span><span class="na">getAddress</span><span class="o">(),</span> 
+</span></span><span class="line"><span class="cl">              <span class="n">completedOrder</span><span class="o">.</span><span class="na">getPackageItems</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">parcel</span><span class="o">.</span><span class="na">isTaxable</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// Calculate additional taxes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// Ship parcel
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">this</span><span class="o">.</span><span class="na">shippedParcels</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">completedOrder</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">(),</span> <span class="n">parcel</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">listenToOrderEvents</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">eventBus</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">EVENT_ORDER_READY_FOR_SHIPMENT</span><span class="o">,</span> <span class="k">new</span> <span class="n">EventSubscriber</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">public</span> <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">onEvent</span><span class="o">(</span><span class="n">E</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">shipOrder</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getPayloadValue</span><span class="o">(</span><span class="s">&#34;order_id&#34;</span><span class="o">)));</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">});</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Parcel</span><span class="o">&gt;</span> <span class="nf">getParcelByOrderId</span><span class="o">(</span><span class="kt">int</span> <span class="n">orderId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">shippedParcels</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">orderId</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>该服务类似地使用<em>ShippingOrderRepository</em>按 id 获取订单。**更重要的是，它订阅了由另一个上下文发布的<em>OrderReadyForShipmentEvent</em>事件。**发生此事件时，服务会应用一些规则并发送订单。为了简单起见，我们将发货的订单存储在<a href="/java_hashmap" rel=""><em>HashMap</em></a>中。</p>
+<h2 id="3-上下文映射">3. 上下文映射</h2>
+<p>到目前为止，我们定义了两个上下文。但是，我们没有在它们之间设置任何明确的关系。为此，DDD 有了 Context Mapping 的概念。<strong>上下文映射是系统不同上下文之间关系的可视化描述</strong>。该地图显示了不同部分如何共存以形成域。</p>
+<p>限界上下文之间的关系主要有五种类型：</p>
+<ul>
+<li><em>伙伴关系</em>——两种环境之间的关系，通过合作使两个团队与相关目标保持一致</li>
+<li><em>Shared Kernel</em> – 将多个上下文的公共部分提取到另一个上下文/模块以减少代码重复的一种关系</li>
+<li><em>客户-供应商</em>——两个上下文之间的连接，一个上下文（上游）产生数据，另一个（下游）使用它。在这种关系中，双方都有兴趣建立尽可能好的沟通</li>
+<li><em>Conformist</em> – 这种关系也有上游和下游，但是下游总是遵循上游的 API</li>
+<li><em>反腐败层</em>——这种类型的关系被广泛用于遗留系统，以使它们适应新的架构并逐渐从遗留代码库迁移。反腐败层充当<a href="/hexagonal_architecture_ddd_spring" rel="">适配器</a>来转换来自上游的数据并防止意外更改</li>
+</ul>
+<p>在我们的特定示例中，我们将使用共享内核关系。我们不会以纯粹的形式定义它，但它主要充当系统中事件的中介。</p>
+<p>因此，SharedKernel 模块不包含任何具体的实现，只包含接口。</p>
+<p>让我们从<em>EventBus</em>接口开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">EventBus</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">publish</span><span class="o">(</span><span class="n">E</span> <span class="n">event</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="n">String</span> <span class="n">eventType</span><span class="o">,</span> <span class="n">EventSubscriber</span> <span class="n">subscriber</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">unsubscribe</span><span class="o">(</span><span class="n">String</span> <span class="n">eventType</span><span class="o">,</span> <span class="n">EventSubscriber</span> <span class="n">subscriber</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这个接口稍后将在我们的基础设施模块中实现。</p>
+<p>接下来，我们使用默认方法创建一个基础服务接口来支持事件驱动的通信：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">ApplicationService</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">default</span> <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">publishEvent</span><span class="o">(</span><span class="n">E</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventBus</span> <span class="n">eventBus</span> <span class="o">=</span> <span class="n">getEventBus</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">eventBus</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">eventBus</span><span class="o">.</span><span class="na">publish</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">default</span> <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="n">String</span> <span class="n">eventType</span><span class="o">,</span> <span class="n">EventSubscriber</span> <span class="n">subscriber</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventBus</span> <span class="n">eventBus</span> <span class="o">=</span> <span class="n">getEventBus</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">eventBus</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">eventBus</span><span class="o">.</span><span class="na">subscribe</span><span class="o">(</span><span class="n">eventType</span><span class="o">,</span> <span class="n">subscriber</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">default</span> <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">unsubscribe</span><span class="o">(</span><span class="n">String</span> <span class="n">eventType</span><span class="o">,</span> <span class="n">EventSubscriber</span> <span class="n">subscriber</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventBus</span> <span class="n">eventBus</span> <span class="o">=</span> <span class="n">getEventBus</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">eventBus</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">eventBus</span><span class="o">.</span><span class="na">unsubscribe</span><span class="o">(</span><span class="n">eventType</span><span class="o">,</span> <span class="n">subscriber</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">EventBus</span> <span class="nf">getEventBus</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">setEventBus</span><span class="o">(</span><span class="n">EventBus</span> <span class="n">eventBus</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>因此，有界上下文中的服务接口扩展此接口以具有通用的事件相关功能。</p>
+<h2 id="4-java-9-模块化">4. Java 9 模块化</h2>
+<p>现在，是时候探索 Java 9 模块系统如何支持已定义的应用程序结构了。</p>
+<p>**Java 平台模块系统 (JPMS) 鼓励构建更可靠且封装更强大的模块。**因此，这些功能可以帮助隔离我们的上下文并建立清晰的边界。</p>
+<p>让我们看看我们最终的模块图：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2020/03/ModulesDiagram.svg"
+        data-srcset="wp-content/uploads/2020/03/ModulesDiagram.svg, wp-content/uploads/2020/03/ModulesDiagram.svg 1.5x, wp-content/uploads/2020/03/ModulesDiagram.svg 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2020/03/ModulesDiagram.svg"
+        title="wp-content/uploads/2020/03/ModulesDiagram.svg" /></p>
+<h3 id="41-共享内核模块">4.1 共享内核模块</h3>
+<p>让我们从 SharedKernel 模块开始，它对其他模块没有任何依赖关系。因此，<em>module-info.java</em>看起来像：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">module</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">sharedkernel</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exports</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">sharedkernel</span><span class="o">.</span><span class="na">events</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exports</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">sharedkernel</span><span class="o">.</span><span class="na">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们导出模块接口，因此它们可用于其他模块。</p>
+<h3 id="42-ordercontext模块">4.2. <em>OrderContext</em>模块</h3>
+<p>接下来，让我们将注意力转移到 OrderContext 模块上。它只需要在 SharedKernel 模块中定义的接口：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">module</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">requires</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">sharedkernel</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exports</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span><span class="o">.</span><span class="na">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exports</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span><span class="o">.</span><span class="na">model</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exports</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span><span class="o">.</span><span class="na">repository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">provides</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">OrderService</span>
+</span></span><span class="line"><span class="cl">      <span class="n">with</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">CustomerOrderService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此外，我们可以看到该模块导出了<em>OrderService</em>接口的默认实现。</p>
+<h3 id="43-shippingcontext模块">4.3. <em>ShippingContext</em>模块</h3>
+<p>与上一个模块类似，让我们创建 ShippingContext 模块定义文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">module</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">requires</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">sharedkernel</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exports</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span><span class="o">.</span><span class="na">service</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exports</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span><span class="o">.</span><span class="na">model</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exports</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span><span class="o">.</span><span class="na">repository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">provides</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">ShippingService</span>
+</span></span><span class="line"><span class="cl">      <span class="n">with</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">ParcelShippingService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>同样，我们导出ShippingService</em> 接口的默认实现。</p>
+<h3 id="44-基础设施模块">4.4. 基础设施模块</h3>
+<p>现在是描述基础设施模块的时候了。该模块包含已定义接口的实现细节。我们将从为<em>EventBus</em>接口创建一个简单的实现开始：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleEventBus</span> <span class="kd">implements</span> <span class="n">EventBus</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">EventSubscriber</span><span class="o">&gt;&gt;</span> <span class="n">subscribers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">publish</span><span class="o">(</span><span class="n">E</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">subscribers</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getType</span><span class="o">()))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">subscribers</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getType</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">              <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">subscriber</span> <span class="o">-&gt;</span> <span class="n">subscriber</span><span class="o">.</span><span class="na">onEvent</span><span class="o">(</span><span class="n">event</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">subscribe</span><span class="o">(</span><span class="n">String</span> <span class="n">eventType</span><span class="o">,</span> <span class="n">EventSubscriber</span> <span class="n">subscriber</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Set</span><span class="o">&lt;</span><span class="n">EventSubscriber</span><span class="o">&gt;</span> <span class="n">eventSubscribers</span> <span class="o">=</span> <span class="n">subscribers</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">eventType</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">eventSubscribers</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">eventSubscribers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CopyOnWriteArraySet</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">subscribers</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">eventType</span><span class="o">,</span> <span class="n">eventSubscribers</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">eventSubscribers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">E</span> <span class="kd">extends</span> <span class="n">ApplicationEvent</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">unsubscribe</span><span class="o">(</span><span class="n">String</span> <span class="n">eventType</span><span class="o">,</span> <span class="n">EventSubscriber</span> <span class="n">subscriber</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">subscribers</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">eventType</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">subscribers</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">eventType</span><span class="o">).</span><span class="na">remove</span><span class="o">(</span><span class="n">subscriber</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，我们需要实现<em>CustomerOrderRepository</em>和<em>ShippingOrderRepository</em>接口。<strong>在大多数情况下，<em>Order</em>实体将存储在同一个表中，但在有界上下文中用作不同的实体模型。</strong></p>
+<p>很常见的是，单个实体包含来自业务领域不同区域或低级数据库映射的混合代码。对于我们的实现，我们根据有界上下文拆分了实体：<em>CustomerOrder</em>和<em>ShippableOrder</em>。</p>
+<p>首先，让我们创建一个代表整个持久模型的类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">PersistenceOrder</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="n">orderId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="n">paymentMethod</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="n">address</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">OrderItem</span><span class="o">&gt;</span> <span class="n">orderItems</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">OrderItem</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">int</span> <span class="n">productId</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">float</span> <span class="n">unitPrice</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">float</span> <span class="n">itemWeight</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">public</span> <span class="kt">int</span> <span class="n">quantity</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们可以看到这个类包含来自<em>CustomerOrder</em>和<em>ShippableOrder</em>实体的所有字段。</p>
+<p>为简单起见，让我们模拟一个内存数据库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">InMemoryOrderStore</span> <span class="kd">implements</span> <span class="n">CustomerOrderRepository</span><span class="o">,</span> <span class="n">ShippingOrderRepository</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">PersistenceOrder</span><span class="o">&gt;</span> <span class="n">ordersDb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">saveCustomerOrder</span><span class="o">(</span><span class="n">CustomerOrder</span> <span class="n">order</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">ordersDb</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">order</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">(),</span> <span class="k">new</span> <span class="n">PersistenceOrder</span><span class="o">(</span><span class="n">order</span><span class="o">.</span><span class="na">getOrderId</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">          <span class="n">order</span><span class="o">.</span><span class="na">getPaymentMethod</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">          <span class="n">order</span><span class="o">.</span><span class="na">getAddress</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">          <span class="n">order</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">getOrderItems</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">orderItem</span> <span class="o">-&gt;</span>
+</span></span><span class="line"><span class="cl">              <span class="k">new</span> <span class="n">PersistenceOrder</span><span class="o">.</span><span class="na">OrderItem</span><span class="o">(</span><span class="n">orderItem</span><span class="o">.</span><span class="na">getProductId</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">                <span class="n">orderItem</span><span class="o">.</span><span class="na">getQuantity</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">                <span class="n">orderItem</span><span class="o">.</span><span class="na">getUnitWeight</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">                <span class="n">orderItem</span><span class="o">.</span><span class="na">getUnitPrice</span><span class="o">()))</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">        <span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@Override</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">ShippableOrder</span><span class="o">&gt;</span> <span class="nf">findShippableOrder</span><span class="o">(</span><span class="kt">int</span> <span class="n">orderId</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(!</span><span class="k">this</span><span class="o">.</span><span class="na">ordersDb</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">orderId</span><span class="o">))</span> <span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PersistenceOrder</span> <span class="n">orderRecord</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">ordersDb</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">orderId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="k">new</span> <span class="n">ShippableOrder</span><span class="o">(</span><span class="n">orderRecord</span><span class="o">.</span><span class="na">orderId</span><span class="o">,</span> <span class="n">orderRecord</span><span class="o">.</span><span class="na">orderItems</span>
+</span></span><span class="line"><span class="cl">            <span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">orderItem</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">PackageItem</span><span class="o">(</span><span class="n">orderItem</span><span class="o">.</span><span class="na">productId</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">orderItem</span><span class="o">.</span><span class="na">itemWeight</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">              <span class="n">orderItem</span><span class="o">.</span><span class="na">quantity</span> <span class="o">*</span> <span class="n">orderItem</span><span class="o">.</span><span class="na">unitPrice</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">            <span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">())));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，我们通过将持久模型转换为适当的类型或从适当的类型转换来持久和检索不同类型的实体。</p>
+<p>最后，让我们创建模块定义：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">module</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">infrastructure</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">requires</span> <span class="n">transitive</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">sharedkernel</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">requires</span> <span class="n">transitive</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">requires</span> <span class="n">transitive</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">provides</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">sharedkernel</span><span class="o">.</span><span class="na">events</span><span class="o">.</span><span class="na">EventBus</span>
+</span></span><span class="line"><span class="cl">      <span class="n">with</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">infrastructure</span><span class="o">.</span><span class="na">events</span><span class="o">.</span><span class="na">SimpleEventBus</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">provides</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span><span class="o">.</span><span class="na">repository</span><span class="o">.</span><span class="na">CustomerOrderRepository</span>
+</span></span><span class="line"><span class="cl">      <span class="n">with</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">infrastructure</span><span class="o">.</span><span class="na">db</span><span class="o">.</span><span class="na">InMemoryOrderStore</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">provides</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span><span class="o">.</span><span class="na">repository</span><span class="o">.</span><span class="na">ShippingOrderRepository</span>
+</span></span><span class="line"><span class="cl">      <span class="n">with</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">infrastructure</span><span class="o">.</span><span class="na">db</span><span class="o">.</span><span class="na">InMemoryOrderStore</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>使用<em>provide with</em>子句，我们提供了一些在其他模块中定义的接口的实现。</p>
+<p>此外，该模块充当依赖项的聚合器，因此我们使用<em>requires 传递</em>关键字。<strong>因此，需要 Infrastructure 模块的模块将传递获得所有这些依赖项。</strong></p>
+<h3 id="45-主模块">4.5. 主模块</h3>
+<p>最后，让我们定义一个模块作为我们应用程序的入口点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">module</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">mainapp</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uses</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">sharedkernel</span><span class="o">.</span><span class="na">events</span><span class="o">.</span><span class="na">EventBus</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uses</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">OrderService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uses</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">ordercontext</span><span class="o">.</span><span class="na">repository</span><span class="o">.</span><span class="na">CustomerOrderRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uses</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span><span class="o">.</span><span class="na">repository</span><span class="o">.</span><span class="na">ShippingOrderRepository</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">uses</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">shippingcontext</span><span class="o">.</span><span class="na">service</span><span class="o">.</span><span class="na">ShippingService</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">requires</span> <span class="n">transitive</span> <span class="n">com</span><span class="o">.</span><span class="na">codingman</span><span class="o">.</span><span class="na">dddmodules</span><span class="o">.</span><span class="na">infrastructure</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>由于我们刚刚在 Infrastructure 模块上设置了传递依赖项，因此我们不需要在这里显式地要求它们。</p>
+<p>另一方面，我们<em>使用 uses</em>关键字列出这些依赖项。<em>uses</em>子句指示<em>ServiceLoader</em> ，我们将在下一章中发现，该模块想要使用这些接口。但是，<strong>它不需要实现在编译时可用。</strong></p>
+<h2 id="5-运行应用程序">5. 运行应用程序</h2>
+<p>最后，我们几乎准备好构建我们的应用程序了。我们将利用<a href="/maven" rel="">Maven</a>来构建我们的项目。这使得使用模块变得更加容易。</p>
+<h3 id="51-项目结构">5.1 项目结构</h3>
+<p>我们的项目包含<a href="/maven_multi_module_project_java_jpms" rel="">五个模块和父模块</a>。让我们看一下我们的项目结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ddd-modules <span class="o">(</span>the root directory<span class="o">)</span>
+</span></span><span class="line"><span class="cl">pom.xml
+</span></span><span class="line"><span class="cl"><span class="p">|</span>-- infrastructure
+</span></span><span class="line"><span class="cl">    <span class="p">|</span>-- src
+</span></span><span class="line"><span class="cl">        <span class="p">|</span>-- main
+</span></span><span class="line"><span class="cl">            <span class="p">|</span> -- java
+</span></span><span class="line"><span class="cl">            module-info.java
+</span></span><span class="line"><span class="cl">            <span class="p">|</span>-- com.codingman.dddmodules.infrastructure
+</span></span><span class="line"><span class="cl">    pom.xml
+</span></span><span class="line"><span class="cl"><span class="p">|</span>-- mainapp
+</span></span><span class="line"><span class="cl">    <span class="p">|</span>-- src
+</span></span><span class="line"><span class="cl">        <span class="p">|</span>-- main
+</span></span><span class="line"><span class="cl">            <span class="p">|</span> -- java
+</span></span><span class="line"><span class="cl">            module-info.java
+</span></span><span class="line"><span class="cl">            <span class="p">|</span>-- com.codingman.dddmodules.mainapp
+</span></span><span class="line"><span class="cl">    pom.xml
+</span></span><span class="line"><span class="cl"><span class="p">|</span>-- ordercontext
+</span></span><span class="line"><span class="cl">    <span class="p">|</span>-- src
+</span></span><span class="line"><span class="cl">        <span class="p">|</span>-- main
+</span></span><span class="line"><span class="cl">            <span class="p">|</span> -- java
+</span></span><span class="line"><span class="cl">            module-info.java
+</span></span><span class="line"><span class="cl">            <span class="p">|</span>--com.codingman.dddmodules.ordercontext
+</span></span><span class="line"><span class="cl">    pom.xml
+</span></span><span class="line"><span class="cl"><span class="p">|</span>-- sharedkernel
+</span></span><span class="line"><span class="cl">    <span class="p">|</span>-- src
+</span></span><span class="line"><span class="cl">        <span class="p">|</span>-- main
+</span></span><span class="line"><span class="cl">            <span class="p">|</span> -- java
+</span></span><span class="line"><span class="cl">            module-info.java
+</span></span><span class="line"><span class="cl">            <span class="p">|</span>-- com.codingman.dddmodules.sharedkernel
+</span></span><span class="line"><span class="cl">    pom.xml
+</span></span><span class="line"><span class="cl"><span class="p">|</span>-- shippingcontext
+</span></span><span class="line"><span class="cl">    <span class="p">|</span>-- src
+</span></span><span class="line"><span class="cl">        <span class="p">|</span>-- main
+</span></span><span class="line"><span class="cl">            <span class="p">|</span> -- java
+</span></span><span class="line"><span class="cl">            module-info.java
+</span></span><span class="line"><span class="cl">            <span class="p">|</span>-- com.codingman.dddmodules.shippingcontext
+</span></span><span class="line"><span class="cl">    pom.xml
+</span></span></code></pre></div><h3 id="52-主要应用">5.2. 主要应用</h3>
+<p>至此，除了主应用程序之外，我们已经拥有了一切，所以让我们定义我们的<em>main</em>方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="n">args</span><span class="o">[])</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Map</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;?&gt;,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">container</span> <span class="o">=</span> <span class="n">createContainer</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">OrderService</span> <span class="n">orderService</span> <span class="o">=</span> <span class="o">(</span><span class="n">OrderService</span><span class="o">)</span> <span class="n">container</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">OrderService</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ShippingService</span> <span class="n">shippingService</span> <span class="o">=</span> <span class="o">(</span><span class="n">ShippingService</span><span class="o">)</span> <span class="n">container</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">ShippingService</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">shippingService</span><span class="o">.</span><span class="na">listenToOrderEvents</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">CustomerOrder</span> <span class="n">customerOrder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CustomerOrder</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">orderId</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">customerOrder</span><span class="o">.</span><span class="na">setOrderId</span><span class="o">(</span><span class="n">orderId</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">OrderItem</span><span class="o">&gt;</span> <span class="n">orderItems</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">OrderItem</span><span class="o">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">orderItems</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">OrderItem</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">orderItems</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">OrderItem</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">1</span><span class="o">,</span> <span class="n">1</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">orderItems</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">OrderItem</span><span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">11</span><span class="o">,</span> <span class="n">21</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">customerOrder</span><span class="o">.</span><span class="na">setOrderItems</span><span class="o">(</span><span class="n">orderItems</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">customerOrder</span><span class="o">.</span><span class="na">setPaymentMethod</span><span class="o">(</span><span class="s">&#34;PayPal&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">customerOrder</span><span class="o">.</span><span class="na">setAddress</span><span class="o">(</span><span class="s">&#34;Full address here&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">orderService</span><span class="o">.</span><span class="na">placeOrder</span><span class="o">(</span><span class="n">customerOrder</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">orderId</span> <span class="o">==</span> <span class="n">shippingService</span><span class="o">.</span><span class="na">getParcelByOrderId</span><span class="o">(</span><span class="n">orderId</span><span class="o">).</span><span class="na">get</span><span class="o">().</span><span class="na">getOrderId</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Order has been processed and shipped successfully&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们简要讨论一下我们的主要方法。在这种方法中，我们通过使用先前定义的服务来模拟一个简单的客户订单流。起初，我们创建了包含三个项目的订单，并提供了必要的运输和付款信息。接下来，我们提交订单，最后检查是否发货并处理成功。</p>
+<p>但是我们是如何获得所有依赖项的，为什么<em>createContainer</em>方法返回<em>Map&lt;Class<!-- raw HTML omitted -->,</em> Object&gt;？让我们仔细看看这个方法。</p>
+<h3 id="53-使用-serviceloader-进行依赖注入">5.3. 使用 ServiceLoader 进行依赖注入</h3>
+<p>在这个项目中，我们没有任何<a href="/inversion_control_and_dependency_injection_in_spring" rel="">Spring IoC</a>依赖项，因此，我们将使用<a href="/java_spi" rel=""><em>ServiceLoader</em> API</a>来发现服务的实现。这不是一个新特性*——ServiceLoader* API 本身自 Java 6 以来就已经存在。</p>
+<p>我们可以通过调用<em>ServiceLoader</em>类的静态<em>加载</em>方法之一来获取加载器实例。<strong>load方法返回<em>Iterable</em>类型，以便我们可以迭代发现的实现。</strong></p>
+<p>现在，让我们应用加载器来解决我们的依赖关系：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;?&gt;,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="nf">createContainer</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventBus</span> <span class="n">eventBus</span> <span class="o">=</span> <span class="n">ServiceLoader</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">EventBus</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">findFirst</span><span class="o">().</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">CustomerOrderRepository</span> <span class="n">customerOrderRepository</span> <span class="o">=</span> <span class="n">ServiceLoader</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">CustomerOrderRepository</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">findFirst</span><span class="o">().</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ShippingOrderRepository</span> <span class="n">shippingOrderRepository</span> <span class="o">=</span> <span class="n">ServiceLoader</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">ShippingOrderRepository</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">findFirst</span><span class="o">().</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ShippingService</span> <span class="n">shippingService</span> <span class="o">=</span> <span class="n">ServiceLoader</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">ShippingService</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">findFirst</span><span class="o">().</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">shippingService</span><span class="o">.</span><span class="na">setEventBus</span><span class="o">(</span><span class="n">eventBus</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">shippingService</span><span class="o">.</span><span class="na">setOrderRepository</span><span class="o">(</span><span class="n">shippingOrderRepository</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">OrderService</span> <span class="n">orderService</span> <span class="o">=</span> <span class="n">ServiceLoader</span><span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="n">OrderService</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">findFirst</span><span class="o">().</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">orderService</span><span class="o">.</span><span class="na">setEventBus</span><span class="o">(</span><span class="n">eventBus</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">orderService</span><span class="o">.</span><span class="na">setOrderRepository</span><span class="o">(</span><span class="n">customerOrderRepository</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Class</span><span class="o">&lt;?&gt;,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">container</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">container</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">OrderService</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">orderService</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">container</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ShippingService</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">shippingService</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">container</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，**我们为我们需要的每个接口调用静态<em>加载</em>方法，每次都会创建一个新的加载器实例。**因此，它不会缓存已解析的依赖项——相反，它每次都会创建新实例。</p>
+<p>通常，可以通过以下两种方式之一创建服务实例。服务实现类必须具有公共无参数构造函数，或者必须使用静态<em>提供程序</em>方法。</p>
+<p>因此，我们的大多数服务都有无参数的构造函数和依赖项的设置方法。但是，正如我们已经看到的，<em>InMemoryOrderStore</em>类实现了两个接口：<em>CustomerOrderRepository</em>和<em>ShippingOrderRepository</em>。</p>
+<p><em>但是，如果我们使用load</em>方法请求这些接口中的每一个，我们将获得<em>InMemoryOrderStore</em>的不同实例。这是不可取的行为，所以让我们使用<em>提供者</em>方法技术来缓存实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">InMemoryOrderStore</span> <span class="kd">implements</span> <span class="n">CustomerOrderRepository</span><span class="o">,</span> <span class="n">ShippingOrderRepository</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">volatile</span> <span class="kd">static</span> <span class="n">InMemoryOrderStore</span> <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InMemoryOrderStore</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">InMemoryOrderStore</span> <span class="nf">provider</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们应用了<a href="/java_singleton" rel="">单例模式来缓存</a><em>InMemoryOrderStore</em>类的单个实例，并从<em>提供者</em>方法中返回它。</p>
+<p>如果服务提供者声明了一个<em>提供者</em>方法，那么<em>ServiceLoader</em>调用这个方法来获取一个服务的实例。否则，它将尝试通过<a href="/java_reflection" rel="">Reflection</a>使用无参数构造函数创建一个实例。因此，我们可以在不影响我们的<em>createContainer</em>方法的情况下更改服务提供者机制。</p>
+<p>最后，我们通过 setter 向服务提供已解析的依赖项并返回配置的服务。</p>
+<p>最后，我们可以运行应用程序了。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title="" data-hashtags="DDD,Java 9"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-hashtag="DDD"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_modules_ddd_bounded_contexts/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/ddd/">DDD</a>,&nbsp;<a href="/tags/java-9/">Java 9</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_modify_xml_attribute/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_modules_decoupling_design_strategies/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

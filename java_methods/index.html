@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本教程中，我们探讨了在 Java 中指定方法时涉及的 Java 语法部分。特别是，我们遍历了访问修饰符、返回类型、方法标识符、参数列表、异常列表和方法体。然后我们看到了方法签名的定义，如何调用一个方法，如何重载一个方法。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本教程中，我们探讨了在 Java 中指定方法时涉及的 Java 语法部分。特别是，我们遍历了访问修饰符、返回类型、方法标识符、参数列表、异常列表和方法体。然后我们看到了方法签名的定义，如何调用一个方法，如何重载一个方法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_methods/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-28T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本教程中，我们探讨了在 Java 中指定方法时涉及的 Java 语法部分。特别是，我们遍历了访问修饰符、返回类型、方法标识符、参数列表、异常列表和方法体。然后我们看到了方法签名的定义，如何调用一个方法，如何重载一个方法。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_methods/" /><link rel="prev" href="http://itcodingman.github.io/java_method_signature_return_type/" /><link rel="next" href="http://itcodingman.github.io/java_methods_references_eval/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_methods\/"
+        },"genre": "posts","keywords": "Core Java","wordcount":  1817 ,
+        "url": "http:\/\/itcodingman.github.io\/java_methods\/","datePublished": "2022-05-14T00:00:00+00:00","dateModified": "2022-07-28T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们探讨了在 Java 中指定方法时涉及的 Java 语法部分。特别是，我们遍历了访问修饰符、返回类型、方法标识符、参数列表、异常列表和方法体。然后我们看到了方法签名的定义，如何调用一个方法，如何重载一个方法。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-14">2022-05-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1817 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-简介">1. 简介</a></li>
+    <li><a href="#2-方法语法">2. 方法语法</a>
+      <ul>
+        <li><a href="#21-访问修饰符">2.1 访问修饰符</a></li>
+        <li><a href="#22-返回类型">2.2. 返回类型</a></li>
+        <li><a href="#23-方法标识符">2.3. 方法标识符</a></li>
+        <li><a href="#24-参数列表">2.4. 参数列表</a></li>
+        <li><a href="#25-例外列表">2.5. 例外列表</a></li>
+        <li><a href="#26-方法体">2.6. 方法体</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-方法签名">3. 方法签名</a></li>
+    <li><a href="#4-调用方法">4. 调用方法</a></li>
+    <li><a href="#5-方法重载">5. 方法重载</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-简介">1. 简介</h2>
+<p>在 Java 中，<a href="https://docs.oracle.com/javase/tutorial/java/javaOO/methods.html" target="_blank" rel="noopener noreffer">方法</a>是我们定义应用程序业务逻辑的地方。它们定义了包含在对象中的数据之间的交互。</p>
+<p>在本教程中，<strong>我们将介绍 Java 方法的语法、方法签名的定义以及如何调用和重载方法</strong>。</p>
+<h2 id="2-方法语法">2. 方法语法</h2>
+<p>首先，一个方法由六个部分组成：</p>
+<ul>
+<li>*访问修饰符：*可选地，我们可以指定代码可以从哪里访问方法</li>
+<li>*返回类型：*方法返回值的类型，如果有的话</li>
+<li>*方法标识符：*我们赋予方法的名称</li>
+<li>*参数列表：*该方法的可选输入的逗号分隔列表</li>
+<li>*异常列表：*方法可以抛出的可选异常列表</li>
+<li>*Body：*逻辑的定义（可以为空）</li>
+</ul>
+<p>让我们看一个例子：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="wp-content/uploads/2019/09/method-structure-3-1024x131.png"
+        data-srcset="wp-content/uploads/2019/09/method-structure-3-1024x131.png, wp-content/uploads/2019/09/method-structure-3-1024x131.png 1.5x, wp-content/uploads/2019/09/method-structure-3-1024x131.png 2x"
+        data-sizes="auto"
+        alt="wp-content/uploads/2019/09/method-structure-3-1024x131.png"
+        title="wp-content/uploads/2019/09/method-structure-3-1024x131.png" /></p>
+<p>让我们仔细看看 Java 方法的这六个部分。</p>
+<h3 id="21-访问修饰符">2.1 访问修饰符</h3>
+<p><a href="/java_access_modifiers" rel="">访问修饰符</a>允许我们指定哪些对象可以访问该方法。有四种可能的访问修饰符：<em>public、protected、private</em>和 default（也称为<em>package-private</em>）。</p>
+<p>方法**还可以在访问修饰符之前或之后包含<em>静态</em>关键字。**这意味着该方法属于类而不属于实例，因此，我们可以在不创建类的实例的情况下调用该方法。没有<em>static</em>关键字的方法称为实例方法，只能在类的实例上调用。</p>
+<p>关于性能，静态方法将仅在类加载期间加载到内存中一次，因此内存效率更高。</p>
+<h3 id="22-返回类型">2.2. 返回类型</h3>
+<p>方法可以将数据返回到调用它们的代码。<strong>方法可以返回原始值或对象引用，或者</strong>如果我们使用<em>void</em>关键字作为返回类型，它可以不返回任何内容。</p>
+<p>让我们看一个<em>void</em>方法的示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">printFullName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">firstName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">lastName</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**如果我们声明一个返回类型，那么我们必须在方法体中指定一个<em>返回</em>语句。**一旦<em>return</em>语句执行完毕，方法体的执行就结束了，如果还有更多的语句，则不再处理。</p>
+<p>另一方面，<em>void</em>方法不返回任何值，因此没有<em>返回</em>语句。</p>
+<h3 id="23-方法标识符">2.3. 方法标识符</h3>
+<p>方法标识符是我们分配给方法规范的名称。使用信息性和描述性名称是一种很好的做法。值得一提的是，方法标识符最多可以有 65536 个字符（虽然名称很长）。</p>
+<h3 id="24-参数列表">2.4. 参数列表</h3>
+<p>我们可以在其参数列表中**指定方法的输入值，该列表括在括号中。**一个方法可以有 0 到 255 个以逗号分隔的参数。参数可以是<a href="/java_classes_objects" rel="">对象</a>、<a href="/java_primitives_vs_objects" rel="">原形</a>或<a href="/a_guide_to_java_enums" rel="">枚举</a>。我们可以在方法参数级别使用 Java 注释（例如<a href="/spring_request_param" rel="">Spring 注释 <em>@RequestParam</em></a>）。</p>
+<h3 id="25-例外列表">2.5. 例外列表</h3>
+<p>我们可以使用<em>throws</em>子句指定方法抛出哪些异常。在 <a href="/java_checked_unchecked_exceptions" rel="">检查异常的情况下，</a>要么我们必须将代码包含在<a href="/java_exceptions" rel="">try  <em>-catch</em>子句</a>中，要么我们必须在方法签名中提供<em>throws</em>子句。</p>
+<p>所以，让我们看一下我们之前方法的一个更复杂的变体，它会抛出一个检查异常：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">writeName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="s">&#34;OutFile.txt&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Name: &#34;</span> <span class="o">+</span> <span class="n">name</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="26-方法体">2.6. 方法体</h3>
+<p>**Java 方法的最后一部分是方法体，它包含我们要执行的逻辑。**在方法体中，我们可以编写任意多行代码——或者在<em>静态</em>方法的情况下根本不写。如果我们的方法声明了一个返回类型，那么方法体必须包含一个返回语句。</p>
+<h2 id="3-方法签名">3. 方法签名</h2>
+<p>根据其定义，方法签名仅由两个组件组成——<strong>方法的名称和参数列表</strong>。</p>
+<p>所以，让我们写一个简单的方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">middleName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">lastName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此方法的签名是<em>getName(String firstName, String lastName)</em>。</p>
+<p>方法标识符可以是任何标识符。但是，如果我们遵循常见的 Java 编码约定，方法标识符应该是一个小写动词，后面可以跟形容词和/或名词。</p>
+<h2 id="4-调用方法">4. 调用方法</h2>
+<p>现在，让我们探索<strong>如何在 Java 中调用方法</strong>。按照前面的示例，假设这些方法包含在名为 <em>PersonName的</em><a href="/java_classes_objects" rel="">Java 类</a>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersonName</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">middleName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">lastName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>由于我们的<em>getName</em>方法是实例方法而不是<em>静态</em>方法，为了调用<em>getName</em>方法，我们需要<strong>创建</strong> <em>PersonName</em>类的实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">PersonName</span> <span class="n">personName</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PersonName</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">fullName</span> <span class="o">=</span> <span class="n">personName</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="s">&#34;Alan&#34;</span><span class="o">,</span> <span class="s">&#34;Turing&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><p>如我们所见，我们使用创建的对象来调用<em>getName</em>方法。</p>
+<p>最后，我们来看看<strong>如何调用<em>静态</em>方法</strong>。在<a href="/java_static" rel="">静态方法</a>的情况下，我们不需要类实例来进行调用。相反，我们调用该方法，其名称以类名为前缀。</p>
+<p>让我们使用前面示例的变体来演示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersonName</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">middleName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">lastName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这种情况下，方法调用是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">String</span> <span class="n">fullName</span> <span class="o">=</span> <span class="n">PersonName</span><span class="o">.</span><span class="na">getName</span><span class="o">(</span><span class="s">&#34;Alan&#34;</span><span class="o">,</span> <span class="s">&#34;Turing&#34;</span><span class="o">);</span>
+</span></span></code></pre></div><h2 id="5-方法重载">5. 方法重载</h2>
+<p>Java 允许我们拥有<strong>两个或多个具有相同标识符但参数列表不同的方法——不同的方法签名</strong>。在这种情况下，我们说<strong>方法是重载的</strong>。让我们举个例子：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">getName</span><span class="o">(</span><span class="n">firstName</span><span class="o">,</span> <span class="s">&#34;&#34;</span><span class="o">,</span> <span class="n">lastName</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">,</span> <span class="n">String</span> <span class="n">middleName</span><span class="o">,</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">(!</span><span class="n">middleName</span><span class="o">.</span><span class="na">isEqualsTo</span><span class="o">(</span><span class="s">&#34;&#34;</span><span class="o">))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">lastName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="n">firstName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">middleName</span> <span class="o">+</span> <span class="s">&#34; &#34;</span> <span class="o">+</span> <span class="n">lastName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>方法重载对于示例中的情况很有用，在这种情况下，我们可以有一个方法实现相同功能的简化版本。</p>
+<p>最后，一个好的设计习惯是确保<a href="/java_method_overload_override" rel="">重载方法</a>的行为方式相似。否则，如果具有相同标识符的方法以不同的方式运行，则代码将令人困惑。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_methods/" data-title="" data-hashtags="Core Java"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_methods/" data-hashtag="Core Java"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_methods/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_methods/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_methods/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/core-java/">Core Java</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_method_signature_return_type/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_methods_references_eval/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

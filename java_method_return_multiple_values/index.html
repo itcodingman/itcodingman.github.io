@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本文中，我们学习了如何使用数组、集合、容器和元组从方法中返回多个值。我们可以在简单的情况下使用数组和集合，因为它们包装了一种数据类型。另一方面，容器和元组在创建复杂类型时很有用，容器提供了更好的可读性。我们还了解到一些第三方库已经实现了对和三元类型，并从 Apache Commons Lang 库中看到了一些示例。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本文中，我们学习了如何使用数组、集合、容器和元组从方法中返回多个值。我们可以在简单的情况下使用数组和集合，因为它们包装了一种数据类型。另一方面，容器和元组在创建复杂类型时很有用，容器提供了更好的可读性。我们还了解到一些第三方库已经实现了对和三元类型，并从 Apache Commons Lang 库中看到了一些示例。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_method_return_multiple_values/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-28T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本文中，我们学习了如何使用数组、集合、容器和元组从方法中返回多个值。我们可以在简单的情况下使用数组和集合，因为它们包装了一种数据类型。另一方面，容器和元组在创建复杂类型时很有用，容器提供了更好的可读性。我们还了解到一些第三方库已经实现了对和三元类型，并从 Apache Commons Lang 库中看到了一些示例。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_method_return_multiple_values/" /><link rel="prev" href="http://itcodingman.github.io/java_method_reflection/" /><link rel="next" href="http://itcodingman.github.io/50_mins_jsp/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_method_return_multiple_values\/"
+        },"genre": "posts","wordcount":  2012 ,
+        "url": "http:\/\/itcodingman.github.io\/java_method_return_multiple_values\/","datePublished": "2022-05-12T00:00:00+00:00","dateModified": "2022-07-28T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本文中，我们学习了如何使用数组、集合、容器和元组从方法中返回多个值。我们可以在简单的情况下使用数组和集合，因为它们包装了一种数据类型。另一方面，容器和元组在创建复杂类型时很有用，容器提供了更好的可读性。我们还了解到一些第三方库已经实现了对和三元类型，并从 Apache Commons Lang 库中看到了一些示例。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-12">2022-05-12</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2012 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-使用数组">2. 使用数组</a></li>
+    <li><a href="#3-使用集合">3. 使用集合</a>
+      <ul>
+        <li><a href="#31-返回列表中相似类型的值">3.1 返回列表中相似类型的值</a></li>
+        <li><a href="#32-返回映射中的命名值">3.2. 返回映射中的命名值</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-使用容器类">4. 使用容器类</a></li>
+    <li><a href="#5-使用元组">5. 使用元组</a></li>
+    <li><a href="#6-第三方库">6. 第三方库</a>
+      <ul>
+        <li><a href="#61-来自-apache-commons-lang-的immutablepair">6.1  来自 Apache Commons Lang 的<em>ImmutablePair</em></a></li>
+        <li><a href="#62-来自-apache-commons-lang-的immutabletriple">6.2.  来自 Apache Commons Lang 的<em>ImmutableTriple</em></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>在本教程中，我们将学习从 Java 方法返回多个值的不同方法。</p>
+<p>首先，我们将返回数组和集合。然后，我们将展示如何将容器类用于复杂数据，并学习如何创建通用元组类。</p>
+<p>最后，我们将看到如何使用第三方库返回多个值的示例。</p>
+<h2 id="2-使用数组">2. 使用数组</h2>
+<p><strong>数组可用于返回原始数据类型和引用数据类型</strong>。</p>
+<p>例如，以下<em>getCoordinates</em>方法返回一个包含两个<em>双</em>精度值的数组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">double</span><span class="o">[]</span> <span class="nf">getCoordinatesDoubleArray</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span><span class="o">[]</span> <span class="n">coordinates</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[</span><span class="n">2</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">coordinates</span><span class="o">[</span><span class="n">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">10</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">coordinates</span><span class="o">[</span><span class="n">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">12</span><span class="o">.</span><span class="na">5</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">coordinates</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>如果我们想返回一个不同引用类型的数组，我们可以使用一个共同的父类型作为数组的类型</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Number</span><span class="o">[]</span> <span class="nf">getCoordinatesNumberArray</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="n">Number</span><span class="o">[]</span> <span class="n">coordinates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Number</span><span class="o">[</span><span class="n">2</span><span class="o">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">coordinates</span><span class="o">[</span><span class="n">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">10</span><span class="o">;</span>   <span class="c1">// Integer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">coordinates</span><span class="o">[</span><span class="n">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">12</span><span class="o">.</span><span class="na">5</span><span class="o">;</span> <span class="c1">// Double
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">coordinates</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>这里我们定义了<em>Number类型的**坐标</em>数组，因为它是<em>Integer</em>和<em>Double</em>元素之间的公共类。</p>
+<h2 id="3-使用集合">3. 使用集合</h2>
+<p>使用泛型<a href="/java_collections" rel="">Java 集合</a>，<strong>我们可以返回一个通用类型的多个值</strong>。</p>
+<p>集合框架具有广泛的类和接口。但是，在本节中，我们将讨论仅限于<em>List</em>和<em>Map</em>接口。</p>
+<h3 id="31-返回列表中相似类型的值">3.1 返回列表中相似类型的值</h3>
+<p>首先，让我们使用*List<!-- raw HTML omitted -->*重写前面的数组示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Number</span><span class="o">&gt;</span> <span class="nf">getCoordinatesList</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Number</span><span class="o">&gt;</span> <span class="n">coordinates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="n">coordinates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">10</span><span class="o">);</span>  <span class="c1">// Integer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">coordinates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">12</span><span class="o">.</span><span class="na">5</span><span class="o">);</span>  <span class="c1">// Double
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">coordinates</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>与*Number[]*一样，*List<!-- raw HTML omitted -->*集合包含一系列混合类型的元素，它们都是相同的通用类型。</p>
+<h3 id="32-返回映射中的命名值">3.2. 返回映射中的命名值</h3>
+<p>如果我们想命名集合中的每个条目，可以使用<em>Map代替：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Number</span><span class="o">&gt;</span> <span class="nf">getCoordinatesMap</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Number</span><span class="o">&gt;</span> <span class="n">coordinates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="n">coordinates</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;longitude&#34;</span><span class="o">,</span> <span class="n">10</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">coordinates</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">&#34;latitude&#34;</span><span class="o">,</span> <span class="n">12</span><span class="o">.</span><span class="na">5</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">coordinates</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><em>getCoordinatesMap</em>方法的用户可以使用*Map#get方法的“**经度”*或“<em>纬度”</em> 键来检索相应的值。</p>
+<h2 id="4-使用容器类">4. 使用容器类</h2>
+<p>与数组和集合不同，<strong>容器类 (POJO) 可以包装具有不同数据类型的多个字段</strong>。</p>
+<p>例如，下面的<em>Coordinates</em>类有两种不同的数据类型，<em>double</em>和<em>String</em>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Coordinates</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">longitude</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">double</span> <span class="n">latitude</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">placeName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Coordinates</span><span class="o">(</span><span class="kt">double</span> <span class="n">longitude</span><span class="o">,</span> <span class="kt">double</span> <span class="n">latitude</span><span class="o">,</span> <span class="n">String</span> <span class="n">placeName</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">longitude</span> <span class="o">=</span> <span class="n">longitude</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">latitude</span> <span class="o">=</span> <span class="n">latitude</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">placeName</span> <span class="o">=</span> <span class="n">placeName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="c1">// getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p><strong><em>使用像Coordinates</em>这样的容器类使我们能够对具有有意义名称的复杂数据类型进行建模</strong>。</p>
+<p>下一步是实例化并返回<em>Coordinates</em>的实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Coordinates</span> <span class="nf">getCoordinates</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">longitude</span> <span class="o">=</span> <span class="n">10</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">latitude</span> <span class="o">=</span> <span class="n">12</span><span class="o">.</span><span class="na">5</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">String</span> <span class="n">placeName</span> <span class="o">=</span> <span class="s">&#34;home&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="n">Coordinates</span><span class="o">(</span><span class="n">longitude</span><span class="o">,</span> <span class="n">latitude</span><span class="o">,</span> <span class="n">placeName</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们应该注意，**建议我们将<em>Coordinates</em>这样的数据类设置为<a href="/java_immutable_object" rel="">不可变</a>**的。通过这样做，我们创建了简单的、线程安全的、可共享的对象。</p>
+<h2 id="5-使用元组">5. 使用元组</h2>
+<p><strong>像容器一样，元组存储不同类型的字段。但是，它们的不同之处在于它们不是特定于应用程序的</strong>。</p>
+<p>当我们使用它们来描述我们希望它们处理哪些类型时，它们是专门的，但它们是一定数量值的通用容器。这意味着我们不需要编写自定义代码来拥有它们，我们可以使用库，或者创建一个通用的单个实现。</p>
+<p>元组可以是任意数量的字段，通常称为<em>元组</em>n，其中 n 是字段数。例如，Tuple2 是二字段元组，Tuple3 是三字段元组，以此类推。</p>
+<p>为了演示元组的重要性，让我们考虑以下示例。假设我们想要找到一个<em>Coordinates</em>点与*List<!-- raw HTML omitted -->*内所有其他点之间的距离。然后，我们需要返回最远的 Coordinate 对象以及距离。</p>
+<p>让我们首先创建一个通用的两字段元组：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Tuple2</span><span class="o">&lt;</span><span class="n">K</span><span class="o">,</span> <span class="n">V</span><span class="o">&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">K</span> <span class="n">first</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">V</span> <span class="n">second</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="nf">Tuple2</span><span class="o">(</span><span class="n">K</span> <span class="n">first</span><span class="o">,</span> <span class="n">V</span> <span class="n">second</span><span class="o">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">first</span> <span class="o">=</span> <span class="n">first</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">second</span> <span class="o">=</span> <span class="n">second</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>接下来，让我们实现我们的逻辑并使用*Tuple2&lt;Coordinates, Double&gt;*实例来包装结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Tuple2</span><span class="o">&lt;</span><span class="n">Coordinates</span><span class="o">,</span> <span class="n">Double</span><span class="o">&gt;</span> <span class="nf">getMostDistantPoint</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Coordinates</span><span class="o">&gt;</span> <span class="n">coordinatesList</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">                                                       <span class="n">Coordinates</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">coordinatesList</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">coor</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">Tuple2</span><span class="o">&lt;&gt;(</span><span class="n">coor</span><span class="o">,</span> <span class="n">coor</span><span class="o">.</span><span class="na">calculateDistance</span><span class="o">(</span><span class="n">target</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">max</span><span class="o">((</span><span class="n">d1</span><span class="o">,</span> <span class="n">d2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">Double</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">d1</span><span class="o">.</span><span class="na">getSecond</span><span class="o">(),</span> <span class="n">d2</span><span class="o">.</span><span class="na">getSecond</span><span class="o">()))</span> <span class="c1">// compare distances
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>*<em>在前面的示例中使用*Tuple2&lt;Coordinates, Double&gt;<em>使我们免于创建一个单独的容器类，以便一次性使用这个特定的方法</em></em>。</p>
+<p>像容器一样，<strong>元组应该是不可变</strong>的。此外，由于它们的通用性，<strong>我们应该在内部使用元组，而不是作为公共 API 的一部分</strong>。</p>
+<h2 id="6-第三方库">6. 第三方库</h2>
+<p>一些第三方库已经实现了不可变的<em>Pair</em>或<em>Triple</em>类型。<a href="https://commons.apache.org/proper/commons-lang/" target="_blank" rel="noopener noreffer">Apache Commons Lang</a>和<a href="http://www.javatuples.org/index.html" target="_blank" rel="noopener noreffer">javatuples</a>就是最好的例子。一旦我们将这些库作为应用程序中的依赖项，我们就可以直接使用库提供的<em>Pair</em>或<em>Triple</em>类型，而不是自己创建它们。</p>
+<p>让我们看一个使用 Apache Commons Lang 返回<em>Pair</em>或<em>Triple</em>对象的示例。</p>
+<p>在我们更进一步之前，让我们在<em>pom.xml中添加</em><a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.commons%22%20AND%20a%3A%22commons-lang3%22" target="_blank" rel="noopener noreffer"><em>commons-lang3</em></a>依赖项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>commons-lang3<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.12.0<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><h3 id="61-来自-apache-commons-lang-的immutablepair">6.1  来自 Apache Commons Lang 的<em>ImmutablePair</em></h3>
+<p>来自 Apache Commons Lang的*<a href="https://commons.apache.org/proper/commons-lang/javadocs/api-3.9/org/apache/commons/lang3/tuple/ImmutablePair.html" target="_blank" rel="noopener noreffer">ImmutablePair</a>*类型正是我们想要的：一个使用简单的不可变类型。</p>
+<p>它包含两个字段：<em>left</em>和<em>right</em>。让我们看看如何让我们的<em>getMostDistantPoint</em>方法返回一个<em>ImmutablePair</em>类型的对象：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ImmutablePair</span><span class="o">&lt;</span><span class="n">Coordinates</span><span class="o">,</span> <span class="n">Double</span><span class="o">&gt;</span> <span class="nf">getMostDistantPoint</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">List</span><span class="o">&lt;</span><span class="n">Coordinates</span><span class="o">&gt;</span> <span class="n">coordinatesList</span><span class="o">,</span> <span class="n">Coordinates</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">coordinatesList</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">coordinates</span> <span class="o">-&gt;</span> <span class="n">ImmutablePair</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">coordinates</span><span class="o">,</span> <span class="n">coordinates</span><span class="o">.</span><span class="na">calculateDistance</span><span class="o">(</span><span class="n">target</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">Comparator</span><span class="o">.</span><span class="na">comparingDouble</span><span class="o">(</span><span class="n">Pair</span><span class="o">::</span><span class="n">getRight</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">get</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h3 id="62-来自-apache-commons-lang-的immutabletriple">6.2.  来自 Apache Commons Lang 的<em>ImmutableTriple</em></h3>
+<p><a href="https://commons.apache.org/proper/commons-lang/javadocs/api-3.9/org/apache/commons/lang3/tuple/ImmutableTriple.html" target="_blank" rel="noopener noreffer"><em>ImmutableTriple</em></a>与<em>ImmutablePair</em>非常相似。唯一的区别是，正如其名称所示，<em>ImmutableTriple</em>包含三个字段：<em>left</em>、<em>middle</em>和<em>right。</em></p>
+<p>现在，让我们在坐标计算中添加一个新方法来展示如何使用<em>ImmutableTriple</em>类型。</p>
+<p>我们将遍历<em>List<!-- raw HTML omitted --><em>中的所有点，以找出到给定目标点的</em>最小</em>、<em>平均</em>和<em>最大距离。</em></p>
+<p>让我们看看如何使用<em>ImmutableTriple</em>类通过单个方法返回三个值：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">ImmutableTriple</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">,</span> <span class="n">Double</span><span class="o">,</span> <span class="n">Double</span><span class="o">&gt;</span> <span class="nf">getMinAvgMaxTriple</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">  <span class="n">List</span><span class="o">&lt;</span><span class="n">Coordinates</span><span class="o">&gt;</span> <span class="n">coordinatesList</span><span class="o">,</span> <span class="n">Coordinates</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">distanceList</span> <span class="o">=</span> <span class="n">coordinatesList</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">coordinates</span> <span class="o">-&gt;</span> <span class="n">coordinates</span><span class="o">.</span><span class="na">calculateDistance</span><span class="o">(</span><span class="n">target</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Double</span> <span class="n">minDistance</span> <span class="o">=</span> <span class="n">distanceList</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToDouble</span><span class="o">(</span><span class="n">Double</span><span class="o">::</span><span class="n">doubleValue</span><span class="o">).</span><span class="na">min</span><span class="o">().</span><span class="na">getAsDouble</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Double</span> <span class="n">avgDistance</span> <span class="o">=</span> <span class="n">distanceList</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToDouble</span><span class="o">(</span><span class="n">Double</span><span class="o">::</span><span class="n">doubleValue</span><span class="o">).</span><span class="na">average</span><span class="o">().</span><span class="na">orElse</span><span class="o">(</span><span class="n">0</span><span class="o">.</span><span class="na">0D</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Double</span> <span class="n">maxDistance</span> <span class="o">=</span> <span class="n">distanceList</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToDouble</span><span class="o">(</span><span class="n">Double</span><span class="o">::</span><span class="n">doubleValue</span><span class="o">).</span><span class="na">max</span><span class="o">().</span><span class="na">getAsDouble</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ImmutableTriple</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">minDistance</span><span class="o">,</span> <span class="n">avgDistance</span><span class="o">,</span> <span class="n">maxDistance</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-28</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_method_return_multiple_values/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_method_return_multiple_values/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_method_return_multiple_values/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_method_return_multiple_values/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_method_return_multiple_values/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_method_reflection/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/50_mins_jsp/" class="next" rel="next" title="50分钟学习JSP">50分钟学习JSP<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

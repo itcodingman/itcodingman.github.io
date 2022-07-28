@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="在本教程中，我们介绍了如何使用不同的示例实现mapMulti 。我们已经看到了它与flatMap的比较以及何时使用它更有利。特别是，当需要替换一些流元素或使用命令式方法更容易生成流管道的元素时，建议使用mapMulti 。"><meta property="og:title" content="" />
+<meta property="og:description" content="在本教程中，我们介绍了如何使用不同的示例实现mapMulti 。我们已经看到了它与flatMap的比较以及何时使用它更有利。特别是，当需要替换一些流元素或使用命令式方法更容易生成流管道的元素时，建议使用mapMulti 。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_mapmulti/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="在本教程中，我们介绍了如何使用不同的示例实现mapMulti 。我们已经看到了它与flatMap的比较以及何时使用它更有利。特别是，当需要替换一些流元素或使用命令式方法更容易生成流管道的元素时，建议使用mapMulti 。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_mapmulti/" /><link rel="prev" href="http://itcodingman.github.io/java_map_with_case_insensitive_keys/" /><link rel="next" href="http://itcodingman.github.io/15_mins_spring_boot_mybatis/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_mapmulti\/"
+        },"genre": "posts","keywords": "Java 16, Java Streams","wordcount":  2171 ,
+        "url": "http:\/\/itcodingman.github.io\/java_mapmulti\/","datePublished": "2022-04-14T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "在本教程中，我们介绍了如何使用不同的示例实现mapMulti 。我们已经看到了它与flatMap的比较以及何时使用它更有利。特别是，当需要替换一些流元素或使用命令式方法更容易生成流管道的元素时，建议使用mapMulti 。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/java/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Java</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-04-14">2022-04-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2171 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述">1. 概述</a></li>
+    <li><a href="#2-方法签名">2. 方法签名</a></li>
+    <li><a href="#3-简单实现示例">3. 简单实现示例</a></li>
+    <li><a href="#4-更现实的例子">4. 更现实的例子</a></li>
+    <li><a href="#5-何时使用mapmulti而不是flatmap">5. 何时使用<em>mapMulti</em>而不是<em>flatMap</em></a>
+      <ul>
+        <li><a href="#51-用少量元素替换流元素">5.1 用少量元素替换流元素</a></li>
+        <li><a href="#52-何时更容易生成结果元素">5.2. 何时更容易生成结果元素</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述">1. 概述</h2>
+<p>在本教程中，我们将回顾Java 16 中引入的<em>Stream::mapMulti</em>方法。我们将编写简单的示例来说明如何使用它。特别是，**我们会看到这个方法类似于<em>Stream::flatMap</em>。**我们将介绍在什么情况下我们更喜欢使用<em>mapMulti</em>而不是<em>flatMap</em>。</p>
+<p>请务必查看我们关于<a href="/java_streams" rel=""><em>Java Streams</em></a>的文章，以深入了解 Stream API。</p>
+<h2 id="2-方法签名">2. 方法签名</h2>
+<p>省略通配符，<em>mapMulti</em>方法可以写得更简洁：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;</span> <span class="nf">mapMulti</span><span class="o">(</span><span class="n">BiConsumer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">Consumer</span><span class="o">&lt;</span><span class="n">R</span><span class="o">&gt;&gt;</span> <span class="n">mapper</span><span class="o">)</span>
+</span></span></code></pre></div><p>这是一个<em>Stream</em>中间操作。<em>它需要一个BiConsumer</em>功能接口的实现作为参数。<strong>BiConsumer的实现采用<em>Stream</em>元素<em>T</em>，如有必要，将其转换为类型<em>R</em>，并调用<em>映射器</em>的<em>Consumer::accept</em>。</strong></p>
+<p>在 Java 的<em>mapMulti</em>方法实现中，<em>mapper</em>是一个实现<em>Consumer</em>功能接口的缓冲区。</p>
+<p>每次我们调用*Consumer::accept 时，*它都会累积缓冲区中的元素并将它们传递给流管道。</p>
+<h2 id="3-简单实现示例">3. 简单实现示例</h2>
+<p>让我们考虑一个整数列表来执行以下操作：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">double</span> <span class="n">percentage</span> <span class="o">=</span> <span class="o">.</span><span class="na">01</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">evenDoubles</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.&lt;</span><span class="n">Double</span><span class="o">&gt;</span><span class="n">mapMulti</span><span class="o">((</span><span class="n">integer</span><span class="o">,</span> <span class="n">consumer</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">integer</span> <span class="o">%</span> <span class="n">2</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">consumer</span><span class="o">.</span><span class="na">accept</span><span class="o">((</span><span class="kt">double</span><span class="o">)</span> <span class="n">integer</span> <span class="o">*</span> <span class="o">(</span> <span class="n">1</span> <span class="o">+</span> <span class="n">percentage</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">})</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+</span></span></code></pre></div><p>在我们的<em>BiConsumer&lt;T, Consumer<!-- raw HTML omitted -->&gt;</em> 映射器的 lambda 实现中，我们首先只选择偶数整数，然后我们将<em>百分比</em>指定的数量添加到它们，将结果转换为<em>双精度</em>， 并完成调用<em>consumer.accept</em>。</p>
+<p>正如我们之前看到的，<em>消费者</em>只是一个将返回元素传递给流管道的缓冲区。（作为旁注，请注意我们必须使用类型见证*<!-- raw HTML omitted -->mapMulti<em>作为返回值，否则编译器无法在方法的签名中推断出正确的</em>R类型。）*</p>
+<p>这是一对零或一对一的转换，具体取决于元素是奇数还是偶数。</p>
+<p>请注意，前面代码示例中的<em>if 语句</em>扮演<em>Stream::filter</em>的角色，并将整数转换为 double，即<em>Stream::map</em>的角色。因此，我们可以使用<em>Stream 的</em> <em>过滤器</em>和<em>映射</em>来实现相同的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">double</span> <span class="n">percentage</span> <span class="o">=</span> <span class="o">.</span><span class="na">01</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">evenDoubles</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">integer</span> <span class="o">-&gt;</span> <span class="n">integer</span> <span class="o">%</span> <span class="n">2</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.&lt;</span><span class="n">Double</span><span class="o">&gt;</span><span class="n">map</span><span class="o">(</span><span class="n">integer</span> <span class="o">-&gt;</span> <span class="o">((</span><span class="kt">double</span><span class="o">)</span> <span class="n">integer</span> <span class="o">*</span> <span class="o">(</span> <span class="n">1</span> <span class="o">+</span> <span class="n">percentage</span><span class="o">)))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+</span></span></code></pre></div><p>但是，<strong><em>mapMulti</em>实现更直接，因为我们不需要调用这么多的流中间操作</strong>。</p>
+<p>另一个优点是<strong><em>mapMulti</em>实现是必要的，让我们可以更自由地进行元素转换</strong>。</p>
+<p>为了支持<em>int</em>、<em>long</em>和<em>double</em>基本类型，我们有<em>mapMultiToDouble</em>、<em>mapMultiToInt</em>和<em>mapMultiToLong的**mapMulti</em>变体。</p>
+<p>例如，我们可以使用<em>mapMultiToDouble来求上一个**List</em> of doubles的总和：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">integers</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">double</span> <span class="n">percentage</span> <span class="o">=</span> <span class="o">.</span><span class="na">01</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">double</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">integers</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">mapMultiToDouble</span><span class="o">((</span><span class="n">integer</span><span class="o">,</span> <span class="n">consumer</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">integer</span> <span class="o">%</span> <span class="n">2</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">consumer</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">integer</span> <span class="o">*</span> <span class="o">(</span><span class="n">1</span> <span class="o">+</span> <span class="n">percentage</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">})</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">sum</span><span class="o">();</span>
+</span></span></code></pre></div><h2 id="4-更现实的例子">4. 更现实的例子</h2>
+<p><em>让我们考虑一个Album</em>的集合：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Album</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">String</span> <span class="n">albumName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">int</span> <span class="n">albumCost</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">&gt;</span> <span class="n">artists</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Album</span><span class="o">(</span><span class="n">String</span> <span class="n">albumName</span><span class="o">,</span> <span class="kt">int</span> <span class="n">albumCost</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Artist</span><span class="o">&gt;</span> <span class="n">artists</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">albumName</span> <span class="o">=</span> <span class="n">albumName</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">albumCost</span> <span class="o">=</span> <span class="n">albumCost</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">artists</span> <span class="o">=</span> <span class="n">artists</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>每个<em>专辑</em>都有一个<em>Artist</em>列表：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Artist</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">associatedMajorLabels</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">majorLabels</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Artist</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">associatedMajorLabels</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">majorLabels</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">associatedMajorLabels</span> <span class="o">=</span> <span class="n">associatedMajorLabels</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">majorLabels</span> <span class="o">=</span> <span class="n">majorLabels</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>如果我们想收集艺术家-专辑名称对的列表，我们可以使用<em>mapMulti</em>来实现它：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">artistAlbum</span> <span class="o">=</span> <span class="n">albums</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.&lt;</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="nf">mapMulti</span><span class="o">((</span><span class="n">album</span><span class="o">,</span> <span class="n">consumer</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">for</span> <span class="o">(</span><span class="n">Artist</span> <span class="n">artist</span> <span class="o">:</span> <span class="n">album</span><span class="o">.</span><span class="na">getArtists</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">          <span class="n">consumer</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">new</span> <span class="n">ImmutablePair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;(</span><span class="n">artist</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">album</span><span class="o">.</span><span class="na">getAlbumName</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">})</span>
+</span></span></code></pre></div><p>对于流中的每个专辑，我们迭代艺术家，创建艺术家专辑名称的 Apache Commons <em>ImmutablePair</em>，并调用 C <em>onsumer::accept</em>。<em>mapMulti</em>的实现会累积消费者接受的元素，并将它们传递给流管道。</p>
+<p>这具有一对多转换的效果，其中结果在消费者中累积，但最终被扁平化为新的流。这本质上就是<em>Stream::flatMap</em>所做的，因此我们可以通过以下实现获得相同的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">artistAlbum</span> <span class="o">=</span> <span class="n">albums</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">album</span> <span class="o">-&gt;</span> <span class="n">album</span><span class="o">.</span><span class="na">getArtists</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">      <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">artist</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">ImmutablePair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;(</span><span class="n">artist</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">album</span><span class="o">.</span><span class="na">getAlbumName</span><span class="o">())))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+</span></span></code></pre></div><p>我们看到这两种方法都给出了相同的结果。<em>接下来我们将介绍在哪些情况下使用mapMulti</em>更有利。</p>
+<h2 id="5-何时使用mapmulti而不是flatmap">5. 何时使用<em>mapMulti</em>而不是<em>flatMap</em></h2>
+<h3 id="51-用少量元素替换流元素">5.1 用少量元素替换流元素</h3>
+<p>正如 Java 文档中所述：“用少量（可能为零）的元素替换每个流元素时。使用这种方法避免了为每组结果元素创建一个新的<em>Stream</em>实例的开销，正如<em>flatMap 所要求的那样。</em></p>
+<p>让我们写一个简单的例子来说明这个场景：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">upperCost</span> <span class="o">=</span> <span class="n">9</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">artistAlbum</span> <span class="o">=</span> <span class="n">albums</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.&lt;</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="nf">mapMulti</span><span class="o">((</span><span class="n">album</span><span class="o">,</span> <span class="n">consumer</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">album</span><span class="o">.</span><span class="na">getAlbumCost</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">upperCost</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Artist</span> <span class="n">artist</span> <span class="o">:</span> <span class="n">album</span><span class="o">.</span><span class="na">getArtists</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">consumer</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">new</span> <span class="n">ImmutablePair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;(</span><span class="n">artist</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">album</span><span class="o">.</span><span class="na">getAlbumName</span><span class="o">()));</span>
+</span></span><span class="line"><span class="cl">      <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">})</span>
+</span></span></code></pre></div><p>对于每张专辑，我们迭代艺术家并累积零个或少数几个艺术家-专辑对，具体取决于专辑的价格与变量<em>upperCost</em>的比较。</p>
+<p>使用<em>flatMap</em>完成相同的结果：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">upperCost</span> <span class="o">=</span> <span class="n">9</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">artistAlbum</span> <span class="o">=</span> <span class="n">albums</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">album</span> <span class="o">-&gt;</span> <span class="n">album</span><span class="o">.</span><span class="na">getArtists</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">artist</span> <span class="o">-&gt;</span> <span class="n">upperCost</span> <span class="o">&gt;</span> <span class="n">album</span><span class="o">.</span><span class="na">getAlbumCost</span><span class="o">())</span>
+</span></span><span class="line"><span class="cl">    <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">artist</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">ImmutablePair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;(</span><span class="n">artist</span><span class="o">.</span><span class="na">getName</span><span class="o">(),</span> <span class="n">album</span><span class="o">.</span><span class="na">getAlbumName</span><span class="o">())))</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+</span></span></code></pre></div><p>我们看到<em><strong>mapMulti</strong></em><strong>的命令式实现更高效——我们不必像使用<em>flatMap</em></strong>的声明性方法那样为每个处理过的元素创建中间流。</p>
+<h3 id="52-何时更容易生成结果元素">5.2. 何时更容易生成结果元素</h3>
+<p>让我们在<em>Album</em>类中编写一个方法，将所有艺术家-专辑对及其相关的主要标签传递给消费者：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Album</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">//...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">artistAlbumPairsToMajorLabels</span><span class="o">(</span><span class="n">Consumer</span><span class="o">&lt;</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">consumer</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="n">Artist</span> <span class="n">artist</span> <span class="o">:</span> <span class="n">artists</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">artist</span><span class="o">.</span><span class="na">isAssociatedMajorLabels</span><span class="o">())</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">String</span> <span class="n">concatLabels</span> <span class="o">=</span> <span class="n">artist</span><span class="o">.</span><span class="na">getMajorLabels</span><span class="o">().</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">(</span><span class="s">&#34;,&#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">                <span class="n">consumer</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">new</span> <span class="n">ImmutablePair</span><span class="o">&lt;&gt;(</span><span class="n">artist</span><span class="o">.</span><span class="na">getName</span><span class="o">()+</span> <span class="s">&#34;:&#34;</span> <span class="o">+</span> <span class="n">albumName</span><span class="o">,</span> <span class="n">concatLabels</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span></code></pre></div><p>如果艺术家与主要标签有关联，则实现将标签连接成逗号分隔的字符串。然后它创建一对带有标签的艺术家专辑名称并调用 C <em>onsumer::accept</em>。</p>
+<p>如果我们想获得所有对的列表，就像使用<em>mapMulti</em>和方法引用<em>Album::artistAlbumPairsToMajorLabels</em>一样简单：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">copyrightedArtistAlbum</span> <span class="o">=</span> <span class="n">albums</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.&lt;</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;&gt;</span> <span class="nf">mapMulti</span><span class="o">(</span><span class="n">Album</span><span class="o">::</span><span class="n">artistAlbumPairsToMajorLabels</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+</span></span></code></pre></div><p>我们看到，在更复杂的情况下，我们可以对方法引用进行非常复杂的实现。例如，<a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/util/stream/Stream.html#mapMulti%28java.util.function.BiConsumer%29" target="_blank" rel="noopener noreffer">Java 文档</a>给出了一个使用递归的例子。</p>
+<p>通常，使用<em>flatMap</em>复制相同的结果将非常困难。<strong>因此，在生成结果元素比在<em>flatMap</em>中以<em>Stream</em>的形式返回它们要容易得多的情况下</strong>，我们应该使用<em>mapMulti</em>。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_mapmulti/" data-title="" data-hashtags="Java 16,Java Streams"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_mapmulti/" data-hashtag="Java 16"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_mapmulti/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_mapmulti/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_mapmulti/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/java-16/">Java 16</a>,&nbsp;<a href="/tags/java-streams/">Java Streams</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_map_with_case_insensitive_keys/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/15_mins_spring_boot_mybatis/" class="next" rel="next" title="15分钟学习Spring Boot和MyBatis">15分钟学习Spring Boot和MyBatis<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

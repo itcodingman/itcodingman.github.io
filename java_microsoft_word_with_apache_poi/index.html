@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="本教程介绍了 Apache POI 对 Microsoft Word 格式的支持。它完成了生成 MS Word 文件并验证其内容所需的步骤。"><meta property="og:title" content="" />
+<meta property="og:description" content="本教程介绍了 Apache POI 对 Microsoft Word 格式的支持。它完成了生成 MS Word 文件并验证其内容所需的步骤。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_microsoft_word_with_apache_poi/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="本教程介绍了 Apache POI 对 Microsoft Word 格式的支持。它完成了生成 MS Word 文件并验证其内容所需的步骤。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_microsoft_word_with_apache_poi/" /><link rel="prev" href="http://itcodingman.github.io/c_plus_point_reference_diffrence/" /><link rel="next" href="http://itcodingman.github.io/java_min_max_heap/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_microsoft_word_with_apache_poi\/"
+        },"genre": "posts","wordcount":  1760 ,
+        "url": "http:\/\/itcodingman.github.io\/java_microsoft_word_with_apache_poi\/","datePublished": "2022-05-20T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "本教程介绍了 Apache POI 对 Microsoft Word 格式的支持。它完成了生成 MS Word 文件并验证其内容所需的步骤。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/data/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Data</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-05-20">2022-05-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;1760 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;4 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-maven依赖"><strong>2. Maven依赖</strong></a></li>
+    <li><a href="#3-准备"><strong>3. 准备</strong></a>
+      <ul>
+        <li><a href="#31-资源文件"><strong>3.1 资源文件</strong></a></li>
+        <li><a href="#32-辅助方法"><strong>3.2. 辅助方法</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-ms-word-文件生成"><strong>4. MS Word 文件生成</strong></a>
+      <ul>
+        <li><a href="#41-格式化标题和副标题"><strong>4.1 格式化标题和副标题</strong></a></li>
+        <li><a href="#42-插入图像"><strong>4.2. 插入图像</strong></a></li>
+        <li><a href="#43-格式化段落"><strong>4.3. 格式化段落</strong></a></li>
+        <li><a href="#44-生成-ms-word-文件"><strong>4.4. 生成 MS Word 文件</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#5-解析与测试"><strong>5. 解析与测试</strong></a>
+      <ul>
+        <li><a href="#51-准备"><strong>5.1 准备</strong></a></li>
+        <li><a href="#52-解析-ms-word-文件和验证"><strong>5.2. 解析 MS Word 文件和验证</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p><a href="https://poi.apache.org/" target="_blank" rel="noopener noreffer">Apache POI</a>是一个 Java 库，用于处理基于 Office Open XML 标准 (OOXML) 和 Microsoft 的 OLE 2 复合文档格式 (OLE2) 的各种文件格式。</p>
+<p>本教程重点介绍<a href="https://poi.apache.org/" target="_blank" rel="noopener noreffer">Apache POI 对 Microsoft Word</a>（最常用的 Office 文件格式）的支持。它介绍了格式化和生成 MS Word 文件所需的步骤以及如何解析该文件。</p>
+<h2 id="2-maven依赖"><strong>2. Maven依赖</strong></h2>
+<p>Apache POI 处理 MS Word 文件所需的唯一依赖项是：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;dependency&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;groupId&gt;</span>org.apache.poi<span class="nt">&lt;/groupId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;artifactId&gt;</span>poi-ooxml<span class="nt">&lt;/artifactId&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&lt;version&gt;</span>3.15<span class="nt">&lt;/version&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>请单击<a href="https://search.maven.org/classic/#search%7Cga%7C1%7Cg%3A%22org.apache.poi%22%20AND%20a%3A%22poi-ooxml%22" target="_blank" rel="noopener noreffer">此处</a>获取此工件的最新版本。</p>
+<h2 id="3-准备"><strong>3. 准备</strong></h2>
+<p>现在让我们看看一些用于促进生成 MS Word 文件的元素。</p>
+<h3 id="31-资源文件"><strong>3.1 资源文件</strong></h3>
+<p>我们将收集三个文本文件的内容并将它们写入一个名为<em>rest-with-spring.docx</em>的 MS Word 文件中。</p>
+<p>此外，<em>logo-leaf.png</em>文件用于将图像插入到该新文件中。所有这些文件确实存在于类路径中，并由几个静态变量表示：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">logo</span> <span class="o">=</span> <span class="s">&#34;logo-leaf.png&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">paragraph1</span> <span class="o">=</span> <span class="s">&#34;poi-word-para1.txt&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">paragraph2</span> <span class="o">=</span> <span class="s">&#34;poi-word-para2.txt&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">paragraph3</span> <span class="o">=</span> <span class="s">&#34;poi-word-para3.txt&#34;</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">output</span> <span class="o">=</span> <span class="s">&#34;rest-with-spring.docx&#34;</span><span class="o">;</span>
+</span></span></code></pre></div><p>对于那些好奇的人，存储库中这些资源文件的内容，其链接在本教程的最后一节中给出，是从网站上的<a href="/rest_with_spring_course" rel="">这个课程页面</a>中提取的。</p>
+<h3 id="32-辅助方法"><strong>3.2. 辅助方法</strong></h3>
+<p>由用于生成 MS Word 文件的逻辑组成的 main 方法（将在下一节中描述）使用辅助方法：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="n">String</span> <span class="nf">convertTextFileToString</span><span class="o">(</span><span class="n">String</span> <span class="n">fileName</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span> <span class="o">(</span><span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">stream</span> 
+</span></span><span class="line"><span class="cl">      <span class="o">=</span> <span class="n">Files</span><span class="o">.</span><span class="na">lines</span><span class="o">(</span><span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">ClassLoader</span><span class="o">.</span><span class="na">getSystemResource</span><span class="o">(</span><span class="n">fileName</span><span class="o">).</span><span class="na">toURI</span><span class="o">())))</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">(</span><span class="s">&#34; &#34;</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="o">|</span> <span class="n">URISyntaxException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>此方法提取位于类路径上的文本文件中包含的内容，其名称是传入的<em>字符串</em>参数。然后，它连接此文件中的行并返回加入的<em>String</em>。</p>
+<h2 id="4-ms-word-文件生成"><strong>4. MS Word 文件生成</strong></h2>
+<p>本节提供有关如何格式化和生成 Microsoft Word 文件的说明。在处理文件的任何部分之前，我们需要有一个<em>XWPFDocument</em>实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFDocument</span> <span class="n">document</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XWPFDocument</span><span class="o">();</span>
+</span></span></code></pre></div><h3 id="41-格式化标题和副标题"><strong>4.1 格式化标题和副标题</strong></h3>
+<p>为了创建标题，我们需要首先实例化<em>XWPFParagraph</em>类并在新对象上设置对齐方式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFParagraph</span> <span class="n">title</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="na">createParagraph</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">title</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="n">ParagraphAlignment</span><span class="o">.</span><span class="na">CENTER</span><span class="o">);</span>
+</span></span></code></pre></div><p>段落的内容需要包装在<em>XWPFRun</em>对象中。我们可以配置这个对象来设置一个文本值及其相关的样式：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFRun</span> <span class="n">titleRun</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="na">createRun</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">titleRun</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&#34;Build Your REST API with Spring&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">titleRun</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="s">&#34;009933&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">titleRun</span><span class="o">.</span><span class="na">setBold</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">titleRun</span><span class="o">.</span><span class="na">setFontFamily</span><span class="o">(</span><span class="s">&#34;Courier&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">titleRun</span><span class="o">.</span><span class="na">setFontSize</span><span class="o">(</span><span class="n">20</span><span class="o">);</span>
+</span></span></code></pre></div><p>人们应该能够从它们的名称中推断出集合方法的用途。</p>
+<p>以类似的方式，我们创建一个包含字幕的<em>XWPFParagraph</em>实例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFParagraph</span> <span class="n">subTitle</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="na">createParagraph</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">subTitle</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="n">ParagraphAlignment</span><span class="o">.</span><span class="na">CENTER</span><span class="o">);</span>
+</span></span></code></pre></div><p>让我们也格式化字幕：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFRun</span> <span class="n">subTitleRun</span> <span class="o">=</span> <span class="n">subTitle</span><span class="o">.</span><span class="na">createRun</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">subTitleRun</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">&#34;from HTTP fundamentals to API Mastery&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">subTitleRun</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="s">&#34;00CC44&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">subTitleRun</span><span class="o">.</span><span class="na">setFontFamily</span><span class="o">(</span><span class="s">&#34;Courier&#34;</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">subTitleRun</span><span class="o">.</span><span class="na">setFontSize</span><span class="o">(</span><span class="n">16</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">subTitleRun</span><span class="o">.</span><span class="na">setTextPosition</span><span class="o">(</span><span class="n">20</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">subTitleRun</span><span class="o">.</span><span class="na">setUnderline</span><span class="o">(</span><span class="n">UnderlinePatterns</span><span class="o">.</span><span class="na">DOT_DOT_DASH</span><span class="o">);</span>
+</span></span></code></pre></div><p>setTextPosition方法设置字幕和后续图像<em>之间</em>的距离，而<em>setUnderline</em>确定下划线图案。</p>
+<p>请注意，我们对标题和副标题的内容进行了硬编码，因为这些语句太短而无法证明使用辅助方法的合理性。</p>
+<h3 id="42-插入图像"><strong>4.2. 插入图像</strong></h3>
+<p>图像还需要包装在<em>XWPFParagraph</em>实例中。我们希望图像水平居中并放置在字幕下方，因此以下代码段必须放在上面给出的代码下方：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFParagraph</span> <span class="n">image</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="na">createParagraph</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">image</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="n">ParagraphAlignment</span><span class="o">.</span><span class="na">CENTER</span><span class="o">);</span>
+</span></span></code></pre></div><p>以下是如何设置此图像与其下方文本之间的距离：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFRun</span> <span class="n">imageRun</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="na">createRun</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">imageRun</span><span class="o">.</span><span class="na">setTextPosition</span><span class="o">(</span><span class="n">20</span><span class="o">);</span>
+</span></span></code></pre></div><p>从类路径上的文件中获取图像，然后插入到具有指定尺寸的 MS Word 文件中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">imagePath</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">ClassLoader</span><span class="o">.</span><span class="na">getSystemResource</span><span class="o">(</span><span class="n">logo</span><span class="o">).</span><span class="na">toURI</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">imageRun</span><span class="o">.</span><span class="na">addPicture</span><span class="o">(</span><span class="n">Files</span><span class="o">.</span><span class="na">newInputStream</span><span class="o">(</span><span class="n">imagePath</span><span class="o">),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">XWPFDocument</span><span class="o">.</span><span class="na">PICTURE_TYPE_PNG</span><span class="o">,</span> <span class="n">imagePath</span><span class="o">.</span><span class="na">getFileName</span><span class="o">().</span><span class="na">toString</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Units</span><span class="o">.</span><span class="na">toEMU</span><span class="o">(</span><span class="n">50</span><span class="o">),</span> <span class="n">Units</span><span class="o">.</span><span class="na">toEMU</span><span class="o">(</span><span class="n">50</span><span class="o">));</span>
+</span></span></code></pre></div><h3 id="43-格式化段落"><strong>4.3. 格式化段落</strong></h3>
+<p>下面是我们如何使用<em>poi-word-para1.txt</em>文件中的内容创建第一段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFParagraph</span> <span class="n">para1</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="na">createParagraph</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">para1</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="n">ParagraphAlignment</span><span class="o">.</span><span class="na">BOTH</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">string1</span> <span class="o">=</span> <span class="n">convertTextFileToString</span><span class="o">(</span><span class="n">paragraph1</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">XWPFRun</span> <span class="n">para1Run</span> <span class="o">=</span> <span class="n">para1</span><span class="o">.</span><span class="na">createRun</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">para1Run</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">string1</span><span class="o">);</span>
+</span></span></code></pre></div><p>显然，段落的创建类似于标题或副标题的创建。这里唯一的区别是使用辅助方法而不是硬编码字符串。</p>
+<p><em>以类似的方式，我们可以使用poi-word-para2.txt</em>和<em>poi-word-para3.txt</em>文件中的内容创建另外两个段落：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFParagraph</span> <span class="n">para2</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="na">createParagraph</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">para2</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="n">ParagraphAlignment</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">string2</span> <span class="o">=</span> <span class="n">convertTextFileToString</span><span class="o">(</span><span class="n">paragraph2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">XWPFRun</span> <span class="n">para2Run</span> <span class="o">=</span> <span class="n">para2</span><span class="o">.</span><span class="na">createRun</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">para2Run</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">string2</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">para2Run</span><span class="o">.</span><span class="na">setItalic</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">XWPFParagraph</span> <span class="n">para3</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="na">createParagraph</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">para3</span><span class="o">.</span><span class="na">setAlignment</span><span class="o">(</span><span class="n">ParagraphAlignment</span><span class="o">.</span><span class="na">LEFT</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">String</span> <span class="n">string3</span> <span class="o">=</span> <span class="n">convertTextFileToString</span><span class="o">(</span><span class="n">paragraph3</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">XWPFRun</span> <span class="n">para3Run</span> <span class="o">=</span> <span class="n">para3</span><span class="o">.</span><span class="na">createRun</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">para3Run</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">string3</span><span class="o">);</span>
+</span></span></code></pre></div><p>这三个段落的创建几乎相同，除了一些样式，例如对齐或斜体。</p>
+<h3 id="44-生成-ms-word-文件"><strong>4.4. 生成 MS Word 文件</strong></h3>
+<p><em>现在我们准备从文档</em>变量中将 Microsoft Word 文件写入内存：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">FileOutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">output</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">document</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">out</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">document</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span></code></pre></div><p>本节中的所有代码片段都包含在一个名为<em>handleSimpleDoc</em>的方法中。</p>
+<h2 id="5-解析与测试"><strong>5. 解析与测试</strong></h2>
+<p>本节概述了 MS Word 文件的解析和结果的验证。</p>
+<h3 id="51-准备"><strong>5.1 准备</strong></h3>
+<p>我们在测试类中声明一个静态字段：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">static</span> <span class="n">WordDocument</span> <span class="n">wordDocument</span><span class="o">;</span>
+</span></span></code></pre></div><p>该字段用于引用包含第 3 节和第 4 节中显示的所有代码片段的类的实例。</p>
+<p>在解析和测试之前，我们需要初始化上面声明的静态变量，并通过调用<em>handleSimpleDoc</em>方法在当前工作目录下生成<em>rest-with-spring.docx文件：</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@BeforeClass</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">generateMSWordFile</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">WordTest</span><span class="o">.</span><span class="na">wordDocument</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WordDocument</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">wordDocument</span><span class="o">.</span><span class="na">handleSimpleDoc</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>让我们进入最后一步：解析 MS Word 文件并验证结果。</p>
+<h3 id="52-解析-ms-word-文件和验证"><strong>5.2. 解析 MS Word 文件和验证</strong></h3>
+<p>首先，我们从项目目录中给定的 MS Word 文件中提取内容，并将内容存储在<em>XWPFParagraph</em>的<em>List</em>中：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">Path</span> <span class="n">msWordPath</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">WordDocument</span><span class="o">.</span><span class="na">output</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">XWPFDocument</span> <span class="n">document</span> <span class="o">=</span> <span class="k">new</span> <span class="n">XWPFDocument</span><span class="o">(</span><span class="n">Files</span><span class="o">.</span><span class="na">newInputStream</span><span class="o">(</span><span class="n">msWordPath</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl"><span class="n">List</span><span class="o">&lt;</span><span class="n">XWPFParagraph</span><span class="o">&gt;</span> <span class="n">paragraphs</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="na">getParagraphs</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl"><span class="n">document</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span></span></code></pre></div><p>接下来，让我们确保标题的内容和样式与我们之前设置的相同：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">XWPFParagraph</span> <span class="n">title</span> <span class="o">=</span> <span class="n">paragraphs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">XWPFRun</span> <span class="n">titleRun</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="na">getRuns</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">0</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Build Your REST API with Spring&#34;</span><span class="o">,</span> <span class="n">title</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;009933&#34;</span><span class="o">,</span> <span class="n">titleRun</span><span class="o">.</span><span class="na">getColor</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertTrue</span><span class="o">(</span><span class="n">titleRun</span><span class="o">.</span><span class="na">isBold</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;Courier&#34;</span><span class="o">,</span> <span class="n">titleRun</span><span class="o">.</span><span class="na">getFontFamily</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">20</span><span class="o">,</span> <span class="n">titleRun</span><span class="o">.</span><span class="na">getFontSize</span><span class="o">());</span>
+</span></span></code></pre></div><p>为简单起见，我们只验证文件其他部分的内容，省略样式。他们的风格验证类似于我们对标题所做的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;from HTTP fundamentals to API Mastery&#34;</span><span class="o">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">paragraphs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">1</span><span class="o">).</span><span class="na">getText</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="s">&#34;What makes a good API?&#34;</span><span class="o">,</span> <span class="n">paragraphs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">3</span><span class="o">).</span><span class="na">getText</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">wordDocument</span><span class="o">.</span><span class="na">convertTextFileToString</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">WordDocument</span><span class="o">.</span><span class="na">paragraph1</span><span class="o">),</span> <span class="n">paragraphs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">4</span><span class="o">).</span><span class="na">getText</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">wordDocument</span><span class="o">.</span><span class="na">convertTextFileToString</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">WordDocument</span><span class="o">.</span><span class="na">paragraph2</span><span class="o">),</span> <span class="n">paragraphs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">5</span><span class="o">).</span><span class="na">getText</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl"><span class="n">assertEquals</span><span class="o">(</span><span class="n">wordDocument</span><span class="o">.</span><span class="na">convertTextFileToString</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span><span class="n">WordDocument</span><span class="o">.</span><span class="na">paragraph3</span><span class="o">),</span> <span class="n">paragraphs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">6</span><span class="o">).</span><span class="na">getText</span><span class="o">());</span>
+</span></span></code></pre></div><p>现在我们可以确信<em>rest-with-spring.docx</em>文件的创建已经成功了。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_microsoft_word_with_apache_poi/" data-title=""><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_microsoft_word_with_apache_poi/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_microsoft_word_with_apache_poi/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_microsoft_word_with_apache_poi/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_microsoft_word_with_apache_poi/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/c_plus_point_reference_diffrence/" class="prev" rel="prev" title="C&#43;&#43;中地址和引用的区别"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>C++中地址和引用的区别</a>
+            <a href="/java_min_max_heap/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>

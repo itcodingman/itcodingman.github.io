@@ -3,7 +3,15 @@
         <title>Security - Category - Coding Man</title>
         <link>http://itcodingman.github.io/categories/security/</link>
         <description>Security - Category - Coding Man</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 11 Jun 2018 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/security/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 24 Apr 2022 00:00:00 &#43;0000</lastBuildDate><atom:link href="http://itcodingman.github.io/categories/security/" rel="self" type="application/rss+xml" /><item>
+    <title></title>
+    <link>http://itcodingman.github.io/java_md5/</link>
+    <pubDate>Sun, 24 Apr 2022 00:00:00 &#43;0000</pubDate>
+    <author>codingman</author>
+    <guid>http://itcodingman.github.io/java_md5/</guid>
+    <description><![CDATA[1. 概述 MD5 是一种广泛使用的加密散列函数，它产生 128 位的散列。 在本文中，我们将看到使用各种 Java 库创建 MD5 哈希的不同方法。 2. MD5 使用MessageDige]]></description>
+</item>
+<item>
     <title>使用 Apache Tomcat 的 SSO</title>
     <link>http://itcodingman.github.io/apache_tomcat_sso/</link>
     <pubDate>Mon, 11 Jun 2018 00:00:00 &#43;0000</pubDate>

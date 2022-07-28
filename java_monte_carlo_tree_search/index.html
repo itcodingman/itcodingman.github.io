@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title> - Coding Man</title><meta name="Description" content="乍一看，很难相信依赖随机选择的算法会导致智能人工智能。然而，经过深思熟虑的 MCTS 实施确实可以为我们提供一个解决方案，该解决方案可用于许多游戏以及决策问题。"><meta property="og:title" content="" />
+<meta property="og:description" content="乍一看，很难相信依赖随机选择的算法会导致智能人工智能。然而，经过深思熟虑的 MCTS 实施确实可以为我们提供一个解决方案，该解决方案可用于许多游戏以及决策问题。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://itcodingman.github.io/java_monte_carlo_tree_search/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-06-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-07-27T00:00:00+00:00" /><meta property="og:site_name" content="My cool site" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="乍一看，很难相信依赖随机选择的算法会导致智能人工智能。然而，经过深思熟虑的 MCTS 实施确实可以为我们提供一个解决方案，该解决方案可用于许多游戏以及决策问题。"/>
+<meta name="application-name" content="My cool site">
+<meta name="apple-mobile-web-app-title" content="My cool site"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2168947316195146"
+     crossorigin="anonymous"></script><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://itcodingman.github.io/java_monte_carlo_tree_search/" /><link rel="prev" href="http://itcodingman.github.io/java_mono_list_to_flux/" /><link rel="next" href="http://itcodingman.github.io/java_mqtt_client/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/itcodingman.github.io\/java_monte_carlo_tree_search\/"
+        },"genre": "posts","keywords": "Data Structures","wordcount":  2491 ,
+        "url": "http:\/\/itcodingman.github.io\/java_monte_carlo_tree_search\/","datePublished": "2022-06-08T00:00:00+00:00","dateModified": "2022-07-27T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "codingman"
+            },"description": "乍一看，很难相信依赖随机选择的算法会导致智能人工智能。然而，经过深思熟虑的 MCTS 实施确实可以为我们提供一个解决方案，该解决方案可用于许多游戏以及决策问题。"
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 文章 
+										</a><a class="menu-item" href="/tags/"> 标签 
+										</a><a class="menu-item" href="/categories/"> 分类 
+										</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+										</a>
+										<div class="dropdown">
+											<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+											</a>
+											<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+										</div>
+									<span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Coding Man"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/logo.jpg"
+        data-srcset="/logo.jpg, /logo.jpg 1.5x, /logo.jpg 2x"
+        data-sizes="auto"
+        alt="/logo.jpg"
+        title="/logo.jpg" />Coding Man</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/"> 文章 
+								</a><a class="menu-item" href="/tags/"> 标签 
+								</a><a class="menu-item" href="/categories/"> 分类 
+								</a><a class="menu-item" href="/search/"><i class='fas fa-fw fa-search'></i> 搜索 
+								</a>
+								<div class="dropdown">
+									<a href="javascript:void(0);" class="menu-item menu-more dropbtn" title="" > 链接 
+									</a>
+									<div class="menu-more-content dropdown-content"><a href="https://space.bilibili.com/499533333" title="" target="_blank" rel="noopener"> BiliBili </a><a href="https://www.youtube.com/c/itcodingman" title="" target="_blank" rel="noopener"> YouTube </a></div>
+								</div>
+							<a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><main class="main">
+                <div class="container">
+                    <div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX"></h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>codingman</a></span>&nbsp;<span class="post-category">included in <a href="/categories/algorithms/"><i class="far fa-folder fa-fw" aria-hidden="true"></i>Algorithms</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-06-08">2022-06-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2491 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-概述"><strong>1. 概述</strong></a></li>
+    <li><a href="#2-简介"><strong>2. 简介</strong></a></li>
+    <li><a href="#3-蒙特卡洛树搜索算法"><strong>3. 蒙特卡洛树搜索算法</strong></a>
+      <ul>
+        <li><a href="#31-选择"><strong>3.1 选择</strong></a></li>
+        <li><a href="#32-扩张"><strong>3.2. 扩张</strong></a></li>
+        <li><a href="#33-模拟"><strong>3.3. 模拟</strong></a></li>
+        <li><a href="#34-反向传播"><strong>3.4. 反向传播</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#4-试运行"><strong>4. 试运行</strong></a></li>
+    <li><a href="#5-实施"><strong>5. 实施</strong></a></li>
+    <li><a href="#6-优势"><strong>6. 优势</strong></a></li>
+    <li><a href="#7-缺点"><strong>7. 缺点</strong></a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="1-概述"><strong>1. 概述</strong></h2>
+<p>在本文中，我们将探索<strong>蒙特卡洛树搜索 (MCTS) 算法</strong>及其应用。</p>
+<p>我们将通过<strong>在 Java 中实现井字游戏来</strong>详细了解它的各个阶段。我们将设计一个通用的解决方案，它可以在许多其他实际应用中使用，而且改动很小。</p>
+<h2 id="2-简介"><strong>2. 简介</strong></h2>
+<p>简单地说，蒙特卡洛树搜索是一种概率搜索算法。它是一种独特的决策算法，因为它在具有大量可能性的开放式环境中效率很高。</p>
+<p>如果您已经熟悉<a href="https://en.wikipedia.org/wiki/Minimax" target="_blank" rel="noopener noreffer">Minimax</a>等博弈论算法，它需要一个函数来评估当前状态，并且它必须计算博弈树中的许多层级才能找到最佳移动。</p>
+<p>不幸的是，在像<a href="https://en.wikipedia.org/wiki/Go_%28game%29" target="_blank" rel="noopener noreffer">围棋</a>这样具有高分支因子的游戏中这样做是不可行的（随着树的高度增加会产生数百万种可能性），并且很难编写一个好的评估函数来计算目前的状态是。</p>
+<p><strong>蒙特卡洛树搜索将<a href="https://en.wikipedia.org/wiki/Monte_Carlo_method" target="_blank" rel="noopener noreffer">蒙特卡洛方法</a>应用于博弈树搜索。由于它是基于游戏状态的随机抽样，它不需要暴力破解每种可能性。此外，它不一定要求我们编写评估或良好的启发式函数。</strong></p>
+<p>而且，一个快速的旁注——它彻底改变了计算机围棋的世界。自 2016 年 3 月以来，随着谷歌的<a href="https://en.wikipedia.org/wiki/AlphaGo" target="_blank" rel="noopener noreffer">AlphaGo</a>（由 MCTS 和神经网络构建）击败<a href="https://en.wikipedia.org/wiki/Lee_Sedol" title="李世石" target="_blank" rel="noopener noreffer">李世石</a>（围棋世界冠军），它已成为一个流行的研究课题。</p>
+<h2 id="3-蒙特卡洛树搜索算法"><strong>3. 蒙特卡洛树搜索算法</strong></h2>
+<p>现在，让我们探索一下算法是如何工作的。最初，我们将构建一个带有根节点的前瞻树（游戏树），然后我们将通过随机展开继续扩展它。在此过程中，我们将维护每个节点的访问次数和获胜次数。</p>
+<p>最后，我们将选择统计数据最有希望的节点。</p>
+<p>该算法由四个阶段组成；让我们详细探讨所有这些。</p>
+<h3 id="31-选择"><strong>3.1 选择</strong></h3>
+<p>在这个初始阶段，算法从一个根节点开始并选择一个子节点，以便它选择具有最大获胜率的节点。我们还想确保每个节点都有公平的机会。</p>
+<p>**这个想法是继续选择最佳子节点，直到我们到达树的叶节点。**选择此类子节点的一个好方法是使用 UCT（应用于树的上置信边界）公式：</p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/java_monte_carlo_tree_search_1.png"
+        data-srcset="/uploads/java_monte_carlo_tree_search_1.png, /uploads/java_monte_carlo_tree_search_1.png 1.5x, /uploads/java_monte_carlo_tree_search_1.png 2x"
+        data-sizes="auto"
+        alt="/uploads/java_monte_carlo_tree_search_1.png"
+        title="公式" /></p>
+<p>其中</p>
+<ul>
+<li><em>w</em> <em>i</em> <em>= 第i</em>步后的获胜次数</li>
+<li><em>n</em> <em>i</em> <em>= 第i</em>次移动后的模拟次数</li>
+<li><em>c</em> = 勘探参数（理论上等于 √2）</li>
+<li><em>t</em> = 父节点的模拟总数</li>
+</ul>
+<p>该公式确保没有一个州会成为饥饿的受害者，而且它也比其他州更频繁地扮演有前途的分支。</p>
+<h3 id="32-扩张"><strong>3.2. 扩张</strong></h3>
+<p>当它不能再应用 UCT 来查找后继节点时，它通过附加来自叶节点的所有可能状态来扩展博弈树。</p>
+<h3 id="33-模拟"><strong>3.3. 模拟</strong></h3>
+<p>展开后，算法任意选取一个子节点，并从选定节点模拟随机游戏，直到达到游戏的结果状态。如果在播放过程中随机或半随机选择节点，则称为轻播放。您还可以通过编写质量启发式或评估函数来选择重演。</p>
+<h3 id="34-反向传播"><strong>3.4. 反向传播</strong></h3>
+<p>这也称为更新阶段。一旦算法到达游戏结束，它就会评估状态以确定哪个玩家获胜。它向上遍历到根并增加所有访问节点的访问分数。如果该位置的玩家赢得了比赛，它还会更新每个节点的获胜分数。</p>
+<p><strong>MCTS 不断重复这四个阶段，直到某个固定的迭代次数或某个固定的时间。</strong></p>
+<p>在这种方法中，我们根据随机移动估计每个节点的获胜分数。因此，迭代次数越多，估计就越可靠。算法估计在搜索开始时会不太准确，并在足够的时间后不断改进。同样，它完全取决于问题的类型。</p>
+<h2 id="4-试运行"><strong>4. 试运行</strong></h2>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/java_monte_carlo_tree_search_2.gif"
+        data-srcset="/uploads/java_monte_carlo_tree_search_2.gif, /uploads/java_monte_carlo_tree_search_2.gif 1.5x, /uploads/java_monte_carlo_tree_search_2.gif 2x"
+        data-sizes="auto"
+        alt="/uploads/java_monte_carlo_tree_search_2.gif"
+        title="Webp.net-gifmaker-2" /></p>
+<p><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="/uploads/java_monte_carlo_tree_search_3.png"
+        data-srcset="/uploads/java_monte_carlo_tree_search_3.png, /uploads/java_monte_carlo_tree_search_3.png 1.5x, /uploads/java_monte_carlo_tree_search_3.png 2x"
+        data-sizes="auto"
+        alt="/uploads/java_monte_carlo_tree_search_3.png"
+        title="传奇" /></p>
+<p>在这里，节点包含作为总访问/获胜分数的统计数据。</p>
+<h2 id="5-实施"><strong>5. 实施</strong></h2>
+<p>现在，让我们使用蒙特卡洛树搜索算法来实现一个井字游戏。</p>
+<p>我们将为 MCTS 设计一个通用解决方案，该解决方案也可用于许多其他棋盘游戏。我们将查看文章本身中的大部分代码。</p>
+<p>首先，我们需要<em>Tree</em>和<em>Node</em>类的基本实现以具有树搜索功能：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">State</span> <span class="n">state</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="n">parent</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span> <span class="n">childArray</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// setters and getters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Tree</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="n">root</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>由于每个节点都会有一个特定的问题状态，让我们也实现一个<em>State</em>类：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">State</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Board</span> <span class="n">board</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">playerNo</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">visitCount</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">double</span> <span class="n">winScore</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// copy constructor, getters, and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span> <span class="nf">getAllPossibleStates</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// constructs a list of all possible states from current state
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">randomPlay</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* get a list of all possible positions on the board and 
+</span></span></span><span class="line"><span class="cl"><span class="cm">           play a random move */</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在，让我们实现<em>MonteCarloTreeSearch</em>类，它将负责从给定的游戏位置找到下一个最佳移动：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MonteCarloTreeSearch</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">WIN_SCORE</span> <span class="o">=</span> <span class="n">10</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">level</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">opponent</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">Board</span> <span class="nf">findNextMove</span><span class="o">(</span><span class="n">Board</span> <span class="n">board</span><span class="o">,</span> <span class="kt">int</span> <span class="n">playerNo</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// define an end time which will act as a terminating condition
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">        <span class="n">opponent</span> <span class="o">=</span> <span class="n">3</span> <span class="o">-</span> <span class="n">playerNo</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Tree</span> <span class="n">tree</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tree</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span> <span class="n">rootNode</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="na">getRoot</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rootNode</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">setBoard</span><span class="o">(</span><span class="n">board</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rootNode</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">setPlayerNo</span><span class="o">(</span><span class="n">opponent</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">end</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span> <span class="n">promisingNode</span> <span class="o">=</span> <span class="n">selectPromisingNode</span><span class="o">(</span><span class="n">rootNode</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">promisingNode</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">getBoard</span><span class="o">().</span><span class="na">checkStatus</span><span class="o">()</span> 
+</span></span><span class="line"><span class="cl">              <span class="o">==</span> <span class="n">Board</span><span class="o">.</span><span class="na">IN_PROGRESS</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">expandNode</span><span class="o">(</span><span class="n">promisingNode</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Node</span> <span class="n">nodeToExplore</span> <span class="o">=</span> <span class="n">promisingNode</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="o">(</span><span class="n">promisingNode</span><span class="o">.</span><span class="na">getChildArray</span><span class="o">().</span><span class="na">size</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">nodeToExplore</span> <span class="o">=</span> <span class="n">promisingNode</span><span class="o">.</span><span class="na">getRandomChildNode</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">playoutResult</span> <span class="o">=</span> <span class="n">simulateRandomPlayout</span><span class="o">(</span><span class="n">nodeToExplore</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">backPropogation</span><span class="o">(</span><span class="n">nodeToExplore</span><span class="o">,</span> <span class="n">playoutResult</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span> <span class="n">winnerNode</span> <span class="o">=</span> <span class="n">rootNode</span><span class="o">.</span><span class="na">getChildWithMaxScore</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tree</span><span class="o">.</span><span class="na">setRoot</span><span class="o">(</span><span class="n">winnerNode</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">winnerNode</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">getBoard</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>在这里，我们不断迭代所有四个阶段，直到预定义的时间，最后，我们得到一棵具有可靠统计数据的树，以做出明智的决定。</p>
+<p>现在，让我们为所有阶段实现方法。</p>
+<p>我们将从需要 UCT 实施<strong>的选择阶段开始：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="n">Node</span> <span class="nf">selectPromisingNode</span><span class="o">(</span><span class="n">Node</span> <span class="n">rootNode</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="n">rootNode</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">getChildArray</span><span class="o">().</span><span class="na">size</span><span class="o">()</span> <span class="o">!=</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">node</span> <span class="o">=</span> <span class="n">UCT</span><span class="o">.</span><span class="na">findBestNodeWithUCT</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">node</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">UCT</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">double</span> <span class="nf">uctValue</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">      <span class="kt">int</span> <span class="n">totalVisit</span><span class="o">,</span> <span class="kt">double</span> <span class="n">nodeWinScore</span><span class="o">,</span> <span class="kt">int</span> <span class="n">nodeVisit</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">nodeVisit</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="o">((</span><span class="kt">double</span><span class="o">)</span> <span class="n">nodeWinScore</span> <span class="o">/</span> <span class="o">(</span><span class="kt">double</span><span class="o">)</span> <span class="n">nodeVisit</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">          <span class="o">+</span> <span class="n">1</span><span class="o">.</span><span class="na">41</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="n">totalVisit</span><span class="o">)</span> <span class="o">/</span> <span class="o">(</span><span class="kt">double</span><span class="o">)</span> <span class="n">nodeVisit</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Node</span> <span class="nf">findBestNodeWithUCT</span><span class="o">(</span><span class="n">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">parentVisit</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">getVisitCount</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Collections</span><span class="o">.</span><span class="na">max</span><span class="o">(</span>
+</span></span><span class="line"><span class="cl">          <span class="n">node</span><span class="o">.</span><span class="na">getChildArray</span><span class="o">(),</span>
+</span></span><span class="line"><span class="cl">          <span class="n">Comparator</span><span class="o">.</span><span class="na">comparing</span><span class="o">(</span><span class="n">c</span> <span class="o">-&gt;</span> <span class="n">uctValue</span><span class="o">(</span><span class="n">parentVisit</span><span class="o">,</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">c</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">getWinScore</span><span class="o">(),</span> <span class="n">c</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">getVisitCount</span><span class="o">())));</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p><strong>这个阶段推荐一个叶子节点，应该在扩展阶段进一步扩展：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">expandNode</span><span class="o">(</span><span class="n">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">List</span><span class="o">&lt;</span><span class="n">State</span><span class="o">&gt;</span> <span class="n">possibleStates</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">getAllPossibleStates</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">possibleStates</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">state</span> <span class="o">-&gt;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">(</span><span class="n">state</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newNode</span><span class="o">.</span><span class="na">setParent</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newNode</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">setPlayerNo</span><span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">getOpponent</span><span class="o">());</span>
+</span></span><span class="line"><span class="cl">        <span class="n">node</span><span class="o">.</span><span class="na">getChildArray</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">newNode</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="o">});</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>**接下来，我们编写代码来选择一个随机节点并从中模拟随机播放。**此外，我们将有一个<em>更新</em>函数来传播从叶到根的分数和访问计数：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">void</span> <span class="nf">backPropogation</span><span class="o">(</span><span class="n">Node</span> <span class="n">nodeToExplore</span><span class="o">,</span> <span class="kt">int</span> <span class="n">playerNo</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="n">tempNode</span> <span class="o">=</span> <span class="n">nodeToExplore</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">tempNode</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tempNode</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">incrementVisit</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">tempNode</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">getPlayerNo</span><span class="o">()</span> <span class="o">==</span> <span class="n">playerNo</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tempNode</span><span class="o">.</span><span class="na">getState</span><span class="o">().</span><span class="na">addScore</span><span class="o">(</span><span class="n">WIN_SCORE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tempNode</span> <span class="o">=</span> <span class="n">tempNode</span><span class="o">.</span><span class="na">getParent</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="kd">private</span> <span class="kt">int</span> <span class="nf">simulateRandomPlayout</span><span class="o">(</span><span class="n">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="n">tempNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">State</span> <span class="n">tempState</span> <span class="o">=</span> <span class="n">tempNode</span><span class="o">.</span><span class="na">getState</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">boardStatus</span> <span class="o">=</span> <span class="n">tempState</span><span class="o">.</span><span class="na">getBoard</span><span class="o">().</span><span class="na">checkStatus</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="o">(</span><span class="n">boardStatus</span> <span class="o">==</span> <span class="n">opponent</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tempNode</span><span class="o">.</span><span class="na">getParent</span><span class="o">().</span><span class="na">getState</span><span class="o">().</span><span class="na">setWinScore</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">boardStatus</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="o">(</span><span class="n">boardStatus</span> <span class="o">==</span> <span class="n">Board</span><span class="o">.</span><span class="na">IN_PROGRESS</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tempState</span><span class="o">.</span><span class="na">togglePlayer</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tempState</span><span class="o">.</span><span class="na">randomPlay</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">boardStatus</span> <span class="o">=</span> <span class="n">tempState</span><span class="o">.</span><span class="na">getBoard</span><span class="o">().</span><span class="na">checkStatus</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">boardStatus</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>现在我们完成了 MCTS 的实现。我们所需要的只是一个井字游戏特定的<em>Board</em>类实现。请注意，使用我们的实现玩其他游戏；我们只需要更改<em>Board</em>类。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Board</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span><span class="o">[][]</span> <span class="n">boardValues</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">DEFAULT_BOARD_SIZE</span> <span class="o">=</span> <span class="n">3</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">IN_PROGRESS</span> <span class="o">=</span> <span class="o">-</span><span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">DRAW</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">P1</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">P2</span> <span class="o">=</span> <span class="n">2</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// getters and setters
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">performMove</span><span class="o">(</span><span class="kt">int</span> <span class="n">player</span><span class="o">,</span> <span class="n">Position</span> <span class="n">p</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="o">.</span><span class="na">totalMoves</span><span class="o">++;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">boardValues</span><span class="o">[</span><span class="n">p</span><span class="o">.</span><span class="na">getX</span><span class="o">()][</span><span class="n">p</span><span class="o">.</span><span class="na">getY</span><span class="o">()]</span> <span class="o">=</span> <span class="n">player</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">checkStatus</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* Evaluate whether the game is won and return winner.
+</span></span></span><span class="line"><span class="cl"><span class="cm">           If it is draw return 0 else return -1 */</span>         
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Position</span><span class="o">&gt;</span> <span class="nf">getEmptyPositions</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">boardValues</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">List</span><span class="o">&lt;</span><span class="n">Position</span><span class="o">&gt;</span> <span class="n">emptyPositions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="o">(</span><span class="n">boardValues</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">emptyPositions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Position</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">));</span>
+</span></span><span class="line"><span class="cl">            <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">emptyPositions</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><p>我们刚刚实现了一个在井字游戏中无法击败的 AI。让我们编写一个单元案例来证明 AI 与 AI 总是会打成平手：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="nd">@Test</span>
+</span></span><span class="line"><span class="cl"><span class="kd">public</span> <span class="kt">void</span> <span class="nf">givenEmptyBoard_whenSimulateInterAIPlay_thenGameDraw</span><span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Board</span> <span class="n">board</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Board</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">player</span> <span class="o">=</span> <span class="n">Board</span><span class="o">.</span><span class="na">P1</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">totalMoves</span> <span class="o">=</span> <span class="n">Board</span><span class="o">.</span><span class="na">DEFAULT_BOARD_SIZE</span> <span class="o">*</span> <span class="n">Board</span><span class="o">.</span><span class="na">DEFAULT_BOARD_SIZE</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">totalMoves</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">board</span> <span class="o">=</span> <span class="n">mcts</span><span class="o">.</span><span class="na">findNextMove</span><span class="o">(</span><span class="n">board</span><span class="o">,</span> <span class="n">player</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="o">(</span><span class="n">board</span><span class="o">.</span><span class="na">checkStatus</span><span class="o">()</span> <span class="o">!=</span> <span class="o">-</span><span class="n">1</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">        <span class="o">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">player</span> <span class="o">=</span> <span class="n">3</span> <span class="o">-</span> <span class="n">player</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">winStatus</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="na">checkStatus</span><span class="o">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">assertEquals</span><span class="o">(</span><span class="n">winStatus</span><span class="o">,</span> <span class="n">Board</span><span class="o">.</span><span class="na">DRAW</span><span class="o">);</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="6-优势"><strong>6. 优势</strong></h2>
+<ul>
+<li>它不一定需要有关游戏的任何战术知识</li>
+<li>一个通用的 MCTS 实现可以重用于任意数量的游戏，几乎不需要修改</li>
+<li>专注于赢得比赛的机会较高的节点</li>
+<li>适用于具有高分支因子的问题，因为它不会在所有可能的分支上浪费计算</li>
+<li>算法实现起来非常简单</li>
+<li>可以在任何给定时间停止执行，它仍然会建议目前计算的下一个最佳状态</li>
+</ul>
+<h2 id="7-缺点"><strong>7. 缺点</strong></h2>
+<p>如果 MCTS 以其基本形式使用而没有任何改进，它可能无法建议合理的移动。如果没有充分访问节点，这可能会导致估计不准确。</p>
+<p><strong>但是，可以使用一些技术来改进 MCTS。它涉及特定领域以及与领域无关的技术。</strong></p>
+<p>在特定领域的技术中，模拟阶段产生更真实的播放，而不是随机模拟。虽然它需要了解游戏特定的技术和规则。
+&quot;</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-07-27</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="http://itcodingman.github.io/java_monte_carlo_tree_search/" data-title="" data-hashtags="Data Structures"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="http://itcodingman.github.io/java_monte_carlo_tree_search/" data-hashtag="Data Structures"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="http://itcodingman.github.io/java_monte_carlo_tree_search/" data-title=""><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="http://itcodingman.github.io/java_monte_carlo_tree_search/" data-title=""><i data-svg-src="/lib/simple-icons/icons/line.min.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="http://itcodingman.github.io/java_monte_carlo_tree_search/" data-title=""><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;<a href="/tags/data-structures/">Data Structures</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/java_mono_list_to_flux/" class="prev" rel="prev" title=""><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i></a>
+            <a href="/java_mqtt_client/" class="next" rel="next" title=""><i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">codingman</a></span></div>
+        </div>
+    </footer>
+        </div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"}};</script><script type="text/javascript" src="/js/theme.min.js"></script><script type="text/javascript">
+            window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());
+            gtag('config', 'G-XH3B2JPQ1K', { 'anonymize_ip': true });
+        </script><script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=G-XH3B2JPQ1K" async></script></body>
+</html>
